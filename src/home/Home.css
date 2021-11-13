@@ -1,0 +1,11 @@
+.middle {
+    text-align: center;
+}
+
+.postsContainer {
+    display: grid;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    gap-y: 1rem;
+}

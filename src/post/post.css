@@ -1,0 +1,30 @@
+.post {
+    margin: 1rem;
+    padding: 1rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px;
+    transition: 0.5s ease;
+}
+
+.post:hover {
+    transform: scale(1.01);
+}
+
+.secondaryText {
+    color: silver;
+}
+
+.postHeader {
+    align-items: center;
+}
+
+.postTitle {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.postContent {
+    margin: 0.5rem;
+    margin-left: 0;
+}
