@@ -1,8 +1,8 @@
 export const firebaseConfig = {
-    apiKey: "AIzaSyBwYj4B66aCVCWx4cbOicYD28E3hGALIdU",
-    authDomain: "fake-reddit-2a1b6.firebaseapp.com",
-    projectId: "fake-reddit-2a1b6",
-    storageBucket: "fake-reddit-2a1b6.appspot.com",
-    messagingSenderId: "480960289598",
-    appId: "1:480960289598:web:3ff6cc20968814bdce2a6f"
-};
+    apiKey: "AIzaSyA5GO-hUOrn_645NOSaoNBiWaXqYnpO660",
+    authDomain: "fake-reddit-ae290.firebaseapp.com",
+    projectId: "fake-reddit-ae290",
+    storageBucket: "fake-reddit-ae290.appspot.com",
+    messagingSenderId: "394659482262",
+    appId: "1:394659482262:web:caa17a7a8dfa1e9fbb90b7"
+  };
