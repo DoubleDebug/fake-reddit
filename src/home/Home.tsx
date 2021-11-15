@@ -14,7 +14,9 @@ import './Home.css';
 const POSTS_PER_PAGE: number = 3;
 
 export const Home: React.FC = () => {
-    const [posts, setPosts] = useState<PostModel[]>([]);
+    const [posts, setPosts] = useState<PostModel[]>(
+        Array(POSTS_PER_PAGE).fill(new PostModel())
+    );
     const [numOfShownPosts, setNumOfShownPosts] = useState(POSTS_PER_PAGE);
     const [numOfAllPosts, setNumOfAllPosts] = useState(0);
 
@@ -48,34 +50,26 @@ export const Home: React.FC = () => {
     }, []);
 
     return (
-        <div>
-            {posts.length !== 0 ? (
-                <div style={{ display: 'grid' }}>
-                    <div className="postsContainer">
-                        {posts.map((p: PostModel, index: number) => (
-                            <div key={index}>
-                                <Post {...p}></Post>
-                            </div>
-                        ))}
+        <div style={{ display: 'grid' }}>
+            <div className="postsContainer">
+                {posts.map((p: PostModel, index: number) => (
+                    <div key={index}>
+                        <Post {...p}></Post>
                     </div>
-                    (
-                    {numOfShownPosts < numOfAllPosts && (
-                        <button
-                            style={{ margin: '0 auto 2rem auto' }}
-                            onClick={() =>
-                                setNumOfShownPosts(
-                                    numOfShownPosts + POSTS_PER_PAGE
-                                )
-                            }
-                        >
-                            Load more...
-                        </button>
-                    )}
-                    )
-                </div>
-            ) : (
-                <h1 className="middle">Loading...</h1>
+                ))}
+            </div>
+            (
+            {numOfShownPosts < numOfAllPosts && (
+                <button
+                    style={{ margin: '0 auto 2rem auto' }}
+                    onClick={() =>
+                        setNumOfShownPosts(numOfShownPosts + POSTS_PER_PAGE)
+                    }
+                >
+                    Load more...
+                </button>
             )}
+            )
         </div>
     );
 };
