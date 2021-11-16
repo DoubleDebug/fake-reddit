@@ -1,16 +1,20 @@
 import ReactDOM from 'react-dom';
 import './index.css';
-import { Header } from './header/Header';
+import { Header } from './components/header/Header';
 import { getFirestore } from 'firebase/firestore';
-import { FirebaseAppProvider, FirestoreProvider, useFirebaseApp } from 'reactfire';
+import {
+    FirebaseAppProvider,
+    FirestoreProvider,
+    useFirebaseApp,
+} from 'reactfire';
 import { firebaseConfig } from './utils/firebaseConfig';
 
 function App() {
     const firestoreInstance = getFirestore(useFirebaseApp());
     return (
-      <FirestoreProvider sdk={firestoreInstance}>
-        <Header />
-      </FirestoreProvider>
+        <FirestoreProvider sdk={firestoreInstance}>
+            <Header />
+        </FirestoreProvider>
     );
 }
 

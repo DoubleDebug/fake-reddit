@@ -3,15 +3,18 @@ import './post.css';
 import { Timestamp } from '@firebase/firestore';
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { timeAgo } from '../utils/timeAgo';
+import { timeAgo } from '../../utils/timeAgo';
 
 export class PostModel {
-    id: string | undefined;
-    title: string | undefined;
-    content: string | undefined;
-    author: string | undefined;
-    authorId: number | undefined;
-    createdAt: Timestamp | undefined;
+    title: string = '';
+    content: string = '';
+    author: string = '';
+    authorId: string | undefined | null;
+    createdAt: Timestamp = Timestamp.now();
+
+    constructor(init?: Partial<PostModel>) {
+        Object.assign(this, init);
+    }
 }
 
 export const Post: React.FC<PostModel> = (data: PostModel) => {
@@ -36,9 +39,9 @@ export const Post: React.FC<PostModel> = (data: PostModel) => {
                 </div>
                 <p className="postTitle">{data.title || <Skeleton />}</p>
             </div>
-            <p className="postContent">
+            <div className="postContent">
                 {data.content || <Skeleton count={7} />}
-            </p>
+            </div>
         </div>
     );
 };

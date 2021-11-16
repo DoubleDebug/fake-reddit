@@ -1,0 +1,10 @@
+.newPostForm {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: clamp(500px, 700px, 900px);
+}
+
+.newPostForm > input[type='text'],
+.newPostForm > button {
+    margin-right: 0;
+}

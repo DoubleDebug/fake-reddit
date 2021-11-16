@@ -1,11 +1,15 @@
-.header {
-    height: 100px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+.middle {
+    text-align: center;
 }
 
-.headerLink {
+.header {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header > * {
     margin: 1rem;
 }
 

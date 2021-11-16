@@ -8,12 +8,13 @@ import {
 } from '@firebase/firestore';
 import { useEffect, useState } from 'react';
 import { collection } from 'firebase/firestore';
-import { Post, PostModel } from '../post/post';
+import { Post, PostModel } from '../../components/post/post';
 import './Home.css';
+import { Auth } from '@firebase/auth';
 
 const POSTS_PER_PAGE: number = 3;
 
-export const Home: React.FC = () => {
+export const Home: React.FC<Auth> = () => {
     const [posts, setPosts] = useState<PostModel[]>(
         Array(POSTS_PER_PAGE).fill(new PostModel())
     );
@@ -28,7 +29,6 @@ export const Home: React.FC = () => {
             postsData.forEach((doc) => {
                 const postData = doc.data();
                 const newPost: PostModel = {
-                    id: doc.id,
                     title: postData.title,
                     content: postData.content,
                     author: postData.author,
@@ -58,7 +58,6 @@ export const Home: React.FC = () => {
                     </div>
                 ))}
             </div>
-            (
             {numOfShownPosts < numOfAllPosts && (
                 <button
                     style={{ margin: '0 auto 2rem auto' }}
@@ -69,7 +68,6 @@ export const Home: React.FC = () => {
                     Load more...
                 </button>
             )}
-            )
         </div>
     );
 };

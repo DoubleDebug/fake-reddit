@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import { Home } from '../home/Home';
-import { NewPost } from '../newPost/newPost';
+import { Home } from '../../pages/home/Home';
+import { NewPost } from '../../pages/newPost/newPost';
 import './Header.css';
 import {
-    getAuth,
     signInWithPopup,
     GoogleAuthProvider,
     signOut,
     User,
     onAuthStateChanged,
+    getAuth,
 } from 'firebase/auth';
 
 export const Header: React.FC = () => {
@@ -27,7 +27,6 @@ export const Header: React.FC = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 setUser(result.user);
-                console.log(user);
             })
             .catch((error) => {
                 console.error(error);
@@ -43,40 +42,29 @@ export const Header: React.FC = () => {
     return (
         <BrowserRouter>
             <div className="header">
-                <Link className="headerLink" to="/">
-                    Home page
-                </Link>
-                <Link className="headerLink" to="/newPost">
-                    Create post
-                </Link>
+                <Link to="/">Home page</Link>
+                <Link to="/newPost">Create post</Link>
+                <p> | </p>
 
                 {user ? (
-                    <div className="flex">
+                    <div className="header">
                         <p>{user.displayName}</p>
-                        <a
-                            className="headerLink"
-                            href="#"
-                            onClick={signOutUser}
-                        >
+                        <a href="/#" onClick={signOutUser}>
                             Log out
                         </a>
                     </div>
                 ) : (
-                    <a
-                        className="headerLink"
-                        href="#"
-                        onClick={signInWithGoogle}
-                    >
+                    <a href="/#" onClick={signInWithGoogle}>
                         Log in
                     </a>
                 )}
             </div>
             <Switch>
                 <Route exact path="/">
-                    <Home />
+                    <Home {...auth} />
                 </Route>
                 <Route path="/NewPost">
-                    <NewPost />
+                    <NewPost {...auth} />
                 </Route>
             </Switch>
         </BrowserRouter>
