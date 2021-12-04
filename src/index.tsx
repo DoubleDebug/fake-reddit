@@ -1,26 +1,39 @@
-import ReactDOM from 'react-dom';
 import './index.css';
-import { Header } from './components/header/Header';
-import { getFirestore } from 'firebase/firestore';
-import {
-    FirebaseAppProvider,
-    FirestoreProvider,
-    useFirebaseApp,
-} from 'reactfire';
 import { firebaseConfig } from './utils/firebaseConfig';
+import { initializeApp } from 'firebase/app';
+import { getAuth } from '@firebase/auth';
+import { getFirestore } from '@firebase/firestore';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { Header } from './components/header/Header';
+import { Home } from './pages/home/Home';
+import { NewPost } from './pages/newPost/newPost';
+
+initializeApp(firebaseConfig);
+const auth = getAuth();
+const firestore = getFirestore();
 
 function App() {
-    const firestoreInstance = getFirestore(useFirebaseApp());
+    const [user, loading] = useAuthState(auth);
     return (
-        <FirestoreProvider sdk={firestoreInstance}>
-            <Header />
-        </FirestoreProvider>
+        <BrowserRouter>
+            <Header
+                auth={auth}
+                firestore={firestore}
+                user={user}
+                loadingUser={loading}
+            />
+            <Switch>
+                <Route exact path="/">
+                    <Home user={user} firestore={firestore} />
+                </Route>
+                <Route path="/NewPost">
+                    <NewPost user={user} firestore={firestore} />
+                </Route>
+            </Switch>
+        </BrowserRouter>
     );
 }
 
-ReactDOM.render(
-    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-        <App />
-    </FirebaseAppProvider>,
-    document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));

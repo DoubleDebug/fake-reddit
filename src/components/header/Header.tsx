@@ -1,72 +1,63 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-import { Home } from '../../pages/home/Home';
-import { NewPost } from '../../pages/newPost/newPost';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import {
     signInWithPopup,
     GoogleAuthProvider,
     signOut,
     User,
-    onAuthStateChanged,
-    getAuth,
+    Auth,
 } from 'firebase/auth';
+import { Firestore } from '@firebase/firestore';
+import Skeleton from 'react-loading-skeleton';
 
-export const Header: React.FC = () => {
-    const [user, setUser] = useState<User | null>(null);
-    const auth = getAuth();
+interface IHeaderProps {
+    auth: Auth;
+    user: User | undefined | null;
+    loadingUser: boolean;
+    firestore: Firestore;
+}
 
-    onAuthStateChanged(auth, (userInfo) => {
-        if (userInfo) {
-            setUser(userInfo);
-        }
-    });
-
+export const Header: React.FC<IHeaderProps> = (props) => {
     const signInWithGoogle = () => {
         const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                setUser(result.user);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
-    const signOutUser = () => {
-        signOut(auth).then(() => {
-            setUser(null);
+        signInWithPopup(props.auth, provider).catch((error) => {
+            console.error(error);
         });
     };
 
-    return (
-        <BrowserRouter>
-            <div className="header">
-                <Link to="/">Home page</Link>
-                <Link to="/newPost">Create post</Link>
-                <p> | </p>
+    const signOutUser = () => {
+        signOut(props.auth);
+    };
 
-                {user ? (
-                    <div className="header">
-                        <p>{user.displayName}</p>
-                        <a href="/#" onClick={signOutUser}>
-                            Log out
-                        </a>
-                    </div>
-                ) : (
-                    <a href="/#" onClick={signInWithGoogle}>
-                        Log in
-                    </a>
-                )}
+    if (props.loadingUser) {
+        return (
+            <div className="headerSkeletonContainer">
+                <div className="headerSkeleton">
+                    <Skeleton />
+                </div>
             </div>
-            <Switch>
-                <Route exact path="/">
-                    <Home {...auth} />
-                </Route>
-                <Route path="/NewPost">
-                    <NewPost {...auth} />
-                </Route>
-            </Switch>
-        </BrowserRouter>
+        );
+    }
+
+    return (
+        <div className="header">
+            <Link to="/">Home page</Link>
+            <Link to="/newPost">Create post</Link>
+            <p> | </p>
+
+            {props.user ? (
+                <div className="header">
+                    <p>{props.user.displayName}</p>
+                    <a href="/#" onClick={signOutUser}>
+                        Log out
+                    </a>
+                </div>
+            ) : (
+                <a href="/#" onClick={signInWithGoogle}>
+                    Log in
+                </a>
+            )}
+        </div>
     );
 };

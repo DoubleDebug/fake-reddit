@@ -1,64 +1,76 @@
+import './Home.css';
 import {
+    CollectionReference,
     doc,
-    getDoc,
-    getFirestore,
+    Firestore,
     limit,
-    onSnapshot,
+    orderBy,
     query,
 } from '@firebase/firestore';
-import { useEffect, useState } from 'react';
+import { User } from '@firebase/auth';
 import { collection } from 'firebase/firestore';
-import { Post, PostModel } from '../../components/post/post';
-import './Home.css';
-import { Auth } from '@firebase/auth';
+import { useState } from 'react';
+import {
+    useCollectionData,
+    useDocumentDataOnce,
+} from 'react-firebase-hooks/firestore';
+import { Post } from '../../components/post/post';
+import { PostModel } from '../../models/post';
+import { convertToPost } from '../../utils/firebaseToDataModel';
 
 const POSTS_PER_PAGE: number = 3;
 
-export const Home: React.FC<Auth> = () => {
-    const [posts, setPosts] = useState<PostModel[]>(
-        Array(POSTS_PER_PAGE).fill(new PostModel())
+interface IHomeProps {
+    user: User | null | undefined;
+    firestore: Firestore;
+}
+
+export const Home: React.FC<IHomeProps> = (props) => {
+    const [numOfAllPosts] = useDocumentDataOnce<any>(
+        doc(props.firestore, 'metadata', 'counters'),
+        {
+            transform: (c) => c.posts,
+        }
     );
     const [numOfShownPosts, setNumOfShownPosts] = useState(POSTS_PER_PAGE);
-    const [numOfAllPosts, setNumOfAllPosts] = useState(0);
-
-    useEffect(() => {
-        const db = getFirestore();
-        const q = query(collection(db, 'posts'), limit(numOfShownPosts));
-        onSnapshot(q, (postsData) => {
-            const postsArr: PostModel[] = [];
-            postsData.forEach((doc) => {
-                const postData = doc.data();
-                const newPost: PostModel = {
-                    title: postData.title,
-                    content: postData.content,
-                    author: postData.author,
-                    authorId: postData.authorId,
-                    createdAt: postData.createdAt,
-                };
-                postsArr.push(newPost);
-            });
-            setPosts(postsArr);
-        });
-    }, [numOfShownPosts]);
-
-    useEffect(() => {
-        const db = getFirestore();
-        getDoc(doc(db, 'metadata', 'counters')).then((metadata) => {
-            const counters: any = metadata.data();
-            setNumOfAllPosts(counters.posts);
-        });
-    }, []);
+    const postQuery = query<PostModel>(
+        collection(props.firestore, 'posts') as CollectionReference<PostModel>,
+        orderBy('createdAt', 'desc'),
+        limit(numOfShownPosts)
+    );
+    const [posts] = useCollectionData<any>(postQuery, {
+        transform: (p) => convertToPost(p),
+        idField: 'id',
+    });
 
     return (
         <div style={{ display: 'grid' }}>
             <div className="postsContainer">
-                {posts.map((p: PostModel, index: number) => (
-                    <div key={index}>
-                        <Post {...p}></Post>
-                    </div>
-                ))}
+                {posts
+                    ? posts.map((p, index: number) => {
+                          return (
+                              <div key={index}>
+                                  <Post
+                                      data={p}
+                                      user={props.user}
+                                      firestore={props.firestore}
+                                  ></Post>
+                              </div>
+                          );
+                      })
+                    : Array(numOfShownPosts)
+                          .fill(new PostModel())
+                          .map((p, index: number) => (
+                              <div key={index}>
+                                  <Post
+                                      data={p}
+                                      user={props.user}
+                                      firestore={props.firestore}
+                                  ></Post>
+                              </div>
+                          ))}
             </div>
-            {numOfShownPosts < numOfAllPosts && (
+            {numOfAllPosts && numOfShownPosts < numOfAllPosts && (
                 <button
                     style={{ margin: '0 auto 2rem auto' }}
                     onClick={() =>

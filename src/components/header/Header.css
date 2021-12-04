@@ -16,3 +16,15 @@
 .flex {
     display: flex;
 }
+
+.headerSkeletonContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.headerSkeleton {
+    width: 500px;
+    height: 2rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.6rem;
+}

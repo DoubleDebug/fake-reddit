@@ -1,67 +1,86 @@
 import './newPost.css';
-import { Auth } from '@firebase/auth';
+import { User } from '@firebase/auth';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router';
-import { addDoc, getFirestore, Timestamp } from '@firebase/firestore';
+import {
+    addDoc,
+    doc,
+    Firestore,
+    getFirestore,
+    increment,
+    Timestamp,
+    updateDoc,
+} from '@firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { PostModel } from '../../components/post/post';
+import { PostModel } from '../../models/post';
 
-export const NewPost: React.FC<Auth> = (auth: Auth) => {
-    const [user] = useState(auth.currentUser);
+interface INewPost {
+    user: User | undefined | null;
+    firestore: Firestore;
+}
+
+export const NewPost: React.FC<INewPost> = (props) => {
     const [isPosting, setIsPosting] = useState(false);
     const [postData, setPostData] = useState(
         new PostModel({
-            author: (user && user.displayName) || '',
-            authorId: user && user.uid,
+            author: (props.user && props.user.displayName) || '',
+            authorId: props.user && props.user.uid,
         })
     );
 
     const submitNewPost = (e: React.MouseEvent) => {
         e.preventDefault();
-        if (!user) return;
+        if (!props.user) return;
 
         // loading animation
         setIsPosting(true);
 
+        // prepare data
+        const postObject = {
+            ...postData,
+            createdAt: Timestamp.now(),
+        };
+        delete postObject.id;
+
         // send data to firestore
         const db = getFirestore();
-        const postObject = Object.assign(
-            {},
-            {
-                ...postData,
-                createdAt: Timestamp.now(),
-            }
-        );
         addDoc(collection(db, 'posts'), postObject).then(() => {
             setIsPosting(false);
+        });
+        updateDoc(doc(db, 'metadata', 'counters'), {
+            posts: increment(1),
         });
     };
 
     return (
         <div>
-            {!user && <Redirect to="/" />}
+            {!props.user && <Redirect to="/" />}
             <h1 className="middle">Create a new post</h1>
             <form className="newPostForm">
                 <input
                     type="text"
                     placeholder="Title"
                     onInput={(e) => {
-                        setPostData({
-                            ...postData,
-                            title: e.currentTarget.value,
-                        });
+                        setPostData(
+                            new PostModel({
+                                ...postData,
+                                title: e.currentTarget.value,
+                            })
+                        );
                     }}
                 />
                 <textarea
                     placeholder="Write something here"
                     style={{ minHeight: '300px' }}
                     onChange={(e) => {
-                        setPostData({
-                            ...postData,
-                            content: e.target.value,
-                        });
+                        setPostData(
+                            new PostModel({
+                                ...postData,
+                                content: e.target.value,
+                            })
+                        );
                     }}
                 />
                 <button
