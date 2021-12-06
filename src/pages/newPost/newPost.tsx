@@ -23,6 +23,7 @@ interface INewPost {
 
 export const NewPost: React.FC<INewPost> = (props) => {
     const [isPosting, setIsPosting] = useState(false);
+    const [posted, setPosted] = useState(false);
     const [postData, setPostData] = useState(
         new PostModel({
             author: (props.user && props.user.displayName) || '',
@@ -48,11 +49,14 @@ export const NewPost: React.FC<INewPost> = (props) => {
         const db = getFirestore();
         addDoc(collection(db, 'posts'), postObject).then(() => {
             setIsPosting(false);
+            setPosted(true);
         });
         updateDoc(doc(db, 'metadata', 'counters'), {
             posts: increment(1),
         });
     };
+
+    if (posted) return <Redirect to="/"></Redirect>;
 
     return (
         <div>
