@@ -9,8 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faChevronCircleDown,
     faChevronCircleUp,
+    faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { Firestore } from '@firebase/firestore';
+import { Link } from 'react-router-dom';
 
 interface IPostProps {
     data: PostModel;
@@ -33,7 +35,7 @@ export const Post: React.FC<IPostProps> = (props) => {
     const upvote = () => {
         if (!props.user || !props.data.id) return;
         // update database
-        props.data.upvote(props.firestore, props.data.id, props.user.uid);
+        props.data.upvote(props.firestore, props.user.uid);
 
         // update ui
         if (upvoted === null) setScore(score + 1);
@@ -48,7 +50,7 @@ export const Post: React.FC<IPostProps> = (props) => {
     const downvote = () => {
         if (!props.user || !props.data.id) return;
         // update database
-        props.data.downvote(props.firestore, props.data.id, props.user.uid);
+        props.data.downvote(props.firestore, props.user.uid);
         // update ui
         if (upvoted === null) setScore(score - 1);
         else if (upvoted === false) {
@@ -59,55 +61,83 @@ export const Post: React.FC<IPostProps> = (props) => {
         setUpvoted(false);
     };
 
+    const deletePost = () => {
+        if (!props.user || !props.data.id) return;
+
+        props.data.delete(props.firestore);
+    };
+
     return (
         <div className="post">
             <div className="postHeader">
-                <div className="flex">
-                    <div className="postVoting">
-                        <h2 className="score">{score}</h2>
-                        <div className="arrows">
-                            <FontAwesomeIcon
-                                icon={faChevronCircleUp}
-                                color={upvoted ? 'darkorange' : 'silver'}
-                                size="lg"
-                                className="btnVote"
-                                onClick={() => upvote()}
-                            />
-                            <FontAwesomeIcon
-                                icon={faChevronCircleDown}
-                                color={
-                                    upvoted === false
-                                        ? 'lightskyblue'
-                                        : 'silver'
-                                }
-                                size="lg"
-                                className="btnVote"
-                                onClick={() => downvote()}
-                            />
-                        </div>
-                    </div>
-                    <div className="postInfo">
-                        <div className="authorAndDate">
-                            <small className="secondaryText author">
-                                {props.data.author ? (
-                                    `Posted by ${props.data.author}`
-                                ) : (
-                                    <Skeleton width="200px" />
-                                )}
-                            </small>
-                            <small className="secondaryText timeAgo">
-                                {props.data.title &&
-                                    timeAgo(props.data.createdAt.toDate())}
-                            </small>
-                        </div>
-                        <p className="title">
-                            {props.data.title || (
-                                <Skeleton width="400px" height="30px" />
-                            )}
-                        </p>
+                <div className="postVoting">
+                    <h2 className="score">{score}</h2>
+                    <div className="arrows">
+                        <FontAwesomeIcon
+                            icon={faChevronCircleUp}
+                            color={upvoted ? 'darkorange' : 'silver'}
+                            size="lg"
+                            className="btn btnVote"
+                            onClick={() => upvote()}
+                            title="Upvote"
+                        />
+                        <FontAwesomeIcon
+                            icon={faChevronCircleDown}
+                            color={
+                                upvoted === false ? 'lightskyblue' : 'silver'
+                            }
+                            size="lg"
+                            className="btn btnVote"
+                            onClick={() => downvote()}
+                            title="Downvote"
+                        />
                     </div>
                 </div>
+                <div className="postBody">
+                    <div className="authorAndDate">
+                        <div className="secondaryText">
+                            {props.data.author ? (
+                                <div>
+                                    <small>Posted by </small>
+                                    <Link
+                                        to="/"
+                                        className="author"
+                                        title={`Chat with ${props.data.author}`}
+                                    >
+                                        {props.data.author}
+                                    </Link>
+                                </div>
+                            ) : (
+                                <Skeleton width="200px" />
+                            )}
+                        </div>
+                        <small className="secondaryText timeAgo">
+                            {props.data.title &&
+                                timeAgo(props.data.createdAt.toDate())}
+                        </small>
+                    </div>
+                    <p className="title">
+                        {props.data.title || (
+                            <Skeleton width="400px" height="30px" />
+                        )}
+                    </p>
+                </div>
             </div>
+            {props.data.content && props.user ? (
+                props.data.authorId === props.user!.uid ? (
+                    <FontAwesomeIcon
+                        className="btn btnDelete"
+                        icon={faTrash}
+                        color="silver"
+                        title="Delete post"
+                        onClick={() => deletePost()}
+                    ></FontAwesomeIcon>
+                ) : (
+                    <div></div>
+                )
+            ) : (
+                <Skeleton width="25px" height="25px" />
+            )}
             <div className="postContent">
                 {props.data.content || <Skeleton count={7} />}
             </div>

@@ -1,9 +1,11 @@
 .post {
+    display: grid;
     margin: 1rem;
     padding: 1rem;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 10px;
     transition: 0.5s ease;
+    grid-template-columns: auto 30px;
 }
 
 .post:hover {
@@ -15,7 +17,7 @@
 }
 
 .postHeader {
-    align-items: center;
+    display: flex;
 }
 
 .postContent {
@@ -23,7 +25,7 @@
     margin-left: 0;
 }
 
-.postInfo {
+.postBody {
     display: grid;
     grid-template-rows: 30% 70%;
     margin: auto 0 auto 0;
@@ -32,10 +34,9 @@
 
 .authorAndDate {
     display: flex;
-    align-items: flex-start;
 }
 
-.postInfo .authorAndDate {
+.postBody .authorAndDate {
     grid-column: 1 / 2;
     white-space: nowrap;
 }
@@ -45,7 +46,12 @@
     margin-left: 5px;
 }
 
-.postInfo .title {
+.author {
+    color: silver;
+    font-size: 0.95rem;
+}
+
+.postBody .title {
     font-weight: bold;
     font-size: 1.5rem;
     margin: 0;
@@ -74,10 +80,24 @@
     grid-column: 2 / 2;
 }
 
+.btn:active {
+    transform: scale(0.9);
+}
+
 .btnVote {
     cursor: pointer;
 }
 
-.btnVote:active {
-    transform: scale(0.9);
+.btnVote:hover {
+    filter: brightness(0.9);
+}
+
+.btnDelete {
+    cursor: pointer;
+    justify-self: center;
+    margin-top: 10px;
+}
+
+.btnDelete:hover {
+    color: red;
 }

@@ -42,6 +42,7 @@ export const Home: React.FC<IHomeProps> = (props) => {
         transform: (p) => convertToPost(p),
         idField: 'id',
     });
+    //const posts = Array(POSTS_PER_PAGE).fill(new PostModel());
 
     return (
         <div style={{ display: 'grid' }}>

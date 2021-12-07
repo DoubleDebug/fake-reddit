@@ -1,4 +1,10 @@
-import { doc, Firestore, Timestamp, updateDoc } from 'firebase/firestore';
+import {
+    deleteDoc,
+    doc,
+    Firestore,
+    Timestamp,
+    updateDoc,
+} from 'firebase/firestore';
 
 interface IVote {
     uid: string;
@@ -31,7 +37,8 @@ export class PostModel {
         return userVote[0].upvoted;
     }
 
-    upvote(firestore: Firestore, pid: string, uid: string) {
+    upvote(firestore: Firestore, uid: string) {
+        if (!this.id) return;
         const usersVote = this.getUsersVote(uid);
 
         if (usersVote === null) {
@@ -49,12 +56,13 @@ export class PostModel {
             });
         }
 
-        updateDoc(doc(firestore, 'posts', pid), {
+        updateDoc(doc(firestore, 'posts', this.id), {
             votes: this.votes,
         });
     }
 
-    downvote(firestore: Firestore, pid: string, uid: string) {
+    downvote(firestore: Firestore, uid: string) {
+        if (!this.id) return;
         const usersVote = this.getUsersVote(uid);
 
         if (usersVote === null) {
@@ -72,8 +80,13 @@ export class PostModel {
             this.votes = this.votes.filter((v) => v.uid !== uid);
         }
 
-        updateDoc(doc(firestore, 'posts', pid), {
+        updateDoc(doc(firestore, 'posts', this.id), {
             votes: this.votes,
         });
+    }
+
+    delete(firestore: Firestore) {
+        if (!this.id) return;
+        deleteDoc(doc(firestore, 'posts', this.id));
     }
 }
