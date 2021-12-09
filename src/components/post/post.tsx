@@ -12,7 +12,8 @@ import {
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { Firestore } from '@firebase/firestore';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { createChatRoom } from '../../pages/chat/createChatRoom';
 
 interface IPostProps {
     data: PostModel;
@@ -21,6 +22,7 @@ interface IPostProps {
 }
 
 export const Post: React.FC<IPostProps> = (props) => {
+    const history = useHistory();
     const [score, setScore] = useState(props.data.getScore());
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
 
@@ -67,6 +69,23 @@ export const Post: React.FC<IPostProps> = (props) => {
         props.data.delete(props.firestore);
     };
 
+    const openChatRoom = async () => {
+        if (!props.user || !props.data.id) return;
+        const room = await createChatRoom(
+            props.firestore,
+            {
+                id: props.user.uid,
+                name: props.user.displayName!,
+            },
+            {
+                id: props.data.authorId!,
+                name: props.data.author,
+            }
+        );
+
+        history.push('/chat', { roomId: room.id });
+    };
+
     return (
         <div className="post">
             <div className="postHeader">
@@ -99,13 +118,14 @@ export const Post: React.FC<IPostProps> = (props) => {
                             {props.data.author ? (
                                 <div>
                                     <small>Posted by </small>
-                                    <Link
-                                        to="/"
+                                    <a
+                                        href="/#"
+                                        onClick={() => openChatRoom()}
                                         className="author"
                                         title={`Chat with ${props.data.author}`}
                                     >
                                         {props.data.author}
-                                    </Link>
+                                    </a>
                                 </div>
                             ) : (
                                 <Skeleton width="200px" />
