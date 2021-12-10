@@ -45,7 +45,7 @@ export const Home: React.FC<IHomeProps> = (props) => {
     //const posts = Array(POSTS_PER_PAGE).fill(new PostModel());
 
     return (
-        <div style={{ display: 'grid' }}>
+        <div className="homepage">
             <div className="postsContainer">
                 {posts
                     ? posts.map((p, index: number) => {

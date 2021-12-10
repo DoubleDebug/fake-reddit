@@ -88,6 +88,7 @@ export const NewPost: React.FC<INewPost> = (props) => {
                     }}
                 />
                 <button
+                    className="btn"
                     type="submit"
                     disabled={isPosting}
                     onClick={(e) => submitNewPost(e)}

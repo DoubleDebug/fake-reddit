@@ -1,0 +1,28 @@
+.dropdown {
+    position: relative;
+    display: flex;
+    height: min-content;
+}
+
+.dropdownMenu {
+    position: absolute;
+    background: white;
+    top: calc(100% + 5px);
+    right: 0;
+    min-width: 140px;
+    text-align: right;
+    border: 1px solid silver;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.dropdownItem {
+    background: white;
+    cursor: pointer;
+    padding: 0.7rem;
+    border-radius: 5px;
+}
+
+.dropdownItem:hover {
+    background: #c3c3c3;
+}

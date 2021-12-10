@@ -143,20 +143,24 @@ export const Post: React.FC<IPostProps> = (props) => {
                     </p>
                 </div>
             </div>
-            {props.data.content && props.user ? (
-                props.data.authorId === props.user!.uid ? (
-                    <FontAwesomeIcon
-                        className="btn btnDelete"
-                        icon={faTrash}
-                        color="silver"
-                        title="Delete post"
-                        onClick={() => deletePost()}
-                    ></FontAwesomeIcon>
+            {props.user ? (
+                props.data.content ? (
+                    props.data.authorId === props.user!.uid ? (
+                        <FontAwesomeIcon
+                            className="btn btnDelete"
+                            icon={faTrash}
+                            color="silver"
+                            title="Delete post"
+                            onClick={() => deletePost()}
+                        ></FontAwesomeIcon>
+                    ) : (
+                        <div></div>
+                    )
                 ) : (
-                    <div></div>
+                    <Skeleton width="25px" height="25px" />
                 )
             ) : (
-                <Skeleton width="25px" height="25px" />
+                <div></div>
             )}
             <div className="postContent">
                 {props.data.content || <Skeleton count={7} />}

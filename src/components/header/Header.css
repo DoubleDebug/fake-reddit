@@ -1,20 +1,18 @@
-.middle {
-    text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Suez+One&display=swap');
+
+.pageBackground {
+    position: absolute;
+    top: -150px;
+    width: 100vw;
+    height: 430px;
+    z-index: -1;
 }
 
 .header {
-    height: 100px;
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.header > * {
-    margin: 1rem;
-}
-
-.flex {
-    display: flex;
+    margin-top: 1rem;
+    margin-bottom: 7rem;
+    height: 60px;
 }
 
 .headerSkeletonContainer {
@@ -27,4 +25,57 @@
     height: 2rem;
     margin-top: 2.5rem;
     margin-bottom: 1.6rem;
+}
+
+.btnHomepage {
+    font-family: 'Suez One', serif;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    margin: 0.5rem auto 0 2.5rem;
+}
+
+.btnHomepage:hover {
+    transform: rotate(2deg);
+    filter: none;
+}
+
+.btnHomepage:active {
+    transform: scale(0.8) rotate(-2deg);
+}
+
+.btnNewPost:hover {
+    text-decoration: none;
+}
+
+.linkNewPost {
+    height: 42px;
+}
+
+.lblDisplayName {
+    color: white;
+    align-self: center;
+    margin: -50px 0.2rem 0 1rem;
+    font-size: 1.2rem;
+}
+
+.imgAvatar {
+    width: 40px;
+    height: 40px;
+    border: 2px solid white;
+    border-radius: 50%;
+    margin: 0.2rem 1rem 0 1rem;
+    cursor: pointer;
+}
+
+.imgAvatar:hover {
+    filter: brightness(0.95);
+}
+
+.imgAvatar:active {
+    transform: scale(0.9);
+}
+
+.btnLogin {
+    margin-right: 1rem;
 }

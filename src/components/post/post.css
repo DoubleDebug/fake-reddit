@@ -80,24 +80,12 @@
     grid-column: 2 / 2;
 }
 
-.btn:active {
-    transform: scale(0.9);
-}
-
 .btnVote {
     cursor: pointer;
-}
-
-.btnVote:hover {
-    filter: brightness(0.9);
 }
 
 .btnDelete {
     cursor: pointer;
     justify-self: center;
     margin-top: 10px;
-}
-
-.btnDelete:hover {
-    color: red;
 }
