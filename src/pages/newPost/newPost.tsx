@@ -1,5 +1,4 @@
 import './newPost.css';
-import { User } from '@firebase/auth';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router';
 import {
@@ -15,6 +14,7 @@ import { collection } from 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { PostModel } from '../../models/post';
+import { User } from 'firebase/auth';
 
 interface INewPost {
     user: User | undefined | null;

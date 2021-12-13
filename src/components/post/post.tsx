@@ -3,7 +3,6 @@ import './post.css';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { timeAgo } from '../../utils/timeAgo';
-import { User } from '@firebase/auth';
 import { PostModel } from '../../models/post';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -14,10 +13,11 @@ import {
 import { Firestore } from '@firebase/firestore';
 import { useHistory } from 'react-router-dom';
 import { createChatRoom } from '../../pages/chat/createChatRoom';
+import { User } from 'firebase/auth';
 
 interface IPostProps {
     data: PostModel;
-    user: User | null | undefined;
+    user: User | undefined | null;
     firestore: Firestore;
 }
 
@@ -145,7 +145,7 @@ export const Post: React.FC<IPostProps> = (props) => {
             </div>
             {props.user ? (
                 props.data.content ? (
-                    props.data.authorId === props.user!.uid ? (
+                    props.data.authorId === props.user.uid ? (
                         <FontAwesomeIcon
                             className="btn btnDelete"
                             icon={faTrash}

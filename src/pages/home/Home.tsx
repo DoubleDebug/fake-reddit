@@ -7,7 +7,6 @@ import {
     orderBy,
     query,
 } from '@firebase/firestore';
-import { User } from '@firebase/auth';
 import { collection } from 'firebase/firestore';
 import { useState } from 'react';
 import {
@@ -16,12 +15,13 @@ import {
 } from 'react-firebase-hooks/firestore';
 import { Post } from '../../components/post/post';
 import { PostModel } from '../../models/post';
-import { convertToPost } from '../../utils/firebaseToDataModel';
+import { convertToPost } from '../../utils/firebase/firebaseToDataModel';
+import { User } from 'firebase/auth';
 
 const POSTS_PER_PAGE: number = 3;
 
 interface IHomeProps {
-    user: User | null | undefined;
+    user: User | undefined | null;
     firestore: Firestore;
 }
 

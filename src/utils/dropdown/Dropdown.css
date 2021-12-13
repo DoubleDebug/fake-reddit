@@ -24,5 +24,5 @@
 }
 
 .dropdownItem:hover {
-    background: #c3c3c3;
+    background: var(--colorSilver);
 }

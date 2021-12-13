@@ -17,6 +17,12 @@ code {
         monospace;
 }
 
+:root {
+    --colorOrange: #ff8c00;
+    --colorSilver: #c3c3c3;
+    --boxShadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 .flex {
     display: flex;
 }
@@ -36,12 +42,12 @@ code {
 
 .btn[type='submit'] {
     color: white;
-    background: #ff8c00;
+    background: var(--colorOrange);
 }
 
 .btn[type='submit']:hover {
     color: white;
-    background: #ff8c00;
+    background: var(--colorOrange);
     filter: brightness(0.94);
 }
 

@@ -1,0 +1,106 @@
+.roomContainer {
+    display: grid;
+    justify-content: center;
+}
+
+.room {
+    display: grid;
+    grid-template-rows: 60px min-content;
+    row-gap: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--boxShadow);
+    border-radius: 20px;
+    min-height: 500px;
+    min-width: 800px;
+    max-width: 800px;
+}
+
+.roomHeader {
+    display: flex;
+    align-items: center;
+}
+
+.message {
+    display: grid;
+    grid-template-rows: auto 20px;
+    padding: 0.7rem;
+    margin: 0.5rem;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    height: min-content;
+    max-width: 75%;
+    row-gap: 0px;
+}
+
+.message.user1 {
+    background: var(--colorOrange);
+    color: white;
+    text-align: right;
+    margin-left: auto;
+}
+
+.message.user2 {
+    background: rgb(235, 235, 235);
+    text-align: left;
+    margin-right: auto;
+}
+
+.message.user2 .timestamp {
+    color: rgb(129, 129, 129);
+}
+
+.message .content {
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.message .timestamp {
+    color: rgb(250, 250, 250);
+    min-width: 100px;
+}
+
+.separator {
+    height: 1px;
+    background-color: silver;
+    border: none;
+}
+
+.roomUsernameContainer {
+    display: grid;
+    grid-template-rows: 60% 40%;
+}
+
+.username {
+    margin: 0;
+}
+
+.lblLastOnline {
+    color: gray;
+}
+
+.formInputMessage {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.formInputMessage button[type='submit'] {
+    margin-right: 0;
+}
+
+.imgUsernameAvatar {
+    width: 40px;
+    height: 40px;
+    border: 2px solid white;
+    border-radius: 50%;
+    margin: 0.2rem 1rem 0 1rem;
+}
+
+input[type='text'].inputMessage {
+    width: 100%;
+    border: 1px solid silver;
+}
+
+input[type='text'].inputMessage:focus {
+    border: 1px solid gray;
+    outline-width: 0px;
+}
