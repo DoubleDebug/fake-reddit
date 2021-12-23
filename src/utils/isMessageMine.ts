@@ -1,5 +1,4 @@
 import { User } from 'firebase/auth';
-import { IMessage } from '../pages/chat/Chat';
 
 /**
  * @returns true if the message was sent by the logged in user

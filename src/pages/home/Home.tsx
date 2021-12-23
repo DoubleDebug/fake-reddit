@@ -17,8 +17,7 @@ import { Post } from '../../components/post/post';
 import { PostModel } from '../../models/post';
 import { convertToPost } from '../../utils/firebase/firebaseToDataModel';
 import { User } from 'firebase/auth';
-
-const POSTS_PER_PAGE: number = 3;
+import { POSTS_PER_PAGE } from '../../utils/constants';
 
 interface IHomeProps {
     user: User | undefined | null;

@@ -16,12 +16,12 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { PostModel } from '../../models/post';
 import { User } from 'firebase/auth';
 
-interface INewPost {
+interface INewPostProps {
     user: User | undefined | null;
     firestore: Firestore;
 }
 
-export const NewPost: React.FC<INewPost> = (props) => {
+export const NewPost: React.FC<INewPostProps> = (props) => {
     const [isPosting, setIsPosting] = useState(false);
     const [posted, setPosted] = useState(false);
     const [postData, setPostData] = useState(

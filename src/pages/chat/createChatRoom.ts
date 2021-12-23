@@ -7,7 +7,6 @@ import {
     Timestamp,
     Firestore,
 } from '@firebase/firestore';
-import { IChatRoom, IChatter } from './Chat';
 
 /**
  * Returns the created room's id.

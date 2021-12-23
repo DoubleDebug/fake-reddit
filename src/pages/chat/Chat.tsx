@@ -16,29 +16,10 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { Redirect, useLocation } from 'react-router';
 import { formatTimestamp } from '../../utils/formatChatTimestamp';
 import { isMessageMineClass } from '../../utils/isMessageMine';
-import { DEFAULT_USER_AVATAR_URL } from '../../components/header/Header';
+import { DEFAULT_USER_AVATAR_URL } from '../../utils/constants';
 import { timeAgo } from '../../utils/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
-
-export interface IChatter {
-    id: string;
-    name: string;
-}
-
-export interface IChatRoom {
-    id: string;
-    userIds: string[];
-    userNames: string[];
-    createdAt: Timestamp;
-    messages: IMessage[];
-}
-
-export interface IMessage {
-    from: IChatter;
-    content: string;
-    timestamp: Timestamp;
-}
 
 interface IChatProps {
     firestore: Firestore;
