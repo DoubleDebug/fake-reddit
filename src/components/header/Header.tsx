@@ -1,6 +1,6 @@
+import styles from './Header.module.css';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Header.css';
 import {
     signInWithPopup,
     GoogleAuthProvider,
@@ -9,13 +9,15 @@ import {
     User,
 } from 'firebase/auth';
 import { Firestore } from '@firebase/firestore';
-import Skeleton from 'react-loading-skeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
 import { UserData } from '../..';
-
-export const DEFAULT_USER_AVATAR_URL = 'https://i.imgur.com/gThi9Rl.png';
+import {
+    DEFAULT_USER_AVATAR_URL,
+    HEADER_SVG_PATH,
+    HEADER_SVG_VIEWBOX,
+} from '../../utils/constants';
 
 interface IHeaderProps {
     auth: Auth;
@@ -44,38 +46,31 @@ export const Header: React.FC<IHeaderProps> = (props) => {
         if (props.user?.photoURL) setProfileImageURL(props.user.photoURL);
     }, [props.user]);
 
-    if (props.loadingUser) {
-        return (
-            <div className="headerSkeletonContainer">
-                <div className="headerSkeleton">
-                    <Skeleton />
-                </div>
-            </div>
-        );
-    }
-
     return (
-        <div className="header">
+        <div className={styles.header}>
             <svg
-                className="pageBackground"
+                className={styles.pageBackground}
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 1440 320"
+                viewBox={HEADER_SVG_VIEWBOX}
             >
                 <path
                     fill="var(--colorOrange)"
                     fillOpacity="1"
-                    d="M0,224L48,213.3C96,203,192,181,288,160C384,139,480,117,576,138.7C672,160,768,224,864,229.3C960,235,1056,181,1152,181.3C1248,181,1344,235,1392,261.3L1440,288L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+                    d={HEADER_SVG_PATH}
                 ></path>
             </svg>
 
-            <Link to="/" className="btn btnHomepage">
+            <Link to="/" className={'btn ' + styles.btnHomepage}>
                 FakeReddit
             </Link>
 
             {props.user ? (
                 <div className="flex">
-                    <Link to="/newPost" className="linkNoUnderline linkNewPost">
-                        <button className="btn btnNewPost">
+                    <Link
+                        to="/newPost"
+                        className={'linkNoUnderline ' + styles.linkNewPost}
+                    >
+                        <button className={'btn ' + styles.btnNewPost}>
                             <FontAwesomeIcon
                                 icon={faPlus}
                                 style={{ marginRight: '10px' }}
@@ -83,8 +78,8 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                             New post
                         </button>
                     </Link>
-                    <div className="header">
-                        <p className="lblDisplayName">
+                    <div className={styles.header}>
+                        <p className={styles.lblDisplayName}>
                             {props.user.displayName}
                         </p>
                     </div>
@@ -97,14 +92,17 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                         ]}
                     >
                         <img
-                            className="imgAvatar"
+                            className={styles.imgAvatar}
                             src={profileImageURL}
                             alt="User profile"
                         />
                     </Dropdown>
                 </div>
             ) : (
-                <button className="btn btnLogin" onClick={signInWithGoogle}>
+                <button
+                    className={'btn ' + styles.btnLogin}
+                    onClick={signInWithGoogle}
+                >
                     Log in
                 </button>
             )}

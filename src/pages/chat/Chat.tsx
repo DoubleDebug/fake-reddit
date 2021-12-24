@@ -1,4 +1,4 @@
-import './Chat.css';
+import styles from './Chat.module.css';
 import {
     DocumentReference,
     Firestore,
@@ -16,10 +16,11 @@ import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { Redirect, useLocation } from 'react-router';
 import { formatTimestamp } from '../../utils/formatChatTimestamp';
 import { isMessageMineClass } from '../../utils/isMessageMine';
-import { DEFAULT_USER_AVATAR_URL } from '../../utils/constants';
+import { DB_COLLECTIONS, DEFAULT_USER_AVATAR_URL } from '../../utils/constants';
 import { timeAgo } from '../../utils/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import Skeleton from 'react-loading-skeleton';
 
 interface IChatProps {
     firestore: Firestore;
@@ -32,7 +33,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
     const [room, loading, error] = useDocumentData<IChatRoom>(
         doc(
             props.firestore,
-            'chatRooms',
+            DB_COLLECTIONS.CHAT_ROOMS,
             roomId || 'ERROR_NO_ROOM'
         ) as DocumentReference<IChatRoom>,
         {
@@ -41,7 +42,11 @@ export const Chat: React.FC<IChatProps> = (props) => {
     );
     const inputMessage = useRef<HTMLInputElement>(null);
     const [userData] = useDocumentDataOnce(
-        doc(props.firestore, 'users', props.user!.uid)
+        doc(
+            props.firestore,
+            DB_COLLECTIONS.USERS,
+            props.user?.uid || 'ERROR_NO_USER'
+        )
     );
     const [user2PhotoURL, setUser2PhotoURL] = useState<string>(
         DEFAULT_USER_AVATAR_URL
@@ -63,7 +68,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
         getDoc(
             doc(
                 props.firestore,
-                'users',
+                DB_COLLECTIONS.USERS,
                 getSecondUser(props.user.uid, room.userIds)
             )
         ).then((data: any) => {
@@ -81,7 +86,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
         if (inputMessage.current) inputMessage.current.value = '';
 
         // add message to db
-        updateDoc(doc(props.firestore, 'chatRooms', room.id), {
+        updateDoc(doc(props.firestore, DB_COLLECTIONS.CHAT_ROOMS, room.id), {
             ...room,
             messages: room.messages.concat({
                 from: {
@@ -94,38 +99,60 @@ export const Chat: React.FC<IChatProps> = (props) => {
         });
     };
 
+    // check if user doesn't exist
+    if (userData && !userData.lastOnline) return <Redirect to="/"></Redirect>;
+
     if (error || !roomId) return <Redirect to="/"></Redirect>;
-    if (loading) return <p>Loading...</p>;
     return (
-        <div className="roomContainer">
-            <div className="room">
-                <div className="roomHeader">
-                    <img
-                        className="imgUsernameAvatar"
-                        src={
-                            user2PhotoURL
-                                ? user2PhotoURL
-                                : DEFAULT_USER_AVATAR_URL
-                        }
-                        alt="User profile"
-                    />
-                    <div className="roomUsernameContainer">
-                        <h1 className="username">
-                            {getUsernameById(
-                                getSecondUser(props.user?.uid, room?.userIds)
-                            )}
-                        </h1>
-                        <small className="lblLastOnline">
-                            <FontAwesomeIcon
-                                icon={faCircle}
-                                color="LawnGreen"
-                                style={{ marginRight: '7px' }}
-                            />
-                            {timeAgo(userData?.lastOnline.toDate())}
-                        </small>
+        <div className={styles.roomContainer}>
+            <div className={styles.room}>
+                <div className={styles.roomHeader}>
+                    {loading ? (
+                        <Skeleton
+                            circle={true}
+                            width="40px"
+                            height="40px"
+                            style={{ margin: '0.2rem 1rem 0 1rem' }}
+                        ></Skeleton>
+                    ) : (
+                        <img
+                            className={styles.imgUsernameAvatar}
+                            src={
+                                user2PhotoURL
+                                    ? user2PhotoURL
+                                    : DEFAULT_USER_AVATAR_URL
+                            }
+                            alt="User profile"
+                        />
+                    )}
+                    <div className={styles.roomUsernameContainer}>
+                        {loading ? (
+                            <Skeleton width="300px"></Skeleton>
+                        ) : (
+                            <h1 className={styles.username}>
+                                {getUsernameById(
+                                    getSecondUser(
+                                        props.user?.uid,
+                                        room?.userIds
+                                    )
+                                )}
+                            </h1>
+                        )}
+                        {loading ? (
+                            <Skeleton width="150px"></Skeleton>
+                        ) : (
+                            <small className={styles.lblLastOnline}>
+                                <FontAwesomeIcon
+                                    icon={faCircle}
+                                    color="LawnGreen"
+                                    style={{ marginRight: '7px' }}
+                                />
+                                {timeAgo(userData?.lastOnline.toDate())}
+                            </small>
+                        )}
                     </div>
                 </div>
-                <hr className="separator" />
+                <hr className={styles.separator} />
                 {room &&
                     room.messages.map((m: IMessage, index: number) => {
                         if (!props.user) return null;
@@ -133,21 +160,22 @@ export const Chat: React.FC<IChatProps> = (props) => {
                             <div
                                 key={index}
                                 className={
-                                    'message ' +
-                                    isMessageMineClass(m, props.user)
+                                    styles.message +
+                                    ' ' +
+                                    styles[isMessageMineClass(m, props.user)]
                                 }
                             >
-                                <p className="content">{m.content}</p>
-                                <small className="timestamp">
+                                <p className={styles.content}>{m.content}</p>
+                                <small className={styles.timestamp}>
                                     {formatTimestamp(m.timestamp)}
                                 </small>
                             </div>
                         );
                     })}
             </div>
-            <form className="formInputMessage">
+            <form className={styles.formInputMessage}>
                 <input
-                    className="inputMessage"
+                    className={styles.inputMessage}
                     ref={inputMessage}
                     type="text"
                     placeholder="Write something"

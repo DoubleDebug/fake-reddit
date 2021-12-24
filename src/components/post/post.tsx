@@ -1,5 +1,5 @@
 import 'react-loading-skeleton/dist/skeleton.css';
-import './post.css';
+import styles from './post.module.css';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { timeAgo } from '../../utils/timeAgo';
@@ -36,31 +36,14 @@ export const Post: React.FC<IPostProps> = (props) => {
     // ACTIONS
     const upvote = () => {
         if (!props.user || !props.data.id) return;
-        // update database
-        props.data.upvote(props.firestore, props.user.uid);
 
-        // update ui
-        if (upvoted === null) setScore(score + 1);
-        else if (upvoted === true) {
-            setScore(score - 1);
-            setUpvoted(null);
-            return;
-        } else setScore(score + 2);
-        setUpvoted(true);
+        props.data.upvote(props.firestore, props.user.uid);
     };
 
     const downvote = () => {
         if (!props.user || !props.data.id) return;
-        // update database
+
         props.data.downvote(props.firestore, props.user.uid);
-        // update ui
-        if (upvoted === null) setScore(score - 1);
-        else if (upvoted === false) {
-            setScore(score + 1);
-            setUpvoted(null);
-            return;
-        } else setScore(score - 2);
-        setUpvoted(false);
     };
 
     const deletePost = () => {
@@ -85,18 +68,17 @@ export const Post: React.FC<IPostProps> = (props) => {
 
         history.push('/chat', { roomId: room.id });
     };
-
     return (
-        <div className="post">
-            <div className="postHeader">
-                <div className="postVoting">
-                    <h2 className="score">{score}</h2>
-                    <div className="arrows">
+        <div className={styles.post}>
+            <div className={styles.postHeader}>
+                <div className={styles.postVoting}>
+                    <h2 className={styles.score}>{score}</h2>
+                    <div className={styles.arrows}>
                         <FontAwesomeIcon
                             icon={faChevronCircleUp}
                             color={upvoted ? 'darkorange' : 'silver'}
                             size="lg"
-                            className="btn btnVote"
+                            className={'btn ' + styles.btnVote}
                             onClick={() => upvote()}
                             title="Upvote"
                         />
@@ -106,22 +88,22 @@ export const Post: React.FC<IPostProps> = (props) => {
                                 upvoted === false ? 'lightskyblue' : 'silver'
                             }
                             size="lg"
-                            className="btn btnVote"
+                            className={'btn ' + styles.btnVote}
                             onClick={() => downvote()}
                             title="Downvote"
                         />
                     </div>
                 </div>
-                <div className="postBody">
-                    <div className="authorAndDate">
-                        <div className="secondaryText">
+                <div className={styles.postBody}>
+                    <div className={styles.authorAndDate}>
+                        <div className={styles.secondaryText}>
                             {props.data.author ? (
                                 <div>
                                     <small>Posted by </small>
                                     <a
                                         href="/#"
                                         onClick={() => openChatRoom()}
-                                        className="author"
+                                        className={styles.author}
                                         title={`Chat with ${props.data.author}`}
                                     >
                                         {props.data.author}
@@ -131,12 +113,19 @@ export const Post: React.FC<IPostProps> = (props) => {
                                 <Skeleton width="200px" />
                             )}
                         </div>
-                        <small className="secondaryText timeAgo">
-                            {props.data.title &&
-                                timeAgo(props.data.createdAt.toDate())}
+                        <small>
+                            <a
+                                className={
+                                    styles.secondaryText + ' ' + styles.timeAgo
+                                }
+                                href={`/post/${props.data.id}`}
+                            >
+                                {props.data.title &&
+                                    timeAgo(props.data.createdAt.toDate())}
+                            </a>
                         </small>
                     </div>
-                    <p className="title">
+                    <p className={styles.title}>
                         {props.data.title || (
                             <Skeleton width="400px" height="30px" />
                         )}
@@ -144,26 +133,22 @@ export const Post: React.FC<IPostProps> = (props) => {
                 </div>
             </div>
             {props.user ? (
-                props.data.content ? (
-                    props.data.authorId === props.user.uid ? (
-                        <FontAwesomeIcon
-                            className="btn btnDelete"
-                            icon={faTrash}
-                            color="silver"
-                            title="Delete post"
-                            onClick={() => deletePost()}
-                        ></FontAwesomeIcon>
-                    ) : (
-                        <div></div>
-                    )
+                props.data.authorId === props.user.uid ? (
+                    <FontAwesomeIcon
+                        className={'btn ' + styles.btnDelete}
+                        icon={faTrash}
+                        color="silver"
+                        title="Delete post"
+                        onClick={() => deletePost()}
+                    ></FontAwesomeIcon>
                 ) : (
-                    <Skeleton width="25px" height="25px" />
+                    <div></div>
                 )
             ) : (
                 <div></div>
             )}
-            <div className="postContent">
-                {props.data.content || <Skeleton count={7} />}
+            <div className={styles.postContent}>
+                {props.data.content || <Skeleton count={5} />}
             </div>
         </div>
     );

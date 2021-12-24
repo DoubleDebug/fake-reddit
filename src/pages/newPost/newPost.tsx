@@ -1,4 +1,4 @@
-import './newPost.css';
+import styles from './newPost.module.css';
 import React, { useState } from 'react';
 import { Redirect } from 'react-router';
 import {
@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { PostModel } from '../../models/post';
 import { User } from 'firebase/auth';
+import { DB_COLLECTIONS } from '../../utils/constants';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -47,11 +48,11 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
 
         // send data to firestore
         const db = getFirestore();
-        addDoc(collection(db, 'posts'), postObject).then(() => {
+        addDoc(collection(db, DB_COLLECTIONS.POSTS), postObject).then(() => {
             setIsPosting(false);
             setPosted(true);
         });
-        updateDoc(doc(db, 'metadata', 'counters'), {
+        updateDoc(doc(db, DB_COLLECTIONS.METADATA, 'counters'), {
             posts: increment(1),
         });
     };
@@ -62,7 +63,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
         <div>
             {!props.user && <Redirect to="/" />}
             <h1 className="middle">Create a new post</h1>
-            <form className="newPostForm">
+            <form className={styles.newPostForm}>
                 <input
                     type="text"
                     placeholder="Title"

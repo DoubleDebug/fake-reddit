@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react';
-import './Dropdown.css';
+import styles from './Dropdown.module.css';
 
 // PROPS
 interface IDropdownProps {
@@ -29,7 +29,7 @@ export class Dropdown extends React.Component<IDropdownProps, DropdownState> {
     render() {
         return (
             <div
-                className="dropdown"
+                className={styles.dropdown}
                 onClick={() =>
                     this.setState((ps) => ({
                         showMenu: !ps.showMenu,
@@ -47,7 +47,7 @@ export class Dropdown extends React.Component<IDropdownProps, DropdownState> {
 
 const DropdownMenu: React.FC<IDropdownProps> = (props) => {
     return (
-        <div className={'dropdownMenu'}>
+        <div className={styles.dropdownMenu}>
             {props.items.map((item, index) => (
                 <DropdownItem {...item} key={index}></DropdownItem>
             ))}
@@ -57,7 +57,7 @@ const DropdownMenu: React.FC<IDropdownProps> = (props) => {
 
 const DropdownItem: React.FC<IDropdownItemProps> = (props) => {
     return (
-        <div className="dropdownItem" onClick={props.action}>
+        <div className={styles.dropdownItem} onClick={props.action}>
             {props.text}
         </div>
     );

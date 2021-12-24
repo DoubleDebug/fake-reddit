@@ -12,6 +12,8 @@ import { NewPost } from './pages/newPost/newPost';
 import { Chat } from './pages/chat/Chat';
 import { useEffect, useState } from 'react';
 import { doc } from 'firebase/firestore';
+import { ViewPost } from './pages/viewPost/viewPost';
+import { DB_COLLECTIONS } from './utils/constants';
 
 initializeApp(firebaseConfig);
 const auth = getAuth();
@@ -33,7 +35,7 @@ function App() {
         if (!user) return;
 
         // add user data to firestore
-        const userRef = doc(firestore, 'users', user.uid);
+        const userRef = doc(firestore, DB_COLLECTIONS.USERS, user.uid);
         const userData = {
             photoURL: user.photoURL,
             lastOnline: Timestamp.now(),
@@ -61,7 +63,9 @@ function App() {
                 <Route path="/chat">
                     <Chat user={user} firestore={firestore}></Chat>
                 </Route>
-                user
+                <Route path="/post/:id">
+                    <ViewPost user={user} firestore={firestore}></ViewPost>
+                </Route>
             </Switch>
         </BrowserRouter>
     );

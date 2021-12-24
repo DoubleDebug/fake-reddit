@@ -1,4 +1,4 @@
-import './Home.css';
+import styles from './Home.module.css';
 import {
     CollectionReference,
     doc,
@@ -17,7 +17,7 @@ import { Post } from '../../components/post/post';
 import { PostModel } from '../../models/post';
 import { convertToPost } from '../../utils/firebase/firebaseToDataModel';
 import { User } from 'firebase/auth';
-import { POSTS_PER_PAGE } from '../../utils/constants';
+import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../../utils/constants';
 
 interface IHomeProps {
     user: User | undefined | null;
@@ -26,14 +26,17 @@ interface IHomeProps {
 
 export const Home: React.FC<IHomeProps> = (props) => {
     const [numOfAllPosts] = useDocumentDataOnce<any>(
-        doc(props.firestore, 'metadata', 'counters'),
+        doc(props.firestore, DB_COLLECTIONS.METADATA, 'counters'),
         {
             transform: (c) => c.posts,
         }
     );
     const [numOfShownPosts, setNumOfShownPosts] = useState(POSTS_PER_PAGE);
     const postQuery = query<PostModel>(
-        collection(props.firestore, 'posts') as CollectionReference<PostModel>,
+        collection(
+            props.firestore,
+            DB_COLLECTIONS.POSTS
+        ) as CollectionReference<PostModel>,
         orderBy('createdAt', 'desc'),
         limit(numOfShownPosts)
     );
@@ -44,8 +47,8 @@ export const Home: React.FC<IHomeProps> = (props) => {
     //const posts = Array(POSTS_PER_PAGE).fill(new PostModel());
 
     return (
-        <div className="homepage">
-            <div className="postsContainer">
+        <div className={styles.homepage}>
+            <div className={styles.postsContainer}>
                 {posts
                     ? posts.map((p, index: number) => {
                           return (
