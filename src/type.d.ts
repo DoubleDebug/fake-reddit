@@ -1,20 +1,3 @@
-// REDUX
-interface IAction {
-    type: string;
-    payload: any;
-}
-
-type AppState = {
-    user: User | null | undefined;
-};
-
-type AuthAction = {
-    type: string;
-    user: User | null | undefined;
-};
-
-type DispatchType = (args: AuthAction) => AuthAction;
-
 // GENERAL
 interface IChatter {
     id: string;

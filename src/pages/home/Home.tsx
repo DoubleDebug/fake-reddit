@@ -13,7 +13,7 @@ import {
     useCollectionData,
     useDocumentDataOnce,
 } from 'react-firebase-hooks/firestore';
-import { Post } from '../../components/post/post';
+import { Post } from '../../components/post/Post';
 import { PostModel } from '../../models/post';
 import { convertToPost } from '../../utils/firebase/firebaseToDataModel';
 import { User } from 'firebase/auth';

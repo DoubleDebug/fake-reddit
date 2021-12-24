@@ -1,0 +1,5 @@
+.postsContainer {
+    display: grid;
+    width: 800px;
+    margin: 0 auto 3rem auto;
+}
