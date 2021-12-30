@@ -2,7 +2,6 @@ import styles from './Chat.module.css';
 import {
     DocumentReference,
     Firestore,
-    getDoc,
     Timestamp,
     updateDoc,
 } from '@firebase/firestore';
@@ -14,13 +13,14 @@ import {
 } from 'react-firebase-hooks/firestore';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
 import { Redirect, useLocation } from 'react-router';
-import { formatTimestamp } from '../../utils/formatChatTimestamp';
-import { isMessageMineClass } from '../../utils/isMessageMine';
+import { isMessageMineClass } from '../../utils/whichUserUtils';
 import { DB_COLLECTIONS, DEFAULT_USER_AVATAR_URL } from '../../utils/constants';
 import { timeAgo } from '../../utils/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import Skeleton from 'react-loading-skeleton';
+import { getSecondUser, getUsernameById } from '../../utils/whichUserUtils';
+import { formatTimestampFull } from '../../utils/formatChatTimestamp';
 
 interface IChatProps {
     firestore: Firestore;
@@ -41,40 +41,24 @@ export const Chat: React.FC<IChatProps> = (props) => {
         }
     );
     const inputMessage = useRef<HTMLInputElement>(null);
-    const [userData] = useDocumentDataOnce(
+    const [userData] = useDocumentDataOnce<any>(
         doc(
             props.firestore,
             DB_COLLECTIONS.USERS,
-            props.user?.uid || 'ERROR_NO_USER'
+            getSecondUser(props.user?.uid, room?.userIds || []) ||
+                'ERROR_NO_USER'
         )
     );
     const [user2PhotoURL, setUser2PhotoURL] = useState<string>(
         DEFAULT_USER_AVATAR_URL
     );
-    const getSecondUser = (uid: any, all: any) => {
-        if (all[0] === uid) return all[1];
-        else return all[0];
-    };
-    const getUsernameById = (uid: string) => {
-        return room?.userNames[
-            room.userIds.findIndex((id: string) => id === uid)
-        ];
-    };
 
     // get 2nd user's photo URL
     useEffect(() => {
-        if (!props.user || !room) return;
+        if (!userData) return;
 
-        getDoc(
-            doc(
-                props.firestore,
-                DB_COLLECTIONS.USERS,
-                getSecondUser(props.user.uid, room.userIds)
-            )
-        ).then((data: any) => {
-            setUser2PhotoURL(data.data().photoURL);
-        });
-    }, [props.user, props.firestore, room]);
+        setUser2PhotoURL(userData.photoURL);
+    }, [userData]);
 
     // ACTIONS
     const sendMessage = (e: MouseEvent<HTMLButtonElement>, text: string) => {
@@ -130,12 +114,15 @@ export const Chat: React.FC<IChatProps> = (props) => {
                             <Skeleton width="300px"></Skeleton>
                         ) : (
                             <h1 className={styles.username}>
-                                {getUsernameById(
-                                    getSecondUser(
-                                        props.user?.uid,
-                                        room?.userIds
-                                    )
-                                )}
+                                {room &&
+                                    props.user &&
+                                    getUsernameById(
+                                        room,
+                                        getSecondUser(
+                                            props.user?.uid,
+                                            room?.userIds
+                                        ) || ''
+                                    )}
                             </h1>
                         )}
                         {loading ? (
@@ -166,8 +153,11 @@ export const Chat: React.FC<IChatProps> = (props) => {
                                 }
                             >
                                 <p className={styles.content}>{m.content}</p>
-                                <small className={styles.timestamp}>
-                                    {formatTimestamp(m.timestamp)}
+                                <small
+                                    className={styles.timestamp}
+                                    title={formatTimestampFull(m.timestamp)}
+                                >
+                                    {timeAgo(m.timestamp.toDate())}
                                 </small>
                             </div>
                         );

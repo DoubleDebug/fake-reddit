@@ -27,6 +27,10 @@ code {
     display: flex;
 }
 
+.grid {
+    display: grid;
+}
+
 .middle {
     text-align: center;
 }

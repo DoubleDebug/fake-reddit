@@ -1,6 +1,6 @@
 .post {
     display: grid;
-    margin: 1rem;
+    margin: 1rem 0;
     padding: 1rem;
     border-radius: 10px;
     box-shadow: var(--boxShadow);
@@ -23,6 +23,7 @@
 .postContent {
     margin: 0.5rem;
     margin-left: 0;
+    font-size: 1.2rem;
 }
 
 .postBody {

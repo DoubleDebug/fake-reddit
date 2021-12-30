@@ -1,5 +1,5 @@
 import 'react-loading-skeleton/dist/skeleton.css';
-import styles from './post.module.css';
+import styles from './Post.module.css';
 import React, { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { timeAgo } from '../../utils/timeAgo';
@@ -11,7 +11,7 @@ import {
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { Firestore } from '@firebase/firestore';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { createChatRoom } from '../../pages/chat/createChatRoom';
 import { User } from 'firebase/auth';
 
@@ -114,15 +114,15 @@ export const Post: React.FC<IPostProps> = (props) => {
                             )}
                         </div>
                         <small>
-                            <a
+                            <Link
                                 className={
                                     styles.secondaryText + ' ' + styles.timeAgo
                                 }
-                                href={`/post/${props.data.id}`}
+                                to={`/post/${props.data.id}`}
                             >
                                 {props.data.title &&
                                     timeAgo(props.data.createdAt.toDate())}
-                            </a>
+                            </Link>
                         </small>
                     </div>
                     <p className={styles.title}>

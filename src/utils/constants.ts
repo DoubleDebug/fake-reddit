@@ -5,6 +5,8 @@ export const HEADER_SVG_PATH =
 export const HEADER_SVG_VIEWBOX = '0 0 1440 320';
 export const DEFAULT_USER_AVATAR_URL = 'https://i.imgur.com/gThi9Rl.png';
 export const POSTS_PER_PAGE = 3;
+export const CLIENT_URL = 'http://localhost:3000';
+export const SERVER_URL = 'http://localhost:5000';
 
 // DATABASE
 export const DB_COLLECTIONS = {

@@ -1,0 +1,52 @@
+.comment {
+    display: grid;
+    padding: 0.5rem;
+    margin-top: 0;
+    border-radius: 5px;
+}
+
+.comment.isReply {
+    margin-left: 3rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    width: auto;
+}
+
+.imgAvatar {
+    margin-left: 0;
+    margin-right: 0;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.author {
+    margin: 0 0.5rem;
+}
+
+.timeAgo {
+    color: silver;
+    margin-right: auto;
+}
+
+.text {
+    padding: 0.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    border-radius: 5px;
+    font-size: 1.1rem;
+}
+
+.btnCommentAction {
+    color: silver;
+    cursor: pointer;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.btnCommentAction:hover {
+    text-decoration: underline;
+    filter: brightness(0.8);
+}

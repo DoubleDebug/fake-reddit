@@ -60,9 +60,12 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                 ></path>
             </svg>
 
-            <Link to="/" className={'btn ' + styles.btnHomepage}>
-                FakeReddit
-            </Link>
+            <div className={styles.headerTopRight}>
+                <img className={styles.headerIcon} alt="Logo"></img>
+                <Link to="/" className={'btn ' + styles.btnHomepage}>
+                    FakeReddit
+                </Link>
+            </div>
 
             {props.user ? (
                 <div className="flex">

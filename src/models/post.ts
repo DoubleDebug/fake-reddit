@@ -37,6 +37,15 @@ export class PostModel {
         return userVote[0].upvoted;
     }
 
+    getUpvotedPercentage(): number {
+        const numOfUpvoted = this.votes.filter((v) => v.upvoted).length;
+        const numOfVotes = this.votes.length;
+
+        if (numOfVotes === 0) return 0;
+
+        return Math.round((numOfUpvoted / numOfVotes) * 100);
+    }
+
     upvote(firestore: Firestore, uid: string) {
         if (!this.id) return;
         const usersVote = this.getUsersVote(uid);

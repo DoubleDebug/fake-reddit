@@ -80,7 +80,7 @@ export const Home: React.FC<IHomeProps> = (props) => {
                         setNumOfShownPosts(numOfShownPosts + POSTS_PER_PAGE)
                     }
                 >
-                    Load more...
+                    Load more posts
                 </button>
             )}
         </div>
