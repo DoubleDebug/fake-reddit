@@ -12,7 +12,6 @@ import { Firestore } from '@firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
-import { UserData } from '../..';
 import {
     DEFAULT_USER_AVATAR_URL,
     HEADER_SVG_PATH,
@@ -22,15 +21,13 @@ import {
 interface IHeaderProps {
     auth: Auth;
     user: User | undefined | null;
-    userData: UserData;
+    userData: IUserData;
     loadingUser: boolean;
     firestore: Firestore;
 }
 
 export const Header: React.FC<IHeaderProps> = (props) => {
-    const [profileImageURL, setProfileImageURL] = useState(
-        DEFAULT_USER_AVATAR_URL
-    );
+    const [photoURL, setPhotoURL] = useState(DEFAULT_USER_AVATAR_URL);
     const signInWithGoogle = () => {
         const provider = new GoogleAuthProvider();
         signInWithPopup(props.auth, provider).catch((error) => {
@@ -43,7 +40,7 @@ export const Header: React.FC<IHeaderProps> = (props) => {
     };
 
     useEffect(() => {
-        if (props.user?.photoURL) setProfileImageURL(props.user.photoURL);
+        if (props.user?.photoURL) setPhotoURL(props.user.photoURL);
     }, [props.user]);
 
     return (
@@ -96,7 +93,7 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                     >
                         <img
                             className={styles.imgAvatar}
-                            src={profileImageURL}
+                            src={photoURL}
                             alt="User profile"
                         />
                     </Dropdown>

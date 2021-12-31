@@ -1,4 +1,3 @@
-// GENERAL
 interface IChatter {
     id: string;
     name: string;
@@ -16,4 +15,8 @@ interface IMessage {
     from: IChatter;
     content: string;
     timestamp: Timestamp;
+}
+
+interface IUserData {
+    lastOnline: Timestamp;
 }

@@ -23,7 +23,7 @@ export const Home: React.FC<IHomeProps> = (props) => {
         }
     );
     const [offset, setOffset] = useState(0);
-    const [posts, setPosts] = useState<PostModel[]>(generatePostSkeletons());
+    const [posts, setPosts] = useState<PostModel[]>([]);
     // const posts = generatePostSkeletons();
 
     useEffect(() => {

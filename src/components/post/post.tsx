@@ -25,6 +25,7 @@ export const Post: React.FC<IPostProps> = (props) => {
     const history = useHistory();
     const [score, setScore] = useState(props.data.getScore());
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
+    const [deleted, setDeleted] = useState(false);
 
     useEffect(() => {
         if (props.user) {
@@ -38,18 +39,42 @@ export const Post: React.FC<IPostProps> = (props) => {
         if (!props.user || !props.data.id) return;
 
         props.data.upvote(props.firestore, props.user.uid);
+
+        if (upvoted === true) {
+            setUpvoted(null);
+            setScore(score - 1);
+        } else if (upvoted === false) {
+            setUpvoted(true);
+            setScore(score + 2);
+        } else {
+            setUpvoted(true);
+            setScore(score + 1);
+        }
     };
 
     const downvote = () => {
         if (!props.user || !props.data.id) return;
 
         props.data.downvote(props.firestore, props.user.uid);
+
+        if (upvoted === false) {
+            setUpvoted(null);
+            setScore(score + 1);
+        } else if (upvoted === true) {
+            setUpvoted(false);
+            setScore(score - 2);
+        } else {
+            setUpvoted(false);
+            setScore(score - 1);
+        }
     };
 
     const deletePost = () => {
         if (!props.user || !props.data.id) return;
 
         props.data.delete(props.firestore);
+
+        setDeleted(true);
     };
 
     const openChatRoom = async () => {
@@ -68,6 +93,9 @@ export const Post: React.FC<IPostProps> = (props) => {
 
         history.push('/chat', { roomId: room.id });
     };
+
+    if (deleted) return null;
+
     return (
         <div className={styles.post}>
             <div className={styles.postHeader}>

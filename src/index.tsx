@@ -19,15 +19,9 @@ initializeApp(firebaseConfig);
 const auth = getAuth();
 const firestore = getFirestore();
 
-export interface UserData {
-    photoURL: string | undefined | null;
-    lastOnline: Timestamp;
-}
-
 function App() {
     const [user, loading] = useAuthState(auth);
-    const [userData, setUserData] = useState<UserData>({
-        photoURL: null,
+    const [userData, setUserData] = useState<IUserData>({
         lastOnline: Timestamp.now(),
     });
 
@@ -37,7 +31,6 @@ function App() {
         // add user data to firestore
         const userRef = doc(firestore, DB_COLLECTIONS.USERS, user.uid);
         const userData = {
-            photoURL: user.photoURL,
             lastOnline: Timestamp.now(),
         };
         setDoc(userRef, userData);

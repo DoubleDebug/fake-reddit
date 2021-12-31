@@ -21,6 +21,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import Skeleton from 'react-loading-skeleton';
 import { getSecondUser, getUsernameById } from '../../utils/whichUserUtils';
 import { formatTimestampFull } from '../../utils/formatChatTimestamp';
+import { getUserPhotoURL } from '../../utils/firebase/getUserPhotoURL';
 
 interface IChatProps {
     firestore: Firestore;
@@ -41,13 +42,13 @@ export const Chat: React.FC<IChatProps> = (props) => {
         }
     );
     const inputMessage = useRef<HTMLInputElement>(null);
-    const [userData] = useDocumentDataOnce<any>(
+    const [userData] = useDocumentDataOnce<IUserData>(
         doc(
             props.firestore,
             DB_COLLECTIONS.USERS,
             getSecondUser(props.user?.uid, room?.userIds || []) ||
                 'ERROR_NO_USER'
-        )
+        ) as DocumentReference<IUserData>
     );
     const [user2PhotoURL, setUser2PhotoURL] = useState<string>(
         DEFAULT_USER_AVATAR_URL
@@ -55,10 +56,13 @@ export const Chat: React.FC<IChatProps> = (props) => {
 
     // get 2nd user's photo URL
     useEffect(() => {
-        if (!userData) return;
-
-        setUser2PhotoURL(userData.photoURL);
-    }, [userData]);
+        if (!props.user || !room) return;
+        const secondUserId = getSecondUser(props.user.uid, room.userIds);
+        if (!secondUserId) return;
+        getUserPhotoURL(secondUserId).then((url) => {
+            if (url) setUser2PhotoURL(url);
+        });
+    }, [props.user, room]);
 
     // ACTIONS
     const sendMessage = (e: MouseEvent<HTMLButtonElement>, text: string) => {
@@ -83,9 +87,6 @@ export const Chat: React.FC<IChatProps> = (props) => {
         });
     };
 
-    // check if user doesn't exist
-    if (userData && !userData.lastOnline) return <Redirect to="/"></Redirect>;
-
     if (error || !roomId) return <Redirect to="/"></Redirect>;
     return (
         <div className={styles.roomContainer}>
@@ -101,11 +102,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
                     ) : (
                         <img
                             className={styles.imgUsernameAvatar}
-                            src={
-                                user2PhotoURL
-                                    ? user2PhotoURL
-                                    : DEFAULT_USER_AVATAR_URL
-                            }
+                            src={user2PhotoURL}
                             alt="User profile"
                         />
                     )}
@@ -134,7 +131,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
                                     color="LawnGreen"
                                     style={{ marginRight: '7px' }}
                                 />
-                                {timeAgo(userData?.lastOnline.toDate())}
+                                {timeAgo(userData?.lastOnline?.toDate())}
                             </small>
                         )}
                     </div>

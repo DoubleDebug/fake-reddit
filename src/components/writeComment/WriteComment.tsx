@@ -19,7 +19,8 @@ export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        commentTextarea.current?.focus();
+        if (props.parentCommentId) commentTextarea.current?.focus();
+        // eslint-disable-next-line
     }, []);
 
     // ACTIONS
