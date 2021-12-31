@@ -53,7 +53,7 @@ function App() {
                 <Route path="/newPost">
                     <NewPost user={user} firestore={firestore} />
                 </Route>
-                <Route path="/chat">
+                <Route path="/chat/:id">
                     <Chat user={user} firestore={firestore}></Chat>
                 </Route>
                 <Route path="/post/:id">

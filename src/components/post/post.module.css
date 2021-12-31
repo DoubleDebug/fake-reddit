@@ -50,6 +50,13 @@
 .author {
     color: silver;
     font-size: 0.95rem;
+    cursor: pointer;
+    margin-left: 0.3rem;
+    margin-bottom: 0;
+}
+
+.author:hover {
+    text-decoration: underline;
 }
 
 .postBody .title {

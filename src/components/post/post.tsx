@@ -11,7 +11,7 @@ import {
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { Firestore } from '@firebase/firestore';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { createChatRoom } from '../../pages/chat/createChatRoom';
 import { User } from 'firebase/auth';
 
@@ -22,10 +22,10 @@ interface IPostProps {
 }
 
 export const Post: React.FC<IPostProps> = (props) => {
-    const history = useHistory();
     const [score, setScore] = useState(props.data.getScore());
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
     const [deleted, setDeleted] = useState(false);
+    const [redirectChatId, setRedirectChatId] = useState<string | null>(null);
 
     useEffect(() => {
         if (props.user) {
@@ -91,11 +91,12 @@ export const Post: React.FC<IPostProps> = (props) => {
             }
         );
 
-        history.push('/chat', { roomId: room.id });
+        setRedirectChatId(room.id);
     };
 
+    if (redirectChatId)
+        return <Redirect to={`/chat/${redirectChatId}`}></Redirect>;
     if (deleted) return null;
-
     return (
         <div className={styles.post}>
             <div className={styles.postHeader}>
@@ -126,16 +127,15 @@ export const Post: React.FC<IPostProps> = (props) => {
                     <div className={styles.authorAndDate}>
                         <div className={styles.secondaryText}>
                             {props.data.author ? (
-                                <div>
+                                <div className="flex">
                                     <small>Posted by </small>
-                                    <a
-                                        href="/#"
+                                    <small
                                         onClick={() => openChatRoom()}
                                         className={styles.author}
                                         title={`Chat with ${props.data.author}`}
                                     >
                                         {props.data.author}
-                                    </a>
+                                    </small>
                                 </div>
                             ) : (
                                 <Skeleton width="200px" />
@@ -143,10 +143,11 @@ export const Post: React.FC<IPostProps> = (props) => {
                         </div>
                         <small>
                             <Link
+                                to={`/post/${props.data.id}`}
+                                title="Open post"
                                 className={
                                     styles.secondaryText + ' ' + styles.timeAgo
                                 }
-                                to={`/post/${props.data.id}`}
                             >
                                 {props.data.title &&
                                     timeAgo(props.data.createdAt.toDate())}

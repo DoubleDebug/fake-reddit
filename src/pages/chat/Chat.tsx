@@ -12,7 +12,7 @@ import {
     useDocumentDataOnce,
 } from 'react-firebase-hooks/firestore';
 import { MouseEvent, useEffect, useRef, useState } from 'react';
-import { Redirect, useLocation } from 'react-router';
+import { Redirect, useParams } from 'react-router';
 import { isMessageMineClass } from '../../utils/whichUserUtils';
 import { DB_COLLECTIONS, DEFAULT_USER_AVATAR_URL } from '../../utils/constants';
 import { timeAgo } from '../../utils/timeAgo';
@@ -29,8 +29,7 @@ interface IChatProps {
 }
 
 export const Chat: React.FC<IChatProps> = (props) => {
-    const state = useLocation<any>().state;
-    const roomId = state && state.roomId;
+    const { id: roomId } = useParams<{ id: string }>();
     const [room, loading, error] = useDocumentData<IChatRoom>(
         doc(
             props.firestore,
@@ -67,8 +66,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
     // ACTIONS
     const sendMessage = (e: MouseEvent<HTMLButtonElement>, text: string) => {
         e.preventDefault();
-        if (!room) return;
-        if (!props.user) return;
+        if (!room || !props.user) return;
 
         // clear message
         if (inputMessage.current) inputMessage.current.value = '';
@@ -87,7 +85,10 @@ export const Chat: React.FC<IChatProps> = (props) => {
         });
     };
 
-    if (error || !roomId) return <Redirect to="/"></Redirect>;
+    if (error || !roomId) {
+        return <Redirect to="/"></Redirect>;
+    }
+
     return (
         <div className={styles.roomContainer}>
             <div className={styles.room}>
