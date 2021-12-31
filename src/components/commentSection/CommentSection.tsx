@@ -5,6 +5,8 @@ import { WriteComment } from '../writeComment/WriteComment';
 import { PostModel } from '../../models/post';
 import { Firestore } from 'firebase/firestore';
 import { User } from 'firebase/auth';
+import { POSTS_PER_PAGE } from '../../utils/constants';
+import { generateCommentSkeletons } from '../../utils/generateSkeletons';
 
 interface ICommentSectionProps {
     firestore: Firestore;
@@ -14,6 +16,12 @@ interface ICommentSectionProps {
 }
 
 export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
+    const commentSkeletons = generateCommentSkeletons(
+        POSTS_PER_PAGE,
+        props.user,
+        props.firestore
+    );
+
     return (
         <div className={styles.commentsSection}>
             {props.comments ? (
@@ -41,9 +49,8 @@ export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
                           (r) => r.parentCommentId === c.id
                       );
                       return (
-                          <>
+                          <div key={index}>
                               <Comment
-                                  key={index}
                                   user={props.user}
                                   firestore={props.firestore}
                                   data={c as any}
@@ -56,16 +63,10 @@ export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
                                       data={r as any}
                                   ></Comment>
                               ))}
-                          </>
+                          </div>
                       );
                   })
-                : Array(3).fill(
-                      <Comment
-                          user={props.user}
-                          firestore={props.firestore}
-                          data={new CommentModel()}
-                      ></Comment>
-                  )}
+                : commentSkeletons}
         </div>
     );
 };
