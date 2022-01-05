@@ -1,18 +1,26 @@
-import './index.css';
+// FIREBASE
 import { firebaseConfig } from './utils/firebase/firebaseConfig';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from '@firebase/auth';
 import { getFirestore, setDoc, Timestamp } from '@firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc } from 'firebase/firestore';
+
+// REACT
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth';
+
+// PAGES & COMPONENTS
 import { Header } from './components/header/Header';
+import { Subreddit } from './pages/subreddit/Subreddit';
+import { NewPost } from './pages/newPost/NewPost';
+import { ViewPost } from './pages/viewPost/ViewPost';
 import { Home } from './pages/home/Home';
-import { NewPost } from './pages/newPost/newPost';
 import { Chat } from './pages/chat/Chat';
-import { useEffect, useState } from 'react';
-import { doc } from 'firebase/firestore';
-import { ViewPost } from './pages/viewPost/viewPost';
+
+// OTHER
+import './index.css';
 import { DB_COLLECTIONS } from './utils/constants';
 
 initializeApp(firebaseConfig);
@@ -49,6 +57,9 @@ function App() {
             <Switch>
                 <Route exact path="/">
                     <Home user={user} firestore={firestore} />
+                </Route>
+                <Route path="/r/:id">
+                    <Subreddit user={user} firestore={firestore}></Subreddit>
                 </Route>
                 <Route path="/newPost">
                     <NewPost user={user} firestore={firestore} />

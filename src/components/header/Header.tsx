@@ -17,6 +17,7 @@ import {
     HEADER_SVG_PATH,
     HEADER_SVG_VIEWBOX,
 } from '../../utils/constants';
+import { Toaster } from 'react-hot-toast';
 
 interface IHeaderProps {
     auth: Auth;
@@ -45,6 +46,7 @@ export const Header: React.FC<IHeaderProps> = (props) => {
 
     return (
         <div className={styles.header}>
+            <Toaster />
             <svg
                 className={styles.pageBackground}
                 xmlns="http://www.w3.org/2000/svg"

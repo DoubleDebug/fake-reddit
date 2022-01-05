@@ -1,0 +1,54 @@
+.container {
+    width: 800px;
+    justify-self: center;
+}
+
+.imageAndTitle {
+    display: flex;
+    justify-self: start;
+    width: 100%;
+}
+
+.image {
+    margin: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.imageDefault {
+    content: url('../../../src/static/icon.png');
+    background: var(--colorOrange);
+    padding: 0.5rem;
+}
+
+.title {
+    margin: 0;
+    align-self: flex-end;
+}
+
+.path {
+    color: silver;
+    margin-bottom: 0;
+    align-self: flex-start;
+}
+
+.description {
+    display: flex;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.btnAddPost {
+    display: grid;
+    margin: auto;
+    margin-right: 0;
+    height: min-content;
+    align-items: center;
+}
+
+.btnAddPost > button {
+    padding: 0.2rem 1rem;
+    background: var(--colorOrange);
+    color: white;
+}

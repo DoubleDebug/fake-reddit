@@ -1,10 +1,14 @@
 import {
-    deleteDoc,
     doc,
     Firestore,
     Timestamp,
     updateDoc,
-} from 'firebase/firestore';
+    increment,
+} from '@firebase/firestore';
+import axios from 'axios';
+import { User } from 'firebase/auth';
+import { DB_COLLECTIONS, SERVER_URL } from '../utils/constants';
+import { displayNotif } from '../utils/toast';
 
 interface IVote {
     uid: string;
@@ -19,6 +23,7 @@ export class PostModel {
     authorId: string | undefined | null;
     createdAt: Timestamp = Timestamp.now();
     votes: IVote[] = [];
+    subreddit: string = 'all';
 
     constructor(init?: Partial<PostModel>) {
         Object.assign(this, init);
@@ -65,7 +70,7 @@ export class PostModel {
             });
         }
 
-        updateDoc(doc(firestore, 'posts', this.id), {
+        updateDoc(doc(firestore, DB_COLLECTIONS.POSTS, this.id), {
             votes: this.votes,
         });
     }
@@ -89,13 +94,41 @@ export class PostModel {
             this.votes = this.votes.filter((v) => v.uid !== uid);
         }
 
-        updateDoc(doc(firestore, 'posts', this.id), {
+        updateDoc(doc(firestore, DB_COLLECTIONS.POSTS, this.id), {
             votes: this.votes,
         });
     }
 
-    delete(firestore: Firestore) {
+    async delete(user: User, firestore: Firestore, subreddit: string) {
         if (!this.id) return;
-        deleteDoc(doc(firestore, 'posts', this.id));
+
+        // delete post
+        const idToken = await user.getIdToken();
+        axios
+            .delete(`${SERVER_URL}/deletePost`, {
+                headers: {
+                    Authorization: idToken,
+                },
+                params: {
+                    postId: this.id,
+                },
+            })
+            .then(() => {
+                displayNotif('Post deleted.', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+                displayNotif('Failed to delete post.', 'error');
+            });
+
+        // update metadata counters
+        const counters: any = {
+            all: increment(-1),
+        };
+        if (subreddit !== 'all') counters[subreddit] = increment(-1);
+        updateDoc(
+            doc(firestore, DB_COLLECTIONS.METADATA, 'numOfPosts'),
+            counters
+        );
     }
 }

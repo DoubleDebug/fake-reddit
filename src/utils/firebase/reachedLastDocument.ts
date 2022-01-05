@@ -7,5 +7,5 @@ export function reachedLastDocument(
     offset: number,
     totalNumOfPosts: number
 ): boolean {
-    return offset + 2 * POSTS_PER_PAGE >= totalNumOfPosts;
+    return offset + POSTS_PER_PAGE >= totalNumOfPosts;
 }

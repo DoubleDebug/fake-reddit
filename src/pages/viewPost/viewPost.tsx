@@ -1,4 +1,4 @@
-import styles from './viewPost.module.css';
+import styles from './ViewPost.module.css';
 import React from 'react';
 import { User } from 'firebase/auth';
 import {
@@ -11,13 +11,13 @@ import {
     query,
     where,
 } from 'firebase/firestore';
-import { useParams } from 'react-router-dom';
-import { Post } from '../../components/post/Post';
-import { PostModel } from '../../models/post';
 import {
     useCollectionData,
     useDocumentData,
 } from 'react-firebase-hooks/firestore';
+import { Redirect, useParams } from 'react-router-dom';
+import { Post } from '../../components/post/Post';
+import { PostModel } from '../../models/post';
 import { DB_COLLECTIONS } from '../../utils/constants';
 import { CommentModel } from '../../models/comment';
 import { CommentSection } from '../../components/commentSection/CommentSection';
@@ -29,7 +29,7 @@ interface IViewPostProps {
 
 export const ViewPost: React.FC<IViewPostProps> = (props) => {
     const { id: postId } = useParams<{ id: string }>();
-    const [postData] = useDocumentData<PostModel>(
+    const [postData, loadingPost] = useDocumentData<PostModel>(
         doc(
             props.firestore,
             DB_COLLECTIONS.POSTS,
@@ -39,15 +39,18 @@ export const ViewPost: React.FC<IViewPostProps> = (props) => {
             transform: (p) => new PostModel({ ...p, id: postId }),
         }
     );
-    const commentsQuery = query(
-        collection(props.firestore, DB_COLLECTIONS.COMMENTS),
-        where('postId', '==', postId),
-        orderBy('createdAt', 'desc')
-    ) as Query<CommentModel>;
-    const [comments] = useCollectionData<CommentModel>(commentsQuery, {
-        idField: 'id',
-    });
+    const [comments] = useCollectionData<CommentModel>(
+        query(
+            collection(props.firestore, DB_COLLECTIONS.COMMENTS),
+            where('postId', '==', postId),
+            orderBy('createdAt', 'desc')
+        ) as Query<CommentModel>,
+        {
+            idField: 'id',
+        }
+    );
 
+    if (!postData && !loadingPost) return <Redirect to="/"></Redirect>;
     return (
         <div className={styles.postContainer}>
             <Post

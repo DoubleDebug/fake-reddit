@@ -1,0 +1,22 @@
+.feed {
+    display: grid;
+}
+
+.postsContainer {
+    display: grid;
+    width: 800px;
+    margin: 0 auto 3rem auto;
+}
+
+.noPosts {
+    display: grid;
+    justify-items: center;
+}
+
+.noPosts > * {
+    margin-bottom: 0.5rem;
+}
+
+.btnNoPostsSubmit:hover {
+    text-decoration: none;
+}

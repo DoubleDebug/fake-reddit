@@ -2,8 +2,8 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { User } from 'firebase/auth';
 import { addDoc, collection, Firestore, Timestamp } from 'firebase/firestore';
-import React, { useEffect, useRef, useState } from 'react';
 import { DB_COLLECTIONS } from '../../utils/constants';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './WriteComment.module.css';
 
 interface IWriteCommentProps {

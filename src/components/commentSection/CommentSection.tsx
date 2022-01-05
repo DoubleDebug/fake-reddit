@@ -23,14 +23,15 @@ export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
     );
 
     return (
-        <div className={styles.commentsSection}>
+        <div className="contentBox">
             {props.comments ? (
                 <div className="flex">
                     <p className={styles.textSilver}>
                         {props.comments.length} comments
                     </p>
                     <p className={styles.textUpvotedPercentage}>
-                        {props.post?.getUpvotedPercentage() + '% upvoted'}
+                        {props.post &&
+                            props.post.getUpvotedPercentage() + '% upvoted'}
                     </p>
                 </div>
             ) : null}

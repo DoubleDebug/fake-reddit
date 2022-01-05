@@ -11,8 +11,9 @@ export const SERVER_URL = 'http://localhost:5000';
 // DATABASE
 export const DB_COLLECTIONS = {
     CHAT_ROOMS: 'chatRooms',
+    COMMENTS: 'comments',
     METADATA: 'metadata',
     POSTS: 'posts',
+    SUBREDDITS: 'subreddits',
     USERS: 'users',
-    COMMENTS: 'comments',
 };

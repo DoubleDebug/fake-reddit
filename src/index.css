@@ -58,3 +58,16 @@ code {
 .linkNoUnderline:hover {
     text-decoration: none;
 }
+
+.contentBox {
+    display: grid;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: var(--boxShadow);
+    transition: 0.5s ease;
+}
+
+.contentBox:hover {
+    transform: scale(1.02);
+}

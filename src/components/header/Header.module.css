@@ -58,7 +58,7 @@
 }
 
 .btnHomepage:hover {
-    filter: none;
+    filter: none !important;
 }
 
 .btnNewPost:hover {

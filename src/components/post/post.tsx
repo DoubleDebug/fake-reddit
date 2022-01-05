@@ -19,6 +19,7 @@ interface IPostProps {
     data: PostModel;
     user: User | undefined | null;
     firestore: Firestore;
+    preview?: boolean;
 }
 
 export const Post: React.FC<IPostProps> = (props) => {
@@ -72,7 +73,7 @@ export const Post: React.FC<IPostProps> = (props) => {
     const deletePost = () => {
         if (!props.user || !props.data.id) return;
 
-        props.data.delete(props.firestore);
+        props.data.delete(props.user, props.firestore, props.data.subreddit);
 
         setDeleted(true);
     };
@@ -98,7 +99,7 @@ export const Post: React.FC<IPostProps> = (props) => {
         return <Redirect to={`/chat/${redirectChatId}`}></Redirect>;
     if (deleted) return null;
     return (
-        <div className={styles.post}>
+        <div className={`contentBox ${styles.container}`}>
             <div className={styles.postHeader}>
                 <div className={styles.postVoting}>
                     <h2 className={styles.score}>{score}</h2>
@@ -125,12 +126,22 @@ export const Post: React.FC<IPostProps> = (props) => {
                 </div>
                 <div className={styles.postBody}>
                     <div className={styles.authorAndDate}>
+                        <Link to={`/r/${props.data.subreddit}`}>
+                            <strong
+                                className={styles.subreddit}
+                            >{`r/${props.data.subreddit}`}</strong>
+                        </Link>
                         <div className={styles.secondaryText}>
                             {props.data.author ? (
                                 <div className="flex">
                                     <small>Posted by </small>
                                     <small
-                                        onClick={() => openChatRoom()}
+                                        onClick={
+                                            props.user?.uid ===
+                                            props.data.authorId
+                                                ? undefined
+                                                : () => openChatRoom()
+                                        }
                                         className={styles.author}
                                         title={`Chat with ${props.data.author}`}
                                     >
@@ -154,11 +165,20 @@ export const Post: React.FC<IPostProps> = (props) => {
                             </Link>
                         </small>
                     </div>
-                    <p className={styles.title}>
-                        {props.data.title || (
-                            <Skeleton width="400px" height="30px" />
-                        )}
-                    </p>
+                    {props.data.title ? (
+                        props.preview ? (
+                            <Link
+                                className={styles.title}
+                                to={`/post/${props.data.id}`}
+                            >
+                                {props.data.title}
+                            </Link>
+                        ) : (
+                            <p className={styles.title}>{props.data.title}</p>
+                        )
+                    ) : (
+                        <Skeleton width="400px" height="30px" />
+                    )}
                 </div>
             </div>
             {props.user ? (
@@ -176,8 +196,13 @@ export const Post: React.FC<IPostProps> = (props) => {
             ) : (
                 <div></div>
             )}
-            <div className={styles.postContent}>
+            <div
+                className={`${styles.postContent} ${
+                    props.preview ? styles.preview : ''
+                }`}
+            >
                 {props.data.content || <Skeleton count={5} />}
+                {props.preview ? <div className={styles.fade}></div> : null}
             </div>
         </div>
     );

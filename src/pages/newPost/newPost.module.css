@@ -1,10 +1,31 @@
-.newPostForm {
+.form {
     display: grid;
     justify-content: center;
     grid-template-columns: clamp(500px, 700px, 900px);
 }
 
-.newPostForm > input[type='text'],
-.newPostForm > button {
+.form > input[type='text'],
+.form > button {
     margin-right: 0;
+}
+
+.title {
+    border: 1px solid silver !important;
+}
+
+.content {
+    min-height: 300px;
+    border: 1px solid silver;
+}
+
+.btnSubmit {
+    width: 130px;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.selectSubreddit {
+    align-items: center;
+    width: 300px;
+    margin-bottom: 1rem;
 }

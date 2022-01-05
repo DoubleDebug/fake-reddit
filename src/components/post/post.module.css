@@ -1,15 +1,5 @@
-.post {
-    display: grid;
-    margin: 1rem 0;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: var(--boxShadow);
-    transition: 0.5s ease;
+.container {
     grid-template-columns: auto 30px;
-}
-
-.post:hover {
-    transform: scale(1.02);
 }
 
 .secondaryText {
@@ -24,6 +14,25 @@
     margin: 0.5rem;
     margin-left: 0;
     font-size: 1.2rem;
+    position: relative;
+}
+
+.postContent.preview {
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.postContent > .fade {
+    position: absolute;
+    top: 250px;
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.9) 100%
+    );
 }
 
 .postBody {
@@ -47,6 +56,12 @@
     margin-left: 5px;
 }
 
+.subreddit {
+    color: black;
+    margin-right: 0.5rem;
+    margin-bottom: 0;
+}
+
 .author {
     color: silver;
     font-size: 0.95rem;
@@ -60,6 +75,7 @@
 }
 
 .postBody .title {
+    color: black;
     font-weight: bold;
     font-size: 1.5rem;
     margin: 0;
