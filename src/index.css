@@ -71,3 +71,10 @@ code {
 .contentBox:hover {
     transform: scale(1.02);
 }
+
+/* MUI Tabs */
+
+.MuiTabPanel-root {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}

@@ -51,7 +51,14 @@ export const Feed: React.FC<IFeedProps> = (props) => {
             <div className={styles.noPosts}>
                 <h2>Nothing to see here.</h2>
                 <p>Be the first to post in this subreddit.</p>
-                <Link className={styles.btnNoPostsSubmit} to={`${url}/newPost`}>
+                <Link
+                    className={styles.btnNoPostsSubmit}
+                    to={
+                        url.includes('/r/')
+                            ? `${url}/newPost`
+                            : '/r/all/newPost'
+                    }
+                >
                     <button className="btn">Add a post</button>
                 </Link>
             </div>

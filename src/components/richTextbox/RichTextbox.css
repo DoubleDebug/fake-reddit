@@ -1,0 +1,26 @@
+.quill {
+    display: grid;
+    grid-template-rows: min-content auto;
+    border-radius: 5px;
+    min-height: 300px;
+    margin-bottom: -10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.ql-formats > button {
+    margin-bottom: 0;
+}
+
+.ql-picker-options {
+    max-width: initial;
+}
+
+.ql-toolbar {
+    border: none !important;
+    border-bottom: 1px solid #ccc !important;
+}
+
+.ql-container {
+    border: none !important;
+}

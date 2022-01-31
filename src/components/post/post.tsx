@@ -14,6 +14,7 @@ import { Firestore } from '@firebase/firestore';
 import { Link, Redirect } from 'react-router-dom';
 import { createChatRoom } from '../../pages/chat/createChatRoom';
 import { User } from 'firebase/auth';
+import { Markup } from 'interweave';
 
 interface IPostProps {
     data: PostModel;
@@ -126,11 +127,13 @@ export const Post: React.FC<IPostProps> = (props) => {
                 </div>
                 <div className={styles.postBody}>
                     <div className={styles.authorAndDate}>
-                        <Link to={`/r/${props.data.subreddit}`}>
-                            <strong
-                                className={styles.subreddit}
-                            >{`r/${props.data.subreddit}`}</strong>
-                        </Link>
+                        {props.data.id && (
+                            <Link to={`/r/${props.data.subreddit}`}>
+                                <strong
+                                    className={styles.subreddit}
+                                >{`r/${props.data.subreddit}`}</strong>
+                            </Link>
+                        )}
                         <div className={styles.secondaryText}>
                             {props.data.author ? (
                                 <div className="flex">
@@ -201,7 +204,8 @@ export const Post: React.FC<IPostProps> = (props) => {
                     props.preview ? styles.preview : ''
                 }`}
             >
-                {props.data.content || <Skeleton count={5} />}
+                <Markup content={props.data.content}></Markup>
+                {!props.data.content && <Skeleton count={5} />}
                 {props.preview ? <div className={styles.fade}></div> : null}
             </div>
         </div>

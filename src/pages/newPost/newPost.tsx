@@ -19,6 +19,11 @@ import { DB_COLLECTIONS } from '../../utils/constants';
 import { useCollectionDataOnce } from 'react-firebase-hooks/firestore';
 import Select from 'react-select';
 import { displayNotif } from '../../utils/toast';
+import 'react-quill/dist/quill.snow.css';
+import { RichTextbox } from '../../components/richTextbox/RichTextbox';
+import { Tab } from '@mui/material';
+import TabPanel from '@mui/lab/TabPanel';
+import { TabContext, TabList } from '@mui/lab';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -33,6 +38,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
             authorId: props.user && props.user.uid,
         })
     );
+    const [postContent, setPostContent] = useState<any>({ text: '' });
     const [isPosting, setIsPosting] = useState(false);
     const [posted, setPosted] = useState(false);
     const [subreddits] = useCollectionDataOnce(
@@ -42,6 +48,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
         }
     );
     const subredditInput = useRef<any>(null);
+    const [tabIndex, setTabIndex] = useState('1');
 
     // ACTIONS
     const submitNewPost = (e: React.MouseEvent) => {
@@ -66,21 +73,30 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
 
         // send data to firestore
         const db = getFirestore();
-        addDoc(collection(db, DB_COLLECTIONS.POSTS), postObject).then(() => {
-            setIsPosting(false);
-            setPosted(true);
-            displayNotif('Added a new post.', 'success');
-        });
-        updateDoc(doc(db, DB_COLLECTIONS.METADATA, 'numOfPosts'), counters);
+        addDoc(collection(db, DB_COLLECTIONS.POSTS), postObject)
+            .then(() => {
+                updateDoc(
+                    doc(db, DB_COLLECTIONS.METADATA, 'numOfPosts'),
+                    counters
+                );
+
+                setIsPosting(false);
+                setPosted(true);
+                displayNotif('Added a new post.', 'success');
+            })
+            .catch((error) => {
+                console.log(error);
+                displayNotif('Failed to add a new post.', 'error');
+            });
     };
 
     if (posted) return <Redirect to="/"></Redirect>;
 
     return (
-        <div>
-            {!props.user && <Redirect to="/" />}
+        <div className={`contentBox ${styles.formContainer}`}>
             <form className={styles.form}>
-                <h1>Create a new post</h1>
+                {!props.user && <Redirect to="/" />}
+                <h1 className={styles.label}>Create a new post</h1>
                 <div className={styles.selectSubreddit}>
                     <Select
                         ref={subredditInput}
@@ -113,18 +129,29 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                         );
                     }}
                 />
-                <textarea
-                    placeholder="What's on your mind?"
-                    className={styles.content}
-                    onChange={(e) => {
-                        setPostData(
-                            new PostModel({
-                                ...postData,
-                                content: e.target.value,
-                            })
-                        );
-                    }}
-                />
+                <TabContext value={tabIndex}>
+                    <TabList onChange={(_, val) => setTabIndex(val)}>
+                        <Tab value="1" label="Text" />
+                        <Tab value="2" label="Image/Video" />
+                        <Tab value="3" label="Poll" />
+                    </TabList>
+                    <TabPanel value="1">
+                        <RichTextbox
+                            value={postContent}
+                            onChange={(newValue) => {
+                                setPostContent(newValue);
+                                setPostData(
+                                    new PostModel({
+                                        ...postData,
+                                        content: newValue,
+                                    })
+                                );
+                            }}
+                        ></RichTextbox>
+                    </TabPanel>
+                    <TabPanel value="2"></TabPanel>
+                    <TabPanel value="3"></TabPanel>
+                </TabContext>
                 <div className="flex">
                     <button
                         className={`btn ${styles.btnSubmit}`}

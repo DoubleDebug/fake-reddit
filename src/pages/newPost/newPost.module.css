@@ -1,12 +1,28 @@
+.formContainer {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: min-content;
+}
+
+.formContainer:hover {
+    transform: none !important;
+}
+
 .form {
     display: grid;
     justify-content: center;
     grid-template-columns: clamp(500px, 700px, 900px);
+    padding: 1rem;
+    margin-bottom: 0;
 }
 
 .form > input[type='text'],
 .form > button {
     margin-right: 0;
+}
+
+.label {
+    margin-top: 0;
 }
 
 .title {
@@ -20,8 +36,7 @@
 
 .btnSubmit {
     width: 130px;
-    margin-left: auto;
-    margin-right: 0;
+    margin: 0 0 0 auto;
 }
 
 .selectSubreddit {
