@@ -17,3 +17,13 @@ export const DB_COLLECTIONS = {
     SUBREDDITS: 'subreddits',
     USERS: 'users',
 };
+export const SUPPORTED_FILE_FORMATS = [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'video/mp4',
+];
+export const SUPPORTED_FILE_FORMATS_STRING = SUPPORTED_FILE_FORMATS.join(', ')
+    .replaceAll('image/', '')
+    .replaceAll('video/', '');
+export const MAX_FILE_SIZE = 5; // in megabytes

@@ -199,15 +199,18 @@ export const Post: React.FC<IPostProps> = (props) => {
             ) : (
                 <div></div>
             )}
-            <div
-                className={`${styles.postContent} ${
-                    props.preview ? styles.preview : ''
-                }`}
-            >
-                <Markup content={props.data.content}></Markup>
-                {!props.data.content && <Skeleton count={5} />}
-                {props.preview ? <div className={styles.fade}></div> : null}
-            </div>
+
+            <Link className={styles.linkToPost} to={`/post/${props.data.id}`}>
+                <div
+                    className={`${styles.postContent} ${
+                        props.preview ? styles.preview : ''
+                    }`}
+                >
+                    <Markup content={props.data.content}></Markup>
+                    {!props.data.content && <Skeleton count={5} />}
+                    {props.preview ? <div className={styles.fade}></div> : null}
+                </div>
+            </Link>
         </div>
     );
 };

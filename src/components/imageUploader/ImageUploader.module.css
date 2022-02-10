@@ -1,0 +1,62 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid silver;
+    min-height: 300px;
+    margin-bottom: -10px;
+    transition: all 1s ease;
+}
+
+.container > * {
+    pointer-events: none;
+}
+
+.container > div > button {
+    pointer-events: all;
+}
+
+.container input[type='file'] {
+    display: none;
+}
+
+.textDrag {
+    color: gray;
+    margin-top: 0;
+    margin-right: 1rem;
+}
+
+.textDrop {
+    color: white;
+    margin-top: 0;
+    margin-right: 1rem;
+}
+
+.onDragOver {
+    background: var(--colorOrange);
+    transition: all 1s ease;
+}
+
+.imagePreview {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.imagePreview.show {
+    display: grid;
+}
+
+.imagePreview.hide {
+    display: none;
+}
+
+.previewContainer {
+    display: grid;
+    justify-items: center;
+}

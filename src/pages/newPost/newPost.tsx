@@ -1,5 +1,5 @@
 import styles from './NewPost.module.css';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Redirect } from 'react-router';
 import {
     addDoc,
@@ -24,6 +24,7 @@ import { RichTextbox } from '../../components/richTextbox/RichTextbox';
 import { Tab } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
 import { TabContext, TabList } from '@mui/lab';
+import { ImageUploader } from '../../components/imageUploader/ImageUploader';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -38,7 +39,6 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
             authorId: props.user && props.user.uid,
         })
     );
-    const [postContent, setPostContent] = useState<any>({ text: '' });
     const [isPosting, setIsPosting] = useState(false);
     const [posted, setPosted] = useState(false);
     const [subreddits] = useCollectionDataOnce(
@@ -90,6 +90,10 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
             });
     };
 
+    useEffect(() => {
+        return () => {};
+    }, []);
+
     if (posted) return <Redirect to="/"></Redirect>;
 
     return (
@@ -137,9 +141,8 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     </TabList>
                     <TabPanel value="1">
                         <RichTextbox
-                            value={postContent}
+                            value={postData.content}
                             onChange={(newValue) => {
-                                setPostContent(newValue);
                                 setPostData(
                                     new PostModel({
                                         ...postData,
@@ -149,7 +152,18 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             }}
                         ></RichTextbox>
                     </TabPanel>
-                    <TabPanel value="2"></TabPanel>
+                    <TabPanel value="2">
+                        <ImageUploader
+                            setFileURL={(fileURL: string) => {
+                                setPostData(
+                                    new PostModel({
+                                        ...postData,
+                                        content: `<img src=${fileURL}/>`,
+                                    })
+                                );
+                            }}
+                        ></ImageUploader>
+                    </TabPanel>
                     <TabPanel value="3"></TabPanel>
                 </TabContext>
                 <div className="flex">
