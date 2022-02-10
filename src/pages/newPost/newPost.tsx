@@ -25,6 +25,7 @@ import { Tab } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
 import { TabContext, TabList } from '@mui/lab';
 import { ImageUploader } from '../../components/imageUploader/ImageUploader';
+import { FileInfo } from '../../components/imageUploader/DragAndDrop';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -89,6 +90,19 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                 displayNotif('Failed to add a new post.', 'error');
             });
     };
+    const handleTabChange = (tabNumber: string) => {
+        setTabIndex(tabNumber);
+
+        // update post type
+        const postTypes: Array<PostType> = ['text', 'image', 'poll'];
+        const newType = postTypes[Number(tabNumber) - 1];
+        setPostData(
+            new PostModel({
+                ...postData,
+                type: newType,
+            })
+        );
+    };
 
     useEffect(() => {
         return () => {};
@@ -134,7 +148,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     }}
                 />
                 <TabContext value={tabIndex}>
-                    <TabList onChange={(_, val) => setTabIndex(val)}>
+                    <TabList onChange={(_, val) => handleTabChange(val)}>
                         <Tab value="1" label="Text" />
                         <Tab value="2" label="Image/Video" />
                         <Tab value="3" label="Poll" />
@@ -154,11 +168,15 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     </TabPanel>
                     <TabPanel value="2">
                         <ImageUploader
-                            setFileURL={(fileURL: string) => {
+                            handleFileStoragePath={(fileInfo: FileInfo) => {
                                 setPostData(
                                     new PostModel({
                                         ...postData,
-                                        content: `<img src=${fileURL}/>`,
+                                        content: `<img src=${fileInfo.url}/>`,
+                                        contentFiles: [
+                                            ...(postData.contentFiles || []),
+                                            fileInfo.storagePath,
+                                        ],
                                     })
                                 );
                             }}

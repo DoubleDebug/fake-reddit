@@ -20,3 +20,10 @@ interface IMessage {
 interface IUserData {
     lastOnline: Timestamp;
 }
+
+interface IVote {
+    uid: string;
+    upvoted: boolean;
+}
+
+type PostType = 'text' | 'image' | 'poll';

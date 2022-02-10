@@ -3,7 +3,7 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useState } from 'react';
 
-export type FileInfo = { fileName: string; url: string };
+export type FileInfo = { fileName: string; url: string; storagePath: string };
 
 interface IDragAndDropProps {
     isUploading: boolean;

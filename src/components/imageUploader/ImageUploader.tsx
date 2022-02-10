@@ -8,7 +8,7 @@ import { DragAndDrop, FileInfo } from './DragAndDrop';
 import { getImageURL } from '../../utils/firebase/getImageURL';
 
 interface IImageUploaderProps {
-    setFileURL: (fileURL: string) => void;
+    handleFileStoragePath: (fileStoragePath: FileInfo) => void;
 }
 
 export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
@@ -28,11 +28,16 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
         uploadBytes(storageRef, file).then(async (snapshot) => {
             // load image preview
             const url = await getImageURL(snapshot.metadata.fullPath);
+            const fileInfo = {
+                fileName: file.name,
+                url: url,
+                storagePath: snapshot.metadata.fullPath,
+            };
 
             // update ui
-            props.setFileURL(url);
+            props.handleFileStoragePath(fileInfo);
             setIsUploading(false);
-            setUploadedFile({ fileName: file.name, url: url });
+            setUploadedFile(fileInfo);
 
             displayNotif('Successfully uploaded image/video.', 'success');
         });

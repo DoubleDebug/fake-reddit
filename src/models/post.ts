@@ -10,20 +10,17 @@ import { User } from 'firebase/auth';
 import { DB_COLLECTIONS, SERVER_URL } from '../utils/constants';
 import { displayNotif } from '../utils/toast';
 
-interface IVote {
-    uid: string;
-    upvoted: boolean;
-}
-
 export class PostModel {
     id: string | undefined = undefined;
     title: string = '';
+    type: PostType = 'text';
     content: string = '';
     author: string = '';
     authorId: string | undefined | null;
     createdAt: Timestamp = Timestamp.now();
     votes: IVote[] = [];
     subreddit: string = 'all';
+    contentFiles?: string[] = [];
 
     constructor(init?: Partial<PostModel>) {
         Object.assign(this, init);
