@@ -138,6 +138,8 @@
     display: flex;
 }
 
-.postContent span img {
-    justify-self: center;
+.postContent span img,
+.postContent span video {
+    margin-left: auto;
+    margin-right: auto;
 }

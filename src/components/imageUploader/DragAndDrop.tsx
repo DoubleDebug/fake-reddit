@@ -2,6 +2,7 @@ import styles from './ImageUploader.module.css';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useState } from 'react';
+import { isFileImage } from '../../utils/getFileExtension';
 
 export type FileInfo = { fileName: string; url: string; storagePath: string };
 
@@ -20,6 +21,9 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = (props) => {
     const handleLoadedImage = useCallback((img: HTMLImageElement) => {
         if (img) img.onload = () => setPreviewIsLoaded(true);
     }, []);
+    const handleLoadedVideo = useCallback(() => {
+        setPreviewIsLoaded(true);
+    }, []);
 
     if (props.isUploading) {
         return <StateFileIsUploaded fileName={props.fileName} />;
@@ -31,8 +35,10 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = (props) => {
         return (
             <StateFileIsBeingUploaded
                 handleLoadedImage={handleLoadedImage}
+                handleLoadedVideo={handleLoadedVideo}
                 previewIsLoaded={previewIsLoaded}
                 uploadedFile={props.uploadedFile}
+                isImage={isFileImage(props.uploadedFile.fileName)}
             />
         );
     }
@@ -56,19 +62,31 @@ export const StateFileIsBeingDropped: React.FC = () => {
 
 export const StateFileIsBeingUploaded: React.FC<{
     handleLoadedImage: (img: HTMLImageElement) => void;
+    handleLoadedVideo: () => void;
     previewIsLoaded: boolean;
     uploadedFile: FileInfo;
+    isImage: boolean;
 }> = (props) => {
     return (
         <div className={styles.previewContainer}>
-            <img
-                ref={props.handleLoadedImage}
-                className={`${styles.imagePreview} ${
-                    props.previewIsLoaded ? styles.show : styles.hide
-                }`}
-                src={props.uploadedFile.url}
-                alt="Preview uploaded file"
-            ></img>
+            {props.isImage ? (
+                <img
+                    ref={props.handleLoadedImage}
+                    className={`${styles.imagePreview} ${
+                        props.previewIsLoaded ? styles.show : styles.hide
+                    }`}
+                    src={props.uploadedFile.url}
+                    alt="Preview uploaded file"
+                ></img>
+            ) : (
+                <video
+                    ref={props.handleLoadedVideo}
+                    className={`${styles.imagePreview} ${
+                        props.previewIsLoaded ? styles.show : styles.hide
+                    }`}
+                    src={props.uploadedFile.url}
+                ></video>
+            )}
             {!props.previewIsLoaded && (
                 <div className={styles.imagePreview}>
                     <FontAwesomeIcon

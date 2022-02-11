@@ -17,6 +17,8 @@ export const DB_COLLECTIONS = {
     SUBREDDITS: 'subreddits',
     USERS: 'users',
 };
+export const IMAGE_FILE_FORMATS = ['jpg', 'jpeg', 'png', 'gif'];
+export const VIDEO_FILE_FORMATS = ['mp4'];
 export const SUPPORTED_FILE_FORMATS = [
     'image/jpeg',
     'image/png',

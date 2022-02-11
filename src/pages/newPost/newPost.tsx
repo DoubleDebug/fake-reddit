@@ -26,6 +26,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import { TabContext, TabList } from '@mui/lab';
 import { ImageUploader } from '../../components/imageUploader/ImageUploader';
 import { FileInfo } from '../../components/imageUploader/DragAndDrop';
+import { isFileImage, isFileVideo } from '../../utils/getFileExtension';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -50,6 +51,13 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
     );
     const subredditInput = useRef<any>(null);
     const [tabIndex, setTabIndex] = useState('1');
+
+    useEffect(() => {
+        // lol
+        // this cleans up and cancels async tasks
+        // and gets rid of the "unmounted component" error
+        return () => {};
+    }, []);
 
     // ACTIONS
     const submitNewPost = (e: React.MouseEvent) => {
@@ -103,10 +111,14 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
             })
         );
     };
+    const getFileMarkup = (fileInfo: FileInfo) => {
+        if (isFileImage(fileInfo.fileName)) return `<img src=${fileInfo.url}/>`;
 
-    useEffect(() => {
-        return () => {};
-    }, []);
+        if (isFileVideo(fileInfo.fileName))
+            return `<video src=${fileInfo.url} controls muted loop></video>`;
+
+        return '';
+    };
 
     if (posted) return <Redirect to="/"></Redirect>;
 
@@ -146,6 +158,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             })
                         );
                     }}
+                    value={postData.title}
                 />
                 <TabContext value={tabIndex}>
                     <TabList onChange={(_, val) => handleTabChange(val)}>
@@ -172,7 +185,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                                 setPostData(
                                     new PostModel({
                                         ...postData,
-                                        content: `<img src=${fileInfo.url}/>`,
+                                        content: getFileMarkup(fileInfo),
                                         contentFiles: [
                                             ...(postData.contentFiles || []),
                                             fileInfo.storagePath,
