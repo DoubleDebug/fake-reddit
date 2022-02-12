@@ -28,6 +28,8 @@ import { ImageUploader } from '../../components/imageUploader/ImageUploader';
 import { FileInfo } from '../../components/imageUploader/DragAndDrop';
 import { isFileImage, isFileVideo } from '../../utils/getFileExtension';
 import { deleteFile } from '../../utils/firebase/deleteFile';
+import { FirebaseError } from 'firebase/app';
+import { validatePostData } from '../../utils/dataValidation/validatePostData';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -78,6 +80,14 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
         // loading animation
         setIsPosting(true);
 
+        // data validation
+        const validationResponse = validatePostData(postData);
+        if (!validationResponse.success) {
+            setIsPosting(false);
+            displayNotif(validationResponse.message, 'error');
+            return;
+        }
+
         // prepare data
         const sub = subredditInput.current.props.value.value;
         const postObject = {
@@ -104,7 +114,8 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                 setPosted(true);
                 displayNotif('Added a new post.', 'success');
             })
-            .catch((error) => {
+            .catch((error: FirebaseError) => {
+                setIsPosting(false);
                 console.log(error);
                 displayNotif('Failed to add a new post.', 'error');
             });
