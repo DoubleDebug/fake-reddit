@@ -118,6 +118,18 @@
     margin-top: 10px;
 }
 
+.linkToPost {
+    color: black;
+}
+
+.linkToPost:hover {
+    text-decoration: none;
+}
+
+.isNotPreview {
+    cursor: default;
+}
+
 /*Post Markup styles*/
 
 .postContent h1,
@@ -135,7 +147,7 @@
 }
 
 .postContent span {
-    display: flex;
+    display: grid;
 }
 
 .postContent span img,

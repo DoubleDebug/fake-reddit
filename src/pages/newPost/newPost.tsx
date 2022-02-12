@@ -115,7 +115,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
         if (isFileImage(fileInfo.fileName)) return `<img src=${fileInfo.url}/>`;
 
         if (isFileVideo(fileInfo.fileName))
-            return `<video src=${fileInfo.url} controls muted loop></video>`;
+            return `<video src=${fileInfo.url} controls loop></video>`;
 
         return '';
     };

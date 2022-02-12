@@ -20,7 +20,7 @@ interface IPostProps {
     data: PostModel;
     user: User | undefined | null;
     firestore: Firestore;
-    preview?: boolean;
+    isPreview?: boolean;
 }
 
 export const Post: React.FC<IPostProps> = (props) => {
@@ -169,7 +169,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                         </small>
                     </div>
                     {props.data.title ? (
-                        props.preview ? (
+                        props.isPreview ? (
                             <Link
                                 className={styles.title}
                                 to={`/post/${props.data.id}`}
@@ -200,15 +200,22 @@ export const Post: React.FC<IPostProps> = (props) => {
                 <div></div>
             )}
 
-            <Link className={styles.linkToPost} to={`/post/${props.data.id}`}>
+            <Link
+                className={`${styles.linkToPost} ${
+                    props.isPreview ? styles.isPreview : styles.isNotPreview
+                }`}
+                to={`/post/${props.data.id}`}
+            >
                 <div
                     className={`${styles.postContent} ${
-                        props.preview ? styles.preview : ''
+                        props.isPreview ? styles.preview : ''
                     }`}
                 >
                     <Markup content={props.data.content}></Markup>
                     {!props.data.content && <Skeleton count={5} />}
-                    {props.preview ? <div className={styles.fade}></div> : null}
+                    {props.isPreview ? (
+                        <div className={styles.fade}></div>
+                    ) : null}
                 </div>
             </Link>
         </div>

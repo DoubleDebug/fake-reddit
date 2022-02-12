@@ -74,7 +74,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
                                 data={p}
                                 user={props.user}
                                 firestore={props.firestore}
-                                preview={true}
+                                isPreview={true}
                             ></Post>
                         </div>
                     );
