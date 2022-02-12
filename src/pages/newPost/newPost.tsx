@@ -27,6 +27,7 @@ import { TabContext, TabList } from '@mui/lab';
 import { ImageUploader } from '../../components/imageUploader/ImageUploader';
 import { FileInfo } from '../../components/imageUploader/DragAndDrop';
 import { isFileImage, isFileVideo } from '../../utils/getFileExtension';
+import { deleteFile } from '../../utils/firebase/deleteFile';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -53,11 +54,21 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
     const [tabIndex, setTabIndex] = useState('1');
 
     useEffect(() => {
-        // lol
-        // this cleans up and cancels async tasks
-        // and gets rid of the "unmounted component" error
-        return () => {};
-    }, []);
+        return () => {
+            if (!postData.contentFiles) return;
+
+            // If a post submission is cancelled, delete uploaded file
+            if (postData.contentFiles.length > 0 && !posted) {
+                postData.contentFiles.forEach((file) => {
+                    if (!props.user) return;
+                    deleteFile(props.user, file).then((res) => {
+                        if (!res.success) displayNotif(res.message, 'error');
+                    });
+                });
+            }
+        };
+        // eslint-disable-next-line
+    }, [postData.contentFiles]);
 
     // ACTIONS
     const submitNewPost = (e: React.MouseEvent) => {

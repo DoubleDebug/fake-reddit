@@ -5,9 +5,9 @@ import {
     updateDoc,
     increment,
 } from '@firebase/firestore';
-import axios from 'axios';
 import { User } from 'firebase/auth';
-import { DB_COLLECTIONS, SERVER_URL } from '../utils/constants';
+import { DB_COLLECTIONS } from '../utils/constants';
+import { deletePost } from '../utils/firebase/deletePost';
 import { displayNotif } from '../utils/toast';
 
 export class PostModel {
@@ -100,16 +100,7 @@ export class PostModel {
         if (!this.id) return;
 
         // delete post
-        const idToken = await user.getIdToken();
-        axios
-            .delete(`${SERVER_URL}/deletePost`, {
-                headers: {
-                    Authorization: idToken,
-                },
-                params: {
-                    postId: this.id,
-                },
-            })
+        await deletePost(user, this.id)
             .then(() => {
                 displayNotif('Post deleted.', 'success');
             })

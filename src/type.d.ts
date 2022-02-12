@@ -27,3 +27,5 @@ interface IVote {
 }
 
 type PostType = 'text' | 'image' | 'poll';
+
+type ResponseStatus = { success: false; message: string } | { success: true };
