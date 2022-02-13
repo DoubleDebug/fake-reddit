@@ -24,13 +24,17 @@ import { RichTextbox } from '../../components/newPost/richTextbox/RichTextbox';
 import { Tab } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
 import { TabContext, TabList } from '@mui/lab';
-import { ImageUploader } from '../../components/newPost/imageUploader/ImageUploader';
+import {
+    ImageUploader,
+    ImageUploaderState,
+} from '../../components/newPost/imageUploader/ImageUploader';
 import { FileInfo } from '../../components/newPost/imageUploader/DragAndDrop';
 import { isFileImage, isFileVideo } from '../../utils/getFileExtension';
 import { deleteFile } from '../../utils/firebase/deleteFile';
 import { FirebaseError } from 'firebase/app';
 import { validatePostData } from '../../utils/dataValidation/validatePostData';
 import { Poll } from '../../components/newPost/poll/Poll';
+import { PollModel } from '../../models/poll';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -55,6 +59,10 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
     );
     const subredditInput = useRef<any>(null);
     const [tabIndex, setTabIndex] = useState('1');
+    const [tabState, setTabState] = useState<{
+        imageUploaderState?: ImageUploaderState;
+        pollState?: PollModel;
+    }>();
 
     useEffect(() => {
         return () => {
@@ -204,6 +212,13 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     </TabPanel>
                     <TabPanel value="2">
                         <ImageUploader
+                            state={tabState?.imageUploaderState}
+                            handleNewState={(state) => {
+                                setTabState({
+                                    ...tabState,
+                                    imageUploaderState: state,
+                                });
+                            }}
                             handleFileStoragePath={(fileInfo: FileInfo) => {
                                 setPostData(
                                     new PostModel({
@@ -219,7 +234,12 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                         ></ImageUploader>
                     </TabPanel>
                     <TabPanel value="3">
-                        <Poll></Poll>
+                        <Poll
+                            state={tabState?.pollState}
+                            handleNewState={(state) =>
+                                setTabState({ ...tabState, pollState: state })
+                            }
+                        ></Poll>
                     </TabPanel>
                 </TabContext>
                 <div className="flex">

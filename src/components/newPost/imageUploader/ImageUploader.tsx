@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import styles from './ImageUploader.module.css';
 import { SUPPORTED_FILE_FORMATS } from '../../../utils/constants';
@@ -7,8 +7,15 @@ import { validateFile } from '../../../utils/dataValidation/validateFile';
 import { DragAndDrop, FileInfo } from './DragAndDrop';
 import { getImageURL } from '../../../utils/firebase/getImageURL';
 
+export type ImageUploaderState = {
+    isDropping: boolean;
+    isUploading: boolean;
+    uploadedFile: FileInfo | null;
+};
 interface IImageUploaderProps {
     handleFileStoragePath: (fileStoragePath: FileInfo) => void;
+    state?: ImageUploaderState;
+    handleNewState: (state: ImageUploaderState) => void;
 }
 
 export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
@@ -17,6 +24,27 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
     const containerRef = useRef<null | HTMLDivElement>(null);
     const fileInputRef = useRef<null | HTMLInputElement>(null);
     const [uploadedFile, setUploadedFile] = useState<FileInfo | null>(null);
+
+    // load previous state if possible
+    useEffect(() => {
+        if (props.state) {
+            setIsDropping(props.state.isDropping);
+            setIsUploading(props.state.isUploading);
+            setUploadedFile(props.state.uploadedFile);
+        }
+        // eslint-disable-next-line
+    }, []);
+    // save state when switching tabs
+    useEffect(() => {
+        return () => {
+            props.handleNewState({
+                isDropping: isDropping,
+                isUploading: isUploading,
+                uploadedFile: uploadedFile,
+            });
+        };
+        // eslint-disable-next-line
+    }, [isDropping, isUploading, uploadedFile]);
 
     // ACTIONS
     const uploadFile = (file: File) => {
@@ -35,9 +63,14 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
             };
 
             // update ui
-            props.handleFileStoragePath(fileInfo);
             setIsUploading(false);
             setUploadedFile(fileInfo);
+            props.handleFileStoragePath(fileInfo);
+            props.handleNewState({
+                isUploading: false,
+                isDropping: false,
+                uploadedFile: fileInfo,
+            });
 
             displayNotif('Successfully uploaded image/video.', 'success');
         });

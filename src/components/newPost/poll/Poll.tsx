@@ -1,11 +1,31 @@
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PollModel } from '../../../models/poll';
 import styles from './Poll.module.css';
 
-export const Poll: React.FC = () => {
+interface IPollProps {
+    state?: PollModel;
+    handleNewState: (state: PollModel) => void;
+}
+
+export const Poll: React.FC<IPollProps> = (props) => {
     const [pollData, setPollData] = useState<PollModel>(new PollModel());
+
+    // load previous state if possible
+    useEffect(() => {
+        if (props.state) {
+            setPollData(props.state);
+        }
+        // eslint-disable-next-line
+    }, []);
+    // save state when switching tabs
+    useEffect(() => {
+        return () => {
+            props.handleNewState(pollData);
+        };
+        // eslint-disable-next-line
+    }, [pollData]);
 
     // ACTIONS
     type RMouseEvent = React.MouseEvent<HTMLButtonElement, MouseEvent>;
@@ -45,13 +65,21 @@ export const Poll: React.FC = () => {
     };
 
     return (
-        <div className="grid">
-            <div className={styles.container}>
+        <div className={styles.container}>
+            <div className={styles.options}>
                 {pollData.options.map((option, index) => (
                     <div className="flex">
                         <input
                             key={`option${index}`}
                             type="text"
+                            className={styles.textbox}
+                            style={
+                                index > 1
+                                    ? {
+                                          marginLeft: '63px',
+                                      }
+                                    : {}
+                            }
                             value={option}
                             placeholder={`Option ${index + 1}`}
                             onInput={(e) =>
@@ -61,6 +89,7 @@ export const Poll: React.FC = () => {
                         {index > 1 ? (
                             <button
                                 key={`btnDelete${index}`}
+                                className={styles.btnRemoveOption}
                                 onClick={(e) => removeOption(e, index)}
                             >
                                 <FontAwesomeIcon icon={faTrash} />
@@ -69,7 +98,12 @@ export const Poll: React.FC = () => {
                     </div>
                 ))}
             </div>
-            <button onClick={(e) => addOption(e)}>Add option</button>
+            <button
+                className={styles.btnAddOption}
+                onClick={(e) => addOption(e)}
+            >
+                Add option
+            </button>
         </div>
     );
 };

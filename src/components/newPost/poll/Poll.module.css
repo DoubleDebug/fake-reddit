@@ -1,6 +1,29 @@
 .container {
+    display: grid;
+    grid-template-rows: min-content min-content;
+    min-height: 270px;
+    margin-top: 20px;
+}
+
+.options {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.textbox {
+    width: 300px;
+    border: 1px solid silver !important;
+}
+
+.btnRemoveOption {
+    margin-left: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.btnAddOption {
+    justify-self: center;
+    width: 300px;
 }
