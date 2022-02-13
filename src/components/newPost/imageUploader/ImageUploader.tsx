@@ -1,11 +1,11 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import styles from './ImageUploader.module.css';
-import { SUPPORTED_FILE_FORMATS } from '../../utils/constants';
-import { displayNotif } from '../../utils/toast';
-import { validateFile } from '../../utils/dataValidation/validateFile';
+import { SUPPORTED_FILE_FORMATS } from '../../../utils/constants';
+import { displayNotif } from '../../../utils/toast';
+import { validateFile } from '../../../utils/dataValidation/validateFile';
 import { DragAndDrop, FileInfo } from './DragAndDrop';
-import { getImageURL } from '../../utils/firebase/getImageURL';
+import { getImageURL } from '../../../utils/firebase/getImageURL';
 
 interface IImageUploaderProps {
     handleFileStoragePath: (fileStoragePath: FileInfo) => void;

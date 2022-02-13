@@ -20,16 +20,17 @@ import { useCollectionDataOnce } from 'react-firebase-hooks/firestore';
 import Select from 'react-select';
 import { displayNotif } from '../../utils/toast';
 import 'react-quill/dist/quill.snow.css';
-import { RichTextbox } from '../../components/richTextbox/RichTextbox';
+import { RichTextbox } from '../../components/newPost/richTextbox/RichTextbox';
 import { Tab } from '@mui/material';
 import TabPanel from '@mui/lab/TabPanel';
 import { TabContext, TabList } from '@mui/lab';
-import { ImageUploader } from '../../components/imageUploader/ImageUploader';
-import { FileInfo } from '../../components/imageUploader/DragAndDrop';
+import { ImageUploader } from '../../components/newPost/imageUploader/ImageUploader';
+import { FileInfo } from '../../components/newPost/imageUploader/DragAndDrop';
 import { isFileImage, isFileVideo } from '../../utils/getFileExtension';
 import { deleteFile } from '../../utils/firebase/deleteFile';
 import { FirebaseError } from 'firebase/app';
 import { validatePostData } from '../../utils/dataValidation/validatePostData';
+import { Poll } from '../../components/newPost/poll/Poll';
 
 interface INewPostProps {
     user: User | undefined | null;
@@ -191,7 +192,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     <TabPanel value="1">
                         <RichTextbox
                             value={postData.content}
-                            onChange={(newValue) => {
+                            onChange={(newValue: string) => {
                                 setPostData(
                                     new PostModel({
                                         ...postData,
@@ -217,7 +218,9 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             }}
                         ></ImageUploader>
                     </TabPanel>
-                    <TabPanel value="3"></TabPanel>
+                    <TabPanel value="3">
+                        <Poll></Poll>
+                    </TabPanel>
                 </TabContext>
                 <div className="flex">
                     <button

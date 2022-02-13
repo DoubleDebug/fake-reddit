@@ -1,12 +1,12 @@
 import styles from './CommentSection.module.css';
 import { Comment } from '../comment/Comment';
-import { CommentModel } from '../../models/comment';
+import { CommentModel } from '../../../models/comment';
 import { WriteComment } from '../writeComment/WriteComment';
-import { PostModel } from '../../models/post';
+import { PostModel } from '../../../models/post';
 import { Firestore } from 'firebase/firestore';
 import { User } from 'firebase/auth';
-import { POSTS_PER_PAGE } from '../../utils/constants';
-import { generateCommentSkeletons } from '../../utils/generateSkeletons';
+import { POSTS_PER_PAGE } from '../../../utils/constants';
+import { generateCommentSkeletons } from '../../../utils/generateSkeletons';
 
 interface ICommentSectionProps {
     firestore: Firestore;

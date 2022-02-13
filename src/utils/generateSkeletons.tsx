@@ -1,6 +1,6 @@
 import { User } from 'firebase/auth';
 import { Firestore } from 'firebase/firestore';
-import { Comment } from '../components/comment/Comment';
+import { Comment } from '../components/post/comment/Comment';
 import { CommentModel } from '../models/comment';
 import { PostModel } from '../models/post';
 import { POSTS_PER_PAGE } from './constants';

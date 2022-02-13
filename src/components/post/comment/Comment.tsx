@@ -2,14 +2,17 @@ import styles from './Comment.module.css';
 import React, { useEffect, useState } from 'react';
 import { User } from '@firebase/auth';
 import { deleteDoc, Firestore } from '@firebase/firestore';
-import { CommentModel } from '../../models/comment';
-import { getUserPhotoURL } from '../../utils/firebase/getUserPhotoURL';
-import { DB_COLLECTIONS, DEFAULT_USER_AVATAR_URL } from '../../utils/constants';
-import { timeAgo } from '../../utils/timeAgo';
+import { CommentModel } from '../../../models/comment';
+import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
+import {
+    DB_COLLECTIONS,
+    DEFAULT_USER_AVATAR_URL,
+} from '../../../utils/constants';
+import { timeAgo } from '../../../utils/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { WriteComment } from '../writeComment/WriteComment';
-import { isCommentMine } from '../../utils/whichUserUtils';
+import { isCommentMine } from '../../../utils/whichUserUtils';
 import { doc } from 'firebase/firestore';
 import Skeleton from 'react-loading-skeleton';
 

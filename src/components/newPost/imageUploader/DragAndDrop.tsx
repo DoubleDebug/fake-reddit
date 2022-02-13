@@ -2,7 +2,7 @@ import styles from './ImageUploader.module.css';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useState } from 'react';
-import { isFileImage } from '../../utils/getFileExtension';
+import { isFileImage } from '../../../utils/getFileExtension';
 
 export type FileInfo = { fileName: string; url: string; storagePath: string };
 
