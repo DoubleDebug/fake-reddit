@@ -239,6 +239,16 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             handleNewState={(state) =>
                                 setTabState({ ...tabState, pollState: state })
                             }
+                            handlePollData={(data) => {
+                                setPostData(
+                                    new PostModel({
+                                        ...postData,
+                                        pollData: JSON.parse(
+                                            JSON.stringify(data)
+                                        ),
+                                    })
+                                );
+                            }}
                         ></Poll>
                     </TabPanel>
                 </TabContext>

@@ -9,6 +9,7 @@ import { User } from 'firebase/auth';
 import { DB_COLLECTIONS } from '../utils/constants';
 import { deletePost } from '../utils/firebase/deletePost';
 import { displayNotif } from '../utils/toast';
+import { PollModel } from './poll';
 
 export class PostModel {
     id: string | undefined = undefined;
@@ -21,6 +22,7 @@ export class PostModel {
     votes: IVote[] = [];
     subreddit: string = 'all';
     contentFiles?: string[] = [];
+    pollData?: PollModel;
 
     constructor(init?: Partial<PostModel>) {
         Object.assign(this, init);

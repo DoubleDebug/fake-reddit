@@ -126,10 +126,6 @@
     text-decoration: none;
 }
 
-.isNotPreview {
-    cursor: default;
-}
-
 /*Post Markup styles*/
 
 .postContent h1,

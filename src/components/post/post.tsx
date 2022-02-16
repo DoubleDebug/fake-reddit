@@ -15,6 +15,9 @@ import { Link, Redirect } from 'react-router-dom';
 import { createChatRoom } from '../../pages/chat/createChatRoom';
 import { User } from 'firebase/auth';
 import { Markup } from 'interweave';
+import { PollVoting } from './pollVoting/PollVoting';
+import { PollResults } from './pollResults/PollResults';
+import { PollModel } from '../../models/poll';
 
 interface IPostProps {
     data: PostModel;
@@ -28,10 +31,20 @@ export const Post: React.FC<IPostProps> = (props) => {
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
     const [deleted, setDeleted] = useState(false);
     const [redirectChatId, setRedirectChatId] = useState<string | null>(null);
+    const [hasVoted, setHasVoted] = useState<boolean>(false);
 
     useEffect(() => {
         if (props.user) {
             setUpvoted(props.data.getUsersVote(props.user.uid));
+
+            if (
+                props.data.pollData &&
+                props.data.pollData.votes
+                    .map((v) => v.uid)
+                    .includes(props.user.uid)
+            ) {
+                setHasVoted(true);
+            }
         }
         setScore(props.data.getScore());
     }, [props.user, props.data]);
@@ -95,6 +108,54 @@ export const Post: React.FC<IPostProps> = (props) => {
 
         setRedirectChatId(room.id);
     };
+
+    // SUB COMPONENTS
+    const postContentComponent = (
+        <div
+            className={`${styles.postContent} ${
+                props.isPreview ? styles.preview : ''
+            }`}
+        >
+            {props.data.pollData ? (
+                hasVoted ? (
+                    <PollResults
+                        postId={props.data.id || ''}
+                        data={new PollModel(props.data.pollData)}
+                        chosenOption={
+                            props.user &&
+                            props.data.pollData.votes.filter(
+                                (v) => v.uid === props.user?.uid
+                            )[0]?.option
+                        }
+                    />
+                ) : props.user ? (
+                    <PollVoting
+                        data={props.data.pollData}
+                        isPreview={false}
+                        postId={props.data.id}
+                        uid={props.user?.uid}
+                    />
+                ) : (
+                    <PollResults
+                        postId={props.data.id || ''}
+                        data={new PollModel(props.data.pollData)}
+                        chosenOption={
+                            props.user &&
+                            props.data.pollData.votes.filter(
+                                (v) => v.uid === props.user?.uid
+                            )[0]?.option
+                        }
+                    />
+                )
+            ) : (
+                <Markup content={props.data.content}></Markup>
+            )}
+            {!props.data.content && !props.data.pollData && (
+                <Skeleton count={5} />
+            )}
+            {props.isPreview ? <div className={styles.fade}></div> : null}
+        </div>
+    );
 
     if (redirectChatId)
         return <Redirect to={`/chat/${redirectChatId}`}></Redirect>;
@@ -199,25 +260,16 @@ export const Post: React.FC<IPostProps> = (props) => {
             ) : (
                 <div></div>
             )}
-
-            <Link
-                className={`${styles.linkToPost} ${
-                    props.isPreview ? styles.isPreview : styles.isNotPreview
-                }`}
-                to={`/post/${props.data.id}`}
-            >
-                <div
-                    className={`${styles.postContent} ${
-                        props.isPreview ? styles.preview : ''
-                    }`}
+            {props.isPreview ? (
+                <Link
+                    className={`${styles.linkToPost} ${styles.isPreview}`}
+                    to={`/post/${props.data.id}`}
                 >
-                    <Markup content={props.data.content}></Markup>
-                    {!props.data.content && <Skeleton count={5} />}
-                    {props.isPreview ? (
-                        <div className={styles.fade}></div>
-                    ) : null}
-                </div>
-            </Link>
+                    {postContentComponent}
+                </Link>
+            ) : (
+                postContentComponent
+            )}
         </div>
     );
 };
