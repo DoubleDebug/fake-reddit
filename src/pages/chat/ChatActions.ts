@@ -1,12 +1,45 @@
+import { User } from 'firebase/auth';
+import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
+import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import {
+    updateDoc,
+    doc,
+    Timestamp,
     query,
     collection,
     where,
     getDocs,
     addDoc,
-    Timestamp,
-    Firestore,
+    getFirestore,
 } from '@firebase/firestore';
+
+export function sendMessage(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    text: string,
+    user: User | null | undefined,
+    room: Data<IChatRoom, '', ''> | undefined,
+    inputMessage: React.RefObject<HTMLInputElement>
+) {
+    e.preventDefault();
+    if (!room || !user) return;
+
+    // clear message
+    if (inputMessage.current) inputMessage.current.value = '';
+
+    // add message to db
+    const db = getFirestore();
+    updateDoc(doc(db, DB_COLLECTIONS.CHAT_ROOMS, room.id), {
+        ...room,
+        messages: room.messages.concat({
+            from: {
+                id: user.uid,
+                name: room.userNames[0],
+            },
+            content: text,
+            timestamp: Timestamp.now(),
+        }),
+    });
+}
 
 /**
  * Returns the created room's id.
@@ -14,7 +47,6 @@ import {
  * @param chatter2 Second user
  */
 export async function createChatRoom(
-    firestore: Firestore,
     chatter1: IChatter,
     chatter2: IChatter
 ): Promise<IChatRoom> {
@@ -22,8 +54,9 @@ export async function createChatRoom(
     let roomId = '';
     const userIds = [chatter1.id, chatter2.id];
     const userNames = [chatter1.name, chatter2.name];
+    const db = getFirestore();
     const roomQuery = query(
-        collection(firestore, 'chatRooms'),
+        collection(db, 'chatRooms'),
         where('userIds', 'in', [userIds, [...userIds].reverse()])
     );
 
@@ -31,7 +64,8 @@ export async function createChatRoom(
 
     if (chatRooms.empty) {
         // IF NOT, CREATE NEW CHAT ROOM
-        const chatRoom = await addDoc(collection(firestore, 'chatRooms'), {
+        const db = getFirestore();
+        const chatRoom = await addDoc(collection(db, 'chatRooms'), {
             userIds: userIds,
             userNames: userNames,
             createdAt: Timestamp.now(),

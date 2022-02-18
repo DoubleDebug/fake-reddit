@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { PostModel } from '../../models/post';
-import { POSTS_PER_PAGE, SERVER_URL } from '../constants';
-import { displayNotif } from '../toast';
+import { POSTS_PER_PAGE, SERVER_URL } from '../misc/constants';
+import { displayNotif } from '../misc/toast';
 import { convertToPost } from './firebaseToDataModel';
 
 /**

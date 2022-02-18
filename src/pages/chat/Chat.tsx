@@ -2,8 +2,7 @@ import styles from './Chat.module.css';
 import {
     DocumentReference,
     Firestore,
-    Timestamp,
-    updateDoc,
+    getFirestore,
 } from '@firebase/firestore';
 import { doc } from 'firebase/firestore';
 import { User } from 'firebase/auth';
@@ -11,28 +10,35 @@ import {
     useDocumentData,
     useDocumentDataOnce,
 } from 'react-firebase-hooks/firestore';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Redirect, useParams } from 'react-router';
-import { isMessageMineClass } from '../../utils/whichUserUtils';
-import { DB_COLLECTIONS, DEFAULT_USER_AVATAR_URL } from '../../utils/constants';
-import { timeAgo } from '../../utils/timeAgo';
+import { isMessageMineClass } from '../../utils/misc/whichUserUtils';
+import {
+    DB_COLLECTIONS,
+    DEFAULT_USER_AVATAR_URL,
+} from '../../utils/misc/constants';
+import { timeAgo } from '../../utils/misc/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import Skeleton from 'react-loading-skeleton';
-import { getSecondUser, getUsernameById } from '../../utils/whichUserUtils';
-import { formatTimestampFull } from '../../utils/formatChatTimestamp';
+import {
+    getSecondUser,
+    getUsernameById,
+} from '../../utils/misc/whichUserUtils';
+import { formatTimestampFull } from '../../utils/misc/formatChatTimestamp';
 import { getUserPhotoURL } from '../../utils/firebase/getUserPhotoURL';
+import { sendMessage } from './ChatActions';
 
 interface IChatProps {
-    firestore: Firestore;
     user: User | undefined | null;
 }
 
 export const Chat: React.FC<IChatProps> = (props) => {
+    const [db] = useState<Firestore>(getFirestore());
     const { id: roomId } = useParams<{ id: string }>();
     const [room, loading, error] = useDocumentData<IChatRoom>(
         doc(
-            props.firestore,
+            db,
             DB_COLLECTIONS.CHAT_ROOMS,
             roomId || 'ERROR_NO_ROOM'
         ) as DocumentReference<IChatRoom>,
@@ -43,7 +49,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
     const inputMessage = useRef<HTMLInputElement>(null);
     const [userData] = useDocumentDataOnce<IUserData>(
         doc(
-            props.firestore,
+            db,
             DB_COLLECTIONS.USERS,
             getSecondUser(props.user?.uid, room?.userIds || []) ||
                 'ERROR_NO_USER'
@@ -62,28 +68,6 @@ export const Chat: React.FC<IChatProps> = (props) => {
             if (url) setUser2PhotoURL(url);
         });
     }, [props.user, room]);
-
-    // ACTIONS
-    const sendMessage = (e: MouseEvent<HTMLButtonElement>, text: string) => {
-        e.preventDefault();
-        if (!room || !props.user) return;
-
-        // clear message
-        if (inputMessage.current) inputMessage.current.value = '';
-
-        // add message to db
-        updateDoc(doc(props.firestore, DB_COLLECTIONS.CHAT_ROOMS, room.id), {
-            ...room,
-            messages: room.messages.concat({
-                from: {
-                    id: props.user.uid,
-                    name: room.userNames[0],
-                },
-                content: text,
-                timestamp: Timestamp.now(),
-            }),
-        });
-    };
 
     if (error || !roomId) {
         return <Redirect to="/"></Redirect>;
@@ -173,7 +157,13 @@ export const Chat: React.FC<IChatProps> = (props) => {
                     type="submit"
                     onClick={(e) =>
                         inputMessage.current &&
-                        sendMessage(e, inputMessage.current.value)
+                        sendMessage(
+                            e,
+                            inputMessage.current.value,
+                            props.user,
+                            room,
+                            inputMessage
+                        )
                     }
                 >
                     Send

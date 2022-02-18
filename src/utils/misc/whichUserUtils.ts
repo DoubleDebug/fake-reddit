@@ -1,5 +1,5 @@
 import { User } from 'firebase/auth';
-import { CommentModel } from '../models/comment';
+import { CommentModel } from '../../models/comment';
 
 /**
  * @returns true if the message was sent by the logged in user

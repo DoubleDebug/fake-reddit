@@ -1,14 +1,7 @@
 import styles from './Header.module.css';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-    signInWithPopup,
-    GoogleAuthProvider,
-    signOut,
-    Auth,
-    User,
-} from 'firebase/auth';
-import { Firestore } from '@firebase/firestore';
+import { User } from 'firebase/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
@@ -16,29 +9,18 @@ import {
     DEFAULT_USER_AVATAR_URL,
     HEADER_SVG_PATH,
     HEADER_SVG_VIEWBOX,
-} from '../../utils/constants';
+} from '../../utils/misc/constants';
 import { Toaster } from 'react-hot-toast';
+import { signInWithGoogle, signOutUser } from './HeaderActions';
 
 interface IHeaderProps {
-    auth: Auth;
     user: User | undefined | null;
     userData: IUserData;
     loadingUser: boolean;
-    firestore: Firestore;
 }
 
 export const Header: React.FC<IHeaderProps> = (props) => {
     const [photoURL, setPhotoURL] = useState(DEFAULT_USER_AVATAR_URL);
-    const signInWithGoogle = () => {
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(props.auth, provider).catch((error) => {
-            console.error(error);
-        });
-    };
-
-    const signOutUser = () => {
-        signOut(props.auth);
-    };
 
     useEffect(() => {
         if (props.user?.photoURL) setPhotoURL(props.user.photoURL);
@@ -89,21 +71,21 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                         items={[
                             {
                                 text: 'Log out',
-                                action: signOutUser,
+                                action: () => signOutUser(),
                             },
                         ]}
                     >
                         <img
                             className={styles.imgAvatar}
                             src={photoURL}
-                            alt="User profile"
+                            alt="U"
                         />
                     </Dropdown>
                 </div>
             ) : (
                 <button
                     className={'btn ' + styles.btnLogin}
-                    onClick={signInWithGoogle}
+                    onClick={() => signInWithGoogle()}
                 >
                     Log in
                 </button>

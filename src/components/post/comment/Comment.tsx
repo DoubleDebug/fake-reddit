@@ -1,24 +1,19 @@
 import styles from './Comment.module.css';
 import React, { useEffect, useState } from 'react';
 import { User } from '@firebase/auth';
-import { deleteDoc, Firestore } from '@firebase/firestore';
 import { CommentModel } from '../../../models/comment';
 import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
-import {
-    DB_COLLECTIONS,
-    DEFAULT_USER_AVATAR_URL,
-} from '../../../utils/constants';
-import { timeAgo } from '../../../utils/timeAgo';
+import { DEFAULT_USER_AVATAR_URL } from '../../../utils/misc/constants';
+import { timeAgo } from '../../../utils/misc/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { WriteComment } from '../writeComment/WriteComment';
-import { isCommentMine } from '../../../utils/whichUserUtils';
-import { doc } from 'firebase/firestore';
+import { isCommentMine } from '../../../utils/misc/whichUserUtils';
 import Skeleton from 'react-loading-skeleton';
+import { deleteComment } from './CommentActions';
 
 interface ICommentProps {
     user: User | undefined | null;
-    firestore: Firestore;
     data: CommentModel;
 }
 
@@ -37,12 +32,6 @@ export const Comment: React.FC<ICommentProps> = (props) => {
         });
         // eslint-disable-next-line
     }, []);
-
-    // ACTIONS
-    const deleteComment = () => {
-        if (!props.data.id) return;
-        deleteDoc(doc(props.firestore, DB_COLLECTIONS.COMMENTS, props.data.id));
-    };
 
     return (
         <div
@@ -64,7 +53,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                     {props.user && isCommentMine(props.data, props.user) ? (
                         <p
                             className={styles.btnCommentAction}
-                            onClick={() => deleteComment()}
+                            onClick={() => deleteComment(props.data)}
                         >
                             Delete{' '}
                             <FontAwesomeIcon
@@ -105,7 +94,6 @@ export const Comment: React.FC<ICommentProps> = (props) => {
             <p className={styles.text}>{props.data.text}</p>
             {showReply && (
                 <WriteComment
-                    firestore={props.firestore}
                     user={props.user}
                     postId={props.data.postId || ''}
                     setVisibility={setShowReply}

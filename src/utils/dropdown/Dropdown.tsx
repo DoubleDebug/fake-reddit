@@ -1,21 +1,11 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import styles from './Dropdown.module.css';
-
-// PROPS
-interface IDropdownProps {
-    items: IDropdownItemProps[];
-}
-
-interface IDropdownItemProps {
-    text: string;
-    action: MouseEventHandler;
-}
+import { DropdownMenu, IDropdownProps } from './DropdownMenu';
 
 interface DropdownState {
     showMenu: boolean;
 }
 
-// COMPONENTS
 export class Dropdown extends React.Component<IDropdownProps, DropdownState> {
     constructor(props: IDropdownProps) {
         super(props);
@@ -44,21 +34,3 @@ export class Dropdown extends React.Component<IDropdownProps, DropdownState> {
         );
     }
 }
-
-const DropdownMenu: React.FC<IDropdownProps> = (props) => {
-    return (
-        <div className={styles.dropdownMenu}>
-            {props.items.map((item, index) => (
-                <DropdownItem {...item} key={index}></DropdownItem>
-            ))}
-        </div>
-    );
-};
-
-const DropdownItem: React.FC<IDropdownItemProps> = (props) => {
-    return (
-        <div className={styles.dropdownItem} onClick={props.action}>
-            {props.text}
-        </div>
-    );
-};

@@ -6,9 +6,9 @@ import {
     increment,
 } from '@firebase/firestore';
 import { User } from 'firebase/auth';
-import { DB_COLLECTIONS } from '../utils/constants';
+import { DB_COLLECTIONS } from '../utils/misc/constants';
 import { deletePost } from '../utils/firebase/deletePost';
-import { displayNotif } from '../utils/toast';
+import { displayNotif } from '../utils/misc/toast';
 import { PollModel } from './poll';
 
 export class PostModel {

@@ -1,12 +1,11 @@
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { useState } from 'react';
-import { PollModel, PollVote } from '../../../models/poll';
-import { DB_COLLECTIONS } from '../../../utils/constants';
-import { displayNotif } from '../../../utils/toast';
+import { PollModel } from '../../../models/poll';
+import { displayNotif } from '../../../utils/misc/toast';
 import styles from './PollVoting.module.css';
+import { submitVote } from './PollVotingActions';
 
 interface IPollVotingProps {
     data: PollModel;
@@ -87,26 +86,4 @@ export const PollVoting: React.FC<IPollVotingProps> = (props) => {
             )}
         </div>
     );
-};
-
-// ACTIONS
-
-const submitVote = (
-    uid: string,
-    postId: string,
-    pollData: PollModel,
-    chosenOption: string,
-    votes: PollVote[],
-    callback: Function
-) => {
-    const db = getFirestore();
-    const docRef = doc(db, DB_COLLECTIONS.POSTS, postId);
-    updateDoc(docRef, {
-        pollData: {
-            ...pollData,
-            votes: [...votes, { uid: uid, option: chosenOption }],
-        },
-    }).then(() => {
-        callback();
-    });
 };

@@ -1,19 +1,18 @@
 import styles from './Feed.module.css';
-import { doc, DocumentReference, Firestore } from '@firebase/firestore';
+import { doc, DocumentReference, getFirestore } from '@firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 import { Post } from '../post/Post';
 import { PostModel } from '../../models/post';
 import { User } from 'firebase/auth';
-import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../../utils/constants';
+import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../../utils/misc/constants';
 import { getPosts } from '../../utils/firebase/getPosts';
 import { reachedLastDocument } from '../../utils/firebase/reachedLastDocument';
-import { generatePostSkeletons } from '../../utils/generateSkeletons';
+import { generatePostSkeletons } from '../post/commentSection/skeletons/GenerateSkeletons';
 import { Link, useRouteMatch } from 'react-router-dom';
 
 interface IFeedProps {
     user: User | undefined | null;
-    firestore: Firestore;
     subreddit?: string;
 }
 
@@ -23,7 +22,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
     const [offset, setOffset] = useState(0);
     const [totalNumOfPosts] = useDocumentDataOnce<number>(
         doc(
-            props.firestore,
+            getFirestore(),
             DB_COLLECTIONS.METADATA,
             'numOfPosts'
         ) as DocumentReference<number>,
@@ -73,7 +72,6 @@ export const Feed: React.FC<IFeedProps> = (props) => {
                             <Post
                                 data={p}
                                 user={props.user}
-                                firestore={props.firestore}
                                 isPreview={true}
                             ></Post>
                         </div>

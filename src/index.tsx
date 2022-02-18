@@ -21,13 +21,13 @@ import { Chat } from './pages/chat/Chat';
 
 // OTHER
 import './index.css';
-import { DB_COLLECTIONS } from './utils/constants';
+import { DB_COLLECTIONS } from './utils/misc/constants';
 
 initializeApp(firebaseConfig);
 const auth = getAuth();
-const firestore = getFirestore();
+const db = getFirestore();
 
-function App() {
+const App: React.FC = () => {
     const [user, loading] = useAuthState(auth);
     const [userData, setUserData] = useState<IUserData>({
         lastOnline: Timestamp.now(),
@@ -37,7 +37,7 @@ function App() {
         if (!user) return;
 
         // add user data to firestore
-        const userRef = doc(firestore, DB_COLLECTIONS.USERS, user.uid);
+        const userRef = doc(db, DB_COLLECTIONS.USERS, user.uid);
         const userData = {
             lastOnline: Timestamp.now(),
         };
@@ -47,32 +47,26 @@ function App() {
 
     return (
         <BrowserRouter>
-            <Header
-                auth={auth}
-                firestore={firestore}
-                user={user}
-                userData={userData}
-                loadingUser={loading}
-            />
+            <Header user={user} userData={userData} loadingUser={loading} />
             <Switch>
                 <Route exact path="/">
-                    <Home user={user} firestore={firestore} />
+                    <Home user={user} />
                 </Route>
                 <Route path="/r/:id">
-                    <Subreddit user={user} firestore={firestore}></Subreddit>
+                    <Subreddit user={user}></Subreddit>
                 </Route>
                 <Route path="/newPost">
-                    <NewPost user={user} firestore={firestore} />
+                    <NewPost user={user} />
                 </Route>
                 <Route path="/chat/:id">
-                    <Chat user={user} firestore={firestore}></Chat>
+                    <Chat user={user}></Chat>
                 </Route>
                 <Route path="/post/:id">
-                    <ViewPost user={user} firestore={firestore}></ViewPost>
+                    <ViewPost user={user}></ViewPost>
                 </Route>
             </Switch>
         </BrowserRouter>
     );
-}
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -2,8 +2,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { PollModel } from '../../../models/poll';
-import { displayNotif } from '../../../utils/toast';
 import styles from './Poll.module.css';
+import { addOption, removeOption, updateOption } from './PollActions';
 
 interface IPollProps {
     state?: PollModel;
@@ -31,26 +31,6 @@ export const Poll: React.FC<IPollProps> = (props) => {
         // eslint-disable-next-line
     }, [pollData]);
 
-    // ACTIONS
-    type RMouseEvent = React.MouseEvent<HTMLButtonElement, MouseEvent>;
-    const updateOption = (index: number, newValue: string) => {
-        const validationStatus = pollData.validateNewOption(newValue);
-        if (!validationStatus.success) {
-            displayNotif(validationStatus.message, 'error', true);
-            return;
-        }
-
-        setPollData(pollData.update(index, newValue));
-    };
-    const addOption = (e: RMouseEvent) => {
-        e.preventDefault();
-        setPollData(pollData.add());
-    };
-    const removeOption = (e: RMouseEvent, index: number) => {
-        e.preventDefault();
-        setPollData(pollData.remove(index));
-    };
-
     return (
         <div className={styles.container}>
             <div className={styles.options}>
@@ -68,14 +48,26 @@ export const Poll: React.FC<IPollProps> = (props) => {
                             }
                             value={option}
                             onInput={(e) =>
-                                updateOption(index, e.currentTarget.value)
+                                updateOption(
+                                    index,
+                                    e.currentTarget.value,
+                                    pollData,
+                                    setPollData
+                                )
                             }
                         />
                         {index > 1 ? (
                             <button
                                 key={`btnDelete${index}`}
                                 className={styles.btnRemoveOption}
-                                onClick={(e) => removeOption(e, index)}
+                                onClick={(e) =>
+                                    removeOption(
+                                        e,
+                                        index,
+                                        pollData,
+                                        setPollData
+                                    )
+                                }
                             >
                                 <FontAwesomeIcon icon={faTrash} />
                             </button>
@@ -85,7 +77,7 @@ export const Poll: React.FC<IPollProps> = (props) => {
             </div>
             <button
                 className={styles.btnAddOption}
-                onClick={(e) => addOption(e)}
+                onClick={(e) => addOption(e, pollData, setPollData)}
             >
                 Add option
             </button>

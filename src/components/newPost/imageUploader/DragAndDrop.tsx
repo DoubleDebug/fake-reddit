@@ -2,7 +2,7 @@ import styles from './ImageUploader.module.css';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useState } from 'react';
-import { isFileImage } from '../../../utils/getFileExtension';
+import { isFileImage } from '../../../utils/misc/getFileExtension';
 
 export type FileInfo = { fileName: string; url: string; storagePath: string };
 
@@ -45,7 +45,7 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = (props) => {
     return <StateDefault showFileDialog={props.showFileDialog} />;
 };
 
-export const StateFileIsUploaded: React.FC<{ fileName: string }> = (props) => {
+const StateFileIsUploaded: React.FC<{ fileName: string }> = (props) => {
     return (
         <div className={styles.previewContainer}>
             <div className={styles.imagePreview}>
@@ -56,11 +56,11 @@ export const StateFileIsUploaded: React.FC<{ fileName: string }> = (props) => {
     );
 };
 
-export const StateFileIsBeingDropped: React.FC = () => {
+const StateFileIsBeingDropped: React.FC = () => {
     return <h2 className={styles.textDrop}>Drop here to upload</h2>;
 };
 
-export const StateFileIsBeingUploaded: React.FC<{
+const StateFileIsBeingUploaded: React.FC<{
     handleLoadedImage: (img: HTMLImageElement) => void;
     handleLoadedVideo: () => void;
     previewIsLoaded: boolean;
@@ -101,7 +101,7 @@ export const StateFileIsBeingUploaded: React.FC<{
     );
 };
 
-export const StateDefault: React.FC<{
+const StateDefault: React.FC<{
     showFileDialog: (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => void;

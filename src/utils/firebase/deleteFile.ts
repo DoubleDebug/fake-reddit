@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { User } from 'firebase/auth';
-import { SERVER_URL } from '../constants';
+import { SERVER_URL } from '../misc/constants';
 
 export async function deleteFile(
     user: User,

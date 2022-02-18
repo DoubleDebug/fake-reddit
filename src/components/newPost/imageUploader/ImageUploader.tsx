@@ -1,21 +1,25 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import styles from './ImageUploader.module.css';
-import { SUPPORTED_FILE_FORMATS } from '../../../utils/constants';
-import { displayNotif } from '../../../utils/toast';
-import { validateFile } from '../../../utils/dataValidation/validateFile';
+import { SUPPORTED_FILE_FORMATS } from '../../../utils/misc/constants';
 import { DragAndDrop, FileInfo } from './DragAndDrop';
-import { getImageURL } from '../../../utils/firebase/getImageURL';
+import {
+    handleOnChangeFileEvent,
+    handleOnDragLeaveEvent,
+    handleOnDragoverEvent,
+    handleOnDropEvent,
+    showFileDialog,
+} from './ImageUploaderActions';
 
 export type ImageUploaderState = {
     isDropping: boolean;
     isUploading: boolean;
     uploadedFile: FileInfo | null;
 };
+
 interface IImageUploaderProps {
     handleFileStoragePath: (fileStoragePath: FileInfo) => void;
-    state?: ImageUploaderState;
     handleNewState: (state: ImageUploaderState) => void;
+    state?: ImageUploaderState;
 }
 
 export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
@@ -34,6 +38,7 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
         }
         // eslint-disable-next-line
     }, []);
+
     // save state when switching tabs
     useEffect(() => {
         return () => {
@@ -46,78 +51,28 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
         // eslint-disable-next-line
     }, [isDropping, isUploading, uploadedFile]);
 
-    // ACTIONS
-    const uploadFile = (file: File) => {
-        setIsUploading(true);
-        setIsDropping(false);
-
-        const storage = getStorage();
-        const storageRef = ref(storage, 'content//' + file.name);
-        uploadBytes(storageRef, file).then(async (snapshot) => {
-            // load image preview
-            const url = await getImageURL(snapshot.metadata.fullPath);
-            const fileInfo = {
-                fileName: file.name,
-                url: url,
-                storagePath: snapshot.metadata.fullPath,
-            };
-
-            // update ui
-            setIsUploading(false);
-            setUploadedFile(fileInfo);
-            props.handleFileStoragePath(fileInfo);
-            props.handleNewState({
-                isUploading: false,
-                isDropping: false,
-                uploadedFile: fileInfo,
-            });
-
-            displayNotif('Successfully uploaded image/video.', 'success');
-        });
-    };
-    const showFileDialog = (
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
-        if (!fileInputRef.current) return;
-        e.preventDefault();
-        fileInputRef.current.click();
-    };
-
     // Register drag events
     useLayoutEffect(() => {
         if (!containerRef.current) return;
 
-        containerRef.current.ondragover = (e) => {
-            if (!containerRef.current) return;
-            e.preventDefault();
-            setIsDropping(true);
-            containerRef.current.classList.add(styles.onDragOver);
-        };
-        containerRef.current.ondragleave = () => {
-            if (!containerRef.current) return;
-            setIsDropping(false);
-            containerRef.current.classList.remove(styles.onDragOver);
-        };
-        containerRef.current.ondrop = (e) => {
-            if (!fileInputRef.current || !fileInputRef.current.onchange) return;
-            e.preventDefault();
-            containerRef!.current!.ondragleave!(new DragEvent(''));
-
-            fileInputRef.current.files = e.dataTransfer?.files || null;
-            fileInputRef.current.onchange(new Event(''));
-        };
+        containerRef.current.ondragover = (e) =>
+            handleOnDragoverEvent(e, containerRef.current, setIsDropping);
+        containerRef.current.ondragleave = () =>
+            handleOnDragLeaveEvent(containerRef.current, setIsDropping);
+        containerRef.current.ondrop = (e) =>
+            handleOnDropEvent(e, fileInputRef.current, containerRef.current);
 
         if (!fileInputRef.current) return;
-        fileInputRef.current.onchange = () => {
-            if (!fileInputRef.current || !fileInputRef.current.files) return;
-            const file = fileInputRef.current.files[0];
-            const fileStatus = validateFile(file);
-            if (fileStatus.ok) {
-                uploadFile(file);
-            } else {
-                displayNotif(fileStatus.message, 'error');
-            }
-        };
+
+        fileInputRef.current.onchange = () =>
+            handleOnChangeFileEvent(
+                fileInputRef.current,
+                setIsUploading,
+                setIsDropping,
+                setUploadedFile,
+                props.handleFileStoragePath,
+                props.handleNewState
+            );
         // eslint-disable-next-line
     }, []);
 
@@ -138,7 +93,7 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
                         fileInputRef.current?.files[0].name) ||
                     ''
                 }
-                showFileDialog={showFileDialog}
+                showFileDialog={(e) => showFileDialog(e, fileInputRef.current)}
                 uploadedFile={uploadedFile}
             />
         </div>

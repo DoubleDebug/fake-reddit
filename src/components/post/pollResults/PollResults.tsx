@@ -4,6 +4,7 @@ import { PollModel } from '../../../models/poll';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { getSpecificResult } from './PollResultsActions';
 
 interface IPollResultsProps {
     postId: string;
@@ -13,9 +14,6 @@ interface IPollResultsProps {
 
 export const PollResults: React.FC<IPollResultsProps> = (props) => {
     const [results] = useState(props.data.getResults());
-    const getSpecificResult = (option: string) => {
-        return results.results.filter((r) => r.option === option)[0];
-    };
 
     return (
         <div className={styles.container}>
@@ -28,7 +26,7 @@ export const PollResults: React.FC<IPollResultsProps> = (props) => {
                     );
                     if (!fill) return;
                     fill.style.width = `${
-                        getSpecificResult(option).percentage
+                        getSpecificResult(results, option).percentage
                     }%`;
                 }, 0);
 
@@ -51,7 +49,9 @@ export const PollResults: React.FC<IPollResultsProps> = (props) => {
                             />
                         )}
                         <small className={styles.numOfVotes}>
-                            {`${getSpecificResult(option).numOfVotes} votes`}
+                            {`${
+                                getSpecificResult(results, option).numOfVotes
+                            } votes`}
                         </small>
                     </div>
                 );

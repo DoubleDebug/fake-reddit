@@ -1,24 +1,15 @@
 import styles from './NewPost.module.css';
 import React, { useEffect, useRef, useState } from 'react';
 import { Redirect } from 'react-router';
-import {
-    addDoc,
-    doc,
-    Firestore,
-    getFirestore,
-    increment,
-    Timestamp,
-    updateDoc,
-} from '@firebase/firestore';
+import { getFirestore } from '@firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { PostModel } from '../../models/post';
 import { User } from 'firebase/auth';
-import { DB_COLLECTIONS } from '../../utils/constants';
+import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { useCollectionDataOnce } from 'react-firebase-hooks/firestore';
 import Select from 'react-select';
-import { displayNotif } from '../../utils/toast';
 import 'react-quill/dist/quill.snow.css';
 import { RichTextbox } from '../../components/newPost/richTextbox/RichTextbox';
 import { Tab } from '@mui/material';
@@ -29,16 +20,16 @@ import {
     ImageUploaderState,
 } from '../../components/newPost/imageUploader/ImageUploader';
 import { FileInfo } from '../../components/newPost/imageUploader/DragAndDrop';
-import { isFileImage, isFileVideo } from '../../utils/getFileExtension';
-import { deleteFile } from '../../utils/firebase/deleteFile';
-import { FirebaseError } from 'firebase/app';
-import { validatePostData } from '../../utils/dataValidation/validatePostData';
 import { Poll } from '../../components/newPost/poll/Poll';
 import { PollModel } from '../../models/poll';
+import {
+    getFileMarkup,
+    handleTabChange,
+    submitNewPost,
+} from './NewPostActions';
 
 interface INewPostProps {
     user: User | undefined | null;
-    firestore: Firestore;
     subreddit?: string;
 }
 
@@ -49,10 +40,11 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
             authorId: props.user && props.user.uid,
         })
     );
-    const [isPosting, setIsPosting] = useState(false);
-    const [posted, setPosted] = useState(false);
+    const [postStage, setPostStage] = useState<
+        'default' | 'being-submitted' | 'submitted'
+    >('default');
     const [subreddits] = useCollectionDataOnce(
-        collection(props.firestore, DB_COLLECTIONS.SUBREDDITS),
+        collection(getFirestore(), DB_COLLECTIONS.SUBREDDITS),
         {
             idField: 'value',
         }
@@ -65,93 +57,22 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
     }>();
 
     useEffect(() => {
-        return () => {
-            if (!postData.contentFiles) return;
-
-            // If a post submission is cancelled, delete uploaded file
-            if (postData.contentFiles.length > 0 && !posted) {
-                postData.contentFiles.forEach((file) => {
-                    if (!props.user) return;
-                    deleteFile(props.user, file).then((res) => {
-                        if (!res.success) displayNotif(res.message, 'error');
-                    });
-                });
-            }
-        };
-        // eslint-disable-next-line
-    }, [postData.contentFiles]);
-
-    // ACTIONS
-    const submitNewPost = (e: React.MouseEvent) => {
-        e.preventDefault();
-        if (!props.user) return;
-
-        // loading animation
-        setIsPosting(true);
-
-        // data validation
-        const validationResponse = validatePostData(postData);
-        if (!validationResponse.success) {
-            setIsPosting(false);
-            displayNotif(validationResponse.message, 'error');
-            return;
-        }
-
-        // prepare data
-        const sub = subredditInput.current.props.value.value;
-        const postObject = {
-            ...postData,
-            createdAt: Timestamp.now(),
-            subreddit: sub,
-        };
-        delete postObject.id;
-        const counters: any = {
-            all: increment(1),
-        };
-        if (sub !== 'all') counters[sub] = increment(1);
-
-        // send data to firestore
-        const db = getFirestore();
-        addDoc(collection(db, DB_COLLECTIONS.POSTS), postObject)
-            .then(() => {
-                updateDoc(
-                    doc(db, DB_COLLECTIONS.METADATA, 'numOfPosts'),
-                    counters
-                );
-
-                setIsPosting(false);
-                setPosted(true);
-                displayNotif('Added a new post.', 'success');
-            })
-            .catch((error: FirebaseError) => {
-                setIsPosting(false);
-                console.log(error);
-                displayNotif('Failed to add a new post.', 'error');
-            });
-    };
-    const handleTabChange = (tabNumber: string) => {
-        setTabIndex(tabNumber);
-
         // update post type
         const postTypes: Array<PostType> = ['text', 'image', 'poll'];
-        const newType = postTypes[Number(tabNumber) - 1];
+        const newType = postTypes[Number(tabIndex) - 1];
+
         setPostData(
             new PostModel({
                 ...postData,
                 type: newType,
             })
         );
-    };
-    const getFileMarkup = (fileInfo: FileInfo) => {
-        if (isFileImage(fileInfo.fileName)) return `<img src=${fileInfo.url}/>`;
+        // eslint-disable-next-line
+    }, [tabIndex]);
 
-        if (isFileVideo(fileInfo.fileName))
-            return `<video src=${fileInfo.url} controls loop></video>`;
-
-        return '';
-    };
-
-    if (posted) return <Redirect to="/"></Redirect>;
+    if (postStage === 'submitted') {
+        return <Redirect to="/"></Redirect>;
+    }
 
     return (
         <div className={`contentBox ${styles.formContainer}`}>
@@ -192,7 +113,9 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     value={postData.title}
                 />
                 <TabContext value={tabIndex}>
-                    <TabList onChange={(_, val) => handleTabChange(val)}>
+                    <TabList
+                        onChange={(_, val) => handleTabChange(val, setTabIndex)}
+                    >
                         <Tab value="1" label="Text" />
                         <Tab value="2" label="Image/Video" />
                         <Tab value="3" label="Poll" />
@@ -256,10 +179,18 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     <button
                         className={`btn ${styles.btnSubmit}`}
                         type="submit"
-                        disabled={isPosting}
-                        onClick={(e) => submitNewPost(e)}
+                        disabled={postStage === 'being-submitted'}
+                        onClick={(e) =>
+                            submitNewPost(
+                                e,
+                                props.user,
+                                postData,
+                                setPostStage,
+                                subredditInput.current
+                            )
+                        }
                     >
-                        {isPosting ? (
+                        {postStage === 'being-submitted' ? (
                             <FontAwesomeIcon icon={faCircleNotch} spin />
                         ) : (
                             'Submit'
