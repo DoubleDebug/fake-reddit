@@ -1,5 +1,6 @@
 .feed {
     display: grid;
+    position: relative;
 }
 
 .postsContainer {
@@ -19,4 +20,15 @@
 
 .btnNoPostsSubmit:hover {
     text-decoration: none;
+}
+
+.btnBackToTop {
+    position: fixed;
+    bottom: 60px;
+    right: 17%;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    outline: inherit;
+    cursor: pointer;
 }

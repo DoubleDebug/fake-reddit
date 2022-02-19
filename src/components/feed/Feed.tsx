@@ -4,20 +4,26 @@ import { useEffect, useState } from 'react';
 import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 import { Post } from '../post/Post';
 import { PostModel } from '../../models/post';
-import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../../utils/misc/constants';
+import {
+    DB_COLLECTIONS,
+    POSTS_PER_PAGE,
+    SCROLL_TOP_MAX_VAL,
+} from '../../utils/misc/constants';
 import { getPosts } from '../../utils/firebase/getPosts';
 import { reachedLastDocument } from '../../utils/firebase/reachedLastDocument';
 import { generatePostSkeletons } from '../post/commentSection/skeletons/GenerateSkeletons';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { handleBackToTopEvent } from './FeedActions';
+import useScrollPosition from '@react-hook/window-scroll';
 
 interface IFeedProps {
     subreddit?: string;
 }
 
 export const Feed: React.FC<IFeedProps> = (props) => {
+    const { url } = useRouteMatch();
     const [posts, setPosts] = useState<PostModel[]>([]);
     const [loadingPosts, setLoadingPosts] = useState(true);
-    const [offset, setOffset] = useState(0);
     const [totalNumOfPosts] = useDocumentDataOnce<number>(
         doc(
             getFirestore(),
@@ -28,7 +34,8 @@ export const Feed: React.FC<IFeedProps> = (props) => {
             transform: (c) => (props.subreddit ? c[props.subreddit] : c.all),
         }
     );
-    const { url } = useRouteMatch();
+    const [offset, setOffset] = useState(0);
+    const windowScrollY = useScrollPosition(60);
 
     useEffect(() => {
         // add loading skeletons
@@ -63,6 +70,15 @@ export const Feed: React.FC<IFeedProps> = (props) => {
     }
     return (
         <div className={styles.feed}>
+            {windowScrollY > SCROLL_TOP_MAX_VAL && (
+                <button
+                    onClick={handleBackToTopEvent}
+                    type="submit"
+                    className={`btn ${styles.btnBackToTop}`}
+                >
+                    Back to top
+                </button>
+            )}
             <div className={styles.postsContainer}>
                 {posts.map((p, index: number) => {
                     return (
