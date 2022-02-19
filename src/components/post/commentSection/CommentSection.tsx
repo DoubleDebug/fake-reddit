@@ -3,11 +3,9 @@ import { Comment } from '../comment/Comment';
 import { CommentModel } from '../../../models/comment';
 import { WriteComment } from '../writeComment/WriteComment';
 import { PostModel } from '../../../models/post';
-import { User } from 'firebase/auth';
 import { CommentSkeletons } from './skeletons/CommentSkeletons';
 
 interface ICommentSectionProps {
-    user: User | undefined | null;
     post: PostModel | undefined;
     comments: CommentModel[] | undefined;
 }
@@ -33,10 +31,7 @@ export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
                 </div>
             ) : null}
             {props.comments && props.post?.id && (
-                <WriteComment
-                    user={props.user}
-                    postId={props.post.id}
-                ></WriteComment>
+                <WriteComment postId={props.post.id}></WriteComment>
             )}
             {props.comments ? (
                 props.comments.map((c, index: number) => {
@@ -47,22 +42,15 @@ export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
                     );
                     return (
                         <div key={index}>
-                            <Comment
-                                user={props.user}
-                                data={c as any}
-                            ></Comment>
+                            <Comment data={c as any}></Comment>
                             {replies.map((r, rIndex: number) => (
-                                <Comment
-                                    key={rIndex}
-                                    user={props.user}
-                                    data={r as any}
-                                ></Comment>
+                                <Comment key={rIndex} data={r}></Comment>
                             ))}
                         </div>
                     );
                 })
             ) : (
-                <CommentSkeletons user={props.user} />
+                <CommentSkeletons />
             )}
         </div>
     );

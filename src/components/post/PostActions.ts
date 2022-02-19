@@ -1,5 +1,4 @@
 import { User } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
 import { PostModel } from '../../models/post';
 import { createChatRoom } from '../../pages/chat/ChatActions';
 
@@ -13,8 +12,7 @@ export function upvote(
 ) {
     if (!user || !data.id) return;
 
-    const db = getFirestore();
-    data.upvote(db, user.uid);
+    data.upvote(user.uid);
 
     if (upvoted === true) {
         setUpvoted(null);
@@ -38,8 +36,7 @@ export function downvote(
 ) {
     if (!user || !data.id) return;
 
-    const db = getFirestore();
-    data.downvote(db, user.uid);
+    data.downvote(user.uid);
 
     if (upvoted === false) {
         setUpvoted(null);
@@ -60,8 +57,7 @@ export function deletePost(
 ) {
     if (!user || !data.id) return;
 
-    const db = getFirestore();
-    data.delete(user, db, data.subreddit);
+    data.delete(user, data.subreddit);
 
     setDeleted(true);
 }

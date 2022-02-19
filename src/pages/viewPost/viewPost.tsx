@@ -1,6 +1,5 @@
 import styles from './ViewPost.module.css';
 import React, { useState } from 'react';
-import { User } from 'firebase/auth';
 import {
     collection,
     doc,
@@ -23,11 +22,7 @@ import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { CommentModel } from '../../models/comment';
 import { CommentSection } from '../../components/post/commentSection/CommentSection';
 
-interface IViewPostProps {
-    user: User | undefined | null;
-}
-
-export const ViewPost: React.FC<IViewPostProps> = (props) => {
+export const ViewPost: React.FC = () => {
     const [db] = useState<Firestore>(getFirestore());
     const { id: postId } = useParams<{ id: string }>();
     const [postData, loadingPost] = useDocumentData<PostModel>(
@@ -53,9 +48,8 @@ export const ViewPost: React.FC<IViewPostProps> = (props) => {
 
     return (
         <div className={styles.postContainer}>
-            <Post user={props.user} data={new PostModel(postData)}></Post>
+            <Post data={new PostModel(postData)}></Post>
             <CommentSection
-                user={props.user}
                 comments={comments}
                 post={postData}
             ></CommentSection>

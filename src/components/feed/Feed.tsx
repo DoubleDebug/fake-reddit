@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 import { Post } from '../post/Post';
 import { PostModel } from '../../models/post';
-import { User } from 'firebase/auth';
 import { DB_COLLECTIONS, POSTS_PER_PAGE } from '../../utils/misc/constants';
 import { getPosts } from '../../utils/firebase/getPosts';
 import { reachedLastDocument } from '../../utils/firebase/reachedLastDocument';
@@ -12,7 +11,6 @@ import { generatePostSkeletons } from '../post/commentSection/skeletons/Generate
 import { Link, useRouteMatch } from 'react-router-dom';
 
 interface IFeedProps {
-    user: User | undefined | null;
     subreddit?: string;
 }
 
@@ -69,11 +67,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
                 {posts.map((p, index: number) => {
                     return (
                         <div key={index}>
-                            <Post
-                                data={p}
-                                user={props.user}
-                                isPreview={true}
-                            ></Post>
+                            <Post data={p} isPreview={true}></Post>
                         </div>
                     );
                 })}

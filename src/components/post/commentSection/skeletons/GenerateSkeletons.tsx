@@ -1,4 +1,3 @@
-import { User } from 'firebase/auth';
 import { Comment } from '../../comment/Comment';
 import { CommentModel } from '../../../../models/comment';
 import { PostModel } from '../../../../models/post';
@@ -8,14 +7,11 @@ import { POSTS_PER_PAGE } from '../../../../utils/misc/constants';
  * @returns an array of Comment components with empty data
  *          to serve as loading Skeletons
  */
-export function generateCommentSkeletons(
-    num: number,
-    user: User | null | undefined
-): JSX.Element[] {
+export function generateCommentSkeletons(num: number): JSX.Element[] {
     const commentSkeletons = [];
     for (let i = 0; i < num; i++) {
         commentSkeletons.push(
-            <Comment key={i} user={user} data={new CommentModel()}></Comment>
+            <Comment key={i} data={new CommentModel()}></Comment>
         );
     }
     return commentSkeletons;

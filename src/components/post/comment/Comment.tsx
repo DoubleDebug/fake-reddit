@@ -1,6 +1,5 @@
 import styles from './Comment.module.css';
-import React, { useEffect, useState } from 'react';
-import { User } from '@firebase/auth';
+import React, { useContext, useEffect, useState } from 'react';
 import { CommentModel } from '../../../models/comment';
 import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
 import { DEFAULT_USER_AVATAR_URL } from '../../../utils/misc/constants';
@@ -11,13 +10,14 @@ import { WriteComment } from '../writeComment/WriteComment';
 import { isCommentMine } from '../../../utils/misc/whichUserUtils';
 import Skeleton from 'react-loading-skeleton';
 import { deleteComment } from './CommentActions';
+import { UserContext } from '../../../context/UserContext';
 
 interface ICommentProps {
-    user: User | undefined | null;
     data: CommentModel;
 }
 
 export const Comment: React.FC<ICommentProps> = (props) => {
+    const user = useContext(UserContext);
     const [authorPhotoURL, setAuthorPhotoURL] = useState(
         DEFAULT_USER_AVATAR_URL
     );
@@ -50,7 +50,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                     <small className={styles.timeAgo}>
                         {`• ${timeAgo(props.data.createdAt.toDate())}`}
                     </small>
-                    {props.user && isCommentMine(props.data, props.user) ? (
+                    {user && isCommentMine(props.data, user) ? (
                         <p
                             className={styles.btnCommentAction}
                             onClick={() => deleteComment(props.data)}
@@ -94,7 +94,6 @@ export const Comment: React.FC<ICommentProps> = (props) => {
             <p className={styles.text}>{props.data.text}</p>
             {showReply && (
                 <WriteComment
-                    user={props.user}
                     postId={props.data.postId || ''}
                     setVisibility={setShowReply}
                     parentCommentId={props.data.id}

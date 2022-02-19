@@ -5,12 +5,11 @@ import {
     getFirestore,
 } from '@firebase/firestore';
 import { doc } from 'firebase/firestore';
-import { User } from 'firebase/auth';
 import {
     useDocumentData,
     useDocumentDataOnce,
 } from 'react-firebase-hooks/firestore';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { Redirect, useParams } from 'react-router';
 import { isMessageMineClass } from '../../utils/misc/whichUserUtils';
 import {
@@ -28,12 +27,10 @@ import {
 import { formatTimestampFull } from '../../utils/misc/formatChatTimestamp';
 import { getUserPhotoURL } from '../../utils/firebase/getUserPhotoURL';
 import { sendMessage } from './ChatActions';
+import { UserContext } from '../../context/UserContext';
 
-interface IChatProps {
-    user: User | undefined | null;
-}
-
-export const Chat: React.FC<IChatProps> = (props) => {
+export const Chat: React.FC = () => {
+    const user = useContext(UserContext);
     const [db] = useState<Firestore>(getFirestore());
     const { id: roomId } = useParams<{ id: string }>();
     const [room, loading, error] = useDocumentData<IChatRoom>(
@@ -51,8 +48,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
         doc(
             db,
             DB_COLLECTIONS.USERS,
-            getSecondUser(props.user?.uid, room?.userIds || []) ||
-                'ERROR_NO_USER'
+            getSecondUser(user?.uid, room?.userIds || []) || 'ERROR_NO_USER'
         ) as DocumentReference<IUserData>
     );
     const [user2PhotoURL, setUser2PhotoURL] = useState<string>(
@@ -61,13 +57,13 @@ export const Chat: React.FC<IChatProps> = (props) => {
 
     // get 2nd user's photo URL
     useEffect(() => {
-        if (!props.user || !room) return;
-        const secondUserId = getSecondUser(props.user.uid, room.userIds);
+        if (!user || !room) return;
+        const secondUserId = getSecondUser(user.uid, room.userIds);
         if (!secondUserId) return;
         getUserPhotoURL(secondUserId).then((url) => {
             if (url) setUser2PhotoURL(url);
         });
-    }, [props.user, room]);
+    }, [user, room]);
 
     if (error || !roomId) {
         return <Redirect to="/"></Redirect>;
@@ -97,11 +93,11 @@ export const Chat: React.FC<IChatProps> = (props) => {
                         ) : (
                             <h1 className={styles.username}>
                                 {room &&
-                                    props.user &&
+                                    user &&
                                     getUsernameById(
                                         room,
                                         getSecondUser(
-                                            props.user?.uid,
+                                            user?.uid,
                                             room?.userIds
                                         ) || ''
                                     )}
@@ -124,14 +120,14 @@ export const Chat: React.FC<IChatProps> = (props) => {
                 <hr className={styles.separator} />
                 {room &&
                     room.messages.map((m: IMessage, index: number) => {
-                        if (!props.user) return null;
+                        if (!user) return null;
                         return (
                             <div
                                 key={index}
                                 className={
                                     styles.message +
                                     ' ' +
-                                    styles[isMessageMineClass(m, props.user)]
+                                    styles[isMessageMineClass(m, user)]
                                 }
                             >
                                 <p className={styles.content}>{m.content}</p>
@@ -160,7 +156,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
                         sendMessage(
                             e,
                             inputMessage.current.value,
-                            props.user,
+                            user,
                             room,
                             inputMessage
                         )

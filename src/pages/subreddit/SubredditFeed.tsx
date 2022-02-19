@@ -6,10 +6,8 @@ import { Link } from 'react-router-dom';
 import { Feed } from '../../components/feed/Feed';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { ISubreddit } from '../../models/subreddit';
-import { User } from 'firebase/auth';
 
 interface ISubredditFeedProps {
-    user: User | null | undefined;
     data: Data<ISubreddit, '', ''> | undefined;
     url: string;
     subredditId: string | undefined;
@@ -75,7 +73,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                     ></Skeleton>
                 )}
             </div>
-            <Feed user={props.user} subreddit={props.subredditId}></Feed>
+            <Feed subreddit={props.subredditId}></Feed>
         </div>
     );
 };

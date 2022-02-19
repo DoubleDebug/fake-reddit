@@ -22,7 +22,7 @@ import { displayNotif } from '../../utils/misc/toast';
 export function handleCancelledSubmission(
     contentFiles: string[],
     postStage: 'default' | 'being-submitted' | 'submitted',
-    user: User
+    user: User | null | undefined
 ) {
     if (!contentFiles) return;
     if (contentFiles.length === 0) return;
@@ -30,7 +30,6 @@ export function handleCancelledSubmission(
 
     // If a post submission is cancelled, delete uploaded file
     contentFiles.forEach((file) => {
-        if (!user) return;
         deleteFile(user, file).then((res) => {
             if (!res.success) displayNotif(res.message, 'error');
         });

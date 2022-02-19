@@ -2,12 +2,17 @@
 import { firebaseConfig } from './utils/firebase/firebaseConfig';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from '@firebase/auth';
-import { getFirestore, setDoc, Timestamp } from '@firebase/firestore';
+import {
+    DocumentReference,
+    getFirestore,
+    Timestamp,
+    doc,
+    setDoc,
+} from '@firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc } from 'firebase/firestore';
 
 // REACT
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
@@ -21,50 +26,57 @@ import { Chat } from './pages/chat/Chat';
 
 // OTHER
 import './index.css';
+import { UserContext } from './context/UserContext';
 import { DB_COLLECTIONS } from './utils/misc/constants';
+import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 
 initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
 
 const App: React.FC = () => {
-    const [user, loading] = useAuthState(auth);
-    const [userData, setUserData] = useState<IUserData>({
-        lastOnline: Timestamp.now(),
-    });
+    const [user] = useAuthState(auth);
+    const [userData] = useDocumentDataOnce<IUserData>(
+        doc(
+            db,
+            DB_COLLECTIONS.USERS,
+            user ? user.uid : 'ERROR_NO_USER'
+        ) as DocumentReference<IUserData>
+    );
 
     useEffect(() => {
         if (!user) return;
 
-        // add user data to firestore
+        // update 'last online' field
         const userRef = doc(db, DB_COLLECTIONS.USERS, user.uid);
-        const userData = {
+        setDoc(userRef, {
+            ...userData,
             lastOnline: Timestamp.now(),
-        };
-        setDoc(userRef, userData);
-        setUserData(userData);
-    }, [user]);
+        });
+    }, [user, userData]);
 
     return (
         <BrowserRouter>
-            <Header user={user} userData={userData} loadingUser={loading} />
-            <Switch>
-                <Route exact path="/">
-                    <Home user={user} />
-                </Route>
-                <Route path="/r/:id">
-                    <Subreddit user={user}></Subreddit>
-                </Route>
-                <Route path="/newPost">
-                    <NewPost user={user} />
-                </Route>
-                <Route path="/chat/:id">
-                    <Chat user={user}></Chat>
-                </Route>
-                <Route path="/post/:id">
-                    <ViewPost user={user}></ViewPost>
-                </Route>
-            </Switch>
+            <UserContext.Provider value={user}>
+                <Header />
+                <Switch>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route path="/r/:id">
+                        <Subreddit />
+                    </Route>
+                    <Route path="/newPost">
+                        <NewPost />
+                    </Route>
+                    <Route path="/chat/:id">
+                        <Chat />
+                    </Route>
+                    <Route path="/post/:id">
+                        <ViewPost />
+                    </Route>
+                </Switch>
+            </UserContext.Provider>
         </BrowserRouter>
     );
 };

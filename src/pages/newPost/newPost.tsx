@@ -1,12 +1,11 @@
 import styles from './NewPost.module.css';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Redirect } from 'react-router';
 import { getFirestore } from '@firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { PostModel } from '../../models/post';
-import { User } from 'firebase/auth';
 import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { useCollectionDataOnce } from 'react-firebase-hooks/firestore';
 import Select from 'react-select';
@@ -27,17 +26,18 @@ import {
     handleTabChange,
     submitNewPost,
 } from './NewPostActions';
+import { UserContext } from '../../context/UserContext';
 
 interface INewPostProps {
-    user: User | undefined | null;
     subreddit?: string;
 }
 
 export const NewPost: React.FC<INewPostProps> = (props) => {
+    const user = useContext(UserContext);
     const [postData, setPostData] = useState(
         new PostModel({
-            author: (props.user && props.user.displayName) || '',
-            authorId: props.user && props.user.uid,
+            author: (user && user.displayName) || '',
+            authorId: user && user.uid,
         })
     );
     const [postStage, setPostStage] = useState<
@@ -70,14 +70,13 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
         // eslint-disable-next-line
     }, [tabIndex]);
 
-    if (postStage === 'submitted') {
-        return <Redirect to="/"></Redirect>;
+    if (!user || postStage === 'submitted') {
+        return <Redirect to="/" />;
     }
 
     return (
         <div className={`contentBox ${styles.formContainer}`}>
             <form className={styles.form}>
-                {!props.user && <Redirect to="/" />}
                 <h1 className={styles.label}>Create a new post</h1>
                 <div className={styles.selectSubreddit}>
                     <Select
@@ -183,7 +182,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                         onClick={(e) =>
                             submitNewPost(
                                 e,
-                                props.user,
+                                user,
                                 postData,
                                 setPostStage,
                                 subredditInput.current

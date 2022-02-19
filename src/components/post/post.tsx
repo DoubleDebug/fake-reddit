@@ -1,6 +1,6 @@
 import 'react-loading-skeleton/dist/skeleton.css';
 import styles from './Post.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { timeAgo } from '../../utils/misc/timeAgo';
 import { PostModel } from '../../models/post';
@@ -11,17 +11,17 @@ import {
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, Redirect } from 'react-router-dom';
-import { User } from 'firebase/auth';
 import { deletePost, downvote, openChatRoom, upvote } from './PostActions';
 import { PostContent } from './PostContent';
+import { UserContext } from '../../context/UserContext';
 
 interface IPostProps {
     data: PostModel;
-    user: User | undefined | null;
     isPreview?: boolean;
 }
 
 export const Post: React.FC<IPostProps> = (props) => {
+    const user = useContext(UserContext);
     const [score, setScore] = useState(props.data.getScore());
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
     const [deleted, setDeleted] = useState(false);
@@ -30,20 +30,18 @@ export const Post: React.FC<IPostProps> = (props) => {
 
     useEffect(() => {
         // loading component state from db data
-        if (props.user) {
-            setUpvoted(props.data.getUsersVote(props.user.uid));
+        if (user) {
+            setUpvoted(props.data.getUsersVote(user.uid));
 
             if (
                 props.data.pollData &&
-                props.data.pollData.votes
-                    .map((v) => v.uid)
-                    .includes(props.user.uid)
+                props.data.pollData.votes.map((v) => v.uid).includes(user.uid)
             ) {
                 setHasVoted(true);
             }
         }
         setScore(props.data.getScore());
-    }, [props.user, props.data]);
+    }, [user, props.data]);
 
     if (redirectChatId)
         return <Redirect to={`/chat/${redirectChatId}`}></Redirect>;
@@ -61,7 +59,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                             className={'btn ' + styles.btnVote}
                             onClick={() =>
                                 upvote(
-                                    props.user,
+                                    user,
                                     props.data,
                                     upvoted,
                                     score,
@@ -80,7 +78,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                             className={'btn ' + styles.btnVote}
                             onClick={() =>
                                 downvote(
-                                    props.user,
+                                    user,
                                     props.data,
                                     upvoted,
                                     score,
@@ -107,12 +105,11 @@ export const Post: React.FC<IPostProps> = (props) => {
                                     <small>Posted by </small>
                                     <small
                                         onClick={
-                                            props.user?.uid ===
-                                            props.data.authorId
+                                            user?.uid === props.data.authorId
                                                 ? undefined
                                                 : () =>
                                                       openChatRoom(
-                                                          props.user,
+                                                          user,
                                                           props.data,
                                                           setRedirectChatId
                                                       )
@@ -156,16 +153,14 @@ export const Post: React.FC<IPostProps> = (props) => {
                     )}
                 </div>
             </div>
-            {props.user ? (
-                props.data.authorId === props.user.uid ? (
+            {user ? (
+                props.data.authorId === user.uid ? (
                     <FontAwesomeIcon
                         className={'btn ' + styles.btnDelete}
                         icon={faTrash}
                         color="silver"
                         title="Delete post"
-                        onClick={() =>
-                            deletePost(props.user, props.data, setDeleted)
-                        }
+                        onClick={() => deletePost(user, props.data, setDeleted)}
                     ></FontAwesomeIcon>
                 ) : (
                     <div></div>
@@ -179,7 +174,6 @@ export const Post: React.FC<IPostProps> = (props) => {
                     to={`/post/${props.data.id}`}
                 >
                     <PostContent
-                        user={props.user}
                         data={props.data}
                         isPreview={props.isPreview}
                         hasVoted={hasVoted}
@@ -187,7 +181,6 @@ export const Post: React.FC<IPostProps> = (props) => {
                 </Link>
             ) : (
                 <PostContent
-                    user={props.user}
                     data={props.data}
                     isPreview={props.isPreview}
                     hasVoted={hasVoted}

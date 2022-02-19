@@ -1,20 +1,21 @@
-import { User } from 'firebase/auth';
-import { Markup } from 'interweave';
+import styles from './Post.module.css';
 import Skeleton from 'react-loading-skeleton';
+import { Markup } from 'interweave';
+import { useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
 import { PollModel } from '../../models/poll';
 import { PostModel } from '../../models/post';
 import { PollResults } from './pollResults/PollResults';
 import { PollVoting } from './pollVoting/PollVoting';
-import styles from './Post.module.css';
 
 interface IPostContentProps {
-    user: User | undefined | null;
     data: PostModel;
     isPreview?: boolean;
     hasVoted: boolean;
 }
 
 export const PostContent: React.FC<IPostContentProps> = (props) => {
+    const user = useContext(UserContext);
     return (
         <div
             className={`${styles.postContent} ${
@@ -27,29 +28,24 @@ export const PostContent: React.FC<IPostContentProps> = (props) => {
                         postId={props.data.id || ''}
                         data={new PollModel(props.data.pollData)}
                         chosenOption={
-                            props.user &&
+                            user &&
                             props.data.pollData.votes.filter(
-                                (v) => v.uid === props.user?.uid
+                                (v) => v.uid === user?.uid
                             )[0]?.option
                         }
                     />
-                ) : props.user ? (
+                ) : user ? (
                     <PollVoting
                         data={props.data.pollData}
                         isPreview={false}
                         postId={props.data.id}
-                        uid={props.user?.uid}
+                        uid={user.uid}
                     />
                 ) : (
                     <PollResults
                         postId={props.data.id || ''}
                         data={new PollModel(props.data.pollData)}
-                        chosenOption={
-                            props.user &&
-                            props.data.pollData.votes.filter(
-                                (v) => v.uid === props.user?.uid
-                            )[0]?.option
-                        }
+                        chosenOption={null}
                     />
                 )
             ) : (

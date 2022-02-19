@@ -1,7 +1,6 @@
 import styles from './Header.module.css';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { User } from 'firebase/auth';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
@@ -12,19 +11,15 @@ import {
 } from '../../utils/misc/constants';
 import { Toaster } from 'react-hot-toast';
 import { signInWithGoogle, signOutUser } from './HeaderActions';
+import { UserContext } from '../../context/UserContext';
 
-interface IHeaderProps {
-    user: User | undefined | null;
-    userData: IUserData;
-    loadingUser: boolean;
-}
-
-export const Header: React.FC<IHeaderProps> = (props) => {
+export const Header: React.FC = () => {
+    const user = useContext(UserContext);
     const [photoURL, setPhotoURL] = useState(DEFAULT_USER_AVATAR_URL);
 
     useEffect(() => {
-        if (props.user?.photoURL) setPhotoURL(props.user.photoURL);
-    }, [props.user]);
+        if (user?.photoURL) setPhotoURL(user.photoURL);
+    }, [user]);
 
     return (
         <div className={styles.header}>
@@ -48,7 +43,7 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                 </Link>
             </div>
 
-            {props.user ? (
+            {user ? (
                 <div className="flex">
                     <Link
                         to="/newPost"
@@ -64,7 +59,7 @@ export const Header: React.FC<IHeaderProps> = (props) => {
                     </Link>
                     <div className={styles.header}>
                         <p className={styles.lblDisplayName}>
-                            {props.user.displayName}
+                            {user.displayName}
                         </p>
                     </div>
                     <Dropdown

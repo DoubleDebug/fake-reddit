@@ -1,18 +1,18 @@
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { User } from 'firebase/auth';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { UserContext } from '../../../context/UserContext';
 import styles from './WriteComment.module.css';
 import { submitComment } from './WriteCommentActions';
 
 interface IWriteCommentProps {
-    user: User | undefined | null;
     postId: string;
     setVisibility?: Function;
     parentCommentId?: string;
 }
 
 export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
+    const user = useContext(UserContext);
     const commentTextarea = useRef<HTMLTextAreaElement>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -48,7 +48,7 @@ export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
                     onClick={(e: React.MouseEvent) =>
                         submitComment(
                             e,
-                            props.user,
+                            user,
                             commentTextarea,
                             props.parentCommentId,
                             props.postId,

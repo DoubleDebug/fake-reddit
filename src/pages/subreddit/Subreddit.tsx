@@ -1,4 +1,3 @@
-import { User } from 'firebase/auth';
 import { doc, DocumentReference, getFirestore } from 'firebase/firestore';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
 import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
@@ -7,11 +6,7 @@ import { NewPost } from '../newPost/NewPost';
 import { ISubreddit } from '../../models/subreddit';
 import { SubredditFeed } from './SubredditFeed';
 
-interface ISubredditProps {
-    user: User | null | undefined;
-}
-
-export const Subreddit: React.FC<ISubredditProps> = (props) => {
+export const Subreddit: React.FC = () => {
     const { id: subredditId } = useParams<{ id: string }>();
     const [data] = useDocumentDataOnce<ISubreddit>(
         doc(
@@ -29,14 +24,13 @@ export const Subreddit: React.FC<ISubredditProps> = (props) => {
         <Switch>
             <Route exact path={path}>
                 <SubredditFeed
-                    user={props.user}
                     data={data}
                     url={url}
                     subredditId={subredditId}
                 />
             </Route>
             <Route path={`${path}/newPost`}>
-                <NewPost user={props.user} subreddit={subredditId} />
+                <NewPost subreddit={subredditId} />
             </Route>
         </Switch>
     );

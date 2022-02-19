@@ -1,15 +1,8 @@
-import { User } from 'firebase/auth';
 import { POSTS_PER_PAGE } from '../../../../utils/misc/constants';
 import { generateCommentSkeletons } from './GenerateSkeletons';
 
-interface ICommentSkeletonsProps {
-    user: User | null | undefined;
-}
-
-export const CommentSkeletons: React.FC<ICommentSkeletonsProps> = (props) => {
+export const CommentSkeletons: React.FC = () => {
     return (
-        <div className="grid">
-            {generateCommentSkeletons(POSTS_PER_PAGE, props.user)}
-        </div>
+        <div className="grid">{generateCommentSkeletons(POSTS_PER_PAGE)}</div>
     );
 };

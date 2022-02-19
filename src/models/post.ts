@@ -1,9 +1,9 @@
 import {
     doc,
-    Firestore,
     Timestamp,
     updateDoc,
     increment,
+    getFirestore,
 } from '@firebase/firestore';
 import { User } from 'firebase/auth';
 import { DB_COLLECTIONS } from '../utils/misc/constants';
@@ -50,7 +50,7 @@ export class PostModel {
         return Math.round((numOfUpvoted / numOfVotes) * 100);
     }
 
-    upvote(firestore: Firestore, uid: string) {
+    upvote(uid: string) {
         if (!this.id) return;
         const usersVote = this.getUsersVote(uid);
 
@@ -69,12 +69,13 @@ export class PostModel {
             });
         }
 
-        updateDoc(doc(firestore, DB_COLLECTIONS.POSTS, this.id), {
+        const db = getFirestore();
+        updateDoc(doc(db, DB_COLLECTIONS.POSTS, this.id), {
             votes: this.votes,
         });
     }
 
-    downvote(firestore: Firestore, uid: string) {
+    downvote(uid: string) {
         if (!this.id) return;
         const usersVote = this.getUsersVote(uid);
 
@@ -93,12 +94,13 @@ export class PostModel {
             this.votes = this.votes.filter((v) => v.uid !== uid);
         }
 
-        updateDoc(doc(firestore, DB_COLLECTIONS.POSTS, this.id), {
+        const db = getFirestore();
+        updateDoc(doc(db, DB_COLLECTIONS.POSTS, this.id), {
             votes: this.votes,
         });
     }
 
-    async delete(user: User, firestore: Firestore, subreddit: string) {
+    async delete(user: User, subreddit: string) {
         if (!this.id) return;
 
         // delete post
@@ -116,9 +118,8 @@ export class PostModel {
             all: increment(-1),
         };
         if (subreddit !== 'all') counters[subreddit] = increment(-1);
-        updateDoc(
-            doc(firestore, DB_COLLECTIONS.METADATA, 'numOfPosts'),
-            counters
-        );
+
+        const db = getFirestore();
+        updateDoc(doc(db, DB_COLLECTIONS.METADATA, 'numOfPosts'), counters);
     }
 }
