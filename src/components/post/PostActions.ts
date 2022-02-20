@@ -1,6 +1,8 @@
 import { User } from 'firebase/auth';
 import { PostModel } from '../../models/post';
 import { createChatRoom } from '../../pages/chat/ChatActions';
+import { signInPopup } from '../../utils/signInPopup/SignInPopup';
+import { displayNotifJSX } from '../../utils/misc/toast';
 
 export function upvote(
     user: User | null | undefined,
@@ -10,7 +12,10 @@ export function upvote(
     setUpvoted: (u: boolean | null) => void,
     setScore: (s: number) => void
 ) {
-    if (!user || !data.id) return;
+    if (!user || !data.id) {
+        displayNotifJSX(() => signInPopup('upvote a post'));
+        return;
+    }
 
     data.upvote(user.uid);
 
@@ -34,7 +39,10 @@ export function downvote(
     setUpvoted: (u: boolean | null) => void,
     setScore: (s: number) => void
 ) {
-    if (!user || !data.id) return;
+    if (!user || !data.id) {
+        displayNotifJSX(() => signInPopup('downvote a post'));
+        return;
+    }
 
     data.downvote(user.uid);
 
@@ -67,7 +75,17 @@ export async function openChatRoom(
     data: PostModel,
     setRedirectChatId: (id: string | null) => void
 ) {
-    if (!user || !data.id) return;
+    if (!user || !data.id) {
+        displayNotifJSX(() =>
+            signInPopup(
+                `chat with ${data.author.substring(
+                    0,
+                    data.author.indexOf(' ')
+                )}`
+            )
+        );
+        return;
+    }
     const room = await createChatRoom(
         {
             id: user.uid,

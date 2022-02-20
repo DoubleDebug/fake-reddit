@@ -5,7 +5,10 @@ import {
     collection,
     getFirestore,
 } from 'firebase/firestore';
+import { validateComment } from '../../../utils/dataValidation/validateComment';
 import { DB_COLLECTIONS } from '../../../utils/misc/constants';
+import { displayNotif, displayNotifJSX } from '../../../utils/misc/toast';
+import { signInPopup } from '../../../utils/signInPopup/SignInPopup';
 
 export function submitComment(
     e: React.MouseEvent,
@@ -17,13 +20,18 @@ export function submitComment(
 ) {
     e.preventDefault();
 
-    // data validation
-    if (
-        !user ||
-        !commentTextarea.current ||
-        commentTextarea.current.value === ''
-    )
+    if (!user) {
+        displayNotifJSX(() => signInPopup('write a comment'));
         return;
+    }
+
+    // data validation
+    if (!commentTextarea.current) return;
+    const validationResult = validateComment(commentTextarea.current.value);
+    if (!validationResult.success) {
+        displayNotif(validationResult.message, 'error');
+        return;
+    }
 
     // gathering data
     setIsSubmitting(true);

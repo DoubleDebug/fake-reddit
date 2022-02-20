@@ -65,7 +65,7 @@ export const Header: React.FC = () => {
                     <Dropdown
                         items={[
                             {
-                                text: 'Log out',
+                                text: 'Sign out',
                                 action: () => signOutUser(),
                             },
                         ]}
@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
                     className={'btn ' + styles.btnLogin}
                     onClick={() => signInWithGoogle()}
                 >
-                    Log in
+                    Sign in
                 </button>
             )}
         </div>

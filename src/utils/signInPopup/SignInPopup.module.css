@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.text {
+    white-space: nowrap;
+    margin-bottom: 0px;
+}
+
+.btnAction {
+    margin: 0;
+    margin-left: 1rem;
+}
