@@ -1,8 +1,8 @@
+import styles from './WriteComment.module.css';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
-import styles from './WriteComment.module.css';
 import { submitComment } from './WriteCommentActions';
 
 interface IWriteCommentProps {
@@ -22,7 +22,7 @@ export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
     }, []);
 
     return (
-        <div className="grid">
+        <div className={styles.container}>
             <textarea
                 ref={commentTextarea}
                 className={styles.replyTextarea}

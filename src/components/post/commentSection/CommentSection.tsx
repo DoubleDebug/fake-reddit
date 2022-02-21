@@ -4,6 +4,8 @@ import { CommentModel } from '../../../models/comment';
 import { WriteComment } from '../writeComment/WriteComment';
 import { PostModel } from '../../../models/post';
 import { CommentSkeletons } from './skeletons/CommentSkeletons';
+import { useState } from 'react';
+import { toggleCommentReplies } from './CommentSectionActions';
 
 interface ICommentSectionProps {
     post: PostModel | undefined;
@@ -11,6 +13,7 @@ interface ICommentSectionProps {
 }
 
 export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
+    const [hiddenComments, setHiddenComments] = useState<string[]>([]);
     return (
         <div className={`contentBox ${styles.section}`}>
             {props.comments ? (
@@ -42,10 +45,21 @@ export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
                     );
                     return (
                         <div key={index}>
-                            <Comment data={c as any}></Comment>
-                            {replies.map((r, rIndex: number) => (
-                                <Comment key={rIndex} data={r}></Comment>
-                            ))}
+                            <Comment
+                                data={c as any}
+                                hideComment={(cid) =>
+                                    toggleCommentReplies(
+                                        cid,
+                                        hiddenComments,
+                                        setHiddenComments
+                                    )
+                                }
+                            ></Comment>
+                            {c.id &&
+                                !hiddenComments.includes(c.id) &&
+                                replies.map((r, rIndex: number) => (
+                                    <Comment key={rIndex} data={r}></Comment>
+                                ))}
                         </div>
                     );
                 })

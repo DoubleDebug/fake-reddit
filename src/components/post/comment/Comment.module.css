@@ -1,5 +1,7 @@
 .comment {
     display: grid;
+    grid-template-columns: 20px auto;
+    grid-template-rows: min-content auto;
     padding: 0.5rem;
     margin-top: 0;
     border-radius: 5px;
@@ -49,4 +51,19 @@
 .btnCommentAction:hover {
     text-decoration: underline;
     filter: brightness(0.8);
+}
+
+.btnExpand {
+    justify-self: center;
+    background: rgb(240, 240, 240);
+    border: none;
+    cursor: pointer;
+    outline: inherit;
+    height: 100%;
+    margin: 0;
+    padding: 3px;
+}
+
+.btnExpand:hover {
+    background: silver;
 }

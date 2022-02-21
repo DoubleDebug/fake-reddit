@@ -14,7 +14,7 @@ import { Redirect, useParams } from 'react-router';
 import { isMessageMineClass } from '../../utils/misc/whichUserUtils';
 import {
     DB_COLLECTIONS,
-    DEFAULT_USER_AVATAR_URL,
+    DEFAULT_PROFILE_URL,
 } from '../../utils/misc/constants';
 import { timeAgo } from '../../utils/misc/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -51,9 +51,8 @@ export const Chat: React.FC = () => {
             getSecondUser(user?.uid, room?.userIds || []) || 'ERROR_NO_USER'
         ) as DocumentReference<IUserData>
     );
-    const [user2PhotoURL, setUser2PhotoURL] = useState<string>(
-        DEFAULT_USER_AVATAR_URL
-    );
+    const [user2PhotoURL, setUser2PhotoURL] =
+        useState<string>(DEFAULT_PROFILE_URL);
 
     // get 2nd user's photo URL
     useEffect(() => {

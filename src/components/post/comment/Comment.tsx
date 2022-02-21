@@ -1,35 +1,31 @@
 import styles from './Comment.module.css';
 import React, { useContext, useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { CommentModel } from '../../../models/comment';
-import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
-import { DEFAULT_USER_AVATAR_URL } from '../../../utils/misc/constants';
+import { DEFAULT_PROFILE_URL } from '../../../utils/misc/constants';
 import { timeAgo } from '../../../utils/misc/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { WriteComment } from '../writeComment/WriteComment';
 import { isCommentMine } from '../../../utils/misc/whichUserUtils';
-import Skeleton from 'react-loading-skeleton';
-import { deleteComment } from './CommentActions';
+import { deleteComment, getUsersPhotoURL } from './CommentActions';
 import { UserContext } from '../../../context/UserContext';
 
 interface ICommentProps {
     data: CommentModel;
+    hideComment?: (id: string | undefined) => void;
 }
 
 export const Comment: React.FC<ICommentProps> = (props) => {
     const user = useContext(UserContext);
-    const [authorPhotoURL, setAuthorPhotoURL] = useState(
-        DEFAULT_USER_AVATAR_URL
-    );
+    const [authorPhotoURL, setAuthorPhotoURL] = useState(DEFAULT_PROFILE_URL);
     const [showReply, setShowReply] = useState(false);
 
     useEffect(() => {
         if (!props.data.authorId) return;
 
-        // fetch comment author's photo url
-        getUserPhotoURL(props.data.authorId).then((url) => {
-            if (url) setAuthorPhotoURL(url);
-        });
+        // get comment author's photo url
+        getUsersPhotoURL(props.data.authorId, setAuthorPhotoURL);
         // eslint-disable-next-line
     }, []);
 
@@ -39,13 +35,13 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                 props.data.isReply ? styles.isReply : ''
             }`}
         >
+            <img
+                alt="U"
+                src={authorPhotoURL}
+                className={styles.imgAvatar}
+            ></img>
             {props.data.author ? (
                 <div className={styles.header}>
-                    <img
-                        alt=""
-                        src={authorPhotoURL}
-                        className={styles.imgAvatar}
-                    ></img>
                     <small className={styles.author}>{props.data.author}</small>
                     <small className={styles.timeAgo}>
                         {`• ${timeAgo(props.data.createdAt.toDate())}`}
@@ -55,7 +51,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                             className={styles.btnCommentAction}
                             onClick={() => deleteComment(props.data)}
                         >
-                            Delete{' '}
+                            Delete
                             <FontAwesomeIcon
                                 icon={faTrash}
                                 style={{ marginRight: '0.5rem' }}
@@ -67,7 +63,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                             className={styles.btnCommentAction}
                             onClick={() => setShowReply(true)}
                         >
-                            Reply{' '}
+                            Reply
                             <FontAwesomeIcon
                                 icon={faCommentAlt}
                                 size="sm"
@@ -91,7 +87,16 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                     <Skeleton count={3}></Skeleton>
                 </div>
             )}
+            {!props.data.isReply && (
+                <button
+                    className={styles.btnExpand}
+                    onClick={() =>
+                        props.hideComment && props.hideComment(props.data.id)
+                    }
+                />
+            )}
             <p className={styles.text}>{props.data.text}</p>
+            <div></div>
             {showReply && (
                 <WriteComment
                     postId={props.data.postId || ''}

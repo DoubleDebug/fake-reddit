@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
 import {
-    DEFAULT_USER_AVATAR_URL,
+    DEFAULT_PROFILE_URL,
     HEADER_SVG_PATH,
     HEADER_SVG_VIEWBOX,
 } from '../../utils/misc/constants';
@@ -15,7 +15,7 @@ import { UserContext } from '../../context/UserContext';
 
 export const Header: React.FC = () => {
     const user = useContext(UserContext);
-    const [photoURL, setPhotoURL] = useState(DEFAULT_USER_AVATAR_URL);
+    const [photoURL, setPhotoURL] = useState(DEFAULT_PROFILE_URL);
 
     useEffect(() => {
         if (user?.photoURL) setPhotoURL(user.photoURL);
