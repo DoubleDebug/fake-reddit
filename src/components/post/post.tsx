@@ -146,7 +146,20 @@ export const Post: React.FC<IPostProps> = (props) => {
                                 {props.data.title}
                             </Link>
                         ) : (
-                            <p className={styles.title}>{props.data.title}</p>
+                            <div className="grid">
+                                <p className={styles.title}>
+                                    {props.data.title}
+                                </p>
+                                <div className={styles.flairsContainer}>
+                                    {!props.isPreview &&
+                                        props.data.flairs?.map((f, index) => (
+                                            <small
+                                                key={`flair${index}`}
+                                                className={styles.flair}
+                                            >{`#${f}`}</small>
+                                        ))}
+                                </div>
+                            </div>
                         )
                     ) : (
                         <Skeleton width="400px" height="30px" />

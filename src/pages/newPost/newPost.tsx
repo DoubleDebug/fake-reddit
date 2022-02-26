@@ -1,19 +1,19 @@
 import styles from './NewPost.module.css';
+import 'react-quill/dist/quill.snow.css';
+import Select from 'react-select';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import TabPanel from '@mui/lab/TabPanel';
+import { Tab } from '@mui/material';
+import { TabContext, TabList } from '@mui/lab';
 import { Redirect } from 'react-router';
-import { getFirestore } from '@firebase/firestore';
+import { CollectionReference, getFirestore } from '@firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { PostModel } from '../../models/post';
-import { DB_COLLECTIONS } from '../../utils/misc/constants';
-import { useCollectionDataOnce } from 'react-firebase-hooks/firestore';
-import Select from 'react-select';
-import 'react-quill/dist/quill.snow.css';
+import { COMMON_FLAIRS, DB_COLLECTIONS } from '../../utils/misc/constants';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { RichTextbox } from '../../components/newPost/richTextbox/RichTextbox';
-import { Tab } from '@mui/material';
-import TabPanel from '@mui/lab/TabPanel';
-import { TabContext, TabList } from '@mui/lab';
 import {
     ImageUploader,
     ImageUploaderState,
@@ -23,10 +23,17 @@ import { Poll } from '../../components/newPost/poll/Poll';
 import { PollModel } from '../../models/poll';
 import {
     getFileMarkup,
+    getFlairsFromSubreddit,
+    getSelectedSubredditName,
+    handleCustomFlairClick,
+    handleFlairClick,
     handleTabChange,
     submitNewPost,
 } from './NewPostActions';
 import { UserContext } from '../../context/UserContext';
+import { ISubreddit } from '../../models/subreddit';
+import { SelectFlairs } from './selectFlairs/SelectFlairs';
+import { selectStyles } from './selectFlairs/SelectFlairsStyles';
 
 interface INewPostProps {
     subreddit?: string;
@@ -43,13 +50,19 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
     const [postStage, setPostStage] = useState<
         'default' | 'being-submitted' | 'submitted'
     >('default');
-    const [subreddits] = useCollectionDataOnce(
-        collection(getFirestore(), DB_COLLECTIONS.SUBREDDITS),
+    const [subreddits] = useCollectionData(
+        collection(
+            getFirestore(),
+            DB_COLLECTIONS.SUBREDDITS
+        ) as CollectionReference<ISubreddit>,
         {
-            idField: 'value',
+            idField: 'id',
         }
     );
     const subredditInput = useRef<any>(null);
+    const [selectedSubreddit, setSelectedSubreddit] = useState<
+        ISubreddit | undefined
+    >(subreddits?.filter((s) => s.id === props.subreddit)[0]);
     const [tabIndex, setTabIndex] = useState('1');
     const [tabState, setTabState] = useState<{
         imageUploaderState?: ImageUploaderState;
@@ -83,8 +96,8 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                         ref={subredditInput}
                         options={subreddits?.map((s) => {
                             return {
-                                value: s.value,
-                                label: `r/${s.value}`,
+                                value: s.id,
+                                label: `r/${s.id}`,
                             };
                         })}
                         defaultValue={
@@ -95,7 +108,19 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                                   }
                                 : { value: 'all', label: 'r/all' }
                         }
-                    ></Select>
+                        styles={{
+                            ...selectStyles,
+                            control: (currentStyles: any) => currentStyles,
+                            singleValue: (currentStyles: any) => currentStyles,
+                        }}
+                        onChange={(val) => {
+                            setSelectedSubreddit(
+                                subreddits?.filter(
+                                    (s) => s.id === val?.value
+                                )[0]
+                            );
+                        }}
+                    />
                 </div>
                 <input
                     className={styles.title}
@@ -175,6 +200,38 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     </TabPanel>
                 </TabContext>
                 <div className="flex">
+                    <div className={styles.flairsContainer}>
+                        {COMMON_FLAIRS.map((f, ind) => (
+                            <button
+                                key={ind}
+                                className={`btn ${styles.btnFlair}`}
+                                type="button"
+                                onClick={(e) =>
+                                    handleFlairClick(e, setPostData, postData)
+                                }
+                            >
+                                {`#${f}`}
+                            </button>
+                        ))}
+                        {selectedSubreddit?.flairs &&
+                            selectedSubreddit?.flairs.length > 0 && (
+                                <SelectFlairs
+                                    subreddits={subreddits}
+                                    subredditInput={subredditInput}
+                                    handleChange={(newFlair) =>
+                                        handleCustomFlairClick(
+                                            newFlair,
+                                            getFlairsFromSubreddit(
+                                                subreddits,
+                                                subredditInput
+                                            )?.map((f) => f.value) || Array(0),
+                                            setPostData,
+                                            postData
+                                        )
+                                    }
+                                />
+                            )}
+                    </div>
                     <button
                         className={`btn ${styles.btnSubmit}`}
                         type="submit"
@@ -185,7 +242,8 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                                 user,
                                 postData,
                                 setPostStage,
-                                subredditInput.current
+                                getSelectedSubredditName(subredditInput) ||
+                                    'all'
                             )
                         }
                     >

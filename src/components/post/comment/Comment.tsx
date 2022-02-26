@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { WriteComment } from '../writeComment/WriteComment';
 import { isCommentMine } from '../../../utils/misc/whichUserUtils';
-import { deleteComment, getUsersPhotoURL } from './CommentActions';
+import { deleteComment } from './CommentActions';
 import { UserContext } from '../../../context/UserContext';
+import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
 
 interface ICommentProps {
     data: CommentModel;
@@ -25,7 +26,9 @@ export const Comment: React.FC<ICommentProps> = (props) => {
         if (!props.data.authorId) return;
 
         // get comment author's photo url
-        getUsersPhotoURL(props.data.authorId, setAuthorPhotoURL);
+        getUserPhotoURL(props.data.authorId).then(
+            (url) => url && setAuthorPhotoURL(url)
+        );
         // eslint-disable-next-line
     }, []);
 
@@ -54,7 +57,10 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                             Delete
                             <FontAwesomeIcon
                                 icon={faTrash}
-                                style={{ marginRight: '0.5rem' }}
+                                style={{
+                                    marginLeft: '0.2rem',
+                                    marginRight: '0.5rem',
+                                }}
                             ></FontAwesomeIcon>
                         </p>
                     ) : null}
@@ -67,6 +73,10 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                             <FontAwesomeIcon
                                 icon={faCommentAlt}
                                 size="sm"
+                                style={{
+                                    marginLeft: '0.2rem',
+                                    marginRight: '0.5rem',
+                                }}
                             ></FontAwesomeIcon>
                         </p>
                     )}

@@ -23,6 +23,7 @@ export class PostModel {
     subreddit: string = 'all';
     contentFiles?: string[] = [];
     pollData?: PollModel;
+    flairs?: string[] = [];
 
     constructor(init?: Partial<PostModel>) {
         Object.assign(this, init);

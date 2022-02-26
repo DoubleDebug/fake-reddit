@@ -6,10 +6,10 @@ export const HEADER_SVG_PATH =
 export const HEADER_SVG_VIEWBOX = '0 0 1440 320';
 export const DEFAULT_PROFILE_URL = 'https://i.imgur.com/gThi9Rl.png';
 
-// DATA VALIDATION
+// LIMITS & DATA VALIDATION
 export const POSTS_PER_PAGE = 3;
 export const SCROLL_TOP_MAX_VAL = 2000;
-export const MAX_FILE_SIZE = 5; // in megabytes
+export const MAX_FILE_SIZE = 5; // megabytes
 export const IMAGE_FILE_FORMATS = ['jpg', 'jpeg', 'png', 'gif'];
 export const VIDEO_FILE_FORMATS = ['mp4'];
 export const SUPPORTED_FILE_FORMATS = [
@@ -21,6 +21,7 @@ export const SUPPORTED_FILE_FORMATS = [
 export const SUPPORTED_FILE_FORMATS_STRING = SUPPORTED_FILE_FORMATS.join(', ')
     .replaceAll('image/', '')
     .replaceAll('video/', '');
+export const COMMON_FLAIRS = ['OC', 'Spoiler', 'NSFW'];
 
 // DATABASE
 export const CLIENT_URL = 'http://localhost:3000';
@@ -35,4 +36,4 @@ export const DB_COLLECTIONS = {
 };
 
 // LOCAL STORAGE ITEMS
-export const PROFILE_URL_MAP = 'profileURLMap';
+export const LS_USER_PHOTO_URLS = 'cachedUserPhotoURLArray';

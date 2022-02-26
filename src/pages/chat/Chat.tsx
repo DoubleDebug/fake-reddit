@@ -59,9 +59,9 @@ export const Chat: React.FC = () => {
         if (!user || !room) return;
         const secondUserId = getSecondUser(user.uid, room.userIds);
         if (!secondUserId) return;
-        getUserPhotoURL(secondUserId).then((url) => {
-            if (url) setUser2PhotoURL(url);
-        });
+        getUserPhotoURL(secondUserId).then(
+            (url) => url && setUser2PhotoURL(url)
+        );
     }, [user, room]);
 
     if (error || !roomId) {
