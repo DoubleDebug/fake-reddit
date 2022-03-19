@@ -10,6 +10,9 @@ import { DB_COLLECTIONS } from '../utils/misc/constants';
 import { deletePost } from '../utils/firebase/deletePost';
 import { displayNotif } from '../utils/misc/toast';
 import { PollModel } from './poll';
+import { validatePostData } from '../utils/dataValidation/validatePostData';
+import { cleanObject } from '../utils/misc/cleanObject';
+import { submitPost } from '../utils/firebase/submitPost';
 
 export class PostModel {
     id: string | undefined = undefined;
@@ -122,5 +125,42 @@ export class PostModel {
 
         const db = getFirestore();
         updateDoc(doc(db, DB_COLLECTIONS.METADATA, 'numOfPosts'), counters);
+    }
+
+    async submit(
+        user: User,
+        subreddit: string,
+        callbackOnInvalidData: () => void,
+        callbackOnSuccess: () => void,
+        callbackOnFail: () => void
+    ) {
+        this.subreddit = subreddit;
+
+        // data validation
+        const validationResponse = validatePostData(this);
+        if (!validationResponse.success) {
+            callbackOnInvalidData();
+            displayNotif(validationResponse.message, 'error');
+            return;
+        }
+
+        // prepare data
+        let postObject: any = {
+            ...this,
+            subreddit: subreddit,
+        };
+        postObject = cleanObject(postObject); // remove all empty fields from post data
+
+        // send data to firestore
+        const postRes = await submitPost(user, postObject);
+
+        if (postRes.success) {
+            callbackOnSuccess();
+            displayNotif('Added a new post.', 'success');
+        } else {
+            callbackOnFail();
+            displayNotif('Failed to add a new post.', 'error');
+            console.log(postRes.message);
+        }
     }
 }
