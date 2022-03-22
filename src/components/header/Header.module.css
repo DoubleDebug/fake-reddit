@@ -1,15 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Suez+One&display=swap');
 
 .pageBackground {
+    background: var(--colorOrange);
     position: absolute;
-    top: -150px;
-    width: 100vw;
-    height: 430px;
+    top: 0px;
+    height: 200px;
     z-index: -1;
+    width: 100wv;
 }
 
 .header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 250px auto 355px;
+    column-gap: 1rem;
     margin-top: 1rem;
     margin-bottom: 7rem;
     height: 60px;
@@ -29,14 +32,17 @@
 
 .headerTopRight {
     display: flex;
-    margin-right: auto;
 }
 
-.headerTopRight:hover {
+.logoTopRight {
+    display: flex;
+}
+
+.logoTopRight:hover {
     transform: rotate(2deg);
 }
 
-.headerTopRight:active {
+.logoTopRight:active {
     transform: scale(0.8) rotate(-2deg);
 }
 
@@ -61,19 +67,25 @@
     filter: none !important;
 }
 
+.btnNewPost {
+    white-space: nowrap;
+    height: 42px;
+}
+
 .btnNewPost:hover {
     text-decoration: none;
 }
 
 .linkNewPost {
     height: 42px;
+    margin-left: auto;
 }
 
 .lblDisplayName {
     color: white;
-    align-self: center;
-    margin: -50px 0.2rem 0 1rem;
+    margin: 5px 5px 0 1rem;
     font-size: 1.2rem;
+    white-space: nowrap;
 }
 
 .imgAvatar {

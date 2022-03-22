@@ -12,6 +12,7 @@ import {
 import { Toaster } from 'react-hot-toast';
 import { signInWithGoogle, signOutUser } from './HeaderActions';
 import { UserContext } from '../../context/UserContext';
+import { SearchBar } from './searchBar/bar/SearchBar';
 
 export const Header: React.FC = () => {
     const user = useContext(UserContext);
@@ -22,69 +23,71 @@ export const Header: React.FC = () => {
     }, [user]);
 
     return (
-        <div className={styles.header}>
+        <>
             <Toaster />
             <svg
                 className={styles.pageBackground}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox={HEADER_SVG_VIEWBOX}
+                preserveAspectRatio="xMidYMax meet"
             >
-                <path
-                    fill="var(--colorOrange)"
-                    fillOpacity="1"
-                    d={HEADER_SVG_PATH}
-                ></path>
+                <path fill="white" fillOpacity="1" d={HEADER_SVG_PATH}></path>
             </svg>
-
-            <div className={styles.headerTopRight}>
-                <img className={styles.headerIcon} alt="Logo"></img>
-                <Link to="/" className={'btn ' + styles.btnHomepage}>
-                    FakeReddit
-                </Link>
-            </div>
-
-            {user ? (
-                <div className="flex">
-                    <Link
-                        to="/newPost"
-                        className={'linkNoUnderline ' + styles.linkNewPost}
-                    >
-                        <button className={'btn ' + styles.btnNewPost}>
-                            <FontAwesomeIcon
-                                icon={faPlus}
-                                style={{ marginRight: '10px' }}
-                            ></FontAwesomeIcon>
-                            New post
-                        </button>
-                    </Link>
-                    <div className={styles.header}>
-                        <p className={styles.lblDisplayName}>
-                            {user.displayName}
-                        </p>
+            <div className={styles.header}>
+                <div className={styles.headerTopRight}>
+                    <div className={styles.logoTopRight}>
+                        <img className={styles.headerIcon} alt="Logo"></img>
+                        <Link to="/" className={'btn ' + styles.btnHomepage}>
+                            FakeReddit
+                        </Link>
                     </div>
-                    <Dropdown
-                        items={[
-                            {
-                                text: 'Sign out',
-                                action: () => signOutUser(),
-                            },
-                        ]}
-                    >
-                        <img
-                            className={styles.imgAvatar}
-                            src={photoURL}
-                            alt="U"
-                        />
-                    </Dropdown>
                 </div>
-            ) : (
-                <button
-                    className={'btn ' + styles.btnLogin}
-                    onClick={() => signInWithGoogle()}
-                >
-                    Sign in
-                </button>
-            )}
-        </div>
+
+                <SearchBar />
+
+                {user ? (
+                    <div className="flex">
+                        <Link
+                            to="/newPost"
+                            className={'linkNoUnderline ' + styles.linkNewPost}
+                        >
+                            <button className={'btn ' + styles.btnNewPost}>
+                                <FontAwesomeIcon
+                                    icon={faPlus}
+                                    style={{ marginRight: '10px' }}
+                                ></FontAwesomeIcon>
+                                New post
+                            </button>
+                        </Link>
+                        <div className="flex">
+                            <p className={styles.lblDisplayName}>
+                                {user.displayName}
+                            </p>
+                        </div>
+                        <Dropdown
+                            items={[
+                                {
+                                    text: 'Sign out',
+                                    action: () => signOutUser(),
+                                },
+                            ]}
+                        >
+                            <img
+                                className={styles.imgAvatar}
+                                src={photoURL}
+                                alt="U"
+                            />
+                        </Dropdown>
+                    </div>
+                ) : (
+                    <button
+                        className={'btn ' + styles.btnLogin}
+                        onClick={() => signInWithGoogle()}
+                    >
+                        Sign in
+                    </button>
+                )}
+            </div>
+        </>
     );
 };

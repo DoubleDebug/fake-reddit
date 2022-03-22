@@ -1,0 +1,35 @@
+.box {
+    display: grid;
+    overflow: hidden;
+    width: 100%;
+    margin-top: -5px;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.box:hover {
+    filter: brightness(0.97);
+}
+
+.header {
+    display: flex;
+    margin-bottom: -5px;
+}
+
+.subreddit {
+    font-weight: bold;
+}
+
+.author {
+    margin-left: 0.5rem;
+    color: silver;
+}
+
+.title {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+}
+
+.link:hover {
+    text-decoration: none;
+}

@@ -1,0 +1,14 @@
+.paper {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.box {
+    border: none;
+    border-radius: 5px;
+}
+
+.box input[type='search'] {
+    border: none;
+    font-size: 1.31rem;
+}

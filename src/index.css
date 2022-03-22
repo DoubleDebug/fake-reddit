@@ -78,3 +78,11 @@ code {
     padding-left: 0px !important;
     padding-right: 0px !important;
 }
+
+/* Algolia Search bar */
+
+.ais-Hits {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+}
