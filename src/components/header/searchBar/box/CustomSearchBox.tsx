@@ -2,6 +2,8 @@ import styles from './CustomSearchBox.module.css';
 import { Paper, TextField } from '@mui/material';
 import { connectSearchBox } from 'react-instantsearch-dom';
 import React, { FormEvent } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 interface ISearchBoxProps {
     currentRefinement: string;
@@ -24,6 +26,12 @@ const SearchBox: React.FC<ISearchBoxProps> = ({
             className={styles.paper}
             onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
         >
+            <FontAwesomeIcon
+                icon={faSearch}
+                color="silver"
+                className={styles.icon}
+                size="sm"
+            />
             <TextField
                 autoComplete="off"
                 fullWidth

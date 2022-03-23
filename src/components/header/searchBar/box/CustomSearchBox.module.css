@@ -1,6 +1,7 @@
 .paper {
     display: flex;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .box {
@@ -11,4 +12,11 @@
 .box input[type='search'] {
     border: none;
     font-size: 1.31rem;
+    padding-left: 40px;
+}
+
+.icon {
+    position: absolute;
+    left: 13px;
+    top: 12px;
 }
