@@ -19,6 +19,7 @@ export function displayNotif(
     toast[type](message, {
         style: {
             textAlign: 'center',
+            marginTop: '6rem',
         },
     });
 }
@@ -28,6 +29,7 @@ export function displayNotifJSX(content: () => Renderable) {
         style: {
             maxWidth: 'initial',
             width: 'auto',
+            marginTop: '6rem',
         },
     });
 }

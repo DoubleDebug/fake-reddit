@@ -10,34 +10,42 @@ import {
     useDocumentDataOnce,
 } from 'react-firebase-hooks/firestore';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Redirect, useParams } from 'react-router';
-import { isMessageMineClass } from '../../utils/misc/whichUserUtils';
+import {
+    isMessageMine,
+    isMessageMineClass,
+} from '../../../utils/misc/whichUserUtils';
 import {
     DB_COLLECTIONS,
     DEFAULT_PROFILE_URL,
-} from '../../utils/misc/constants';
-import { timeAgo } from '../../utils/misc/timeAgo';
+} from '../../../utils/misc/constants';
+import { timeAgo } from '../../../utils/misc/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faCommentDots } from '@fortawesome/free-solid-svg-icons';
 import Skeleton from 'react-loading-skeleton';
 import {
     getSecondUser,
     getUsernameById,
-} from '../../utils/misc/whichUserUtils';
-import { formatTimestampFull } from '../../utils/misc/formatChatTimestamp';
-import { getUserPhotoURL } from '../../utils/firebase/getUserPhotoURL';
+} from '../../../utils/misc/whichUserUtils';
+import {
+    formatTimestampFull,
+    formatTimestampTime,
+} from '../../../utils/misc/formatChatTimestamp';
+import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
 import { sendMessage } from './ChatActions';
-import { UserContext } from '../../context/UserContext';
+import { UserContext } from '../../../context/UserContext';
 
-export const Chat: React.FC = () => {
+interface IChatProps {
+    roomId: string;
+}
+
+export const Chat: React.FC<IChatProps> = (props) => {
     const user = useContext(UserContext);
     const [db] = useState<Firestore>(getFirestore());
-    const { id: roomId } = useParams<{ id: string }>();
-    const [room, loading, error] = useDocumentData<IChatRoom>(
+    const [room, loading] = useDocumentData<IChatRoom>(
         doc(
             db,
             DB_COLLECTIONS.CHAT_ROOMS,
-            roomId || 'ERROR_NO_ROOM'
+            props.roomId || 'ERROR_NO_ROOM'
         ) as DocumentReference<IChatRoom>,
         {
             idField: 'id',
@@ -64,8 +72,22 @@ export const Chat: React.FC = () => {
         );
     }, [user, room]);
 
-    if (error || !roomId) {
-        return <Redirect to="/"></Redirect>;
+    if (!room?.createdAt || !props.roomId) {
+        return (
+            <div className={styles.room}>
+                <div className={styles.welcomeBox}>
+                    <FontAwesomeIcon
+                        icon={faCommentDots}
+                        size="6x"
+                        color="var(--colorOrange)"
+                    />
+                    <h1>Welcome to your inbox!</h1>
+                    <p style={{ color: 'gray' }}>
+                        Start a new conversation or revisit an old one.
+                    </p>
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -90,7 +112,7 @@ export const Chat: React.FC = () => {
                         {loading ? (
                             <Skeleton width="300px"></Skeleton>
                         ) : (
-                            <h1 className={styles.username}>
+                            <h2 className={styles.username}>
                                 {room &&
                                     user &&
                                     getUsernameById(
@@ -100,7 +122,7 @@ export const Chat: React.FC = () => {
                                             room?.userIds
                                         ) || ''
                                     )}
-                            </h1>
+                            </h2>
                         )}
                         {loading ? (
                             <Skeleton width="150px"></Skeleton>
@@ -122,20 +144,50 @@ export const Chat: React.FC = () => {
                         if (!user) return null;
                         return (
                             <div
+                                className={`flex ${
+                                    isMessageMine(m, user)
+                                        ? ''
+                                        : styles.reversed
+                                }`}
                                 key={index}
-                                className={
-                                    styles.message +
-                                    ' ' +
-                                    styles[isMessageMineClass(m, user)]
-                                }
                             >
-                                <p className={styles.content}>{m.content}</p>
-                                <small
-                                    className={styles.timestamp}
-                                    title={formatTimestampFull(m.timestamp)}
+                                <div
+                                    className={
+                                        styles.message +
+                                        ' ' +
+                                        styles[isMessageMineClass(m, user)]
+                                    }
                                 >
-                                    {timeAgo(m.timestamp.toDate())}
-                                </small>
+                                    <p className={styles.content}>
+                                        {m.content}
+                                    </p>
+                                    <small
+                                        className={styles.timestamp}
+                                        title={formatTimestampFull(m.timestamp)}
+                                    >
+                                        {timeAgo(m.timestamp.toDate())}
+                                    </small>
+                                </div>
+                                <div className={styles.messageAvatar}>
+                                    <img
+                                        className={styles.imgUsernameAvatar}
+                                        src={
+                                            isMessageMine(m, user)
+                                                ? user.photoURL ||
+                                                  DEFAULT_PROFILE_URL
+                                                : user2PhotoURL
+                                        }
+                                        alt="User profile"
+                                        title={
+                                            isMessageMine(m, user)
+                                                ? 'Me'
+                                                : m.from.name
+                                        }
+                                    />
+                                    <small>
+                                        {formatTimestampTime(m.timestamp)}
+                                    </small>
+                                </div>
                             </div>
                         );
                     })}

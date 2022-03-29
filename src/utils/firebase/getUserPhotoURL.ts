@@ -9,7 +9,9 @@ async function fetchUserPhotoURL(uid: string): Promise<string | null> {
     return null;
 }
 
-export async function getUserPhotoURL(uid: string): Promise<string | null> {
+export async function getUserPhotoURL(
+    uid: string
+): Promise<string | undefined> {
     try {
         // get cached url
         let map: any = localStorage.getItem(LS_USER_PHOTO_URLS);
@@ -51,6 +53,12 @@ export async function getUserPhotoURL(uid: string): Promise<string | null> {
             return url;
         }
 
-        return null;
+        return;
     }
+}
+
+export async function getUserPhotoURLData(
+    uid: string
+): Promise<{ uid: string; url: string | undefined }> {
+    return { uid: uid, url: await getUserPhotoURL(uid) };
 }

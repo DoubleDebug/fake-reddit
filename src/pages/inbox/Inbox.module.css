@@ -1,0 +1,9 @@
+.container {
+    width: min-content;
+    margin: 1rem auto !important;
+}
+
+.lblInbox {
+    margin: 1rem;
+    margin-bottom: 2rem;
+}

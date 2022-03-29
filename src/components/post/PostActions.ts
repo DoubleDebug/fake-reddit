@@ -1,6 +1,6 @@
 import { User } from 'firebase/auth';
 import { PostModel } from '../../models/post';
-import { createChatRoom } from '../../pages/chat/ChatActions';
+import { createChatRoom } from '../../pages/inbox/chat/ChatActions';
 import { signInPopup } from '../../utils/signInPopup/SignInPopup';
 import { displayNotifJSX } from '../../utils/misc/toast';
 

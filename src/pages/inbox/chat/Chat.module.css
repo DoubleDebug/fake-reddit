@@ -8,8 +8,7 @@
     grid-template-rows: 60px min-content;
     row-gap: 1rem;
     padding: 1.5rem;
-    box-shadow: var(--boxShadow);
-    border-radius: 20px;
+    padding-top: 0;
     min-height: 500px;
     min-width: 800px;
     max-width: 800px;
@@ -26,7 +25,7 @@
     padding: 0.7rem;
     margin: 0.5rem;
     border-radius: 10px;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     height: min-content;
     max-width: 75%;
     row-gap: 0px;
@@ -51,7 +50,6 @@
 
 .message .content {
     margin: 0;
-    margin-bottom: 0.5rem;
 }
 
 .message .timestamp {
@@ -76,11 +74,18 @@
 
 .lblLastOnline {
     color: gray;
+    margin-top: -5px;
 }
 
 .formInputMessage {
     display: flex;
     margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.formInputMessage input[type='text'],
+.formInputMessage button {
+    margin-bottom: 0;
 }
 
 .formInputMessage button[type='submit'] {
@@ -96,11 +101,34 @@
 }
 
 input[type='text'].inputMessage {
+    height: 42px;
     width: 100%;
+    margin-left: 1rem;
+    margin-right: 0.5rem;
     border: 1px solid silver;
 }
 
 input[type='text'].inputMessage:focus {
     border: 1px solid gray;
     outline-width: 0px;
+}
+
+.welcomeBox {
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.welcomeBox h1 {
+    margin-top: 0.5rem;
+}
+
+.messageAvatar {
+    display: grid;
+    height: min-content;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.reversed {
+    flex-direction: row-reverse;
 }

@@ -43,8 +43,7 @@ export const Post: React.FC<IPostProps> = (props) => {
         setScore(props.data.getScore());
     }, [user, props.data]);
 
-    if (redirectChatId)
-        return <Redirect to={`/chat/${redirectChatId}`}></Redirect>;
+    if (redirectChatId) return <Redirect to={`/inbox/${redirectChatId}`} />;
     if (deleted) return null;
     return (
         <div className={`contentBox ${styles.container}`}>

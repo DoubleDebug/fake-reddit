@@ -67,6 +67,10 @@ export const Header: React.FC = () => {
                         <Dropdown
                             items={[
                                 {
+                                    text: 'Inbox',
+                                    redirectPath: '/inbox',
+                                },
+                                {
                                     text: 'Sign out',
                                     action: () => signOutUser(),
                                 },

@@ -43,7 +43,7 @@ export const ViewPost: React.FC = () => {
     );
 
     if (!postData && !loadingPost) {
-        return <Redirect to="/"></Redirect>;
+        return <Redirect to="/" />;
     }
 
     return (

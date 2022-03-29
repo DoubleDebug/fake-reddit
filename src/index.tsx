@@ -10,6 +10,7 @@ import {
     setDoc,
 } from '@firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 
 // REACT
 import { useEffect } from 'react';
@@ -22,13 +23,12 @@ import { Subreddit } from './pages/subreddit/Subreddit';
 import { NewPost } from './pages/newPost/NewPost';
 import { ViewPost } from './pages/viewPost/ViewPost';
 import { Home } from './pages/home/Home';
-import { Chat } from './pages/chat/Chat';
+import { Inbox } from './pages/inbox/Inbox';
 
 // OTHER
 import './index.css';
 import { UserContext } from './context/UserContext';
 import { DB_COLLECTIONS } from './utils/misc/constants';
-import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 
 initializeApp(firebaseConfig);
 const auth = getAuth();
@@ -69,8 +69,11 @@ const App: React.FC = () => {
                     <Route path="/newPost">
                         <NewPost />
                     </Route>
-                    <Route path="/chat/:id">
-                        <Chat />
+                    <Route exact path="/inbox">
+                        <Inbox />
+                    </Route>
+                    <Route path="/inbox/:id">
+                        <Inbox />
                     </Route>
                     <Route path="/post/:id">
                         <ViewPost />

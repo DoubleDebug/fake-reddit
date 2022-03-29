@@ -1,6 +1,6 @@
 import { User } from 'firebase/auth';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
-import { DB_COLLECTIONS } from '../../utils/misc/constants';
+import { DB_COLLECTIONS } from '../../../utils/misc/constants';
 import {
     updateDoc,
     doc,
