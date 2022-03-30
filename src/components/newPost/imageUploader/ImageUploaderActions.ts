@@ -4,8 +4,10 @@ import { getImageURL } from '../../../utils/firebase/getImageURL';
 import { displayNotif } from '../../../utils/misc/toast';
 import { FileInfo } from './DragAndDrop';
 import { validateFile } from '../../../utils/dataValidation/validateFile';
+import { v4 as generateUUID } from 'uuid';
+import { getFileExtension } from '../../../utils/misc/getFileExtension';
 
-export function uploadFile(
+function uploadFile(
     file: File,
     setIsUploading: (s: boolean) => void,
     setIsDropping: (s: boolean) => void,
@@ -21,12 +23,14 @@ export function uploadFile(
     setIsDropping(false);
 
     const storage = getStorage();
-    const storageRef = ref(storage, 'content//' + file.name);
+    const newFileName = `${generateUUID()}.${getFileExtension(file.name)}`;
+    const storageRef = ref(storage, 'content//' + newFileName);
     uploadBytes(storageRef, file).then(async (snapshot) => {
         // load image preview
         const url = await getImageURL(snapshot.metadata.fullPath);
         const fileInfo = {
-            fileName: file.name,
+            oldFileName: file.name,
+            newFileName: newFileName,
             url: url,
             storagePath: snapshot.metadata.fullPath,
         };

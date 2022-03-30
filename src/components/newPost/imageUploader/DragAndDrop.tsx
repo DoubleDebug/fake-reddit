@@ -4,7 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useState } from 'react';
 import { isFileImage } from '../../../utils/misc/getFileExtension';
 
-export type FileInfo = { fileName: string; url: string; storagePath: string };
+export type FileInfo = {
+    oldFileName: string;
+    newFileName: string;
+    url: string;
+    storagePath: string;
+};
 
 interface IDragAndDropProps {
     isUploading: boolean;
@@ -38,7 +43,7 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = (props) => {
                 handleLoadedVideo={handleLoadedVideo}
                 previewIsLoaded={previewIsLoaded}
                 uploadedFile={props.uploadedFile}
-                isImage={isFileImage(props.uploadedFile.fileName)}
+                isImage={isFileImage(props.uploadedFile.oldFileName)}
             />
         );
     }
@@ -96,7 +101,7 @@ const StateFileIsBeingUploaded: React.FC<{
                     ></FontAwesomeIcon>
                 </div>
             )}
-            <p>{props.uploadedFile.fileName}</p>
+            <p>{props.uploadedFile.oldFileName}</p>
         </div>
     );
 };

@@ -80,9 +80,9 @@ export function handleTabChange(
 }
 
 export function getFileMarkup(fileInfo: FileInfo) {
-    if (isFileImage(fileInfo.fileName)) return `<img src=${fileInfo.url}/>`;
+    if (isFileImage(fileInfo.oldFileName)) return `<img src=${fileInfo.url}/>`;
 
-    if (isFileVideo(fileInfo.fileName))
+    if (isFileVideo(fileInfo.oldFileName))
         return `<video src=${fileInfo.url} controls loop></video>`;
 
     return '';

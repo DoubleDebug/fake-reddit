@@ -88,6 +88,10 @@
     overflow-wrap: anywhere;
 }
 
+.postBody .title:hover {
+    text-decoration: none;
+}
+
 .postVoting {
     display: grid;
     padding: 0.5rem;
