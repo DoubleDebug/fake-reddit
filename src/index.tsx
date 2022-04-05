@@ -29,6 +29,9 @@ import { Inbox } from './pages/inbox/Inbox';
 import './index.css';
 import { UserContext } from './context/UserContext';
 import { DB_COLLECTIONS } from './utils/misc/constants';
+import { maintainLocalStorage } from './utils/misc/maintainLocalStorage';
+
+maintainLocalStorage();
 
 initializeApp(firebaseConfig);
 const auth = getAuth();
