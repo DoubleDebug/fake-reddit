@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { User } from 'firebase/auth';
-import { SERVER_URL } from '../misc/constants';
+import { SERVER_ENDPOINTS } from '../misc/constants';
 
 export async function registerUser(
     user: User | null | undefined
@@ -14,7 +14,7 @@ export async function registerUser(
 
     const idToken = await user.getIdToken();
     const res = await axios.post(
-        `${SERVER_URL}/registerUser`,
+        SERVER_ENDPOINTS.POST_REGISTER_USER,
         {
             id: user.uid,
             name: user.displayName,

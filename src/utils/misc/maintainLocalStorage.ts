@@ -1,10 +1,11 @@
 import { differenceInDays } from 'date-fns';
+import { LS_LAST_UPDATED } from './constants';
 
 export function maintainLocalStorage() {
-    const lastUpdated = localStorage.getItem('lastUpdated');
+    const lastUpdated = localStorage.getItem(LS_LAST_UPDATED);
     if (!lastUpdated) {
         localStorage.setItem(
-            'lastUpdated',
+            LS_LAST_UPDATED,
             JSON.stringify(new Date().toLocaleDateString('en-us'))
         );
         return;

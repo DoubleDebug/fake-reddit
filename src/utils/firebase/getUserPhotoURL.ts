@@ -1,9 +1,11 @@
 import axios from 'axios';
-import { LS_USER_PHOTO_URLS, SERVER_URL } from '../misc/constants';
+import { LS_USER_PHOTO_URLS, SERVER_ENDPOINTS } from '../misc/constants';
 import { log } from '../misc/log';
 
 async function fetchUserPhotoURL(uid: string): Promise<string | null> {
-    const res = await axios.get(`${SERVER_URL}/userPhotoURL/${uid}`);
+    const res = await axios.get(
+        `${SERVER_ENDPOINTS.GET_USER_PHOTO_URL}/${uid}`
+    );
     if (res.data.success) return res.data.photoURL;
 
     return null;

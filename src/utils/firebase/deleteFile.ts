@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { User } from 'firebase/auth';
-import { SERVER_URL } from '../misc/constants';
+import { SERVER_ENDPOINTS } from '../misc/constants';
 
 export async function deleteFile(
     user: User | null | undefined,
@@ -14,7 +14,7 @@ export async function deleteFile(
     }
 
     const idToken = await user.getIdToken();
-    const res = await axios.delete(`${SERVER_URL}/deleteFile`, {
+    const res = await axios.delete(SERVER_ENDPOINTS.DELETE_FILE, {
         headers: {
             Authorization: idToken,
         },

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { User } from 'firebase/auth';
-import { SERVER_URL } from '../misc/constants';
+import { SERVER_ENDPOINTS } from '../misc/constants';
 
 export async function submitPost(
     user: User | null | undefined,
@@ -14,7 +14,7 @@ export async function submitPost(
     }
 
     const idToken = await user.getIdToken();
-    const res = await axios.post(`${SERVER_URL}/submitPost`, data, {
+    const res = await axios.post(SERVER_ENDPOINTS.POST_SUBMIT_POST, data, {
         headers: {
             Authorization: idToken,
         },

@@ -32,6 +32,14 @@ export const DB_COLLECTIONS = {
     SUBREDDITS: 'subreddits',
     USERS: 'users',
 };
+export const SERVER_ENDPOINTS = {
+    GET_USER_PHOTO_URL: `${SERVER_URL}/userPhotoURL`,
+    GET_POSTS: `${SERVER_URL}/feed`,
+    DELETE_POST: `${SERVER_URL}/deletePost`,
+    DELETE_FILE: `${SERVER_URL}/deleteFile`,
+    POST_SUBMIT_POST: `${SERVER_URL}/submitPost`,
+    POST_REGISTER_USER: `${SERVER_URL}/registerUser`,
+};
 
 // ALGOLIA
 export const ALG_APP_ID = '1JHTFIMCJH';
@@ -43,3 +51,4 @@ export const ALG_INDICES = {
 
 // LOCAL STORAGE ITEMS
 export const LS_USER_PHOTO_URLS = 'cachedUserPhotoURLArray';
+export const LS_LAST_UPDATED = 'lastUpdated';

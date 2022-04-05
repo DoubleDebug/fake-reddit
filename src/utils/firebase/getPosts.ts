@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PostModel } from '../../models/post';
-import { POSTS_PER_PAGE, SERVER_URL } from '../misc/constants';
+import { POSTS_PER_PAGE, SERVER_ENDPOINTS } from '../misc/constants';
 import { displayNotif } from '../misc/toast';
 import { convertToPost } from './firebaseToDataModel';
 
@@ -25,7 +25,7 @@ export async function getPosts(
 
     // request data from server
     const response = await axios
-        .get(`${SERVER_URL}/feed`, {
+        .get(SERVER_ENDPOINTS.GET_POSTS, {
             params: params,
         })
         .catch((error) => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { User } from 'firebase/auth';
-import { SERVER_URL } from '../misc/constants';
+import { SERVER_ENDPOINTS } from '../misc/constants';
 
 export async function deletePost(
     user: User | null | undefined,
@@ -8,7 +8,7 @@ export async function deletePost(
 ) {
     if (!user) return;
     const idToken = await user.getIdToken();
-    return await axios.delete(`${SERVER_URL}/deletePost`, {
+    return await axios.delete(SERVER_ENDPOINTS.DELETE_POST, {
         headers: {
             Authorization: idToken,
         },
