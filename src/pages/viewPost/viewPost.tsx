@@ -1,4 +1,4 @@
-import styles from './ViewPost.module.css';
+import css from './ViewPost.module.css';
 import React, { useState } from 'react';
 import {
     collection,
@@ -47,7 +47,7 @@ export const ViewPost: React.FC = () => {
     }
 
     return (
-        <div className={styles.postContainer}>
+        <div className={css.postContainer}>
             <Post data={new PostModel(postData)}></Post>
             <CommentSection
                 comments={comments}

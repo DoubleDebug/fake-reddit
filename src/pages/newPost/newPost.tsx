@@ -1,5 +1,5 @@
-import styles from './NewPost.module.css';
 import 'react-quill/dist/quill.snow.css';
+import css from './NewPost.module.css';
 import Select from 'react-select';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import TabPanel from '@mui/lab/TabPanel';
@@ -88,10 +88,10 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
     }
 
     return (
-        <div className={`contentBox ${styles.formContainer}`}>
-            <form className={styles.form}>
-                <h1 className={styles.label}>Create a new post</h1>
-                <div className={styles.selectSubreddit}>
+        <div className={`contentBox ${css.formContainer}`}>
+            <form className={css.form}>
+                <h1 className={css.label}>Create a new post</h1>
+                <div className={css.selectSubreddit}>
                     <Select
                         ref={subredditInput}
                         options={subreddits?.map((s) => {
@@ -123,7 +123,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     />
                 </div>
                 <input
-                    className={styles.title}
+                    className={css.title}
                     type="text"
                     placeholder="Title"
                     onInput={(e) => {
@@ -200,11 +200,11 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     </TabPanel>
                 </TabContext>
                 <div className="flex">
-                    <div className={styles.flairsContainer}>
+                    <div className={css.flairsContainer}>
                         {COMMON_FLAIRS.map((f, ind) => (
                             <button
                                 key={ind}
-                                className={`btn ${styles.btnFlair}`}
+                                className={`btn ${css.btnFlair}`}
                                 type="button"
                                 onClick={(e) =>
                                     handleFlairClick(e, setPostData, postData)
@@ -233,7 +233,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             )}
                     </div>
                     <button
-                        className={`btn ${styles.btnSubmit}`}
+                        className={`btn ${css.btnSubmit}`}
                         type="submit"
                         disabled={postStage === 'being-submitted'}
                         onClick={(e) =>

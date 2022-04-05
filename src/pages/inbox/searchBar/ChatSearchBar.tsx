@@ -1,4 +1,4 @@
-import convoStyles from '../conversations/Conversations.module.css';
+import convoCSS from '../conversations/Conversations.module.css';
 import { useState } from 'react';
 import { InstantSearch, Hits } from 'react-instantsearch-dom';
 import { Conversations } from '../conversations/Conversations';
@@ -32,7 +32,7 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
                     else props.setDisplayHits(false);
                 }}
             />
-            <div className={convoStyles.container}>
+            <div className={convoCSS.container}>
                 <Conversations
                     user={props.user}
                     rooms={props.rooms}

@@ -1,4 +1,4 @@
-import styles from './ImageUploader.module.css';
+import css from './ImageUploader.module.css';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { getImageURL } from '../../../utils/firebase/getImageURL';
 import { displayNotif } from '../../../utils/misc/toast';
@@ -66,7 +66,7 @@ export function handleOnDragoverEvent(
     if (!containerRef) return;
     e.preventDefault();
     setIsDropping(true);
-    containerRef.classList.add(styles.onDragOver);
+    containerRef.classList.add(css.onDragOver);
 }
 
 export function handleOnDragLeaveEvent(
@@ -75,7 +75,7 @@ export function handleOnDragLeaveEvent(
 ) {
     if (!containerRef) return;
     setIsDropping(false);
-    containerRef.classList.remove(styles.onDragOver);
+    containerRef.classList.remove(css.onDragOver);
 }
 
 export function handleOnDropEvent(

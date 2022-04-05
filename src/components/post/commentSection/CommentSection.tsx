@@ -1,4 +1,4 @@
-import styles from './CommentSection.module.css';
+import css from './CommentSection.module.css';
 import { Comment } from '../comment/Comment';
 import { CommentModel } from '../../../models/comment';
 import { WriteComment } from '../writeComment/WriteComment';
@@ -15,17 +15,15 @@ interface ICommentSectionProps {
 export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
     const [hiddenComments, setHiddenComments] = useState<string[]>([]);
     return (
-        <div className={`contentBox ${styles.section}`}>
+        <div className={`contentBox ${css.section}`}>
             {props.comments ? (
                 <div className="flex">
-                    <p className={styles.textSilver}>
+                    <p className={css.textSilver}>
                         {props.comments.length} comments
                     </p>
                     <p
                         className={
-                            styles.textUpvotedPercentage +
-                            ' ' +
-                            styles.textSilver
+                            css.textUpvotedPercentage + ' ' + css.textSilver
                         }
                     >
                         {props.post &&

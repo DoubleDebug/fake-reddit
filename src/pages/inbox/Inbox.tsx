@@ -1,4 +1,4 @@
-import styles from './Inbox.module.css';
+import css from './Inbox.module.css';
 import { useContext, useState } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
@@ -32,10 +32,10 @@ export const Inbox: React.FC = () => {
     if (!user) return <Redirect to="/" />;
 
     return (
-        <div className={`contentBox ${styles.container}`}>
-            <h1 className={styles.lblInbox}>Messages</h1>
+        <div className={`contentBox ${css.container}`}>
+            <h1 className={css.lblInbox}>Messages</h1>
             <div className="flex">
-                <div className={styles.leftPanel}>
+                <div className={css.leftPanel}>
                     <ChatSearchBar
                         user={user}
                         rooms={rooms}

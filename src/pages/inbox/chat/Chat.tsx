@@ -1,4 +1,4 @@
-import styles from './Chat.module.css';
+import css from './Chat.module.css';
 import {
     DocumentReference,
     Firestore,
@@ -78,8 +78,8 @@ export const Chat: React.FC<IChatProps> = (props) => {
 
     if (!props.roomId) {
         return (
-            <div className={styles.room}>
-                <div className={styles.welcomeBox}>
+            <div className={css.room}>
+                <div className={css.welcomeBox}>
                     <FontAwesomeIcon
                         icon={faCommentDots}
                         size="6x"
@@ -95,9 +95,9 @@ export const Chat: React.FC<IChatProps> = (props) => {
     }
 
     return (
-        <div className={styles.roomContainer}>
-            <div className={styles.room}>
-                <div className={styles.roomHeader}>
+        <div className={css.roomContainer}>
+            <div className={css.room}>
+                <div className={css.roomHeader}>
                     {loading ? (
                         <Skeleton
                             circle={true}
@@ -107,18 +107,18 @@ export const Chat: React.FC<IChatProps> = (props) => {
                         ></Skeleton>
                     ) : (
                         <img
-                            className={styles.imgUsernameAvatar}
+                            className={css.imgUsernameAvatar}
                             src={user2PhotoURL}
                             alt="User profile"
                         />
                     )}
-                    <div className={styles.roomUsernameContainer}>
+                    <div className={css.roomUsernameContainer}>
                         {!loading &&
                         room &&
                         room.createdAt &&
                         room.userIds &&
                         room.messages ? (
-                            <h2 className={styles.username}>
+                            <h2 className={css.username}>
                                 {room &&
                                     user &&
                                     getUsernameById(
@@ -139,46 +139,42 @@ export const Chat: React.FC<IChatProps> = (props) => {
                                 style={{ marginRight: '7px' }}
                             />
                             {userData && (
-                                <small className={styles.lblLastOnline}>
+                                <small className={css.lblLastOnline}>
                                     {timeAgo(userData?.lastOnline?.toDate())}
                                 </small>
                             )}
                         </div>
                     </div>
                 </div>
-                <hr className={styles.separator} />
+                <hr className={css.separator} />
                 {room && room.messages && !loading ? (
                     room.messages.map((m: IMessage, index: number) => {
                         if (!user) return null;
                         return (
                             <div
                                 className={`flex ${
-                                    isMessageMine(m, user)
-                                        ? ''
-                                        : styles.reversed
+                                    isMessageMine(m, user) ? '' : css.reversed
                                 }`}
                                 key={index}
                             >
                                 <div
                                     className={
-                                        styles.message +
+                                        css.message +
                                         ' ' +
-                                        styles[isMessageMineClass(m, user)]
+                                        css[isMessageMineClass(m, user)]
                                     }
                                 >
-                                    <p className={styles.content}>
-                                        {m.content}
-                                    </p>
+                                    <p className={css.content}>{m.content}</p>
                                     <small
-                                        className={styles.timestamp}
+                                        className={css.timestamp}
                                         title={formatTimestampFull(m.timestamp)}
                                     >
                                         {timeAgo(m.timestamp.toDate())}
                                     </small>
                                 </div>
-                                <div className={styles.messageAvatar}>
+                                <div className={css.messageAvatar}>
                                     <img
-                                        className={styles.imgUsernameAvatar}
+                                        className={css.imgUsernameAvatar}
                                         src={
                                             isMessageMine(m, user)
                                                 ? user.photoURL ||
@@ -200,7 +196,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
                         );
                     })
                 ) : (
-                    <div className={styles.loadingContainer}>
+                    <div className={css.loadingContainer}>
                         <FontAwesomeIcon
                             icon={faCircleNotch}
                             spin
@@ -210,9 +206,9 @@ export const Chat: React.FC<IChatProps> = (props) => {
                     </div>
                 )}
             </div>
-            <form className={styles.formInputMessage}>
+            <form className={css.formInputMessage}>
                 <input
-                    className={styles.inputMessage}
+                    className={css.inputMessage}
                     ref={inputMessage}
                     type="text"
                     placeholder="Write something"

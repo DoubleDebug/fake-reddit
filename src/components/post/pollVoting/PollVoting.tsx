@@ -1,10 +1,10 @@
+import css from './PollVoting.module.css';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { useState } from 'react';
 import { PollModel } from '../../../models/poll';
 import { displayNotif } from '../../../utils/misc/toast';
-import styles from './PollVoting.module.css';
 import { submitVote } from './PollVotingActions';
 
 interface IPollVotingProps {
@@ -22,7 +22,7 @@ export const PollVoting: React.FC<IPollVotingProps> = (props) => {
         <div className="flex">
             <RadioGroup
                 name="poll"
-                className={styles.pollContainer}
+                className={css.pollContainer}
                 onChange={(e) => setChosenOption(e.target.value)}
             >
                 <FormLabel>{`${props.data.votes.length} votes`}</FormLabel>
@@ -38,7 +38,7 @@ export const PollVoting: React.FC<IPollVotingProps> = (props) => {
             </RadioGroup>
             {!props.isPreview && props.uid && (
                 <button
-                    className={`btn ${styles.btnVote}`}
+                    className={`btn ${css.btnVote}`}
                     type="submit"
                     disabled={isUploading}
                     onClick={() => {

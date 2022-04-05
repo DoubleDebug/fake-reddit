@@ -1,4 +1,4 @@
-import styles from './WriteComment.module.css';
+import css from './WriteComment.module.css';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,18 +22,18 @@ export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
     }, []);
 
     return (
-        <div className={styles.container}>
+        <div className={css.container}>
             <textarea
                 ref={commentTextarea}
-                className={styles.replyTextarea}
+                className={css.replyTextarea}
                 placeholder={
                     props.parentCommentId ? 'Write a reply' : 'Write a comment'
                 }
             ></textarea>
-            <form className={styles.replyForm}>
+            <form className={css.replyForm}>
                 {props.setVisibility ? (
                     <p
-                        className={styles.btnCancel}
+                        className={css.btnCancel}
                         onClick={() =>
                             props.setVisibility && props.setVisibility(false)
                         }
@@ -42,7 +42,7 @@ export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
                     </p>
                 ) : null}
                 <button
-                    className={`btn ${styles.btnSubmit}`}
+                    className={`btn ${css.btnSubmit}`}
                     disabled={isSubmitting}
                     type="submit"
                     onClick={(e: React.MouseEvent) =>

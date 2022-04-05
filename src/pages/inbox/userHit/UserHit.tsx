@@ -1,4 +1,4 @@
-import convoStyles from '../conversations/Conversations.module.css';
+import convoCSS from '../conversations/Conversations.module.css';
 import { useContext } from 'react';
 import { openChatRoom } from '../../../components/post/PostActions';
 import { UserContext } from '../../../context/UserContext';
@@ -15,7 +15,7 @@ export const UserHit: React.FC<IUserHitProps> = (props) => {
     return (
         <div
             key={props.objectID}
-            className={convoStyles.conversation}
+            className={convoCSS.conversation}
             onClick={() => {
                 openChatRoom(
                     user,
@@ -31,11 +31,11 @@ export const UserHit: React.FC<IUserHitProps> = (props) => {
             <img
                 src={props.photoURL}
                 alt={props.name}
-                className={convoStyles.photo}
+                className={convoCSS.photo}
             />
             <div className="grid">
-                <p className={convoStyles.name}>{props.name}</p>
-                <small className={convoStyles.lastMessage}>
+                <p className={convoCSS.name}>{props.name}</p>
+                <small className={convoCSS.lastMessage}>
                     Start a new conversation
                 </small>
             </div>

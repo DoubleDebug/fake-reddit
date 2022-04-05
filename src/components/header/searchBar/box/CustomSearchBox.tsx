@@ -1,4 +1,4 @@
-import styles from './CustomSearchBox.module.css';
+import css from './CustomSearchBox.module.css';
 import { Paper, TextField } from '@mui/material';
 import { connectSearchBox } from 'react-instantsearch-dom';
 import React, { FormEvent } from 'react';
@@ -23,13 +23,13 @@ const SearchBox: React.FC<ISearchBoxProps> = ({
     return (
         <Paper
             component="form"
-            className={styles.paper}
+            className={css.paper}
             onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
         >
             <FontAwesomeIcon
                 icon={faSearch}
                 color="silver"
-                className={styles.icon}
+                className={css.icon}
                 size="sm"
             />
             <TextField
@@ -40,7 +40,7 @@ const SearchBox: React.FC<ISearchBoxProps> = ({
                 placeholder="Search Reddit"
                 color="warning"
                 value={currentRefinement}
-                className={styles.box}
+                className={css.box}
                 onChange={(e) => {
                     const query = e.currentTarget.value;
                     onChangeCallback(query);

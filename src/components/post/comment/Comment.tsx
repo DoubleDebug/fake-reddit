@@ -1,4 +1,4 @@
-import styles from './Comment.module.css';
+import css from './Comment.module.css';
 import React, { useContext, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { CommentModel } from '../../../models/comment';
@@ -34,24 +34,20 @@ export const Comment: React.FC<ICommentProps> = (props) => {
 
     return (
         <div
-            className={`${styles.comment} ${
-                props.data.isReply ? styles.isReply : ''
+            className={`${css.comment} ${
+                props.data.isReply ? css.isReply : ''
             }`}
         >
-            <img
-                alt="U"
-                src={authorPhotoURL}
-                className={styles.imgAvatar}
-            ></img>
+            <img alt="U" src={authorPhotoURL} className={css.imgAvatar}></img>
             {props.data.author ? (
-                <div className={styles.header}>
-                    <small className={styles.author}>{props.data.author}</small>
-                    <small className={styles.timeAgo}>
+                <div className={css.header}>
+                    <small className={css.author}>{props.data.author}</small>
+                    <small className={css.timeAgo}>
                         {`• ${timeAgo(props.data.createdAt.toDate())}`}
                     </small>
                     {user && isCommentMine(props.data, user) ? (
                         <p
-                            className={styles.btnCommentAction}
+                            className={css.btnCommentAction}
                             onClick={() => deleteComment(props.data)}
                         >
                             Delete
@@ -66,7 +62,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                     ) : null}
                     {!props.data.isReply && (
                         <p
-                            className={styles.btnCommentAction}
+                            className={css.btnCommentAction}
                             onClick={() => setShowReply(true)}
                         >
                             Reply
@@ -99,13 +95,13 @@ export const Comment: React.FC<ICommentProps> = (props) => {
             )}
             {!props.data.isReply && (
                 <button
-                    className={styles.btnExpand}
+                    className={css.btnExpand}
                     onClick={() =>
                         props.hideComment && props.hideComment(props.data.id)
                     }
                 />
             )}
-            <p className={styles.text}>{props.data.text}</p>
+            <p className={css.text}>{props.data.text}</p>
             <div></div>
             {showReply && (
                 <WriteComment

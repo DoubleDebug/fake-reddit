@@ -1,4 +1,4 @@
-import styles from './ChatSearchBox.module.css';
+import css from './ChatSearchBox.module.css';
 import TextField from '@mui/material/TextField';
 import { connectSearchBox } from 'react-instantsearch-dom';
 
@@ -11,7 +11,7 @@ interface IChatSearchBoxProps {
 const MyChatSearchBox: React.FC<IChatSearchBoxProps> = (props) => {
     return (
         <TextField
-            className={styles.searchBar}
+            className={css.searchBar}
             variant="filled"
             color="warning"
             placeholder="Search..."

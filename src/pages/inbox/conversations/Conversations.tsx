@@ -1,4 +1,4 @@
-import styles from './Conversations.module.css';
+import css from './Conversations.module.css';
 import { User } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { getSecondUser } from '../../../utils/misc/whichUserUtils';
@@ -30,25 +30,20 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
 
     if (!props.rooms) {
         const conversationSkeletons = Array(3).fill(
-            <div
-                className={styles.conversation}
-                style={{ paddingLeft: '1rem' }}
-            >
+            <div className={css.conversation} style={{ paddingLeft: '1rem' }}>
                 <Skeleton width={40} height={40} circle />
-                <div className={styles.nameSkeleton}>
+                <div className={css.nameSkeleton}>
                     <Skeleton width={110} height={15} />
                     <Skeleton width={180} height={15} />
                 </div>
             </div>
         );
 
-        return (
-            <div className={styles.conversations}>{conversationSkeletons}</div>
-        );
+        return <div className={css.conversations}>{conversationSkeletons}</div>;
     }
 
     return (
-        <div className={styles.conversations}>
+        <div className={css.conversations}>
             {props.rooms?.map((r: IChatRoom) => {
                 const isSelected = r.id === props.selectedRoom;
                 const secondUid = getSecondUser(props.user.uid, r.userIds);
@@ -63,19 +58,19 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
                 return (
                     <div
                         key={r.id}
-                        className={`${styles.conversation} ${
-                            isSelected ? styles.selected : ''
+                        className={`${css.conversation} ${
+                            isSelected ? css.selected : ''
                         }`}
                         onClick={() => props.handleRoomChange(r.id)}
                     >
                         <img
                             src={secondUser.url}
                             alt={secondUser.name}
-                            className={styles.photo}
+                            className={css.photo}
                         />
                         <div className="grid">
-                            <p className={styles.name}>{secondUser.name}</p>
-                            <small className={styles.lastMessage}>
+                            <p className={css.name}>{secondUser.name}</p>
+                            <small className={css.lastMessage}>
                                 {formatMessage(r)}
                             </small>
                         </div>

@@ -1,5 +1,5 @@
 import 'react-loading-skeleton/dist/skeleton.css';
-import styles from './Post.module.css';
+import css from './Post.module.css';
 import React, { useContext, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { timeAgo } from '../../utils/misc/timeAgo';
@@ -46,16 +46,16 @@ export const Post: React.FC<IPostProps> = (props) => {
     if (redirectChatId) return <Redirect to={`/inbox/${redirectChatId}`} />;
     if (deleted) return null;
     return (
-        <div className={`contentBox ${styles.container}`}>
-            <div className={styles.postHeader}>
-                <div className={styles.postVoting}>
-                    <h2 className={styles.score}>{score}</h2>
-                    <div className={styles.arrows}>
+        <div className={`contentBox ${css.container}`}>
+            <div className={css.postHeader}>
+                <div className={css.postVoting}>
+                    <h2 className={css.score}>{score}</h2>
+                    <div className={css.arrows}>
                         <FontAwesomeIcon
                             icon={faChevronCircleUp}
                             color={upvoted ? 'darkorange' : 'silver'}
                             size="lg"
-                            className={'btn ' + styles.btnVote}
+                            className={'btn ' + css.btnVote}
                             onClick={() =>
                                 upvote(
                                     user,
@@ -74,7 +74,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                                 upvoted === false ? 'lightskyblue' : 'silver'
                             }
                             size="lg"
-                            className={'btn ' + styles.btnVote}
+                            className={'btn ' + css.btnVote}
                             onClick={() =>
                                 downvote(
                                     user,
@@ -89,16 +89,16 @@ export const Post: React.FC<IPostProps> = (props) => {
                         />
                     </div>
                 </div>
-                <div className={styles.postBody}>
-                    <div className={styles.authorAndDate}>
+                <div className={css.postBody}>
+                    <div className={css.authorAndDate}>
                         {props.data.id && (
                             <Link to={`/r/${props.data.subreddit}`}>
                                 <strong
-                                    className={styles.subreddit}
+                                    className={css.subreddit}
                                 >{`r/${props.data.subreddit}`}</strong>
                             </Link>
                         )}
-                        <div className={styles.secondaryText}>
+                        <div className={css.secondaryText}>
                             {props.data.author ? (
                                 <div className="flex">
                                     <small>Posted by </small>
@@ -118,7 +118,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                                                           setRedirectChatId
                                                       )
                                         }
-                                        className={styles.author}
+                                        className={css.author}
                                         title={`Chat with ${props.data.author}`}
                                     >
                                         {props.data.author}
@@ -133,7 +133,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                                 to={`/post/${props.data.id}`}
                                 title="Open post"
                                 className={
-                                    styles.secondaryText + ' ' + styles.timeAgo
+                                    css.secondaryText + ' ' + css.timeAgo
                                 }
                             >
                                 {props.data.title &&
@@ -144,22 +144,20 @@ export const Post: React.FC<IPostProps> = (props) => {
                     {props.data.title ? (
                         props.isPreview ? (
                             <Link
-                                className={styles.title}
+                                className={css.title}
                                 to={`/post/${props.data.id}`}
                             >
                                 {props.data.title}
                             </Link>
                         ) : (
                             <div className="grid">
-                                <p className={styles.title}>
-                                    {props.data.title}
-                                </p>
-                                <div className={styles.flairsContainer}>
+                                <p className={css.title}>{props.data.title}</p>
+                                <div className={css.flairsContainer}>
                                     {!props.isPreview &&
                                         props.data.flairs?.map((f, index) => (
                                             <small
                                                 key={`flair${index}`}
-                                                className={styles.flair}
+                                                className={css.flair}
                                             >{`#${f}`}</small>
                                         ))}
                                 </div>
@@ -173,7 +171,7 @@ export const Post: React.FC<IPostProps> = (props) => {
             {user ? (
                 props.data.authorId === user.uid ? (
                     <FontAwesomeIcon
-                        className={'btn ' + styles.btnDelete}
+                        className={'btn ' + css.btnDelete}
                         icon={faTrash}
                         color="silver"
                         title="Delete post"
@@ -187,7 +185,7 @@ export const Post: React.FC<IPostProps> = (props) => {
             )}
             {props.isPreview ? (
                 <Link
-                    className={`${styles.linkToPost} ${styles.isPreview}`}
+                    className={`${css.linkToPost} ${css.isPreview}`}
                     to={`/post/${props.data.id}`}
                 >
                     <PostContent

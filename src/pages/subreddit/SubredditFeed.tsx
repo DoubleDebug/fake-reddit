@@ -1,7 +1,7 @@
-import styles from './Subreddit.module.css';
+import css from './Subreddit.module.css';
+import Skeleton from 'react-loading-skeleton';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 import { Feed } from '../../components/feed/Feed';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
@@ -16,12 +16,12 @@ interface ISubredditFeedProps {
 export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
     return (
         <div className="grid">
-            <div className={`contentBox ${styles.container}`}>
-                <div className={styles.imageAndTitle}>
+            <div className={`contentBox ${css.container}`}>
+                <div className={css.imageAndTitle}>
                     {props.data ? (
                         <img
-                            className={`${styles.image} ${
-                                props.data.photoURL ? '' : styles.imageDefault
+                            className={`${css.image} ${
+                                props.data.photoURL ? '' : css.imageDefault
                             }`}
                             src={props.data.photoURL}
                             alt="Subreddit"
@@ -35,7 +35,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                     )}
                     <div className="grid" style={{ marginLeft: '1rem' }}>
                         <div className="flex">
-                            <h1 className={styles.title}>
+                            <h1 className={css.title}>
                                 {props.data ? (
                                     props.data.id
                                 ) : (
@@ -43,7 +43,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                                 )}
                             </h1>
                         </div>
-                        <p className={styles.path}>
+                        <p className={css.path}>
                             {props.data ? (
                                 `r/${props.data?.id}`
                             ) : (
@@ -53,7 +53,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                     </div>
                     <Link
                         to={`${props.url}/newPost`}
-                        className={styles.btnAddPost}
+                        className={css.btnAddPost}
                         title="Add a new post"
                     >
                         <button className="btn">
@@ -63,9 +63,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                 </div>
 
                 {props.data ? (
-                    <p className={styles.description}>
-                        {props.data.description}
-                    </p>
+                    <p className={css.description}>{props.data.description}</p>
                 ) : (
                     <Skeleton
                         count={2}

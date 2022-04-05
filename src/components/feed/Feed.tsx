@@ -1,4 +1,4 @@
-import styles from './Feed.module.css';
+import css from './Feed.module.css';
 import { doc, DocumentReference, getFirestore } from '@firebase/firestore';
 import { useEffect, useState } from 'react';
 import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
@@ -52,11 +52,11 @@ export const Feed: React.FC<IFeedProps> = (props) => {
 
     if (posts.length === 0 && !loadingPosts) {
         return (
-            <div className={styles.noPosts}>
+            <div className={css.noPosts}>
                 <h2>Nothing to see here.</h2>
                 <p>Be the first to post in this subreddit.</p>
                 <Link
-                    className={styles.btnNoPostsSubmit}
+                    className={css.btnNoPostsSubmit}
                     to={
                         url.includes('/r/')
                             ? `${url}/newPost`
@@ -69,17 +69,17 @@ export const Feed: React.FC<IFeedProps> = (props) => {
         );
     }
     return (
-        <div className={styles.feed}>
+        <div className={css.feed}>
             {windowScrollY > SCROLL_TOP_MAX_VAL && (
                 <button
                     onClick={handleBackToTopEvent}
                     type="submit"
-                    className={`btn ${styles.btnBackToTop}`}
+                    className={`btn ${css.btnBackToTop}`}
                 >
                     Back to top
                 </button>
             )}
-            <div className={styles.postsContainer}>
+            <div className={css.postsContainer}>
                 {posts.map((p, index: number) => {
                     return (
                         <div key={index}>

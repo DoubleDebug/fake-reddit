@@ -1,5 +1,5 @@
+import css from './Dropdown.module.css';
 import React from 'react';
-import styles from './Dropdown.module.css';
 import { DropdownMenu, IDropdownProps } from './DropdownMenu';
 
 interface DropdownState {
@@ -19,7 +19,7 @@ export class Dropdown extends React.Component<IDropdownProps, DropdownState> {
     render() {
         return (
             <div
-                className={styles.dropdown}
+                className={css.dropdown}
                 onClick={() =>
                     this.setState((ps) => ({
                         showMenu: !ps.showMenu,

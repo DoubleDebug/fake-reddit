@@ -1,4 +1,4 @@
-import styles from '../NewPost.module.css';
+import css from '../NewPost.module.css';
 import { useEffect, useState } from 'react';
 import { ISubreddit } from '../../../models/subreddit';
 import {
@@ -26,7 +26,7 @@ export const SelectFlairs: React.FC<ISelectFlairsProps> = (props) => {
 
     return subreddit ? (
         <Select
-            className={styles.selectFlair}
+            className={css.selectFlair}
             placeholder="Choose a flair"
             options={getFlairsFromSubreddit(
                 props.subreddits,

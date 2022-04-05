@@ -1,5 +1,5 @@
+import css from './ImageUploader.module.css';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import styles from './ImageUploader.module.css';
 import { SUPPORTED_FILE_FORMATS } from '../../../utils/misc/constants';
 import { DragAndDrop, FileInfo } from './DragAndDrop';
 import {
@@ -77,7 +77,7 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
     }, []);
 
     return (
-        <div className={styles.container} ref={containerRef}>
+        <div className={css.container} ref={containerRef}>
             <input
                 type="file"
                 ref={fileInputRef}

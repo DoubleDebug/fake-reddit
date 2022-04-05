@@ -1,4 +1,4 @@
-import styles from './ImageUploader.module.css';
+import css from './ImageUploader.module.css';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useState } from 'react';
@@ -52,8 +52,8 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = (props) => {
 
 const StateFileIsUploaded: React.FC<{ fileName: string }> = (props) => {
     return (
-        <div className={styles.previewContainer}>
-            <div className={styles.imagePreview}>
+        <div className={css.previewContainer}>
+            <div className={css.imagePreview}>
                 <FontAwesomeIcon icon={faCircleNotch} spin={true} size="2x" />
             </div>
             <p>{props.fileName}</p>
@@ -62,7 +62,7 @@ const StateFileIsUploaded: React.FC<{ fileName: string }> = (props) => {
 };
 
 const StateFileIsBeingDropped: React.FC = () => {
-    return <h2 className={styles.textDrop}>Drop here to upload</h2>;
+    return <h2 className={css.textDrop}>Drop here to upload</h2>;
 };
 
 const StateFileIsBeingUploaded: React.FC<{
@@ -73,12 +73,12 @@ const StateFileIsBeingUploaded: React.FC<{
     isImage: boolean;
 }> = (props) => {
     return (
-        <div className={styles.previewContainer}>
+        <div className={css.previewContainer}>
             {props.isImage ? (
                 <img
                     ref={props.handleLoadedImage}
-                    className={`${styles.imagePreview} ${
-                        props.previewIsLoaded ? styles.show : styles.hide
+                    className={`${css.imagePreview} ${
+                        props.previewIsLoaded ? css.show : css.hide
                     }`}
                     src={props.uploadedFile.url}
                     alt="Preview uploaded file"
@@ -86,14 +86,14 @@ const StateFileIsBeingUploaded: React.FC<{
             ) : (
                 <video
                     ref={props.handleLoadedVideo}
-                    className={`${styles.imagePreview} ${
-                        props.previewIsLoaded ? styles.show : styles.hide
+                    className={`${css.imagePreview} ${
+                        props.previewIsLoaded ? css.show : css.hide
                     }`}
                     src={props.uploadedFile.url}
                 ></video>
             )}
             {!props.previewIsLoaded && (
-                <div className={styles.imagePreview}>
+                <div className={css.imagePreview}>
                     <FontAwesomeIcon
                         icon={faCircleNotch}
                         spin={true}
@@ -113,9 +113,7 @@ const StateDefault: React.FC<{
 }> = (props) => {
     return (
         <div className="flex">
-            <h2 className={styles.textDrag}>
-                Drag and drop an image/video or{' '}
-            </h2>
+            <h2 className={css.textDrag}>Drag and drop an image/video or </h2>
             <button
                 onClick={(e) => props.showFileDialog(e)}
                 className="btn"

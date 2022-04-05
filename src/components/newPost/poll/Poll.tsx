@@ -1,8 +1,8 @@
+import css from './Poll.module.css';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { PollModel } from '../../../models/poll';
-import styles from './Poll.module.css';
 import { addOption, removeOption, updateOption } from './PollActions';
 
 interface IPollProps {
@@ -32,13 +32,13 @@ export const Poll: React.FC<IPollProps> = (props) => {
     }, [pollData]);
 
     return (
-        <div className={styles.container}>
-            <div className={styles.options}>
+        <div className={css.container}>
+            <div className={css.options}>
                 {pollData.options.map((option, index) => (
                     <div className="flex" key={`option${index}`}>
                         <input
                             type="text"
-                            className={styles.textbox}
+                            className={css.textbox}
                             style={
                                 index > 1
                                     ? {
@@ -59,7 +59,7 @@ export const Poll: React.FC<IPollProps> = (props) => {
                         {index > 1 ? (
                             <button
                                 key={`btnDelete${index}`}
-                                className={styles.btnRemoveOption}
+                                className={css.btnRemoveOption}
                                 onClick={(e) =>
                                     removeOption(
                                         e,
@@ -76,7 +76,7 @@ export const Poll: React.FC<IPollProps> = (props) => {
                 ))}
             </div>
             <button
-                className={styles.btnAddOption}
+                className={css.btnAddOption}
                 onClick={(e) => addOption(e, pollData, setPollData)}
             >
                 Add option

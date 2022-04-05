@@ -1,5 +1,5 @@
+import css from './SearchBar.module.css';
 import { useState } from 'react';
-import styles from './SearchBar.module.css';
 import { Hits, InstantSearch } from 'react-instantsearch-dom';
 import { getSearchClient } from '../../../../utils/misc/algoliaClient';
 import { PostHit } from '../hit/PostHit';
@@ -12,7 +12,7 @@ export const SearchBar: React.FC = () => {
     const [displayHits, setDisplayHits] = useState(false);
 
     return (
-        <div className={styles.container}>
+        <div className={css.container}>
             <InstantSearch
                 indexName={ALG_INDICES.POSTS}
                 searchClient={searchClient}

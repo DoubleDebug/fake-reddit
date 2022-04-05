@@ -1,4 +1,4 @@
-import styles from './Header.module.css';
+import css from './Header.module.css';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,18 +26,18 @@ export const Header: React.FC = () => {
         <>
             <Toaster />
             <svg
-                className={styles.pageBackground}
+                className={css.pageBackground}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox={HEADER_SVG_VIEWBOX}
                 preserveAspectRatio="xMidYMax meet"
             >
                 <path fill="white" fillOpacity="1" d={HEADER_SVG_PATH}></path>
             </svg>
-            <div className={styles.header}>
-                <div className={styles.headerTopRight}>
-                    <div className={styles.logoTopRight}>
-                        <img className={styles.headerIcon} alt="Logo"></img>
-                        <Link to="/" className={'btn ' + styles.btnHomepage}>
+            <div className={css.header}>
+                <div className={css.headerTopRight}>
+                    <div className={css.logoTopRight}>
+                        <img className={css.headerIcon} alt="Logo"></img>
+                        <Link to="/" className={'btn ' + css.btnHomepage}>
                             FakeReddit
                         </Link>
                     </div>
@@ -49,9 +49,9 @@ export const Header: React.FC = () => {
                     <div className="flex">
                         <Link
                             to="/newPost"
-                            className={'linkNoUnderline ' + styles.linkNewPost}
+                            className={'linkNoUnderline ' + css.linkNewPost}
                         >
-                            <button className={'btn ' + styles.btnNewPost}>
+                            <button className={'btn ' + css.btnNewPost}>
                                 <FontAwesomeIcon
                                     icon={faPlus}
                                     style={{ marginRight: '10px' }}
@@ -60,7 +60,7 @@ export const Header: React.FC = () => {
                             </button>
                         </Link>
                         <div className="flex">
-                            <p className={styles.lblDisplayName}>
+                            <p className={css.lblDisplayName}>
                                 {user.displayName}
                             </p>
                         </div>
@@ -77,7 +77,7 @@ export const Header: React.FC = () => {
                             ]}
                         >
                             <img
-                                className={styles.imgAvatar}
+                                className={css.imgAvatar}
                                 src={photoURL}
                                 alt="U"
                             />
@@ -85,7 +85,7 @@ export const Header: React.FC = () => {
                     </div>
                 ) : (
                     <button
-                        className={'btn ' + styles.btnLogin}
+                        className={'btn ' + css.btnLogin}
                         onClick={() => signInWithGoogle()}
                     >
                         Sign in

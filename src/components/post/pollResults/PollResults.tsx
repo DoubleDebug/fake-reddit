@@ -1,4 +1,4 @@
-import styles from './PollResults.module.css';
+import css from './PollResults.module.css';
 import { FormLabel } from '@mui/material';
 import { PollModel } from '../../../models/poll';
 import { useState } from 'react';
@@ -16,7 +16,7 @@ export const PollResults: React.FC<IPollResultsProps> = (props) => {
     const [results] = useState(props.data.getResults());
 
     return (
-        <div className={styles.container}>
+        <div className={css.container}>
             <FormLabel>{`${props.data.votes.length} votes`}</FormLabel>
             {props.data.options.map((option, index) => {
                 // fill CSS animation
@@ -33,12 +33,12 @@ export const PollResults: React.FC<IPollResultsProps> = (props) => {
                 return (
                     <div
                         key={index}
-                        className={`${styles.option} ${
-                            option === results.winner ? styles.winner : ''
+                        className={`${css.option} ${
+                            option === results.winner ? css.winner : ''
                         }`}
                     >
                         <div
-                            className={styles.fill}
+                            className={css.fill}
                             id={`post_${props.postId}_fill_${index}`}
                         ></div>
                         <p>{option}</p>
@@ -48,7 +48,7 @@ export const PollResults: React.FC<IPollResultsProps> = (props) => {
                                 style={{ marginLeft: '0.5rem' }}
                             />
                         )}
-                        <small className={styles.numOfVotes}>
+                        <small className={css.numOfVotes}>
                             {`${
                                 getSpecificResult(results, option).numOfVotes
                             } votes`}

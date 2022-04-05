@@ -1,4 +1,4 @@
-import styles from './Post.module.css';
+import css from './Post.module.css';
 import Skeleton from 'react-loading-skeleton';
 import { Markup } from 'interweave';
 import { useContext } from 'react';
@@ -18,8 +18,8 @@ export const PostContent: React.FC<IPostContentProps> = (props) => {
     const user = useContext(UserContext);
     return (
         <div
-            className={`${styles.postContent} ${
-                props.isPreview ? styles.preview : ''
+            className={`${css.postContent} ${
+                props.isPreview ? css.preview : ''
             }`}
         >
             {props.data.pollData ? (
@@ -54,7 +54,7 @@ export const PostContent: React.FC<IPostContentProps> = (props) => {
             {!props.data.content && !props.data.pollData && (
                 <Skeleton count={5} />
             )}
-            {props.isPreview ? <div className={styles.fade}></div> : null}
+            {props.isPreview ? <div className={css.fade}></div> : null}
         </div>
     );
 };
