@@ -5,6 +5,7 @@ import { getSearchClient } from '../../../../utils/misc/algoliaClient';
 import { PostHit } from '../hit/PostHit';
 import { CustomSearchBox } from '../box/CustomSearchBox';
 import { validateQuery } from './SearchBarActions';
+import { ALG_INDICES } from '../../../../utils/misc/constants';
 
 export const SearchBar: React.FC = () => {
     const [searchClient] = useState(getSearchClient());
@@ -12,7 +13,10 @@ export const SearchBar: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <InstantSearch indexName="posts" searchClient={searchClient}>
+            <InstantSearch
+                indexName={ALG_INDICES.POSTS}
+                searchClient={searchClient}
+            >
                 <CustomSearchBox
                     onChangeCallback={(q) => validateQuery(q, setDisplayHits)}
                     onBlurCallback={() => setDisplayHits(false)}

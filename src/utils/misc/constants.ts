@@ -34,8 +34,12 @@ export const DB_COLLECTIONS = {
 };
 
 // ALGOLIA
-export const ALGOLIA_APP_ID = '1JHTFIMCJH';
-export const ALGOLIA_API_KEY = '141efc34b4f66d65cf143e83c91ceae7';
+export const ALG_APP_ID = '1JHTFIMCJH';
+export const ALG_API_KEY = '141efc34b4f66d65cf143e83c91ceae7';
+export const ALG_INDICES = {
+    POSTS: 'posts',
+    USERS: 'users',
+};
 
 // LOCAL STORAGE ITEMS
 export const LS_USER_PHOTO_URLS = 'cachedUserPhotoURLArray';

@@ -7,6 +7,7 @@ import { ChatSearchBox } from './box/ChatSearchBox';
 import { getSearchClient } from '../../../utils/misc/algoliaClient';
 import { User } from 'firebase/auth';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
+import { ALG_INDICES } from '../../../utils/misc/constants';
 
 interface IChatSearchBarProps {
     user: User;
@@ -21,7 +22,10 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
     const [searchClient] = useState(getSearchClient());
 
     return (
-        <InstantSearch indexName="users" searchClient={searchClient}>
+        <InstantSearch
+            indexName={ALG_INDICES.USERS}
+            searchClient={searchClient}
+        >
             <ChatSearchBox
                 onChangeCallback={(q: string) => {
                     if (q.length >= 2) props.setDisplayHits(true);
