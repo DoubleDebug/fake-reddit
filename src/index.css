@@ -72,6 +72,11 @@ code {
     transform: scale(1.02);
 }
 
+img {
+    white-space: nowrap;
+    font-size: 0.6rem;
+}
+
 /* MUI Tabs */
 
 .MuiTabPanel-root {
@@ -79,10 +84,12 @@ code {
     padding-right: 0px !important;
 }
 
-/* Algolia Search bar */
+/* Algolia search bar */
 
-.ais-Hits {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
+.ais-Hits ul {
+    list-style-type: none;
+}
+
+.ais-Hits-list {
+    margin: 0;
 }

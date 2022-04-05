@@ -38,7 +38,7 @@ const SearchBox: React.FC<ISearchBoxProps> = ({
                 variant="filled"
                 type="search"
                 placeholder="Search Reddit"
-                color="secondary"
+                color="warning"
                 value={currentRefinement}
                 className={styles.box}
                 onChange={(e) => {

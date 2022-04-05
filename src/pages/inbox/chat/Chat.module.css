@@ -132,3 +132,9 @@ input[type='text'].inputMessage:focus {
 .reversed {
     flex-direction: row-reverse;
 }
+
+.loadingContainer {
+    display: flex;
+    margin: 12rem auto;
+    margin-bottom: 20rem;
+}

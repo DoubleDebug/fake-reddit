@@ -71,16 +71,19 @@ export function deletePost(
 }
 
 export async function openChatRoom(
-    user: User | null | undefined,
-    data: PostModel,
+    me: User | null | undefined,
+    secondUser: {
+        id: string;
+        name: string;
+    },
     setRedirectChatId: (id: string | null) => void
 ) {
-    if (!user || !data.id) {
+    if (!me) {
         displayNotifJSX(() =>
             signInPopup(
-                `chat with ${data.author.substring(
+                `chat with ${secondUser.name.substring(
                     0,
-                    data.author.indexOf(' ')
+                    secondUser.name.indexOf(' ')
                 )}`
             )
         );
@@ -88,12 +91,12 @@ export async function openChatRoom(
     }
     const room = await createChatRoom(
         {
-            id: user.uid,
-            name: user.displayName!,
+            id: me.uid,
+            name: me.displayName!,
         },
         {
-            id: data.authorId!,
-            name: data.author,
+            id: secondUser.id,
+            name: secondUser.name,
         }
     );
 

@@ -1,0 +1,7 @@
+.searchBar {
+    margin-bottom: 1rem !important;
+}
+
+.searchBar > div > input[type='text'] {
+    border: none;
+}

@@ -20,7 +20,11 @@ import {
 } from '../../../utils/misc/constants';
 import { timeAgo } from '../../../utils/misc/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faCommentDots } from '@fortawesome/free-solid-svg-icons';
+import {
+    faCircle,
+    faCircleNotch,
+    faCommentDots,
+} from '@fortawesome/free-solid-svg-icons';
 import Skeleton from 'react-loading-skeleton';
 import {
     getSecondUser,
@@ -72,7 +76,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
         );
     }, [user, room]);
 
-    if (!room?.createdAt || !props.roomId) {
+    if (!props.roomId) {
         return (
             <div className={styles.room}>
                 <div className={styles.welcomeBox}>
@@ -109,9 +113,11 @@ export const Chat: React.FC<IChatProps> = (props) => {
                         />
                     )}
                     <div className={styles.roomUsernameContainer}>
-                        {loading ? (
-                            <Skeleton width="300px"></Skeleton>
-                        ) : (
+                        {!loading &&
+                        room &&
+                        room.createdAt &&
+                        room.userIds &&
+                        room.messages ? (
                             <h2 className={styles.username}>
                                 {room &&
                                     user &&
@@ -123,23 +129,25 @@ export const Chat: React.FC<IChatProps> = (props) => {
                                         ) || ''
                                     )}
                             </h2>
-                        )}
-                        {loading ? (
-                            <Skeleton width="150px"></Skeleton>
                         ) : (
-                            <small className={styles.lblLastOnline}>
-                                <FontAwesomeIcon
-                                    icon={faCircle}
-                                    color="LawnGreen"
-                                    style={{ marginRight: '7px' }}
-                                />
-                                {timeAgo(userData?.lastOnline?.toDate())}
-                            </small>
+                            <Skeleton width="250px"></Skeleton>
                         )}
+                        <div className="flex">
+                            <FontAwesomeIcon
+                                icon={faCircle}
+                                color="LawnGreen"
+                                style={{ marginRight: '7px' }}
+                            />
+                            {userData && (
+                                <small className={styles.lblLastOnline}>
+                                    {timeAgo(userData?.lastOnline?.toDate())}
+                                </small>
+                            )}
+                        </div>
                     </div>
                 </div>
                 <hr className={styles.separator} />
-                {room &&
+                {room && room.messages && !loading ? (
                     room.messages.map((m: IMessage, index: number) => {
                         if (!user) return null;
                         return (
@@ -190,7 +198,17 @@ export const Chat: React.FC<IChatProps> = (props) => {
                                 </div>
                             </div>
                         );
-                    })}
+                    })
+                ) : (
+                    <div className={styles.loadingContainer}>
+                        <FontAwesomeIcon
+                            icon={faCircleNotch}
+                            spin
+                            size="2x"
+                            color="silver"
+                        />
+                    </div>
+                )}
             </div>
             <form className={styles.formInputMessage}>
                 <input

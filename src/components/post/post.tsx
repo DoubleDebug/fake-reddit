@@ -109,7 +109,12 @@ export const Post: React.FC<IPostProps> = (props) => {
                                                 : () =>
                                                       openChatRoom(
                                                           user,
-                                                          props.data,
+                                                          {
+                                                              id: props.data
+                                                                  .authorId!,
+                                                              name: props.data
+                                                                  .author,
+                                                          },
                                                           setRedirectChatId
                                                       )
                                         }

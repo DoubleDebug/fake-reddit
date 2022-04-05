@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './SearchBar.module.css';
 import { Hits, InstantSearch } from 'react-instantsearch-dom';
 import { getSearchClient } from '../../../../utils/misc/algoliaClient';
-import { Hit } from '../hit/Hit';
+import { PostHit } from '../hit/PostHit';
 import { CustomSearchBox } from '../box/CustomSearchBox';
 import { validateQuery } from './SearchBarActions';
 
@@ -19,7 +19,9 @@ export const SearchBar: React.FC = () => {
                     onFocusCallback={(q) => validateQuery(q, setDisplayHits)}
                 />
                 {displayHits && (
-                    <Hits hitComponent={(data: any) => <Hit {...data.hit} />} />
+                    <Hits
+                        hitComponent={(data: any) => <PostHit {...data.hit} />}
+                    />
                 )}
             </InstantSearch>
         </div>

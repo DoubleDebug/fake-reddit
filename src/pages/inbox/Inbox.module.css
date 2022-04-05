@@ -7,3 +7,8 @@
     margin: 1rem;
     margin-bottom: 2rem;
 }
+
+.leftPanel {
+    display: grid;
+    grid-template-rows: min-content auto;
+}

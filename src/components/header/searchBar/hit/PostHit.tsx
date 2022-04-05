@@ -1,8 +1,8 @@
+import styles from './PostHit.module.css';
 import { Link } from 'react-router-dom';
 import { timeAgo } from '../../../../utils/misc/timeAgo';
-import styles from './Hit.module.css';
 
-export const Hit: React.FC<PostHit> = (data) => {
+export const PostHit: React.FC<PostHit> = (data) => {
     return (
         <Link to={`/post/${data.id}`} className={styles.link}>
             <article className={styles.box}>
