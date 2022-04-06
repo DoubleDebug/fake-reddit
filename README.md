@@ -1,4 +1,4 @@
-# fake-reddit-backend
+# FakeReddit
 
 Reddit website clone with React, Typescript and Firebase.
 
@@ -16,28 +16,45 @@ Reddit website clone with React, Typescript and Firebase.
     -   Text
     -   Image/video
     -   Poll
--   Upvote/downvote
+-   Upvote/downvote posts
 -   Post comments
 -   Inbox & chatting with other redditors
 -   Searching for posts
 
-## How to setup locally
+## Technology stack
+
+| Front-end:                                                                                    | Back-end:                           |
+| --------------------------------------------------------------------------------------------- | ----------------------------------- |
+| React                                                                                         | NodeJS                              |
+|                                                                                               | Express                             |
+| Typescript                                                                                    | Typescript                          |
+| Firebase<ul><li>Auth</li><li>Firestore</li><li>Storage</li><li>React Firebase Hooks</li></ul> | Firebase<ul><li>Admin SDK</li></ul> |
+| Axios                                                                                         | Algolia Search                      |
+| React Router Dom                                                                              | Node Cron                           |
+| Material UI                                                                                   | DotEnv                              |
+| FontAwesome icons                                                                             |
+| React Hot Toast                                                                               |
+| React Loading Skeleton                                                                        |
+| React Quill                                                                                   |
+
+## How to run locally
 
 0. Install [NodeJS](https://nodejs.org/en/).
-1. Clone both [frontend](https://github.com/DoubleDebug/fake-reddit) and backend repositories.
+1. Clone both [frontend](https://github.com/DoubleDebug/fake-reddit) and [backend](https://github.com/DoubleDebug/fake-reddit-backend) repositories.
 2. Install dependencies in both folders.
     - Run `npm install`
 3. Set up environment variables.
-    - For backend:
+    - Back-end:
       | File name | Description |
       | --------- | ----------- |
-      | back-end/.env | Environment variables such as the client URL, port number, hostname, algolia api key, etc.<br>See an example [here](). |
-      | back-end/serviceAccountKey.json | Firebase Admin SDK configuration file. Read more [here](https://firebase.google.com/docs/admin/setup). |
-    - For frontend:
+      | fake-reddit-backend/.env | Environment variables such as the client URL, port number, hostname, algolia api key, etc.<br>See an example [here](). |
+      | fake-reddit-backend/serviceAccountKey.json | Firebase Admin SDK configuration file. Read more [here](https://firebase.google.com/docs/admin/setup). |
+    - Front-end:
       | File name | Description |
       | --------- | ----------- |
-      | front-end/.env | Environment variables such as the client URL & server URL. See an example [here](). |
-      | front-end/src/utils/firebase/firebaseConfig.ts | Firebase configuration file containing the api key, auth domain, etc.<br>Read more [here](). |
+      | fake-reddit/.env | Environment variables such as the client URL & server URL. See an example [here](). |
+      | fake-reddit/src/utils/firebase/firebaseConfig.ts | Firebase configuration file containing the api key, auth domain, etc.<br>Read more [here](). |
+      | fake-reddit/src/utils/misc/constants.ts | Various constant values for the web app. "SERVER_URL" is set to `http://localhost:5000` by default. |
 4. Start the server.
     - Navigate to the back-end folder and run `npm start`.
     - The console should say something like `Server started at http://localhost:5000`.
@@ -47,4 +64,4 @@ Reddit website clone with React, Typescript and Firebase.
 
 ## TODO
 
-1.  Add missing links above.
+-   [ ] Add missing links above.
