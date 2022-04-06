@@ -38,6 +38,25 @@ export function sendMessage(
             content: text,
             timestamp: Timestamp.now(),
         }),
+    }).then(() => {
+        // scroll to bottom
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: 'smooth',
+        });
+
+        // focus on textbox
+        inputMessage.current?.focus();
+    });
+
+    // update unread messages
+    const myIndex = room.userIds.indexOf(user.uid);
+    const secondIndex = myIndex === 0 ? 1 : 0;
+    const unreadCount = room.unreadMessagesCount;
+    unreadCount[myIndex] = 0; // reset my unread count
+    unreadCount[secondIndex] = unreadCount[secondIndex] + 1; // add 1 to other person's unread count
+    updateDoc(doc(getFirestore(), DB_COLLECTIONS.CHAT_ROOMS, room.id), {
+        unreadMessagesCount: unreadCount,
     });
 }
 
@@ -70,6 +89,7 @@ export async function createChatRoom(
             userNames: userNames,
             createdAt: Timestamp.now(),
             messages: [],
+            unreadMessagesCount: [0, 0],
         });
         roomId = chatRoom.id;
     } else {
@@ -81,7 +101,8 @@ export async function createChatRoom(
         id: roomId,
         createdAt: Timestamp.now(),
         messages: [],
-        userIds: [chatter1.id, chatter2.id],
-        userNames: [chatter1.name, chatter2.name],
+        userIds: userIds,
+        userNames: userNames,
+        unreadMessagesCount: [0, 0],
     };
 }

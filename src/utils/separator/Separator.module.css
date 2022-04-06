@@ -1,0 +1,16 @@
+.separator {
+    display: flex;
+    align-items: center;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    height: 1px;
+    background-color: var(--colorOrange);
+    flex-grow: 1;
+}
+
+.separator p {
+    margin: 0 1rem;
+}

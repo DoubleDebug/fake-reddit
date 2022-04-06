@@ -1,5 +1,5 @@
 import css from './Inbox.module.css';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import { Chat } from './chat/Chat';
@@ -13,6 +13,8 @@ import {
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { ChatSearchBar } from './searchBar/ChatSearchBar';
+import { usePrevious } from '../../utils/misc/usePrevious';
+import { removeUnreadMessages } from './InboxActions';
 
 export const Inbox: React.FC = () => {
     const user = useContext(UserContext);
@@ -27,7 +29,16 @@ export const Inbox: React.FC = () => {
         }
     );
     const [selectedRoom, setSelectedRoom] = useState(roomId);
+    const prevSelectedRoom = usePrevious(selectedRoom);
     const [displayHits, setDisplayHits] = useState(false);
+
+    useEffect(() => {
+        const prevRoom = rooms?.filter((r) => r.id === prevSelectedRoom)[0];
+        if (!prevRoom) return;
+
+        removeUnreadMessages(user, prevRoom);
+        // eslint-disable-next-line
+    }, [selectedRoom]);
 
     if (!user) return <Redirect to="/" />;
 

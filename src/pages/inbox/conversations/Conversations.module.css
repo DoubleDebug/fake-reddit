@@ -55,3 +55,20 @@
     display: grid;
     margin-left: 1rem;
 }
+
+.unreadCount {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background: var(--colorOrange);
+    color: white;
+    margin-top: 5px;
+    margin-left: auto;
+}
+
+.unread {
+    font-weight: bold;
+}

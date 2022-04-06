@@ -7,8 +7,8 @@ import {
     findPhotoURL,
     formatMessage,
 } from './ConversationsActions';
-import Skeleton from 'react-loading-skeleton';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
+import { ConversationSkeletons } from './ConversationSkeletons';
 
 interface IConversationsProps {
     user: User;
@@ -29,17 +29,7 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
     }, [props.rooms, props.user]);
 
     if (!props.rooms) {
-        const conversationSkeletons = Array(3).fill(
-            <div className={css.conversation} style={{ paddingLeft: '1rem' }}>
-                <Skeleton width={40} height={40} circle />
-                <div className={css.nameSkeleton}>
-                    <Skeleton width={110} height={15} />
-                    <Skeleton width={180} height={15} />
-                </div>
-            </div>
-        );
-
-        return <div className={css.conversations}>{conversationSkeletons}</div>;
+        return <ConversationSkeletons />;
     }
 
     return (
@@ -47,6 +37,7 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
             {props.rooms?.map((r: IChatRoom) => {
                 const isSelected = r.id === props.selectedRoom;
                 const secondUid = getSecondUser(props.user.uid, r.userIds);
+                const firstIndex = r.userIds.indexOf(props.user.uid);
                 const secondIndex = secondUid
                     ? r.userIds.indexOf(secondUid)
                     : 0;
@@ -55,6 +46,7 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
                     url: findPhotoURL(photoURLs, secondUid),
                     name: r.userNames[secondIndex],
                 };
+                const unreadCount = r.unreadMessagesCount[firstIndex];
                 return (
                     <div
                         key={r.id}
@@ -69,11 +61,22 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
                             className={css.photo}
                         />
                         <div className="grid">
-                            <p className={css.name}>{secondUser.name}</p>
+                            <p
+                                className={`${css.name} ${
+                                    unreadCount > 0 ? css.unread : ''
+                                }`}
+                            >
+                                {secondUser.name}
+                            </p>
                             <small className={css.lastMessage}>
-                                {formatMessage(r)}
+                                {formatMessage(props.user, r)}
                             </small>
                         </div>
+                        {unreadCount > 0 && (
+                            <small className={css.unreadCount}>
+                                {unreadCount}
+                            </small>
+                        )}
                     </div>
                 );
             })}

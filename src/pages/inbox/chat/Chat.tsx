@@ -37,6 +37,7 @@ import {
 import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
 import { sendMessage } from './ChatActions';
 import { UserContext } from '../../../context/UserContext';
+import { Separator } from '../../../utils/separator/Separator';
 
 interface IChatProps {
     roomId: string;
@@ -150,49 +151,69 @@ export const Chat: React.FC<IChatProps> = (props) => {
                 {room && room.messages && !loading ? (
                     room.messages.map((m: IMessage, index: number) => {
                         if (!user) return null;
+                        const myIndex = room.userIds.indexOf(user.uid);
+                        const myUnread = room.unreadMessagesCount[myIndex];
+                        const isUnread =
+                            room.messages.length - myUnread - 1 === index;
+                        const displaySeparator = isUnread && myUnread > 0;
+
                         return (
-                            <div
-                                className={`flex ${
-                                    isMessageMine(m, user) ? '' : css.reversed
-                                }`}
-                                key={index}
-                            >
+                            <>
                                 <div
-                                    className={
-                                        css.message +
-                                        ' ' +
-                                        css[isMessageMineClass(m, user)]
-                                    }
+                                    className={`flex ${
+                                        isMessageMine(m, user)
+                                            ? ''
+                                            : css.reversed
+                                    }`}
+                                    key={index}
                                 >
-                                    <p className={css.content}>{m.content}</p>
-                                    <small
-                                        className={css.timestamp}
-                                        title={formatTimestampFull(m.timestamp)}
+                                    <div
+                                        className={
+                                            css.message +
+                                            ' ' +
+                                            css[isMessageMineClass(m, user)]
+                                        }
                                     >
-                                        {timeAgo(m.timestamp.toDate())}
-                                    </small>
+                                        <p className={css.content}>
+                                            {m.content}
+                                        </p>
+                                        <small
+                                            className={css.timestamp}
+                                            title={formatTimestampFull(
+                                                m.timestamp
+                                            )}
+                                        >
+                                            {timeAgo(m.timestamp.toDate())}
+                                        </small>
+                                    </div>
+                                    <div className={css.messageAvatar}>
+                                        <img
+                                            className={css.imgUsernameAvatar}
+                                            src={
+                                                isMessageMine(m, user)
+                                                    ? user.photoURL ||
+                                                      DEFAULT_PROFILE_URL
+                                                    : user2PhotoURL
+                                            }
+                                            alt="User profile"
+                                            title={
+                                                isMessageMine(m, user)
+                                                    ? 'Me'
+                                                    : m.from.name
+                                            }
+                                        />
+                                        <small>
+                                            {formatTimestampTime(m.timestamp)}
+                                        </small>
+                                    </div>
                                 </div>
-                                <div className={css.messageAvatar}>
-                                    <img
-                                        className={css.imgUsernameAvatar}
-                                        src={
-                                            isMessageMine(m, user)
-                                                ? user.photoURL ||
-                                                  DEFAULT_PROFILE_URL
-                                                : user2PhotoURL
-                                        }
-                                        alt="User profile"
-                                        title={
-                                            isMessageMine(m, user)
-                                                ? 'Me'
-                                                : m.from.name
-                                        }
+                                {displaySeparator && (
+                                    <Separator
+                                        key={index}
+                                        text="Unread messages"
                                     />
-                                    <small>
-                                        {formatTimestampTime(m.timestamp)}
-                                    </small>
-                                </div>
-                            </div>
+                                )}
+                            </>
                         );
                     })
                 ) : (

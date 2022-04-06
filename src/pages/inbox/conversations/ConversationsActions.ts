@@ -31,11 +31,16 @@ export function findPhotoURL(
     else return DEFAULT_PROFILE_URL;
 }
 
-export function formatMessage(r: IChatRoom) {
+export function formatMessage(me: User | null | undefined, r: IChatRoom) {
+    if (!me) return '';
     const length = 30;
+    const lastMessage = r.messages[r.messages.length - 1];
+    if (!lastMessage) return '';
+
+    const isLastMessageMine = lastMessage.from.id === me.uid;
 
     return shortenString(
-        r.messages[r.messages.length - 1]?.content || '',
+        (isLastMessageMine ? 'You: ' : '') + lastMessage.content,
         length
     );
 }

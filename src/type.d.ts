@@ -9,6 +9,7 @@ interface IChatRoom {
     userNames: string[];
     createdAt: Timestamp;
     messages: IMessage[];
+    unreadMessagesCount: number[];
 }
 
 interface IMessage {

@@ -101,6 +101,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                     }
                 />
             )}
+            {props.data.isReply && <div></div>}
             <p className={css.text}>{props.data.text}</p>
             <div></div>
             {showReply && (
