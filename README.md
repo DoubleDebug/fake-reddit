@@ -47,7 +47,7 @@ Reddit website clone with React, Typescript and Firebase.
     - Back-end:
       | File name | Description |
       | --------- | ----------- |
-      | fake-reddit-backend/.env | Environment variables such as the client URL, <br> port number, hostname, algolia api key, etc. See an example [here](). |
+      | fake-reddit-backend/.env | Environment variables such as the client URL, <br> port number, hostname, algolia api key, etc. <br> See an example [here](). |
       | fake-reddit-backend/serviceAccountKey.json | Firebase Admin SDK configuration file. <br> Read more [here](https://firebase.google.com/docs/admin/setup). |
     - Front-end:
       | File name | Description |
