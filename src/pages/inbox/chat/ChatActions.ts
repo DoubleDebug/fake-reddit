@@ -11,6 +11,7 @@ import {
     getDocs,
     addDoc,
     getFirestore,
+    deleteDoc,
 } from '@firebase/firestore';
 
 export function sendMessage(
@@ -105,4 +106,13 @@ export async function createChatRoom(
         userNames: userNames,
         unreadMessagesCount: [0, 0],
     };
+}
+
+export async function deleteConversation(
+    room: Data<IChatRoom, '', ''> | undefined
+) {
+    if (!room) return;
+
+    const db = getFirestore();
+    return await deleteDoc(doc(db, DB_COLLECTIONS.CHAT_ROOMS, room.id));
 }

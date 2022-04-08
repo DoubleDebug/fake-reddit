@@ -12,6 +12,10 @@ html {
     padding: 0;
 }
 
+* {
+    max-width: unset;
+}
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
@@ -19,7 +23,7 @@ code {
 
 :root {
     --colorOrange: #ff8c00;
-    --colorSilver: #c3c3c3;
+    --colorSilver: #ececec;
     --boxShadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
@@ -40,7 +44,7 @@ code {
 }
 
 .btn:hover {
-    filter: brightness(0.9);
+    filter: brightness(0.99);
     text-decoration: none;
 }
 

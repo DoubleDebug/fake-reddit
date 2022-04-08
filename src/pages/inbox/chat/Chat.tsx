@@ -24,6 +24,9 @@ import {
     faCircle,
     faCircleNotch,
     faCommentDots,
+    faEllipsisH,
+    faFlag,
+    faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import Skeleton from 'react-loading-skeleton';
 import {
@@ -38,9 +41,12 @@ import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
 import { sendMessage } from './ChatActions';
 import { UserContext } from '../../../context/UserContext';
 import { Separator } from '../../../utils/separator/Separator';
+import { Dropdown } from '../../../utils/dropdown/Dropdown';
 
 interface IChatProps {
     roomId: string;
+    setShowReportModal: (s: boolean) => void;
+    setShowDeleteModal: (s: boolean) => void;
 }
 
 export const Chat: React.FC<IChatProps> = (props) => {
@@ -66,6 +72,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
     );
     const [user2PhotoURL, setUser2PhotoURL] =
         useState<string>(DEFAULT_PROFILE_URL);
+    const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
 
     // get 2nd user's photo URL
     useEffect(() => {
@@ -77,7 +84,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
         );
     }, [user, room]);
 
-    if (!props.roomId) {
+    if (!props.roomId || !room?.userIds) {
         return (
             <div className={css.room}>
                 <div className={css.welcomeBox}>
@@ -131,7 +138,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
                                     )}
                             </h2>
                         ) : (
-                            <Skeleton width="250px"></Skeleton>
+                            <Skeleton width="250px" />
                         )}
                         <div className="flex">
                             <FontAwesomeIcon
@@ -146,6 +153,35 @@ export const Chat: React.FC<IChatProps> = (props) => {
                             )}
                         </div>
                     </div>
+                    <Dropdown
+                        style={{ marginLeft: 'auto' }}
+                        items={[
+                            {
+                                text: 'Report user',
+                                action: () => {
+                                    props.setShowReportModal(true);
+                                    setShowOptionsDropdown(false);
+                                },
+                                icon: faFlag,
+                            },
+                            {
+                                text: 'Delete conversation',
+                                action: () => {
+                                    props.setShowDeleteModal(true);
+                                    setShowOptionsDropdown(false);
+                                },
+                                icon: faTrash,
+                            },
+                        ]}
+                    >
+                        <FontAwesomeIcon
+                            icon={faEllipsisH}
+                            className={css.iconThreeDots}
+                            onClick={() =>
+                                setShowOptionsDropdown(!showOptionsDropdown)
+                            }
+                        />
+                    </Dropdown>
                 </div>
                 <hr className={css.separator} />
                 {room && room.messages && !loading ? (
@@ -158,14 +194,13 @@ export const Chat: React.FC<IChatProps> = (props) => {
                         const displaySeparator = isUnread && myUnread > 0;
 
                         return (
-                            <>
+                            <div key={`message${index}`}>
                                 <div
                                     className={`flex ${
                                         isMessageMine(m, user)
                                             ? ''
                                             : css.reversed
                                     }`}
-                                    key={index}
                                 >
                                     <div
                                         className={
@@ -213,7 +248,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
                                         text="Unread messages"
                                     />
                                 )}
-                            </>
+                            </div>
                         );
                     })
                 ) : (

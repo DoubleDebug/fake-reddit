@@ -72,3 +72,12 @@
 .unread {
     font-weight: bold;
 }
+
+.noConversations {
+    text-align: center;
+}
+
+.noConversations p {
+    color: silver;
+    margin-bottom: 0.5rem;
+}

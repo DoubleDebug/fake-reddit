@@ -14,7 +14,11 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { ChatSearchBar } from './searchBar/ChatSearchBar';
 import { usePrevious } from '../../utils/misc/usePrevious';
-import { removeUnreadMessages } from './InboxActions';
+import { getSelectedRoom, removeUnreadMessages } from './InboxActions';
+import { DeleteModal } from '../../components/modals/deleteModal/DeleteModal';
+import { ReportModal } from '../../components/modals/reportModal/ReportModal';
+import { getSecondUser } from '../../utils/misc/whichUserUtils';
+import { deleteConversation } from './chat/ChatActions';
 
 export const Inbox: React.FC = () => {
     const user = useContext(UserContext);
@@ -31,6 +35,8 @@ export const Inbox: React.FC = () => {
     const [selectedRoom, setSelectedRoom] = useState(roomId);
     const prevSelectedRoom = usePrevious(selectedRoom);
     const [displayHits, setDisplayHits] = useState(false);
+    const [showReportModal, setShowReportModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         const prevRoom = rooms?.filter((r) => r.id === prevSelectedRoom)[0];
@@ -43,21 +49,48 @@ export const Inbox: React.FC = () => {
     if (!user) return <Redirect to="/" />;
 
     return (
-        <div className={`contentBox ${css.container}`}>
-            <h1 className={css.lblInbox}>Messages</h1>
-            <div className="flex">
-                <div className={css.leftPanel}>
-                    <ChatSearchBar
-                        user={user}
-                        rooms={rooms}
-                        displayHits={displayHits}
-                        setDisplayHits={setDisplayHits}
-                        selectedRoom={selectedRoom}
-                        setSelectedRoom={setSelectedRoom}
+        <>
+            {showReportModal && rooms && (
+                <ReportModal
+                    type="user"
+                    contentId={
+                        getSecondUser(
+                            user?.uid,
+                            getSelectedRoom(rooms, selectedRoom).userIds
+                        ) || ''
+                    }
+                    showStateHandler={setShowReportModal}
+                />
+            )}
+            {showDeleteModal && rooms && (
+                <DeleteModal
+                    itemBeingDeleted="conversation"
+                    showStateHandler={setShowDeleteModal}
+                    action={() =>
+                        deleteConversation(getSelectedRoom(rooms, selectedRoom))
+                    }
+                />
+            )}
+            <div className={`contentBox ${css.container}`}>
+                <h1 className={css.lblInbox}>Messages</h1>
+                <div className="flex">
+                    <div className={css.leftPanel}>
+                        <ChatSearchBar
+                            user={user}
+                            rooms={rooms}
+                            displayHits={displayHits}
+                            setDisplayHits={setDisplayHits}
+                            selectedRoom={selectedRoom}
+                            setSelectedRoom={setSelectedRoom}
+                        />
+                    </div>
+                    <Chat
+                        roomId={selectedRoom}
+                        setShowDeleteModal={setShowDeleteModal}
+                        setShowReportModal={setShowReportModal}
                     />
                 </div>
-                <Chat roomId={selectedRoom} />
             </div>
-        </div>
+        </>
     );
 };

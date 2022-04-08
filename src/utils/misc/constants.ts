@@ -5,6 +5,7 @@ export const DB_COLLECTIONS = {
     COMMENTS: 'comments',
     METADATA: 'metadata',
     POSTS: 'posts',
+    REPORTS: 'reports',
     SUBREDDITS: 'subreddits',
     USERS: 'users',
 };
@@ -51,3 +52,14 @@ export const SUPPORTED_FILE_FORMATS_STRING = SUPPORTED_FILE_FORMATS.join(', ')
     .replaceAll('image/', '')
     .replaceAll('video/', '');
 export const COMMON_FLAIRS = ['OC', 'Spoiler', 'NSFW'];
+export const TYPES_OF_VIOLATION = [
+    'Harassment',
+    'Threating violence',
+    'Hate',
+    'Sharing personal information',
+    'Non-consensual intimate media',
+    'Copyright violation',
+    'Self-harm',
+    'Spam',
+    'Misinformation',
+];

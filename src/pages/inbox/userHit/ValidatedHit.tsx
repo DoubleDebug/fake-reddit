@@ -11,15 +11,15 @@ interface IValidatedHitProps {
 
 export const ValidatedHit: React.FC<IValidatedHitProps> = (props) => {
     // validation
-    if (props.data.hit.objectID === props.user.uid) return null;
+    if (props.data.objectID === props.user.uid) return null;
     const existingRooms = props.rooms?.filter((r) =>
-        r.userIds.includes(props.data.hit.objectID)
+        r.userIds.includes(props.data.objectID)
     ).length;
     if (existingRooms && existingRooms > 0) return null;
 
     return (
         <UserHit
-            {...props.data.hit}
+            {...props.data}
             setSelectedRoom={(rid: string) => props.setSelectedRoom(rid)}
         />
     );

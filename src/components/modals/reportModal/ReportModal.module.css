@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    max-width: 700px;
+}
+
+.violationContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.violation {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: 1px solid silver;
+    margin: 0.5rem;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    height: 50px;
+    white-space: nowrap;
+}
+
+.violation:hover {
+    background: rgb(240, 240, 240);
+}
+
+.violation.selected {
+    background: var(--colorOrange);
+    color: white;
+}
+
+.note {
+    margin-top: 1rem !important;
+}
+
+.btnSubmit {
+    margin: 1rem 0 0 auto;
+}

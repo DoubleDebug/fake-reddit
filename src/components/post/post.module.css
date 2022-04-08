@@ -170,3 +170,8 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.btnOptions {
+    cursor: pointer;
+    margin: 1rem 5px 0 auto;
+}

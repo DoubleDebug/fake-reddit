@@ -3,6 +3,7 @@ import { DropdownItem, IDropdownItemProps } from './DropdownItem';
 
 export interface IDropdownProps {
     items: IDropdownItemProps[];
+    style?: React.CSSProperties;
 }
 
 export const DropdownMenu: React.FC<IDropdownProps> = (props) => {

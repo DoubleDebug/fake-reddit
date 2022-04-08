@@ -138,3 +138,8 @@ input[type='text'].inputMessage:focus {
     margin: 12rem auto;
     margin-bottom: 20rem;
 }
+
+.iconThreeDots {
+    color: silver;
+    cursor: pointer;
+}

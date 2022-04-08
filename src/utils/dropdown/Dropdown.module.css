@@ -17,12 +17,30 @@
 }
 
 .dropdownItem {
+    display: block;
     background: white;
     cursor: pointer;
     padding: 0.7rem;
     border-radius: 5px;
+    width: 100%;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.link {
+    display: flex;
+    text-decoration: none !important;
 }
 
 .dropdownItem:hover {
     background: var(--colorSilver);
+}
+
+.withIcon {
+    display: flex;
+}
+
+.icon {
+    margin-top: 5px;
+    margin-right: 10px;
 }
