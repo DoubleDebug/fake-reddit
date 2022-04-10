@@ -10,7 +10,7 @@ import {
     HEADER_SVG_VIEWBOX,
 } from '../../utils/misc/constants';
 import { Toaster } from 'react-hot-toast';
-import { signInWithGoogle, signOutUser } from './HeaderActions';
+import { signOutUser } from './HeaderActions';
 import { UserContext } from '../../context/UserContext';
 import { SearchBar } from './searchBar/bar/SearchBar';
 
@@ -84,12 +84,18 @@ export const Header: React.FC = () => {
                         </Dropdown>
                     </div>
                 ) : (
-                    <button
-                        className={'btn ' + css.btnLogin}
-                        onClick={() => signInWithGoogle()}
-                    >
-                        Sign in
-                    </button>
+                    <div className="flex">
+                        <Link to="/login" className={css.link}>
+                            <button className={'btn ' + css.btnLogin}>
+                                Log in
+                            </button>
+                        </Link>
+                        <Link to="/signup" className={css.link}>
+                            <button className={'btn ' + css.btnLogin}>
+                                Sign up
+                            </button>
+                        </Link>
+                    </div>
                 )}
             </div>
         </>

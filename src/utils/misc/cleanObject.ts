@@ -8,6 +8,15 @@ export function cleanObject(obj: any) {
 }
 
 /**
+ * Removes all null fields from the object
+ */
+export function cleanObjectNulls(obj: any) {
+    return Object.fromEntries(
+        Object.entries(obj).filter(([_, v]) => v !== null)
+    );
+}
+
+/**
  * Removes all functions from the object
  */
 export function cleanObjectFunctions(obj: any) {

@@ -16,6 +16,8 @@ export const SERVER_ENDPOINTS = {
     DELETE_FILE: `${SERVER_URL}/deleteFile`,
     POST_SUBMIT_POST: `${SERVER_URL}/submitPost`,
     POST_REGISTER_USER: `${SERVER_URL}/registerUser`,
+    GET_USER_EMAIL_BY_USERNAME: `${SERVER_URL}/getUserEmailByUsername`,
+    DELETE_USER: `${SERVER_URL}/deleteUser`,
 };
 
 // ALGOLIA
@@ -62,4 +64,14 @@ export const TYPES_OF_VIOLATION = [
     'Self-harm',
     'Spam',
     'Misinformation',
+];
+export const CUSTOM_ERROR_MESSAGES = [
+    {
+        code: 'auth/account-exists-with-different-credential',
+        message: 'Account with this email address already exists.',
+    },
+    {
+        code: 'auth/wrong-password',
+        message: 'Incorrect password.',
+    },
 ];

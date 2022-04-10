@@ -163,12 +163,14 @@
 
 .postContent span {
     display: grid;
+    max-width: 100%;
 }
 
 .postContent span img,
 .postContent span video {
     margin-left: auto;
     margin-right: auto;
+    max-width: 100%;
 }
 
 .btnOptions {

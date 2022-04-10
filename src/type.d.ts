@@ -20,6 +20,7 @@ interface IMessage {
 
 interface IUserData {
     lastOnline: Timestamp;
+    username?: string;
 }
 
 interface IVote {
@@ -37,3 +38,6 @@ type PostHit = {
     subreddit: string;
 };
 type ResponseStatus = { success: false; message: string } | { success: true };
+type ResponseStatusWithData =
+    | { success: false; message: string }
+    | { success: true; data: any };

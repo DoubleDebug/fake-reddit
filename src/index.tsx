@@ -3,14 +3,13 @@ import { firebaseConfig } from './utils/firebase/firebaseConfig';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from '@firebase/auth';
 import {
-    DocumentReference,
     getFirestore,
     Timestamp,
     doc,
     setDoc,
+    getDoc,
 } from '@firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 
 // REACT
 import { useEffect } from 'react';
@@ -24,6 +23,8 @@ import { NewPost } from './pages/newPost/NewPost';
 import { ViewPost } from './pages/viewPost/ViewPost';
 import { Home } from './pages/home/Home';
 import { Inbox } from './pages/inbox/Inbox';
+import { LoginForm } from './pages/login/LoginForm';
+import { ResetPassword } from './pages/login/resetPassword/ResetPassword';
 
 // OTHER
 import './index.css';
@@ -39,24 +40,21 @@ const db = getFirestore();
 
 const App: React.FC = () => {
     const [user] = useAuthState(auth);
-    const [userData] = useDocumentDataOnce<IUserData>(
-        doc(
-            db,
-            DB_COLLECTIONS.USERS,
-            user ? user.uid : 'ERROR_NO_USER'
-        ) as DocumentReference<IUserData>
-    );
 
     useEffect(() => {
         if (!user) return;
-
         // update 'last online' field
-        const userRef = doc(db, DB_COLLECTIONS.USERS, user.uid);
-        setDoc(userRef, {
-            ...userData,
-            lastOnline: Timestamp.now(),
-        });
-    }, [user, userData]);
+        getDoc(doc(db, DB_COLLECTIONS.USERS, user.uid))
+            .then((res) => res.data())
+            .then((userData) => {
+                const userRef = doc(db, DB_COLLECTIONS.USERS, user.uid);
+                setDoc(userRef, {
+                    ...userData,
+                    lastOnline: Timestamp.now(),
+                });
+            });
+        // eslint-disable-next-line
+    }, [user]);
 
     return (
         <BrowserRouter>
@@ -80,6 +78,15 @@ const App: React.FC = () => {
                     </Route>
                     <Route path="/post/:id">
                         <ViewPost />
+                    </Route>
+                    <Route exact path="/login">
+                        <LoginForm tab="log in" />
+                    </Route>
+                    <Route path="/signup">
+                        <LoginForm tab="sign up" />
+                    </Route>
+                    <Route path="/login/resetPassword">
+                        <ResetPassword />
                     </Route>
                 </Switch>
             </UserContext.Provider>
