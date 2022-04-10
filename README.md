@@ -62,6 +62,15 @@ Reddit website clone with React, Typescript and Firebase.
     - Navigate to the front-end folder and run `npm start`.
     - The console should say something like `Compiled successfully! You can now view fake-reddit in the browser.`
 
+## Things I would change if I were to start over
+
+1. Have more consistent CSS styles.
+    - Use Material UI components for everything.
+    - Make it easy to add more themes later on (dark/light/system).
+    - Make it responsive from the beginning.
+2. Pay attention to accessibility.
+3. Use a CDN instead of storing raw files in the Firebase Storage bucket.
+
 ## TODO
 
 -   [ ] Add missing links above.
