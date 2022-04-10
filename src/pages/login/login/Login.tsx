@@ -5,10 +5,10 @@ import { Separator } from '../../../utils/separator/Separator';
 import { useFormState } from '../../../utils/hooks/useFormState';
 import { Link } from 'react-router-dom';
 import {
-    signInWithGithub,
-    signInWithGoogle,
-    signInWithUsername,
-} from '../LoginFormActions';
+    loginWithGithub,
+    loginWithGoogle,
+    loginWithUsername,
+} from './LoginActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 
@@ -34,7 +34,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
             <div className={css.grid}>
                 <button
                     className={`btn ${css.btnProvider}`}
-                    onClick={() => signInWithGoogle()}
+                    onClick={() => loginWithGoogle()}
                 >
                     <div className={css.iconContainer}>
                         <img className={css.iconGoogle} alt="Google" />
@@ -43,7 +43,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
                 </button>
                 <button
                     className={`btn ${css.btnProvider}`}
-                    onClick={() => signInWithGithub()}
+                    onClick={() => loginWithGithub()}
                 >
                     <div className={css.iconContainer}>
                         <img className={css.iconGithub} alt="Github" />
@@ -87,7 +87,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
                             setIsLoading(true);
                             setUsernameErrorMessage('');
                             setPasswordErrorMessage('');
-                            signInWithUsername(
+                            loginWithUsername(
                                 username,
                                 password,
                                 setUsernameErrorMessage,

@@ -2,14 +2,11 @@ import css from '../LoginForm.module.css';
 import { TextField } from '@mui/material';
 import { Separator } from '../../../utils/separator/Separator';
 import { useFormState } from '../../../utils/hooks/useFormState';
-import {
-    registerWithEmailAndPassword,
-    signInWithGithub,
-    signInWithGoogle,
-} from '../LoginFormActions';
+import { signUpWithEmail } from './SignUpActions';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { loginWithGithub, loginWithGoogle } from '../login/LoginActions';
 
 interface ISignUpProps {
     setTabIndexCallback: (t: 'log in' | 'sign up') => void;
@@ -36,7 +33,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
             <div className={css.grid}>
                 <button
                     className={`btn ${css.btnProvider}`}
-                    onClick={() => signInWithGoogle(true)}
+                    onClick={() => loginWithGoogle(true)}
                 >
                     <div className={css.iconContainer}>
                         <img className={css.iconGoogle} alt="Google" />
@@ -45,7 +42,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                 </button>
                 <button
                     className={`btn ${css.btnProvider}`}
-                    onClick={() => signInWithGithub(true)}
+                    onClick={() => loginWithGithub(true)}
                 >
                     <div className={css.iconContainer}>
                         <img className={css.iconGithub} alt="Github" />
@@ -97,7 +94,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                             setEmailErrorMessage('');
                             setUsernameErrorMessage('');
                             setPasswordErrorMessage('');
-                            registerWithEmailAndPassword(
+                            signUpWithEmail(
                                 email,
                                 username,
                                 password,

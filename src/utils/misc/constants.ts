@@ -10,13 +10,14 @@ export const DB_COLLECTIONS = {
     USERS: 'users',
 };
 export const SERVER_ENDPOINTS = {
-    GET_USER_PHOTO_URL: `${SERVER_URL}/userPhotoURL`,
-    GET_POSTS: `${SERVER_URL}/feed`,
+    GET_USER_PHOTO_URL: `${SERVER_URL}/getUserPhotoURL`,
+    GET_POSTS: `${SERVER_URL}/getFeed`,
+    GET_USER_EMAIL_BY_USERNAME: `${SERVER_URL}/getUserEmailByUsername`,
+    POST_SUBMIT_POST: `${SERVER_URL}/submitPost`,
+    POST_REGISTER_USER_PROVIDER: `${SERVER_URL}/registerUserWithProvider`,
+    POST_REGISTER_USER_EMAIL: `${SERVER_URL}/registerUserWithEmail`,
     DELETE_POST: `${SERVER_URL}/deletePost`,
     DELETE_FILE: `${SERVER_URL}/deleteFile`,
-    POST_SUBMIT_POST: `${SERVER_URL}/submitPost`,
-    POST_REGISTER_USER: `${SERVER_URL}/registerUser`,
-    GET_USER_EMAIL_BY_USERNAME: `${SERVER_URL}/getUserEmailByUsername`,
     DELETE_USER: `${SERVER_URL}/deleteUser`,
 };
 

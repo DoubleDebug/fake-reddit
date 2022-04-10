@@ -5,16 +5,13 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
 } from 'firebase/auth';
-import { validateRegisterForm } from '../../utils/dataValidation/validateRegisterForm';
-import { getUserEmailByUsername } from '../../utils/firebase/getUserEmailByUsername';
-import {
-    registerUserWithEmail,
-    registerUserWithProvider,
-} from '../../utils/firebase/registerUser';
-import { getErrorMessage } from '../../utils/misc/getErrorMessage';
-import { displayNotif } from '../../utils/misc/toast';
+import { validateRegisterForm } from '../../../utils/dataValidation/validateRegisterForm';
+import { getUserEmailByUsername } from '../../../utils/firebase/getUserEmailByUsername';
+import { registerUserWithProvider } from '../../../utils/firebase/registerUser';
+import { getErrorMessage } from '../../../utils/misc/getErrorMessage';
+import { displayNotif } from '../../../utils/misc/toast';
 
-export function signInWithGoogle(firstTime?: boolean) {
+export function loginWithGoogle(firstTime?: boolean) {
     const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
@@ -47,7 +44,7 @@ export function signInWithGoogle(firstTime?: boolean) {
         });
 }
 
-export function signInWithGithub(firstTime?: boolean) {
+export function loginWithGithub(firstTime?: boolean) {
     const auth = getAuth();
     const provider = new GithubAuthProvider();
     provider.addScope('read:user');
@@ -82,7 +79,7 @@ export function signInWithGithub(firstTime?: boolean) {
         });
 }
 
-export async function signInWithUsername(
+export async function loginWithUsername(
     username: string,
     password: string,
     setUsernameErrorMessage: (e: string) => void,
@@ -129,50 +126,4 @@ export async function signInWithUsername(
         );
         setIsLoading(false);
     }
-}
-
-export async function registerWithEmailAndPassword(
-    email: string,
-    username: string,
-    password: string,
-    setUsernameErrorMessage: (s: string) => void,
-    setPasswordErrorMessage: (s: string) => void,
-    setEmailErrorMessage: (s: string) => void,
-    setIsLoading: (l: boolean) => void
-) {
-    const validation = validateRegisterForm(email, username, password);
-    if (!validation.response.success) {
-        if (validation.reason === 'email')
-            setEmailErrorMessage(validation.response.message);
-        if (validation.reason === 'username')
-            setUsernameErrorMessage(validation.response.message);
-        if (validation.reason === 'password')
-            setPasswordErrorMessage(validation.response.message);
-        setIsLoading(false);
-        return;
-    }
-
-    const response = await registerUserWithEmail(email, username, password);
-    if (response.success) {
-        const auth = getAuth();
-        const userCred = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        ).catch((err) => {
-            displayNotif(getErrorMessage(err), 'error');
-            setIsLoading(false);
-        });
-
-        if (userCred) {
-            displayNotif(
-                `Welcome to Reddit, ${userCred.user.displayName}!`,
-                'success'
-            );
-        }
-    } else {
-        displayNotif(response.message, 'error');
-    }
-
-    setIsLoading(false);
 }

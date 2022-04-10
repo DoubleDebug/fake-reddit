@@ -12,7 +12,10 @@ export async function registerUserWithProvider(
         name: name,
         photoURL: photoURL,
     });
-    const res = await axios.post(SERVER_ENDPOINTS.POST_REGISTER_USER, userData);
+    const res = await axios.post(
+        SERVER_ENDPOINTS.POST_REGISTER_USER_PROVIDER,
+        userData
+    );
     return res.data;
 }
 
@@ -21,7 +24,7 @@ export async function registerUserWithEmail(
     username: string,
     password: string
 ): Promise<ResponseStatus> {
-    const res = await axios.post(SERVER_ENDPOINTS.POST_REGISTER_USER, {
+    const res = await axios.post(SERVER_ENDPOINTS.POST_REGISTER_USER_EMAIL, {
         email: email,
         username: username,
         password: password,
