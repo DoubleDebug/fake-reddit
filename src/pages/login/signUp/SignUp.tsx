@@ -32,6 +32,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
             </small>
             <div className={css.grid}>
                 <button
+                    disabled={isLoading}
                     className={`btn ${css.btnProvider}`}
                     onClick={() => loginWithGoogle(true)}
                 >
@@ -41,6 +42,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                     Sign up with Google
                 </button>
                 <button
+                    disabled={isLoading}
                     className={`btn ${css.btnProvider}`}
                     onClick={() => loginWithGithub(true)}
                 >
@@ -52,6 +54,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                 <Separator text="or" />
                 <form className={css.form}>
                     <TextField
+                        disabled={isLoading}
                         className={css.inputField}
                         variant="outlined"
                         label="Email"
@@ -63,6 +66,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                         helperText={emailError}
                     />
                     <TextField
+                        disabled={isLoading}
                         className={css.inputField}
                         variant="outlined"
                         label="Username"
@@ -74,6 +78,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                         helperText={usernameError}
                     />
                     <TextField
+                        disabled={isLoading}
                         className={css.inputField}
                         variant="outlined"
                         label="Password"

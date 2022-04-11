@@ -33,6 +33,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
             </small>
             <div className={css.grid}>
                 <button
+                    disabled={isLoading}
                     className={`btn ${css.btnProvider}`}
                     onClick={() => loginWithGoogle()}
                 >
@@ -42,6 +43,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
                     Log in with Google
                 </button>
                 <button
+                    disabled={isLoading}
                     className={`btn ${css.btnProvider}`}
                     onClick={() => loginWithGithub()}
                 >
@@ -53,6 +55,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
                 <Separator text="or" />
                 <form className={css.form}>
                     <TextField
+                        disabled={isLoading}
                         error={usernameError !== ''}
                         helperText={
                             usernameError === '' ? undefined : usernameError
@@ -66,6 +69,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
                         autoComplete="off"
                     />
                     <TextField
+                        disabled={isLoading}
                         error={passwordError !== ''}
                         helperText={
                             passwordError === '' ? undefined : passwordError

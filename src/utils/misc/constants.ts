@@ -75,4 +75,42 @@ export const CUSTOM_ERROR_MESSAGES = [
         code: 'auth/wrong-password',
         message: 'Incorrect password.',
     },
+    {
+        code: 'auth/user-not-found',
+        message: 'User with specified email address was not found.',
+    },
+    {
+        code: 'auth/invalid-password',
+        message: 'The password is invalid.',
+    },
+    {
+        code: 'auth/invalid-email',
+        message: 'The email address is invalid.',
+    },
+    {
+        code: 'auth/internal-error',
+        message: 'There was an internal error. Please try again later.',
+    },
+    {
+        code: 'auth/insufficient-permission',
+        message: `You don't have permission to perform this action.`,
+    },
+    {
+        code: 'auth/internal-error',
+        message: 'There was an internal error. Please try again later.',
+    },
+    {
+        code: 'auth/id-token-revoked',
+        message:
+            'Your Firebase ID token has been revoked. Please refresh your page.',
+    },
+    {
+        code: 'auth/id-token-expired',
+        message:
+            'Your Firebase ID token has expired. Please refresh your page.',
+    },
+    {
+        code: 'auth/email-already-exists',
+        message: 'The provided email address is already taken.',
+    },
 ];
