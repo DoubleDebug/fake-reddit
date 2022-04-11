@@ -1,79 +1,49 @@
-export function validateRegisterForm(
-    email: string,
-    username: string,
-    password: string
-): {
-    response: ResponseStatus;
-    reason?: 'email' | 'username' | 'password';
-} {
-    // check for empty fields
-    if (email === '')
-        return {
-            response: {
-                success: false,
-                message: 'The email address cannot be empty.',
-            },
-            reason: 'email',
-        };
-
-    if (username === '')
-        return {
-            response: {
-                success: false,
-                message: 'The username cannot be empty.',
-            },
-            reason: 'username',
-        };
-
-    if (password === '')
-        return {
-            response: {
-                success: false,
-                message: 'The password cannot be empty.',
-            },
-            reason: 'password',
-        };
-
-    // check for email format - anything@anything.anything
+/**
+ * Checks if the string follows the email format:
+ * anything@anything.anything
+ */
+export function validateEmail(email: string): ValidationResult {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
         return {
-            response: {
-                success: false,
-                message: 'The email address is invalid.',
-            },
-            reason: 'email',
+            isValid: false,
+            message: 'The email address is invalid.',
         };
+    return {
+        isValid: true,
+    };
+}
 
-    // check for username format
-    // length must be from 3 to 20      -   (?=.{3,20}$)
-    // cannot start with a dot          -   (?!\.)
-    // cannot have 2 consecutive dots   -   (?!.*?\.\.)
-    // can have following characters    -   [a-zA-Z0-9._]
-    // cannot end in a dot              -   (?<![.])
+/**
+ * Checks for the following rules:
+ *      length must be from 3 to 20    -   (?=.{3,20}$)
+ *      cannot start with a dot        -   (?!\.)
+ *      cannot have 2 consecutive dots -   (?!.*?\.\.)
+ *      can have following characters  -   [a-zA-Z0-9._]
+ *      cannot end in a dot            -   (?<![.])
+ */
+export function validateUsername(username: string): ValidationResult {
     if (!/^(?=.{3,20}$)(?!\.)(?!.*?\.\.)[a-zA-Z0-9._]+(?<![.])$/.test(username))
         return {
-            response: {
-                success: false,
-                message: 'The username is invalid.',
-            },
-            reason: 'username',
+            isValid: false,
+            message: 'The username is invalid.',
         };
+    return {
+        isValid: true,
+    };
+}
 
-    // check for password format
-    // length must be from 5 to 20      -   (?=.{5,20}$)
-    // can have following characters    -   [a-zA-Z0-9._ ]
+/**
+ * Checks for the following rules:
+ *      length must be from 5 to 20    -   (?=.{5,20}$)
+ *      can have following characters  -   [a-zA-Z0-9._ ]
+ */
+export function validatePassword(password: string): ValidationResult {
     if (!/^(?=.{5,20}$)[a-zA-Z0-9._ ]+$/.test(password))
         return {
-            response: {
-                success: false,
-                message: 'The password is invalid.',
-            },
-            reason: 'password',
+            isValid: false,
+            message: 'The password is invalid.',
         };
-
     return {
-        response: {
-            success: true,
-        },
+        isValid: true,
     };
 }

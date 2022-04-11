@@ -5,7 +5,10 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
 } from 'firebase/auth';
-import { validateRegisterForm } from '../../../utils/dataValidation/validateRegisterForm';
+import {
+    validatePassword,
+    validateUsername,
+} from '../../../utils/dataValidation/validateRegisterForm';
 import { getUserEmailByUsername } from '../../../utils/firebase/getUserEmailByUsername';
 import { registerUserWithProvider } from '../../../utils/firebase/registerUser';
 import { getErrorMessage } from '../../../utils/misc/getErrorMessage';
@@ -86,23 +89,28 @@ export async function loginWithUsername(
     setPasswordErrorMessage: (e: string) => void,
     setIsLoading: (l: boolean) => void
 ) {
-    const validation = validateRegisterForm(
-        'default@email.com',
-        username,
-        password
-    );
-    if (!validation.response.success) {
-        if (validation.reason === 'username')
-            setUsernameErrorMessage(validation.response.message);
-        if (validation.reason === 'password')
-            setPasswordErrorMessage(validation.response.message);
-
+    const validationUsername = validateUsername(username);
+    const validationPassword = validatePassword(password);
+    if (!validationUsername.isValid) {
+        setUsernameErrorMessage('The username is invalid.');
+        setIsLoading(false);
+        return;
+    }
+    if (!validationPassword.isValid) {
+        setPasswordErrorMessage('The password is invalid');
         setIsLoading(false);
         return;
     }
 
-    const res = await getUserEmailByUsername(username);
-    if (!res.success) {
+    const res = await getUserEmailByUsername(username).catch(() => {
+        displayNotif('Failed to connect to the server.', 'error');
+        setIsLoading(false);
+    });
+    if (!res) {
+        setIsLoading(false);
+        return;
+    }
+    if (res && !res.success) {
         displayNotif(res.message, 'error');
         setIsLoading(false);
         return;

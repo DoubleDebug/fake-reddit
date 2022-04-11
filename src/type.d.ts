@@ -29,6 +29,7 @@ interface IVote {
 }
 
 type PostType = 'text' | 'image' | 'poll';
+
 type PostHit = {
     id: string;
     title: string;
@@ -37,7 +38,18 @@ type PostHit = {
     createdAt: string;
     subreddit: string;
 };
+
 type ResponseStatus = { success: false; message: string } | { success: true };
+
 type ResponseStatusWithData =
     | { success: false; message: string }
     | { success: true; data: any };
+
+type ValidationResult =
+    | {
+          isValid: false;
+          message: string;
+      }
+    | {
+          isValid: true;
+      };
