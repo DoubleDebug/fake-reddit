@@ -22,10 +22,8 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
     const [searchClient] = useState(getSearchClient());
     const [currentQuery, setCurrentQuery] = useState('');
 
-    if (!props.rooms) return null;
-
     const hasQuery = currentQuery.length >= 2;
-    const hasRooms = props.rooms.length > 0;
+    const hasRooms = props.rooms ? props.rooms?.length > 0 : false;
 
     return (
         <InstantSearch
