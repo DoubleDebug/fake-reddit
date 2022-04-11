@@ -21,6 +21,7 @@ export function displayNotif(
             textAlign: 'center',
             marginTop: '6rem',
         },
+        duration: message.length >= 40 ? 6000 : 4000,
     });
 }
 
