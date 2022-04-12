@@ -19,7 +19,11 @@ export const PostContent: React.FC<IPostContentProps> = (props) => {
     return (
         <div
             className={`${css.postContent} ${
-                props.isPreview ? css.preview : ''
+                props.isPreview
+                    ? props.data.type === 'image'
+                        ? css.previewImage
+                        : css.preview
+                    : ''
             }`}
         >
             {props.data.pollData ? (
@@ -37,7 +41,7 @@ export const PostContent: React.FC<IPostContentProps> = (props) => {
                 ) : user ? (
                     <PollVoting
                         data={props.data.pollData}
-                        isPreview={false}
+                        isPreview={props.isPreview ? true : false}
                         postId={props.data.id}
                         uid={user.uid}
                     />
@@ -54,7 +58,9 @@ export const PostContent: React.FC<IPostContentProps> = (props) => {
             {!props.data.content && !props.data.pollData && (
                 <Skeleton count={5} />
             )}
-            {props.isPreview ? <div className={css.fade}></div> : null}
+            {props.isPreview && props.data.type !== 'image' ? (
+                <div className={css.fade}></div>
+            ) : null}
         </div>
     );
 };

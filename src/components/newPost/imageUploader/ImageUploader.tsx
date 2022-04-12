@@ -1,11 +1,11 @@
 import css from './ImageUploader.module.css';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SUPPORTED_FILE_FORMATS } from '../../../utils/misc/constants';
 import { DragAndDrop, FileInfo } from './DragAndDrop';
 import {
     handleOnChangeFileEvent,
     handleOnDragLeaveEvent,
-    handleOnDragoverEvent,
+    handleOnDragOverEvent,
     handleOnDropEvent,
     showFileDialog,
 } from './ImageUploaderActions';
@@ -17,7 +17,7 @@ export type ImageUploaderState = {
 };
 
 interface IImageUploaderProps {
-    handleFileStoragePath: (fileStoragePath: FileInfo) => void;
+    handleContentUpdate: (fileStoragePath: FileInfo) => void;
     handleNewState: (state: ImageUploaderState) => void;
     state?: ImageUploaderState;
 }
@@ -41,48 +41,42 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
 
     // save state when switching tabs
     useEffect(() => {
-        return () => {
-            props.handleNewState({
-                isDropping: isDropping,
-                isUploading: isUploading,
-                uploadedFile: uploadedFile,
-            });
-        };
+        props.handleNewState({
+            isDropping: isDropping,
+            isUploading: isUploading,
+            uploadedFile: uploadedFile,
+        });
         // eslint-disable-next-line
     }, [isDropping, isUploading, uploadedFile]);
 
-    // Register drag events
-    useLayoutEffect(() => {
-        if (!containerRef.current) return;
-
-        containerRef.current.ondragover = (e) =>
-            handleOnDragoverEvent(e, containerRef.current, setIsDropping);
-        containerRef.current.ondragleave = () =>
-            handleOnDragLeaveEvent(containerRef.current, setIsDropping);
-        containerRef.current.ondrop = (e) =>
-            handleOnDropEvent(e, fileInputRef.current, containerRef.current);
-
-        if (!fileInputRef.current) return;
-
-        fileInputRef.current.onchange = () =>
-            handleOnChangeFileEvent(
-                fileInputRef.current,
-                setIsUploading,
-                setIsDropping,
-                setUploadedFile,
-                props.handleFileStoragePath,
-                props.handleNewState
-            );
-        // eslint-disable-next-line
-    }, []);
-
     return (
-        <div className={css.container} ref={containerRef}>
+        <div
+            className={css.container}
+            ref={containerRef}
+            onDragOver={(e) =>
+                handleOnDragOverEvent(e, containerRef.current, setIsDropping)
+            }
+            onDragLeave={() =>
+                handleOnDragLeaveEvent(containerRef.current, setIsDropping)
+            }
+            onDrop={(e) =>
+                handleOnDropEvent(e, fileInputRef.current, containerRef.current)
+            }
+        >
             <input
                 type="file"
                 ref={fileInputRef}
                 accept={SUPPORTED_FILE_FORMATS.join(', ')}
                 id="fileInputElement"
+                onChange={() =>
+                    handleOnChangeFileEvent(
+                        fileInputRef.current,
+                        setIsUploading,
+                        setIsDropping,
+                        setUploadedFile,
+                        props.handleContentUpdate
+                    )
+                }
             />
             <DragAndDrop
                 isUploading={isUploading}

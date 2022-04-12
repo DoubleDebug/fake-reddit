@@ -12,12 +12,7 @@ function uploadFile(
     setIsUploading: (s: boolean) => void,
     setIsDropping: (s: boolean) => void,
     setUploadedFile: (f: FileInfo) => void,
-    handleFileStoragePath: (f: FileInfo) => void,
-    handleNewState: (s: {
-        isUploading: boolean;
-        isDropping: boolean;
-        uploadedFile: FileInfo;
-    }) => void
+    handleContentUpdate: (f: FileInfo) => void
 ) {
     setIsUploading(true);
     setIsDropping(false);
@@ -38,12 +33,7 @@ function uploadFile(
         // update ui
         setIsUploading(false);
         setUploadedFile(fileInfo);
-        handleFileStoragePath(fileInfo);
-        handleNewState({
-            isUploading: false,
-            isDropping: false,
-            uploadedFile: fileInfo,
-        });
+        handleContentUpdate(fileInfo);
 
         displayNotif('Successfully uploaded image/video.', 'success');
     });
@@ -58,8 +48,8 @@ export function showFileDialog(
     fileInputRef.click();
 }
 
-export function handleOnDragoverEvent(
-    e: DragEvent,
+export function handleOnDragOverEvent(
+    e: React.DragEvent<HTMLDivElement>,
     containerRef: HTMLDivElement | null,
     setIsDropping: (s: boolean) => void
 ) {
@@ -79,7 +69,7 @@ export function handleOnDragLeaveEvent(
 }
 
 export function handleOnDropEvent(
-    e: DragEvent,
+    e: React.DragEvent<HTMLDivElement>,
     fileInputRef: HTMLInputElement | null,
     containerRef: HTMLDivElement | null
 ) {
@@ -96,12 +86,7 @@ export function handleOnChangeFileEvent(
     setIsUploading: (s: boolean) => void,
     setIsDropping: (s: boolean) => void,
     setUploadedFile: (f: FileInfo) => void,
-    handleFileStoragePath: (f: FileInfo) => void,
-    handleNewState: (s: {
-        isUploading: boolean;
-        isDropping: boolean;
-        uploadedFile: FileInfo;
-    }) => void
+    handleContentUpdate: (f: FileInfo) => void
 ) {
     if (!fileInputRef || !fileInputRef.files) return;
     const file = fileInputRef.files[0];
@@ -112,8 +97,7 @@ export function handleOnChangeFileEvent(
             setIsUploading,
             setIsDropping,
             setUploadedFile,
-            handleFileStoragePath,
-            handleNewState
+            handleContentUpdate
         );
     } else {
         displayNotif(fileStatus.message, 'error');

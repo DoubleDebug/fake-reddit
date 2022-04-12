@@ -137,7 +137,7 @@ export class PostModel {
         this.subreddit = subreddit;
 
         // data validation
-        const validationResponse = validatePostData(this);
+        const validationResponse = validatePostData(this, user);
         if (!validationResponse.success) {
             callbackOnInvalidData();
             displayNotif(validationResponse.message, 'error');

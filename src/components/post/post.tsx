@@ -230,7 +230,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                 )}
                 {props.isPreview ? (
                     <Link
-                        className={`${css.linkToPost} ${css.isPreview}`}
+                        className={`${css.linkToPost}`}
                         to={`/post/${props.data.id}`}
                     >
                         <PostContent

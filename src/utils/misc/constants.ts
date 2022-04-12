@@ -113,4 +113,8 @@ export const CUSTOM_ERROR_MESSAGES = [
         code: 'auth/email-already-exists',
         message: 'The provided email address is already taken.',
     },
+    {
+        code: 'auth/popup-closed-by-user',
+        message: 'You closed the popup window.',
+    },
 ];

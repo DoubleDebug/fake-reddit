@@ -1,7 +1,7 @@
 import 'react-quill/dist/quill.snow.css';
 import css from './NewPost.module.css';
 import Select from 'react-select';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import TabPanel from '@mui/lab/TabPanel';
 import { Tab } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
@@ -34,6 +34,7 @@ import { UserContext } from '../../context/UserContext';
 import { ISubreddit } from '../../models/subreddit';
 import { SelectFlairs } from './selectFlairs/SelectFlairs';
 import { selectStyles } from './selectFlairs/SelectFlairsStyles';
+import { cleanObjectFunctions } from '../../utils/misc/cleanObject';
 
 interface INewPostProps {
     subreddit?: string;
@@ -63,25 +64,11 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
     const [selectedSubreddit, setSelectedSubreddit] = useState<
         ISubreddit | undefined
     >(subreddits?.filter((s) => s.id === props.subreddit)[0]);
-    const [tabIndex, setTabIndex] = useState('1');
+    const [tab, setTab] = useState<PostType>('text');
     const [tabState, setTabState] = useState<{
         imageUploaderState?: ImageUploaderState;
         pollState?: PollModel;
     }>();
-
-    useEffect(() => {
-        // update post type
-        const postTypes: Array<PostType> = ['text', 'image', 'poll'];
-        const newType = postTypes[Number(tabIndex) - 1];
-
-        setPostData(
-            new PostModel({
-                ...postData,
-                type: newType,
-            })
-        );
-        // eslint-disable-next-line
-    }, [tabIndex]);
 
     if (!user || postStage === 'submitted') {
         return <Redirect to="/" />;
@@ -136,15 +123,17 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     }}
                     value={postData.title}
                 />
-                <TabContext value={tabIndex}>
+                <TabContext value={tab}>
                     <TabList
-                        onChange={(_, val) => handleTabChange(val, setTabIndex)}
+                        onChange={(_, val) =>
+                            handleTabChange(val, setTab, postData, setPostData)
+                        }
                     >
-                        <Tab value="1" label="Text" />
-                        <Tab value="2" label="Image/Video" />
-                        <Tab value="3" label="Poll" />
+                        <Tab value="text" label="Text" />
+                        <Tab value="image" label="Image/Video" />
+                        <Tab value="poll" label="Poll" />
                     </TabList>
-                    <TabPanel value="1">
+                    <TabPanel value="text">
                         <RichTextbox
                             value={postData.content}
                             onChange={(newValue: string) => {
@@ -157,7 +146,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             }}
                         ></RichTextbox>
                     </TabPanel>
-                    <TabPanel value="2">
+                    <TabPanel value="image">
                         <ImageUploader
                             state={tabState?.imageUploaderState}
                             handleNewState={(state) => {
@@ -166,7 +155,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                                     imageUploaderState: state,
                                 });
                             }}
-                            handleFileStoragePath={(fileInfo: FileInfo) => {
+                            handleContentUpdate={(fileInfo: FileInfo) => {
                                 setPostData(
                                     new PostModel({
                                         ...postData,
@@ -180,7 +169,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             }}
                         ></ImageUploader>
                     </TabPanel>
-                    <TabPanel value="3">
+                    <TabPanel value="poll">
                         <Poll
                             state={tabState?.pollState}
                             handleNewState={(state) =>
@@ -190,9 +179,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                                 setPostData(
                                     new PostModel({
                                         ...postData,
-                                        pollData: JSON.parse(
-                                            JSON.stringify(data)
-                                        ),
+                                        pollData: cleanObjectFunctions(data),
                                     })
                                 );
                             }}

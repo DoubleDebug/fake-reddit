@@ -8,6 +8,7 @@ export function displayNotif(
 ) {
     if (preventDuplicates) {
         toast[type](message, {
+            position: 'bottom-center',
             style: {
                 textAlign: 'center',
             },
@@ -17,9 +18,9 @@ export function displayNotif(
     }
 
     toast[type](message, {
+        position: 'bottom-center',
         style: {
             textAlign: 'center',
-            marginTop: '6rem',
         },
         duration: message.length >= 40 ? 6000 : 4000,
     });
@@ -27,10 +28,10 @@ export function displayNotif(
 
 export function displayNotifJSX(content: () => Renderable) {
     toast(content, {
+        position: 'bottom-center',
         style: {
             maxWidth: 'initial',
             width: 'auto',
-            marginTop: '6rem',
         },
     });
 }

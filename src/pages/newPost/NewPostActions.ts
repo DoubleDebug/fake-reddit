@@ -73,10 +73,18 @@ export function submitNewPost(
 }
 
 export function handleTabChange(
-    tabNumber: string,
-    setTabIndex: (t: string) => void
+    tab: PostType,
+    setTab: (t: PostType) => void,
+    postData: PostModel,
+    setPostData: (p: PostModel) => void
 ) {
-    setTabIndex(tabNumber);
+    setTab(tab);
+    setPostData(
+        new PostModel({
+            ...postData,
+            type: tab,
+        })
+    );
 }
 
 export function getFileMarkup(fileInfo: FileInfo) {

@@ -24,10 +24,7 @@ export const Poll: React.FC<IPollProps> = (props) => {
     // save state when switching tabs
     useEffect(() => {
         props.handlePollData(pollData);
-
-        return () => {
-            props.handleNewState(pollData);
-        };
+        props.handleNewState(pollData);
         // eslint-disable-next-line
     }, [pollData]);
 
