@@ -21,6 +21,7 @@ interface IMessage {
 interface IUserData {
     lastOnline: Timestamp;
     username?: string;
+    isAdmin?: boolean;
 }
 
 interface IVote {
