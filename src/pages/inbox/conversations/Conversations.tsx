@@ -60,7 +60,7 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
                             alt={secondUser.name}
                             className={css.photo}
                         />
-                        <div className="grid">
+                        <div className={css.nameAndLastMessage}>
                             <p
                                 className={`${css.name} ${
                                     unreadCount > 0 ? css.unread : ''

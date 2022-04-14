@@ -33,7 +33,7 @@ export function findPhotoURL(
 
 export function formatMessage(me: User | null | undefined, r: IChatRoom) {
     if (!me) return '';
-    const length = 30;
+    const length = 25;
     const lastMessage = r.messages[r.messages.length - 1];
     if (!lastMessage) return '';
 

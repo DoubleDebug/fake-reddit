@@ -30,7 +30,6 @@ const SearchBox: React.FC<ISearchBoxProps> = ({
                 icon={faSearch}
                 color="silver"
                 className={css.icon}
-                size="sm"
             />
             <TextField
                 autoComplete="off"

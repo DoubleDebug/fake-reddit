@@ -1,6 +1,7 @@
 import { User } from 'firebase/auth';
 import { PostModel } from '../../models/post';
 import { deleteFile } from '../firebase/deleteFile';
+import { log } from '../misc/log';
 
 const RESTRICTIONS = {
     TITLE_LENGTH: 127,
@@ -35,10 +36,9 @@ export function validatePostData(
         const filesToCleanUp = data.contentFiles.map((f) =>
             deleteFile(user, f)
         );
-        Promise.all(filesToCleanUp).then((serverResponse) => {
-            console.log('Cleaned up unused content files.');
-            console.log(serverResponse);
-        });
+        Promise.all(filesToCleanUp).then((serverResponse) =>
+            log(`Cleaned up unused content files: ${serverResponse}.`)
+        );
     }
 
     // remove unnecessary fields

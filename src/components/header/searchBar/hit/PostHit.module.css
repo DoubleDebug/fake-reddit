@@ -1,10 +1,12 @@
 .box {
+    background: white;
     display: grid;
     overflow: hidden;
-    width: 100%;
     margin-top: -5px;
     padding: 0.5rem 1rem;
     border-radius: 5px;
+    position: relative;
+    z-index: 1;
 }
 
 .box:hover {

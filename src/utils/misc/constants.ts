@@ -17,6 +17,7 @@ export const SERVER_ENDPOINTS = {
     POST_REGISTER_USER_PROVIDER: `${SERVER_URL}/registerUserWithProvider`,
     POST_REGISTER_USER_EMAIL: `${SERVER_URL}/registerUserWithEmail`,
     DELETE_POST: `${SERVER_URL}/deletePost`,
+    DELETE_COMMENT: `${SERVER_URL}/deleteComment`,
     DELETE_FILE: `${SERVER_URL}/deleteFile`,
     DELETE_USER: `${SERVER_URL}/deleteUser`,
 };
@@ -60,7 +61,6 @@ export const TYPES_OF_VIOLATION = [
     'Threating violence',
     'Hate',
     'Sharing personal information',
-    'Non-consensual intimate media',
     'Copyright violation',
     'Self-harm',
     'Spam',

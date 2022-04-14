@@ -16,10 +16,85 @@ html {
     max-width: unset;
 }
 
+/* General */
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
 }
+
+button {
+    background: rgb(240, 240, 240);
+    border: none;
+    border-radius: 5px;
+    padding: 0.7rem 1rem;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
+
+button:active {
+    transform: scale(0.9);
+}
+
+button:hover {
+    background: rgb(230, 230, 230);
+    text-decoration: none;
+}
+
+button[type='submit'] {
+    color: white;
+    background: var(--colorOrange);
+}
+
+button[type='submit']:hover {
+    color: white;
+    background: var(--colorOrange);
+    filter: brightness(0.94);
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    color: initial;
+}
+
+a:focus-visible {
+    outline: none;
+}
+
+input[type='search'] {
+    padding: 8px;
+}
+
+h1 {
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.6rem;
+    font-weight: normal;
+}
+
+strong {
+    font-weight: 600;
+}
+
+small {
+    font-size: 0.9rem;
+}
+
+p {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Global classes */
 
 :root {
     --colorOrange: #ff8c00;
@@ -37,26 +112,6 @@ code {
 
 .middle {
     text-align: center;
-}
-
-.btn:active {
-    transform: scale(0.9);
-}
-
-.btn:hover {
-    filter: brightness(0.99);
-    text-decoration: none;
-}
-
-.btn[type='submit'] {
-    color: white;
-    background: var(--colorOrange);
-}
-
-.btn[type='submit']:hover {
-    color: white;
-    background: var(--colorOrange);
-    filter: brightness(0.94);
 }
 
 .linkNoUnderline:hover {
@@ -81,6 +136,14 @@ img {
     font-size: 0.6rem;
 }
 
+.iconButton:hover {
+    filter: brightness(0.9);
+}
+
+.iconButton:active {
+    transform: scale(0.9);
+}
+
 /* MUI Tabs */
 
 .MuiTabPanel-root {
@@ -96,4 +159,5 @@ img {
 
 .ais-Hits-list {
     margin: 0;
+    padding: 0;
 }

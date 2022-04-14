@@ -61,13 +61,10 @@ export function downvote(
 export function deletePost(
     user: User | null | undefined,
     data: PostModel,
-    setDeleted: (d: boolean) => void
+    setIsDeleted: (d: boolean) => void
 ) {
     if (!user || !data.id) return;
-
-    data.delete(user, data.subreddit);
-
-    setDeleted(true);
+    return data.delete(user, data.subreddit, () => setIsDeleted(true));
 }
 
 export async function openChatRoom(

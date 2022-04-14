@@ -17,12 +17,12 @@
 }
 
 .dropdownItem {
-    display: block;
+    display: flex;
+    justify-content: flex-end;
     background: white;
     cursor: pointer;
     padding: 0.7rem;
     border-radius: 5px;
-    width: 100%;
     text-align: right;
     white-space: nowrap;
 }
@@ -30,6 +30,10 @@
 .link {
     display: flex;
     text-decoration: none !important;
+}
+
+.link p {
+    width: 100%;
 }
 
 .dropdownItem:hover {

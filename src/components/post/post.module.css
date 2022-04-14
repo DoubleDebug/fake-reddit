@@ -9,6 +9,8 @@
 
 .secondaryText {
     color: silver;
+    display: flex;
+    align-items: flex-end;
 }
 
 .postHeader {
@@ -71,7 +73,6 @@
 
 .author {
     color: silver;
-    font-size: 0.95rem;
     cursor: pointer;
     margin-left: 0.3rem;
     margin-bottom: 0;
@@ -103,7 +104,6 @@
 
 .postVoting .score {
     margin: auto;
-    margin-left: 0;
     grid-row: 1 / 3;
 }
 
@@ -135,7 +135,7 @@
 
 .flairsContainer {
     display: flex;
-    margin-top: 10px;
+    margin: 5px 0;
 }
 
 .flair {

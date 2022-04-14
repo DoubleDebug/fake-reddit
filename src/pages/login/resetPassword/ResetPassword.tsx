@@ -44,7 +44,7 @@ export const ResetPassword: React.FC = () => {
                 <button
                     disabled={isLoading}
                     type="submit"
-                    className={`btn ${css.btnSubmit}`}
+                    className={css.btnSubmit}
                     onClick={(e) => {
                         e.preventDefault();
                         setIsLoading(true);

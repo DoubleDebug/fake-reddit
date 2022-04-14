@@ -1,11 +1,12 @@
 .roomContainer {
     display: grid;
     justify-content: center;
+    grid-template-rows: auto 57px;
 }
 
 .room {
     display: grid;
-    grid-template-rows: 60px min-content;
+    grid-template-rows: 60px repeat(2, min-content);
     row-gap: 1rem;
     padding: 1.5rem;
     padding-top: 0;
@@ -69,7 +70,7 @@
 }
 
 .username {
-    margin: 0;
+    margin-bottom: 2rem;
 }
 
 .lblLastOnline {
@@ -83,13 +84,13 @@
     margin-bottom: 0;
 }
 
-.formInputMessage input[type='text'],
-.formInputMessage button {
-    margin-bottom: 0;
+.inputMessage {
+    margin: 0 0.7rem !important;
 }
 
-.formInputMessage button[type='submit'] {
-    margin-right: 0;
+.inputMessage div input {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
 }
 
 .imgUsernameAvatar {
@@ -98,19 +99,6 @@
     border: 2px solid white;
     border-radius: 50%;
     margin: 0.2rem 1rem 0 1rem;
-}
-
-input[type='text'].inputMessage {
-    height: 42px;
-    width: 100%;
-    margin-left: 1rem;
-    margin-right: 0.5rem;
-    border: 1px solid silver;
-}
-
-input[type='text'].inputMessage:focus {
-    border: 1px solid gray;
-    outline-width: 0px;
 }
 
 .welcomeBox {

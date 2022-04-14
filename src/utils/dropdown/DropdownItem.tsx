@@ -22,13 +22,13 @@ export const DropdownItem: React.FC<IDropdownItemProps> = (props) => {
                         className={css.icon}
                     />
                 )}
-                <div
+                <p
                     className={`${css.dropdownItem} ${
                         props.icon ? css.withIcon : ''
                     }`}
                 >
                     {props.text}
-                </div>
+                </p>
             </Link>
         );
     }
@@ -45,7 +45,7 @@ export const DropdownItem: React.FC<IDropdownItemProps> = (props) => {
                     className={css.icon}
                 />
             )}
-            <div>{props.text}</div>
+            <p>{props.text}</p>
         </div>
     );
 };

@@ -32,10 +32,11 @@ export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
                 </div>
             ) : null}
             {props.comments && props.post?.id && (
-                <WriteComment postId={props.post.id}></WriteComment>
+                <WriteComment postId={props.post.id} />
             )}
+            <div style={{ marginBottom: '2rem' }} />
             {props.comments ? (
-                props.comments.map((c, index: number) => {
+                props.comments?.map((c, index: number) => {
                     if (c.isReply || !props.comments) return null;
 
                     const replies = props.comments.filter(
@@ -52,7 +53,7 @@ export const CommentSection: React.FC<ICommentSectionProps> = (props) => {
                                         setHiddenComments
                                     )
                                 }
-                            ></Comment>
+                            />
                             {c.id &&
                                 !hiddenComments.includes(c.id) &&
                                 replies.map((r, rIndex: number) => (

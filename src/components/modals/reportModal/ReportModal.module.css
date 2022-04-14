@@ -16,7 +16,6 @@
     margin: 0.5rem;
     margin-top: 0.5rem;
     cursor: pointer;
-    height: 50px;
     white-space: nowrap;
 }
 
@@ -29,8 +28,16 @@
     color: white;
 }
 
+.description {
+    margin-bottom: 0.7rem;
+}
+
 .note {
     margin-top: 1rem !important;
+}
+
+.note div textarea {
+    min-height: 70px;
 }
 
 .btnSubmit {

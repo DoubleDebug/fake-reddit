@@ -14,13 +14,17 @@
 
 .textbox {
     width: 300px;
-    border: 1px solid silver !important;
+    margin-bottom: 0.7rem !important;
+}
+
+.textbox div input {
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
 }
 
 .btnRemoveOption {
-    margin-left: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    margin-left: 0.7rem;
+    height: min-content;
 }
 
 .btnAddOption {

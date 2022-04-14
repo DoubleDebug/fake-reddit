@@ -114,11 +114,7 @@ const StateDefault: React.FC<{
     return (
         <div className="flex">
             <h2 className={css.textDrag}>Drag and drop an image/video or </h2>
-            <button
-                onClick={(e) => props.showFileDialog(e)}
-                className="btn"
-                type="submit"
-            >
+            <button onClick={(e) => props.showFileDialog(e)} type="submit">
                 Upload
             </button>
         </div>

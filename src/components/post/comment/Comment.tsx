@@ -38,7 +38,9 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                 props.data.isReply ? css.isReply : ''
             }`}
         >
-            <img alt="U" src={authorPhotoURL} className={css.imgAvatar}></img>
+            {props.data.id && (
+                <img alt="U" src={authorPhotoURL} className={css.imgAvatar} />
+            )}
             {props.data.author ? (
                 <div className={css.header}>
                     <small className={css.author}>{props.data.author}</small>
@@ -48,7 +50,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                     {user && isCommentMine(props.data, user) ? (
                         <p
                             className={css.btnCommentAction}
-                            onClick={() => deleteComment(props.data)}
+                            onClick={() => deleteComment(user, props.data.id)}
                         >
                             Delete
                             <FontAwesomeIcon
@@ -57,7 +59,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                                     marginLeft: '0.2rem',
                                     marginRight: '0.5rem',
                                 }}
-                            ></FontAwesomeIcon>
+                            />
                         </p>
                     ) : null}
                     {!props.data.isReply && (
@@ -73,27 +75,27 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                                     marginLeft: '0.2rem',
                                     marginRight: '0.5rem',
                                 }}
-                            ></FontAwesomeIcon>
+                            />
                         </p>
                     )}
                 </div>
             ) : (
-                <div className="grid">
+                <div className={css.skeletonContainer}>
                     <div className="flex">
-                        <Skeleton circle={true} width="20px"></Skeleton>
+                        <Skeleton circle={true} width="20px" />
                         <Skeleton
                             width="80px"
                             style={{ marginLeft: '0.5rem' }}
-                        ></Skeleton>
+                        />
                         <Skeleton
                             width="80px"
                             style={{ marginLeft: '0.5rem' }}
-                        ></Skeleton>
+                        />
                     </div>
-                    <Skeleton count={3}></Skeleton>
+                    <Skeleton count={3} />
                 </div>
             )}
-            {!props.data.isReply && (
+            {props.data.id && !props.data.isReply && (
                 <button
                     className={css.btnExpand}
                     onClick={() =>
@@ -109,7 +111,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                     postId={props.data.postId || ''}
                     setVisibility={setShowReply}
                     parentCommentId={props.data.id}
-                ></WriteComment>
+                />
             )}
         </div>
     );

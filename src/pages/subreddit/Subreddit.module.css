@@ -1,5 +1,5 @@
 .container {
-    width: 800px;
+    width: 770px;
     justify-self: center;
 }
 
@@ -42,13 +42,12 @@
 .btnAddPost {
     display: grid;
     margin: auto;
-    margin-right: 0;
+    margin-right: 1rem;
     height: min-content;
     align-items: center;
 }
 
 .btnAddPost > button {
-    padding: 0.2rem 1rem;
-    background: var(--colorOrange);
-    color: white;
+    display: flex;
+    padding: 0.5rem;
 }

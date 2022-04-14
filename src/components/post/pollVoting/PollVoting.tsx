@@ -38,7 +38,7 @@ export const PollVoting: React.FC<IPollVotingProps> = (props) => {
             </RadioGroup>
             {!props.isPreview && props.uid && (
                 <button
-                    className={`btn ${css.btnVote}`}
+                    className={css.btnVote}
                     type="submit"
                     disabled={isUploading}
                     onClick={() => {

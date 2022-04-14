@@ -1,3 +1,6 @@
+import { createTheme } from '@mui/material';
+import { Theme } from 'react-select';
+
 export const selectStyles = {
     option: (provided: any, state: { isSelected: any }) => ({
         ...provided,
@@ -32,3 +35,19 @@ export const selectStyles = {
         color: state.hasValue ? 'white' : 'black',
     }),
 };
+
+export const selectTheme = (t: Theme) => ({
+    ...t,
+    colors: {
+        ...t.colors,
+        primary: '#ED6C02',
+    },
+});
+
+export const tabsTheme = createTheme({
+    palette: {
+        primary: {
+            main: '#ED6C02',
+        },
+    },
+});

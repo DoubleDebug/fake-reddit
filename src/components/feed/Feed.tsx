@@ -63,7 +63,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
                             : '/r/all/newPost'
                     }
                 >
-                    <button className="btn">Add a post</button>
+                    <button>Add a post</button>
                 </Link>
             </div>
         );
@@ -74,7 +74,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
                 <button
                     onClick={handleBackToTopEvent}
                     type="submit"
-                    className={`btn ${css.btnBackToTop}`}
+                    className={css.btnBackToTop}
                 >
                     Back to top
                 </button>

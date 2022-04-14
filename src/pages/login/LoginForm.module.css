@@ -62,10 +62,30 @@
 .btnLogin {
     width: 300px;
     margin-right: 0;
+    margin-bottom: 1rem;
+}
+
+.link {
+    display: grid;
 }
 
 .link:hover {
     color: black;
     cursor: pointer;
+    text-decoration: underline;
+}
+
+.linkForgot {
+    margin-bottom: 0.3rem;
+}
+
+.linkSignUp,
+.linkLogin {
+    margin-left: 0.3rem;
+    cursor: pointer;
+}
+
+.linkSignUp:hover,
+.linkLogin:hover {
     text-decoration: underline;
 }

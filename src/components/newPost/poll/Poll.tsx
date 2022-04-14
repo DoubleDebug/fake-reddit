@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { PollModel } from '../../../models/poll';
 import { addOption, removeOption, updateOption } from './PollActions';
+import { TextField } from '@mui/material';
 
 interface IPollProps {
     state?: PollModel;
@@ -33,18 +34,15 @@ export const Poll: React.FC<IPollProps> = (props) => {
             <div className={css.options}>
                 {pollData.options.map((option, index) => (
                     <div className="flex" key={`option${index}`}>
-                        <input
+                        <TextField
+                            placeholder="Option"
                             type="text"
                             className={css.textbox}
-                            style={
-                                index > 1
-                                    ? {
-                                          marginLeft: '63px',
-                                      }
-                                    : {}
-                            }
+                            style={{
+                                marginLeft: index > 1 ? '58px' : '0',
+                            }}
                             value={option}
-                            onInput={(e) =>
+                            onChange={(e) =>
                                 updateOption(
                                     index,
                                     e.currentTarget.value,
@@ -72,12 +70,14 @@ export const Poll: React.FC<IPollProps> = (props) => {
                     </div>
                 ))}
             </div>
-            <button
-                className={css.btnAddOption}
-                onClick={(e) => addOption(e, pollData, setPollData)}
-            >
-                Add option
-            </button>
+            {pollData.options.length <= 9 && (
+                <button
+                    className={css.btnAddOption}
+                    onClick={(e) => addOption(e, pollData, setPollData)}
+                >
+                    Add option
+                </button>
+            )}
         </div>
     );
 };

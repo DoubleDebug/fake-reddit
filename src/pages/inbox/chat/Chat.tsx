@@ -42,6 +42,7 @@ import { sendMessage } from './ChatActions';
 import { UserContext } from '../../../context/UserContext';
 import { Separator } from '../../../utils/separator/Separator';
 import { Dropdown } from '../../../utils/dropdown/Dropdown';
+import { TextField } from '@mui/material';
 
 interface IChatProps {
     roomId: string;
@@ -62,7 +63,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
             idField: 'id',
         }
     );
-    const inputMessage = useRef<HTMLInputElement>(null);
+    const [message, setMessage] = useState('');
     const [userData] = useDocumentDataOnce<IUserData>(
         doc(
             db,
@@ -73,20 +74,25 @@ export const Chat: React.FC<IChatProps> = (props) => {
     const [user2PhotoURL, setUser2PhotoURL] =
         useState<string>(DEFAULT_PROFILE_URL);
     const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
+    const refRoom = useRef<HTMLDivElement | null>(null);
 
-    // get 2nd user's photo URL
     useEffect(() => {
+        // get 2nd user's photo URL
         if (!user || !room) return;
         const secondUserId = getSecondUser(user.uid, room.userIds);
-        if (!secondUserId) return;
-        getUserPhotoURL(secondUserId).then(
-            (url) => url && setUser2PhotoURL(url)
-        );
+        secondUserId &&
+            getUserPhotoURL(secondUserId).then(
+                (url) => url && setUser2PhotoURL(url)
+            );
+
+        // update room's CSS grid layout
+        if (!refRoom.current || !room.messages) return;
+        refRoom.current.style.gridTemplateRows = `60px repeat(${room.messages.length}, min-content)`;
     }, [user, room]);
 
     if (!props.roomId || !room?.userIds) {
         return (
-            <div className={css.room}>
+            <div className={css.room} ref={refRoom}>
                 <div className={css.welcomeBox}>
                     <FontAwesomeIcon
                         icon={faCommentDots}
@@ -104,7 +110,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
 
     return (
         <div className={css.roomContainer}>
-            <div className={css.room}>
+            <div className={css.room} ref={refRoom}>
                 <div className={css.roomHeader}>
                     {loading ? (
                         <Skeleton
@@ -192,6 +198,10 @@ export const Chat: React.FC<IChatProps> = (props) => {
                         const isUnread =
                             room.messages.length - myUnread - 1 === index;
                         const displaySeparator = isUnread && myUnread > 0;
+                        const secondUser = getUsernameById(
+                            room,
+                            getSecondUser(user?.uid, room?.userIds || []) || ''
+                        );
 
                         return (
                             <div key={`message${index}`}>
@@ -234,7 +244,7 @@ export const Chat: React.FC<IChatProps> = (props) => {
                                             title={
                                                 isMessageMine(m, user)
                                                     ? 'Me'
-                                                    : m.from.name
+                                                    : secondUser
                                             }
                                         />
                                         <small>
@@ -263,24 +273,20 @@ export const Chat: React.FC<IChatProps> = (props) => {
                 )}
             </div>
             <form className={css.formInputMessage}>
-                <input
+                <TextField
+                    fullWidth
+                    autoComplete="off"
+                    color="warning"
                     className={css.inputMessage}
-                    ref={inputMessage}
+                    value={message}
+                    onChange={(e) => setMessage(e.currentTarget.value)}
                     type="text"
                     placeholder="Write something"
                 />
                 <button
-                    className="btn"
                     type="submit"
                     onClick={(e) =>
-                        inputMessage.current &&
-                        sendMessage(
-                            e,
-                            inputMessage.current.value,
-                            user,
-                            room,
-                            inputMessage
-                        )
+                        sendMessage(e, message, setMessage, user, room)
                     }
                 >
                     Send

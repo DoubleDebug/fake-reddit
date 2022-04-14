@@ -8,8 +8,9 @@ import { toUppercaseFirstLetter } from '../../../utils/misc/toUppercaseFirstLett
 
 interface IDeleteModalProps {
     itemBeingDeleted: string;
-    action: () => Promise<void>;
+    action: () => any;
     showStateHandler: (s: boolean) => void;
+    disableSuccessNotification?: boolean;
 }
 
 export const DeleteModal: React.FC<IDeleteModalProps> = (props) => {
@@ -20,21 +21,20 @@ export const DeleteModal: React.FC<IDeleteModalProps> = (props) => {
             <div className="grid">
                 <p>
                     Are you sure you want to delete this{' '}
-                    {props.itemBeingDeleted}?
+                    <strong>{props.itemBeingDeleted}</strong>?
                     <br />
                     This action cannot be undone.
                 </p>
                 <div className="flex">
                     <button
-                        className={`btn ${css.btnCancel}`}
+                        className={css.btnCancel}
                         onClick={() => props.showStateHandler(false)}
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
-                        className="btn"
-                        style={{ marginBottom: '0px' }}
+                        className={css.btnDelete}
                         disabled={isLoading}
                         onClick={(e) => {
                             e.preventDefault();
@@ -42,14 +42,16 @@ export const DeleteModal: React.FC<IDeleteModalProps> = (props) => {
                             props.action().then(() => {
                                 setIsLoading(false);
                                 props.showStateHandler(false);
-                                setTimeout(() => {
-                                    displayNotif(
-                                        `${toUppercaseFirstLetter(
-                                            props.itemBeingDeleted
-                                        )} successfully deleted.`,
-                                        'success'
-                                    );
-                                }, 500);
+
+                                !props.disableSuccessNotification &&
+                                    setTimeout(() => {
+                                        displayNotif(
+                                            `${toUppercaseFirstLetter(
+                                                props.itemBeingDeleted
+                                            )} successfully deleted.`,
+                                            'success'
+                                        );
+                                    }, 500);
                             });
                         }}
                     >

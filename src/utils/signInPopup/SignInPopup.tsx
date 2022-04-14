@@ -9,7 +9,7 @@ export function signInPopup(action: string): Renderable {
             <Link to="/login" className={css.link}>
                 <button
                     type="submit"
-                    className={`btn ${css.btnAction}`}
+                    className={css.btnAction}
                     onClick={() => toast.dismiss()}
                 >
                     Sign in

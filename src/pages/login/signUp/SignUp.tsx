@@ -33,7 +33,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
             <div className={css.grid}>
                 <button
                     disabled={isLoading}
-                    className={`btn ${css.btnProvider}`}
+                    className={css.btnProvider}
                     onClick={() => loginWithGoogle(true)}
                 >
                     <div className={css.iconContainer}>
@@ -43,7 +43,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                 </button>
                 <button
                     disabled={isLoading}
-                    className={`btn ${css.btnProvider}`}
+                    className={css.btnProvider}
                     onClick={() => loginWithGithub(true)}
                 >
                     <div className={css.iconContainer}>
@@ -92,7 +92,7 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                     <button
                         disabled={isLoading}
                         type="submit"
-                        className={`btn ${css.btnLogin}`}
+                        className={css.btnLogin}
                         onClick={(e) => {
                             e.preventDefault();
                             setIsLoading(true);
@@ -120,11 +120,11 @@ export const SignUp: React.FC<ISignUpProps> = (props) => {
                             'Sign up'
                         )}
                     </button>
-                    <small>
-                        Already a Redditor?{' '}
+                    <small className="flex">
+                        Already a Redditor?
                         <small
                             onClick={() => props.setTabIndexCallback('log in')}
-                            className={css.link}
+                            className={css.linkLogin}
                         >
                             Log in.
                         </small>

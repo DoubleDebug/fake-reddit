@@ -13,7 +13,8 @@ import { signInPopup } from '../../../utils/signInPopup/SignInPopup';
 export function submitComment(
     e: React.MouseEvent,
     user: User | null | undefined,
-    commentTextarea: React.RefObject<HTMLTextAreaElement>,
+    comment: string,
+    setComment: (c: string) => void,
     parentCommentId: string | undefined,
     postId: string,
     setIsSubmitting: (s: boolean) => void
@@ -26,8 +27,7 @@ export function submitComment(
     }
 
     // data validation
-    if (!commentTextarea.current) return;
-    const validationResult = validateComment(commentTextarea.current.value);
+    const validationResult = validateComment(comment);
     if (!validationResult.success) {
         displayNotif(validationResult.message, 'error');
         return;
@@ -41,7 +41,7 @@ export function submitComment(
         createdAt: Timestamp.now(),
         isReply: parentCommentId ? true : false,
         postId: postId,
-        text: commentTextarea.current.value,
+        text: comment,
     };
 
     if (parentCommentId) {
@@ -51,7 +51,7 @@ export function submitComment(
     // submitting data to firestore
     const db = getFirestore();
     addDoc(collection(db, DB_COLLECTIONS.COMMENTS), data).then(() => {
-        if (commentTextarea.current) commentTextarea.current.value = '';
+        setComment('');
         setIsSubmitting(false);
     });
 }

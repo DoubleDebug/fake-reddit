@@ -3,7 +3,7 @@ import css from './NewPost.module.css';
 import Select from 'react-select';
 import React, { useContext, useRef, useState } from 'react';
 import TabPanel from '@mui/lab/TabPanel';
-import { Tab } from '@mui/material';
+import { Tab, TextField, ThemeProvider } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
 import { Redirect } from 'react-router';
 import { CollectionReference, getFirestore } from '@firebase/firestore';
@@ -33,7 +33,11 @@ import {
 import { UserContext } from '../../context/UserContext';
 import { ISubreddit } from '../../models/subreddit';
 import { SelectFlairs } from './selectFlairs/SelectFlairs';
-import { selectStyles } from './selectFlairs/SelectFlairsStyles';
+import {
+    selectStyles,
+    selectTheme,
+    tabsTheme,
+} from './selectFlairs/SelectFlairsStyles';
 import { cleanObjectFunctions } from '../../utils/misc/cleanObject';
 
 interface INewPostProps {
@@ -81,12 +85,10 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                 <div className={css.selectSubreddit}>
                     <Select
                         ref={subredditInput}
-                        options={subreddits?.map((s) => {
-                            return {
-                                value: s.id,
-                                label: `r/${s.id}`,
-                            };
-                        })}
+                        options={subreddits?.map((s) => ({
+                            value: s.id,
+                            label: `r/${s.id}`,
+                        }))}
                         defaultValue={
                             props.subreddit
                                 ? {
@@ -100,6 +102,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             control: (currentStyles: any) => currentStyles,
                             singleValue: (currentStyles: any) => currentStyles,
                         }}
+                        theme={selectTheme}
                         onChange={(val) => {
                             setSelectedSubreddit(
                                 subreddits?.filter(
@@ -109,11 +112,14 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                         }}
                     />
                 </div>
-                <input
+                <TextField
+                    color="warning"
+                    autoComplete="off"
                     className={css.title}
                     type="text"
                     placeholder="Title"
-                    onInput={(e) => {
+                    value={postData.title}
+                    onChange={(e) => {
                         setPostData(
                             new PostModel({
                                 ...postData,
@@ -121,77 +127,88 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             })
                         );
                     }}
-                    value={postData.title}
                 />
-                <TabContext value={tab}>
-                    <TabList
-                        onChange={(_, val) =>
-                            handleTabChange(val, setTab, postData, setPostData)
-                        }
-                    >
-                        <Tab value="text" label="Text" />
-                        <Tab value="image" label="Image/Video" />
-                        <Tab value="poll" label="Poll" />
-                    </TabList>
-                    <TabPanel value="text">
-                        <RichTextbox
-                            value={postData.content}
-                            onChange={(newValue: string) => {
-                                setPostData(
-                                    new PostModel({
-                                        ...postData,
-                                        content: newValue,
-                                    })
-                                );
-                            }}
-                        ></RichTextbox>
-                    </TabPanel>
-                    <TabPanel value="image">
-                        <ImageUploader
-                            state={tabState?.imageUploaderState}
-                            handleNewState={(state) => {
-                                setTabState({
-                                    ...tabState,
-                                    imageUploaderState: state,
-                                });
-                            }}
-                            handleContentUpdate={(fileInfo: FileInfo) => {
-                                setPostData(
-                                    new PostModel({
-                                        ...postData,
-                                        content: getFileMarkup(fileInfo),
-                                        contentFiles: [
-                                            ...(postData.contentFiles || []),
-                                            fileInfo.storagePath,
-                                        ],
-                                    })
-                                );
-                            }}
-                        ></ImageUploader>
-                    </TabPanel>
-                    <TabPanel value="poll">
-                        <Poll
-                            state={tabState?.pollState}
-                            handleNewState={(state) =>
-                                setTabState({ ...tabState, pollState: state })
+                <ThemeProvider theme={tabsTheme}>
+                    <TabContext value={tab}>
+                        <TabList
+                            onChange={(_, val) =>
+                                handleTabChange(
+                                    val,
+                                    setTab,
+                                    postData,
+                                    setPostData
+                                )
                             }
-                            handlePollData={(data) => {
-                                setPostData(
-                                    new PostModel({
-                                        ...postData,
-                                        pollData: cleanObjectFunctions(data),
+                        >
+                            <Tab value="text" label="Text" />
+                            <Tab value="image" label="Image/Video" />
+                            <Tab value="poll" label="Poll" />
+                        </TabList>
+                        <TabPanel value="text">
+                            <RichTextbox
+                                value={postData.content}
+                                onChange={(newValue: string) => {
+                                    setPostData(
+                                        new PostModel({
+                                            ...postData,
+                                            content: newValue,
+                                        })
+                                    );
+                                }}
+                            ></RichTextbox>
+                        </TabPanel>
+                        <TabPanel value="image">
+                            <ImageUploader
+                                state={tabState?.imageUploaderState}
+                                handleNewState={(state) => {
+                                    setTabState({
+                                        ...tabState,
+                                        imageUploaderState: state,
+                                    });
+                                }}
+                                handleContentUpdate={(fileInfo: FileInfo) => {
+                                    setPostData(
+                                        new PostModel({
+                                            ...postData,
+                                            content: getFileMarkup(fileInfo),
+                                            contentFiles: [
+                                                ...(postData.contentFiles ||
+                                                    []),
+                                                fileInfo.storagePath,
+                                            ],
+                                        })
+                                    );
+                                }}
+                            ></ImageUploader>
+                        </TabPanel>
+                        <TabPanel value="poll">
+                            <Poll
+                                state={tabState?.pollState}
+                                handleNewState={(state) =>
+                                    setTabState({
+                                        ...tabState,
+                                        pollState: state,
                                     })
-                                );
-                            }}
-                        ></Poll>
-                    </TabPanel>
-                </TabContext>
+                                }
+                                handlePollData={(data) => {
+                                    setPostData(
+                                        new PostModel({
+                                            ...postData,
+                                            pollData:
+                                                cleanObjectFunctions(data),
+                                        })
+                                    );
+                                }}
+                            ></Poll>
+                        </TabPanel>
+                    </TabContext>
+                </ThemeProvider>
                 <div className="flex">
                     <div className={css.flairsContainer}>
                         {COMMON_FLAIRS.map((f, ind) => (
                             <button
                                 key={ind}
-                                className={`btn ${css.btnFlair}`}
+                                className={css.btnFlair}
                                 type="button"
                                 onClick={(e) =>
                                     handleFlairClick(e, setPostData, postData)
@@ -220,7 +237,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             )}
                     </div>
                     <button
-                        className={`btn ${css.btnSubmit}`}
+                        className={css.btnSubmit}
                         type="submit"
                         disabled={postStage === 'being-submitted'}
                         onClick={(e) =>

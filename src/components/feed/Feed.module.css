@@ -23,8 +23,8 @@
 
 .btnBackToTop {
     position: fixed;
-    bottom: 60px;
-    right: 17%;
+    bottom: 2rem;
+    right: 2rem;
     margin: 0;
     padding: 0.5rem 1rem;
     border-radius: 5px;

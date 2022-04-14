@@ -1,9 +1,10 @@
-import { deleteDoc, doc, getFirestore } from 'firebase/firestore';
-import { CommentModel } from '../../../models/comment';
-import { DB_COLLECTIONS } from '../../../utils/misc/constants';
+import { User } from 'firebase/auth';
+import { deleteComment as delComment } from '../../../utils/firebase/deleteComment';
 
-export function deleteComment(data: CommentModel) {
-    if (!data.id) return;
-    const db = getFirestore();
-    deleteDoc(doc(db, DB_COLLECTIONS.COMMENTS, data.id));
+export function deleteComment(
+    user: User | undefined | null,
+    commentId: string | undefined
+) {
+    if (!commentId) return;
+    delComment(user, commentId);
 }

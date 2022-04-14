@@ -1,4 +1,7 @@
 .btnCancel {
-    margin-left: 20rem;
-    margin-bottom: 0px;
+    margin: 1.5rem 0.5rem 0 20rem;
+}
+
+.btnDelete {
+    margin-top: 1.5rem;
 }

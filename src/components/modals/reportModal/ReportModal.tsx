@@ -32,7 +32,7 @@ export const ReportModal: React.FC<IReportModalProps> = (props) => {
         >
             <div className={css.container}>
                 <div className="grid">
-                    <p>
+                    <p className={css.description}>
                         Thank you for looking out for others by reporting things
                         that break the rules.
                         <br />
@@ -67,7 +67,7 @@ export const ReportModal: React.FC<IReportModalProps> = (props) => {
                         className={css.note}
                     />
                     <button
-                        className={`btn ${css.btnSubmit}`}
+                        className={css.btnSubmit}
                         type="submit"
                         disabled={isSubmitting}
                         onClick={(e) =>

@@ -3,7 +3,6 @@
     grid-template-columns: 20px auto;
     grid-template-rows: min-content auto;
     padding: 0.5rem;
-    margin-top: 0;
     border-radius: 5px;
 }
 
@@ -67,4 +66,9 @@
 
 .btnExpand:hover {
     background: silver;
+}
+
+.skeletonContainer {
+    grid-column-start: 1;
+    grid-column-end: 3;
 }

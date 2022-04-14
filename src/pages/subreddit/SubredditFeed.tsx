@@ -56,7 +56,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                         className={css.btnAddPost}
                         title="Add a new post"
                     >
-                        <button className="btn">
+                        <button type="submit">
                             <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
                         </button>
                     </Link>

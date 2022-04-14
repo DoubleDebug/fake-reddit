@@ -1,5 +1,4 @@
 import css from './PollResults.module.css';
-import { FormLabel } from '@mui/material';
 import { PollModel } from '../../../models/poll';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,7 +16,9 @@ export const PollResults: React.FC<IPollResultsProps> = (props) => {
 
     return (
         <div className={css.container}>
-            <FormLabel>{`${props.data.votes.length} votes`}</FormLabel>
+            <p
+                style={{ marginBottom: '0.5rem' }}
+            >{`${props.data.votes.length} votes`}</p>
             {props.data.options.map((option, index) => {
                 // fill CSS animation
                 setTimeout(() => {
@@ -46,6 +47,7 @@ export const PollResults: React.FC<IPollResultsProps> = (props) => {
                             <FontAwesomeIcon
                                 icon={faCheckCircle}
                                 style={{ marginLeft: '0.5rem' }}
+                                title={`You voted ${props.chosenOption}`}
                             />
                         )}
                         <small className={css.numOfVotes}>

@@ -16,16 +16,16 @@ import {
 
 export function sendMessage(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    text: string,
+    message: string,
+    setMessage: (m: string) => void,
     user: User | null | undefined,
-    room: Data<IChatRoom, '', ''> | undefined,
-    inputMessage: React.RefObject<HTMLInputElement>
+    room: Data<IChatRoom, '', ''> | undefined
 ) {
     e.preventDefault();
     if (!room || !user) return;
 
     // clear message
-    if (inputMessage.current) inputMessage.current.value = '';
+    setMessage('');
 
     // add message to db
     const db = getFirestore();
@@ -36,7 +36,7 @@ export function sendMessage(
                 id: user.uid,
                 name: room.userNames[0],
             },
-            content: text,
+            content: message,
             timestamp: Timestamp.now(),
         }),
     }).then(() => {
@@ -45,9 +45,6 @@ export function sendMessage(
             top: document.body.scrollHeight,
             behavior: 'smooth',
         });
-
-        // focus on textbox
-        inputMessage.current?.focus();
     });
 
     // update unread messages

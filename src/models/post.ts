@@ -104,7 +104,7 @@ export class PostModel {
         });
     }
 
-    async delete(user: User, subreddit: string) {
+    async delete(user: User, subreddit: string, callback?: Function) {
         if (!this.id) return;
 
         // delete post
@@ -116,6 +116,9 @@ export class PostModel {
                 console.log(error);
                 displayNotif('Failed to delete post.', 'error');
             });
+
+        // execute callback method
+        callback && callback();
 
         // update metadata counters
         const counters: any = {

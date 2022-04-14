@@ -18,6 +18,7 @@ import { PostContent } from './PostContent';
 import { UserContext } from '../../context/UserContext';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
 import { ReportModal } from '../modals/reportModal/ReportModal';
+import { DeleteModal } from '../modals/deleteModal/DeleteModal';
 
 interface IPostProps {
     data: PostModel;
@@ -28,11 +29,12 @@ export const Post: React.FC<IPostProps> = (props) => {
     const user = useContext(UserContext);
     const [score, setScore] = useState(props.data.getScore());
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
-    const [deleted, setDeleted] = useState(false);
     const [redirectChatId, setRedirectChatId] = useState<string | null>(null);
     const [hasVoted, setHasVoted] = useState<boolean>(false);
+    const [isDeleted, setIsDeleted] = useState(false);
     const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         // loading component state from db data
@@ -49,8 +51,8 @@ export const Post: React.FC<IPostProps> = (props) => {
         setScore(props.data.getScore());
     }, [user, props.data]);
 
+    if (isDeleted) return null;
     if (redirectChatId) return <Redirect to={`/inbox/${redirectChatId}`} />;
-    if (deleted) return null;
     return (
         <>
             {showReportModal && (
@@ -58,6 +60,14 @@ export const Post: React.FC<IPostProps> = (props) => {
                     type="post"
                     contentId={props.data.id || ''}
                     showStateHandler={setShowReportModal}
+                />
+            )}
+            {showDeleteModal && (
+                <DeleteModal
+                    itemBeingDeleted="post"
+                    showStateHandler={setShowDeleteModal}
+                    action={() => deletePost(user, props.data, setIsDeleted)}
+                    disableSuccessNotification={true}
                 />
             )}
             <div className={`contentBox ${css.container}`}>
@@ -69,7 +79,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                                 icon={faChevronCircleUp}
                                 color={upvoted ? 'darkorange' : 'silver'}
                                 size="lg"
-                                className={'btn ' + css.btnVote}
+                                className={`iconButton ${css.btnVote}`}
                                 onClick={() =>
                                     upvote(
                                         user,
@@ -90,7 +100,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                                         : 'silver'
                                 }
                                 size="lg"
-                                className={'btn ' + css.btnVote}
+                                className={`iconButton ${css.btnVote}`}
                                 onClick={() =>
                                     downvote(
                                         user,
@@ -108,7 +118,10 @@ export const Post: React.FC<IPostProps> = (props) => {
                     <div className={css.postBody}>
                         <div className={css.authorAndDate}>
                             {props.data.id && (
-                                <Link to={`/r/${props.data.subreddit}`}>
+                                <Link
+                                    to={`/r/${props.data.subreddit}`}
+                                    title={`Subreddit r/${props.data.subreddit}`}
+                                >
                                     <strong
                                         className={css.subreddit}
                                     >{`r/${props.data.subreddit}`}</strong>
@@ -116,7 +129,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                             )}
                             <div className={css.secondaryText}>
                                 {props.data.author ? (
-                                    <div className="flex">
+                                    <>
                                         <small>Posted by </small>
                                         <small
                                             onClick={
@@ -141,23 +154,25 @@ export const Post: React.FC<IPostProps> = (props) => {
                                         >
                                             {props.data.author}
                                         </small>
-                                    </div>
+                                    </>
                                 ) : (
                                     <Skeleton width="200px" />
                                 )}
                             </div>
-                            <small>
-                                <Link
-                                    to={`/post/${props.data.id}`}
-                                    title="Open post"
-                                    className={
-                                        css.secondaryText + ' ' + css.timeAgo
-                                    }
-                                >
+                            <Link
+                                to={`/post/${props.data.id}`}
+                                title={props.data.createdAt
+                                    .toDate()
+                                    .toLocaleString()}
+                                className={
+                                    css.secondaryText + ' ' + css.timeAgo
+                                }
+                            >
+                                <small>
                                     {props.data.title &&
                                         timeAgo(props.data.createdAt.toDate())}
-                                </Link>
-                            </small>
+                                </small>
+                            </Link>
                         </div>
                         {props.data.title ? (
                             props.isPreview ? (
@@ -176,10 +191,10 @@ export const Post: React.FC<IPostProps> = (props) => {
                                         {!props.isPreview &&
                                             props.data.flairs?.map(
                                                 (f, index) => (
-                                                    <small
+                                                    <p
                                                         key={`flair${index}`}
                                                         className={css.flair}
-                                                    >{`#${f}`}</small>
+                                                    >{`#${f}`}</p>
                                                 )
                                             )}
                                     </div>
@@ -194,13 +209,11 @@ export const Post: React.FC<IPostProps> = (props) => {
                 {user ? (
                     props.data.authorId === user.uid ? (
                         <FontAwesomeIcon
-                            className={'btn ' + css.btnDelete}
+                            className={'iconButton ' + css.btnDelete}
                             icon={faTrash}
                             color="silver"
                             title="Delete post"
-                            onClick={() =>
-                                deletePost(user, props.data, setDeleted)
-                            }
+                            onClick={() => setShowDeleteModal(true)}
                         />
                     ) : !props.isPreview && props.data.authorId !== user.uid ? (
                         <Dropdown

@@ -4,8 +4,11 @@
 
 .replyTextarea {
     border: 1px solid silver;
-    resize: vertical;
-    margin-bottom: 0.5rem !important;
+    margin: 0.5rem 0 !important;
+}
+
+.replyTextarea div textarea {
+    min-height: 4rem;
 }
 
 .replyForm {
@@ -17,7 +20,8 @@
 .btnCancel {
     font-size: 0.95rem;
     cursor: pointer;
-    margin: 0 10px 0 auto;
+    margin-left: auto;
+    margin-right: 20px;
 }
 
 .btnCancel:hover {
@@ -25,7 +29,5 @@
 }
 
 .btnSubmit {
-    transform: scale(0.9);
-    margin: 0;
     justify-self: flex-end;
 }

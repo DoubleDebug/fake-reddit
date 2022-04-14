@@ -15,6 +15,7 @@
 
 .container > div > button {
     pointer-events: all;
+    height: min-content;
 }
 
 .container input[type='file'] {

@@ -34,7 +34,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
             <div className={css.grid}>
                 <button
                     disabled={isLoading}
-                    className={`btn ${css.btnProvider}`}
+                    className={css.btnProvider}
                     onClick={() => loginWithGoogle()}
                 >
                     <div className={css.iconContainer}>
@@ -44,7 +44,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
                 </button>
                 <button
                     disabled={isLoading}
-                    className={`btn ${css.btnProvider}`}
+                    className={css.btnProvider}
                     onClick={() => loginWithGithub()}
                 >
                     <div className={css.iconContainer}>
@@ -85,7 +85,7 @@ export const Login: React.FC<ILoginProps> = (props) => {
                     <button
                         disabled={isLoading}
                         type="submit"
-                        className={`btn ${css.btnLogin}`}
+                        className={css.btnLogin}
                         onClick={(e) => {
                             e.preventDefault();
                             setIsLoading(true);
@@ -111,13 +111,15 @@ export const Login: React.FC<ILoginProps> = (props) => {
                         )}
                     </button>
                     <Link to="/login/resetPassword" className={css.link}>
-                        <small>Forgot your password?</small>
+                        <small className={css.linkForgot}>
+                            Forgot your password?
+                        </small>
                     </Link>
-                    <small>
-                        New to Reddit?{' '}
+                    <small className="flex">
+                        New to Reddit?
                         <small
                             onClick={() => props.setTabIndexCallback('sign up')}
-                            className={css.link}
+                            className={css.linkSignUp}
                         >
                             Sign up.
                         </small>

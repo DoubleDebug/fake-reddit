@@ -37,7 +37,7 @@ export const Header: React.FC = () => {
                 <div className={css.headerTopRight}>
                     <div className={css.logoTopRight}>
                         <img className={css.headerIcon} alt="Logo"></img>
-                        <Link to="/" className={'btn ' + css.btnHomepage}>
+                        <Link to="/" className={css.btnHomepage}>
                             FakeReddit
                         </Link>
                     </div>
@@ -51,7 +51,7 @@ export const Header: React.FC = () => {
                             to="/newPost"
                             className={'linkNoUnderline ' + css.linkNewPost}
                         >
-                            <button className={'btn ' + css.btnNewPost}>
+                            <button className={css.btnNewPost}>
                                 <FontAwesomeIcon
                                     icon={faPlus}
                                     style={{ marginRight: '10px' }}
@@ -86,14 +86,10 @@ export const Header: React.FC = () => {
                 ) : (
                     <div className="flex">
                         <Link to="/login" className={css.link}>
-                            <button className={'btn ' + css.btnLogin}>
-                                Log in
-                            </button>
+                            <button className={css.btnLogin}>Log in</button>
                         </Link>
                         <Link to="/signup" className={css.link}>
-                            <button className={'btn ' + css.btnLogin}>
-                                Sign up
-                            </button>
+                            <button className={css.btnLogin}>Sign up</button>
                         </Link>
                     </div>
                 )}
