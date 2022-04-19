@@ -1,7 +1,7 @@
 import { Comment } from '../../comment/Comment';
-import { CommentModel } from '../../../../models/comment';
-import { PostModel } from '../../../../models/post';
-import { POSTS_PER_PAGE } from '../../../../utils/misc/constants';
+import { CommentModel } from '../../../../../models/comment';
+import { PostModel } from '../../../../../models/post';
+import { POSTS_PER_PAGE } from '../../../../../utils/misc/constants';
 
 /**
  * @returns an array of Comment components with empty data

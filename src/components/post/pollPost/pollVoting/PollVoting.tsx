@@ -3,8 +3,8 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import { useState } from 'react';
-import { PollModel } from '../../../models/poll';
-import { displayNotif } from '../../../utils/misc/toast';
+import { PollModel } from '../../../../models/poll';
+import { displayNotif } from '../../../../utils/misc/toast';
 import { submitVote } from './PollVotingActions';
 
 interface IPollVotingProps {
@@ -12,6 +12,7 @@ interface IPollVotingProps {
     isPreview: boolean;
     postId: string | undefined;
     uid: string | null | undefined;
+    setChosenOption: (o: string) => void;
 }
 
 export const PollVoting: React.FC<IPollVotingProps> = (props) => {
@@ -67,6 +68,7 @@ export const PollVoting: React.FC<IPollVotingProps> = (props) => {
                             props.data.votes,
                             () => {
                                 setIsUploading(false);
+                                props.setChosenOption(chosenOption);
                             }
                         );
                     }}

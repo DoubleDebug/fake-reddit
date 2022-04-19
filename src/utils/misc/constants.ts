@@ -31,8 +31,11 @@ export const ALG_INDICES = {
 };
 
 // LOCAL STORAGE ITEMS
-export const LS_USER_PHOTO_URLS = 'cachedUserPhotoURLArray';
-export const LS_LAST_UPDATED = 'lastUpdated';
+export const LS = {
+    USER_PHOTO_URLS: 'cachedUserPhotoURLs',
+    LAST_UPDATED: 'lastUpdated',
+    CONTENT_URLS: 'cachedContentURLs',
+};
 
 // CSS
 export const HEADER_SVG_PATH =
@@ -44,6 +47,7 @@ export const DEFAULT_PROFILE_URL = 'https://i.imgur.com/gThi9Rl.png';
 export const POSTS_PER_PAGE = 3;
 export const SCROLL_TOP_MAX_VAL = 2000;
 export const MAX_FILE_SIZE = 5; // megabytes
+export const MAX_NUMBER_OF_FILES = 5;
 export const IMAGE_FILE_FORMATS = ['jpg', 'jpeg', 'png', 'gif'];
 export const VIDEO_FILE_FORMATS = ['mp4'];
 export const SUPPORTED_FILE_FORMATS = [

@@ -20,7 +20,7 @@ import { Post } from '../../components/post/Post';
 import { PostModel } from '../../models/post';
 import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { CommentModel } from '../../models/comment';
-import { CommentSection } from '../../components/post/commentSection/CommentSection';
+import { CommentSection } from '../../components/post/comments/commentSection/CommentSection';
 
 export const ViewPost: React.FC = () => {
     const [db] = useState<Firestore>(getFirestore());

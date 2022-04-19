@@ -147,6 +147,11 @@
     background: rgb(223, 223, 223);
 }
 
+.btnOptions {
+    cursor: pointer;
+    margin: 1rem 5px 0 auto;
+}
+
 /*Post Markup styles*/
 
 .postContent h1,
@@ -173,13 +178,4 @@
     margin-left: auto;
     margin-right: auto;
     max-width: 100%;
-}
-
-.postContent.previewImage span img {
-    max-height: 700px;
-}
-
-.btnOptions {
-    cursor: pointer;
-    margin: 1rem 5px 0 auto;
 }

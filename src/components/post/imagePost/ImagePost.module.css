@@ -1,0 +1,29 @@
+.carousel {
+    max-height: 800px;
+}
+
+.hidden {
+    opacity: 0%;
+    height: 0px;
+}
+
+.image,
+.video {
+    margin: auto;
+    max-height: 800px;
+    max-width: 83%;
+}
+
+.video {
+    width: 100%;
+}
+
+.image.preview,
+.video.preview {
+    cursor: pointer;
+}
+
+.preview {
+    max-width: 83%;
+    max-height: 600px;
+}

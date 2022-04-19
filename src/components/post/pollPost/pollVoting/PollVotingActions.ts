@@ -1,6 +1,6 @@
 import { getFirestore, doc, updateDoc } from 'firebase/firestore';
-import { PollModel, PollVote } from '../../../models/poll';
-import { DB_COLLECTIONS } from '../../../utils/misc/constants';
+import { PollModel, PollVote } from '../../../../models/poll';
+import { DB_COLLECTIONS } from '../../../../utils/misc/constants';
 
 export function submitVote(
     uid: string,

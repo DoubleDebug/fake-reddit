@@ -1,5 +1,5 @@
 import css from './PollResults.module.css';
-import { PollModel } from '../../../models/poll';
+import { PollModel } from '../../../../models/poll';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';

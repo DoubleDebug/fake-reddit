@@ -1,16 +1,16 @@
 import css from './Comment.module.css';
 import React, { useContext, useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { CommentModel } from '../../../models/comment';
-import { DEFAULT_PROFILE_URL } from '../../../utils/misc/constants';
-import { timeAgo } from '../../../utils/misc/timeAgo';
+import { CommentModel } from '../../../../models/comment';
+import { DEFAULT_PROFILE_URL } from '../../../../utils/misc/constants';
+import { timeAgo } from '../../../../utils/misc/timeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCommentAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { WriteComment } from '../writeComment/WriteComment';
-import { isCommentMine } from '../../../utils/misc/whichUserUtils';
+import { isCommentMine } from '../../../../utils/misc/whichUserUtils';
 import { deleteComment } from './CommentActions';
-import { UserContext } from '../../../context/UserContext';
-import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
+import { UserContext } from '../../../../context/UserContext';
+import { getUserPhotoURL } from '../../../../utils/firebase/getUserPhotoURL';
 
 interface ICommentProps {
     data: CommentModel;

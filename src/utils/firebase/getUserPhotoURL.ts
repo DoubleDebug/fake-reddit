@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LS_USER_PHOTO_URLS, SERVER_ENDPOINTS } from '../misc/constants';
+import { LS, SERVER_ENDPOINTS } from '../misc/constants';
 import { log } from '../misc/log';
 
 async function fetchUserPhotoURL(uid: string): Promise<string | null> {
@@ -16,7 +16,7 @@ export async function getUserPhotoURL(
 ): Promise<string | undefined> {
     try {
         // get cached url
-        let map: any = localStorage.getItem(LS_USER_PHOTO_URLS);
+        let map: any = localStorage.getItem(LS.USER_PHOTO_URLS);
         if (!map) throw Error('No cached url map found.');
         map = JSON.parse(map);
         const record = map.filter((r: any) => r.uid === uid);
@@ -33,7 +33,7 @@ export async function getUserPhotoURL(
         const url = await fetchUserPhotoURL(uid);
         if (url) {
             // persist url in local storage
-            const previousRecords = localStorage.getItem(LS_USER_PHOTO_URLS);
+            const previousRecords = localStorage.getItem(LS.USER_PHOTO_URLS);
             const recordToAdd = {
                 uid: uid,
                 url: url,
@@ -46,10 +46,10 @@ export async function getUserPhotoURL(
                     ),
                     recordToAdd,
                 ]);
-                localStorage.setItem(LS_USER_PHOTO_URLS, data);
+                localStorage.setItem(LS.USER_PHOTO_URLS, data);
             } else {
                 const data = JSON.stringify([recordToAdd]);
-                localStorage.setItem(LS_USER_PHOTO_URLS, data);
+                localStorage.setItem(LS.USER_PHOTO_URLS, data);
             }
 
             return url;

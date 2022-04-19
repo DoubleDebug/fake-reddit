@@ -18,7 +18,7 @@ export class PostModel {
     id: string | undefined = undefined;
     title: string = '';
     type: PostType = 'text';
-    content: string = '';
+    content?: string = '';
     author: string = '';
     authorId: string | undefined | null;
     createdAt: Timestamp = Timestamp.now();
@@ -155,15 +155,15 @@ export class PostModel {
         postObject = cleanObject(postObject); // remove all empty fields from post data
 
         // send data to firestore
-        const postRes = await submitPost(user, postObject);
+        const sererResponse = await submitPost(user, postObject);
 
-        if (postRes.success) {
+        if (sererResponse.success) {
             callbackOnSuccess();
             displayNotif('Added a new post.', 'success');
         } else {
             callbackOnFail();
             displayNotif('Failed to add a new post.', 'error');
-            console.log(postRes.message);
+            console.log(sererResponse.message);
         }
     }
 }

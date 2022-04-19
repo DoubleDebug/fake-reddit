@@ -1,64 +1,56 @@
 import css from './Post.module.css';
 import Skeleton from 'react-loading-skeleton';
-import { Markup } from 'interweave';
 import { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
-import { PollModel } from '../../models/poll';
 import { PostModel } from '../../models/post';
-import { PollResults } from './pollResults/PollResults';
-import { PollVoting } from './pollVoting/PollVoting';
+import { TextPost } from './textPost/TextPost';
+import { ImagePost } from './imagePost/ImagePost';
+import { PollPost } from './pollPost/PollPost';
 
 interface IPostContentProps {
     data: PostModel;
     isPreview?: boolean;
-    hasVoted: boolean;
 }
 
 export const PostContent: React.FC<IPostContentProps> = (props) => {
     const user = useContext(UserContext);
+
+    if (!props.data.id) return <Skeleton count={10} />;
+
     return (
         <div
             className={`${css.postContent} ${
-                props.isPreview
-                    ? props.data.type === 'image'
-                        ? css.previewImage
-                        : css.preview
+                props.isPreview && props.data.type !== 'image'
+                    ? css.preview
                     : ''
             }`}
         >
-            {props.data.pollData ? (
-                props.hasVoted ? (
-                    <PollResults
-                        postId={props.data.id || ''}
-                        data={new PollModel(props.data.pollData)}
-                        chosenOption={
-                            user &&
-                            props.data.pollData.votes.filter(
-                                (v) => v.uid === user?.uid
-                            )[0]?.option
-                        }
-                    />
-                ) : user ? (
-                    <PollVoting
-                        data={props.data.pollData}
-                        isPreview={props.isPreview ? true : false}
-                        postId={props.data.id}
-                        uid={user.uid}
-                    />
-                ) : (
-                    <PollResults
-                        postId={props.data.id || ''}
-                        data={new PollModel(props.data.pollData)}
-                        chosenOption={null}
-                    />
-                )
-            ) : (
-                <Markup content={props.data.content}></Markup>
+            {props.data.type === 'text' && (
+                <TextPost
+                    content={props.data.content || ''}
+                    linkTo={
+                        props.isPreview ? `/post/${props.data.id}` : undefined
+                    }
+                />
             )}
-            {!props.data.content && !props.data.pollData && (
-                <Skeleton count={5} />
+            {props.data.type === 'image' && (
+                <ImagePost
+                    contentFiles={props.data.contentFiles || []}
+                    linkTo={
+                        props.isPreview ? `/post/${props.data.id}` : undefined
+                    }
+                />
             )}
-            {props.isPreview && props.data.type !== 'image' ? (
+            {props.data.type === 'poll' && (
+                <PollPost
+                    user={user}
+                    data={props.data}
+                    linkTo={
+                        props.isPreview ? `/post/${props.data.id}` : undefined
+                    }
+                />
+            )}
+            {props.isPreview && props.data.type === 'text' ? (
                 <div className={css.fade}></div>
             ) : null}
         </div>

@@ -30,7 +30,6 @@ export const Post: React.FC<IPostProps> = (props) => {
     const [score, setScore] = useState(props.data.getScore());
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
     const [redirectChatId, setRedirectChatId] = useState<string | null>(null);
-    const [hasVoted, setHasVoted] = useState<boolean>(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
@@ -38,16 +37,7 @@ export const Post: React.FC<IPostProps> = (props) => {
 
     useEffect(() => {
         // loading component state from db data
-        if (user) {
-            setUpvoted(props.data.getUsersVote(user.uid));
-
-            if (
-                props.data.pollData &&
-                props.data.pollData.votes.map((v) => v.uid).includes(user.uid)
-            ) {
-                setHasVoted(true);
-            }
-        }
+        if (user) setUpvoted(props.data.getUsersVote(user.uid));
         setScore(props.data.getScore());
     }, [user, props.data]);
 
@@ -241,24 +231,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                 ) : (
                     <div></div>
                 )}
-                {props.isPreview ? (
-                    <Link
-                        className={`${css.linkToPost}`}
-                        to={`/post/${props.data.id}`}
-                    >
-                        <PostContent
-                            data={props.data}
-                            isPreview={props.isPreview}
-                            hasVoted={hasVoted}
-                        />
-                    </Link>
-                ) : (
-                    <PostContent
-                        data={props.data}
-                        isPreview={props.isPreview}
-                        hasVoted={hasVoted}
-                    />
-                )}
+                <PostContent data={props.data} isPreview={props.isPreview} />
             </div>
         </>
     );

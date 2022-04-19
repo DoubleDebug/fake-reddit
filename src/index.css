@@ -41,6 +41,10 @@ button:hover {
     text-decoration: none;
 }
 
+button:disabled {
+    cursor: not-allowed;
+}
+
 button[type='submit'] {
     color: white;
     background: var(--colorOrange);
@@ -116,6 +120,10 @@ p {
 
 .linkNoUnderline:hover {
     text-decoration: none;
+}
+
+.linkNoUnderline:visited {
+    color: initial;
 }
 
 .contentBox {

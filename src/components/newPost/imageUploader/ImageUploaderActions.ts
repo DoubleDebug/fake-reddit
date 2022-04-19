@@ -6,13 +6,13 @@ import { FileInfo } from './DragAndDrop';
 import { validateFile } from '../../../utils/dataValidation/validateFile';
 import { v4 as generateUUID } from 'uuid';
 import { getFileExtension } from '../../../utils/misc/getFileExtension';
+import { MAX_NUMBER_OF_FILES } from '../../../utils/misc/constants';
+import React from 'react';
 
 function uploadFile(
     file: File,
     setIsUploading: (s: boolean) => void,
-    setIsDropping: (s: boolean) => void,
-    setUploadedFile: (f: FileInfo) => void,
-    handleContentUpdate: (f: FileInfo) => void
+    setIsDropping: (s: boolean) => void
 ) {
     setIsUploading(true);
     setIsDropping(false);
@@ -20,7 +20,7 @@ function uploadFile(
     const storage = getStorage();
     const newFileName = `${generateUUID()}.${getFileExtension(file.name)}`;
     const storageRef = ref(storage, 'content//' + newFileName);
-    uploadBytes(storageRef, file).then(async (snapshot) => {
+    return uploadBytes(storageRef, file).then(async (snapshot) => {
         // load image preview
         const url = await getImageURL(snapshot.metadata.fullPath);
         const fileInfo = {
@@ -32,10 +32,8 @@ function uploadFile(
 
         // update ui
         setIsUploading(false);
-        setUploadedFile(fileInfo);
-        handleContentUpdate(fileInfo);
 
-        displayNotif('Successfully uploaded image/video.', 'success');
+        return fileInfo;
     });
 }
 
@@ -71,35 +69,68 @@ export function handleOnDragLeaveEvent(
 export function handleOnDropEvent(
     e: React.DragEvent<HTMLDivElement>,
     fileInputRef: HTMLInputElement | null,
-    containerRef: HTMLDivElement | null
+    containerRef: HTMLDivElement | null,
+    setIsUploading: (s: boolean) => void,
+    setIsDropping: (s: boolean) => void,
+    setUploadedFiles: (f: FileInfo[]) => void,
+    handleContentUpdate: (f: FileInfo[]) => void
 ) {
-    if (!fileInputRef || !fileInputRef.onchange) return;
     e.preventDefault();
-    containerRef!.ondragleave!(new DragEvent(''));
+    if (!fileInputRef || !containerRef) return;
+    handleOnDragLeaveEvent(containerRef, setIsDropping);
 
     fileInputRef.files = e.dataTransfer?.files || null;
-    fileInputRef.onchange(new Event(''));
+    handleOnChangeFileEvent(
+        fileInputRef,
+        setIsUploading,
+        setIsDropping,
+        setUploadedFiles,
+        handleContentUpdate
+    );
 }
 
 export function handleOnChangeFileEvent(
     fileInputRef: HTMLInputElement | null,
     setIsUploading: (s: boolean) => void,
     setIsDropping: (s: boolean) => void,
-    setUploadedFile: (f: FileInfo) => void,
-    handleContentUpdate: (f: FileInfo) => void
+    setUploadedFiles: (f: FileInfo[]) => void,
+    handleContentUpdate: (f: FileInfo[]) => void
 ) {
     if (!fileInputRef || !fileInputRef.files) return;
-    const file = fileInputRef.files[0];
-    const fileStatus = validateFile(file);
-    if (fileStatus.success) {
-        uploadFile(
-            file,
-            setIsUploading,
-            setIsDropping,
-            setUploadedFile,
-            handleContentUpdate
+
+    // file validation
+    if (fileInputRef.files.length > MAX_NUMBER_OF_FILES) {
+        fileInputRef.files = null;
+        displayNotif(
+            `Too many files selected. Maximum is ${MAX_NUMBER_OF_FILES}.`,
+            'error'
         );
+        return;
+    }
+    let i = 0;
+    while (i < fileInputRef.files.length) {
+        const validationResult = validateFile(fileInputRef.files[i]);
+        if (!validationResult.success) {
+            displayNotif(validationResult.message, 'error');
+            break;
+        }
+        i++;
+    }
+
+    // upload files
+    if (i === fileInputRef.files.length) {
+        const tasks = [];
+        for (let j = 0; j < fileInputRef.files.length; j++) {
+            tasks.push(
+                uploadFile(fileInputRef.files[j], setIsUploading, setIsDropping)
+            );
+        }
+        Promise.all(tasks).then((uploadedFiles) => {
+            setUploadedFiles(uploadedFiles);
+            handleContentUpdate(uploadedFiles);
+            displayNotif('Successfully uploaded file(s).', 'success');
+        });
     } else {
-        displayNotif(fileStatus.message, 'error');
+        fileInputRef.files = null;
     }
 }

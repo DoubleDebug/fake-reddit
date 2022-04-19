@@ -13,11 +13,11 @@ import {
 export type ImageUploaderState = {
     isDropping: boolean;
     isUploading: boolean;
-    uploadedFile: FileInfo | null;
+    uploadedFiles: FileInfo[];
 };
 
 interface IImageUploaderProps {
-    handleContentUpdate: (fileStoragePath: FileInfo) => void;
+    handleContentUpdate: (uploadedFiles: FileInfo[]) => void;
     handleNewState: (state: ImageUploaderState) => void;
     state?: ImageUploaderState;
 }
@@ -25,16 +25,16 @@ interface IImageUploaderProps {
 export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
     const [isDropping, setIsDropping] = useState<boolean>(false);
     const [isUploading, setIsUploading] = useState<boolean>(false);
-    const containerRef = useRef<null | HTMLDivElement>(null);
-    const fileInputRef = useRef<null | HTMLInputElement>(null);
-    const [uploadedFile, setUploadedFile] = useState<FileInfo | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const [uploadedFiles, setUploadedFiles] = useState<FileInfo[]>([]);
 
     // load previous state if possible
     useEffect(() => {
         if (props.state) {
             setIsDropping(props.state.isDropping);
             setIsUploading(props.state.isUploading);
-            setUploadedFile(props.state.uploadedFile);
+            setUploadedFiles(props.state.uploadedFiles);
         }
         // eslint-disable-next-line
     }, []);
@@ -44,10 +44,10 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
         props.handleNewState({
             isDropping: isDropping,
             isUploading: isUploading,
-            uploadedFile: uploadedFile,
+            uploadedFiles: uploadedFiles,
         });
         // eslint-disable-next-line
-    }, [isDropping, isUploading, uploadedFile]);
+    }, [isDropping, isUploading, uploadedFiles]);
 
     return (
         <div
@@ -60,35 +60,39 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
                 handleOnDragLeaveEvent(containerRef.current, setIsDropping)
             }
             onDrop={(e) =>
-                handleOnDropEvent(e, fileInputRef.current, containerRef.current)
+                handleOnDropEvent(
+                    e,
+                    fileInputRef.current,
+                    containerRef.current,
+                    setIsUploading,
+                    setIsDropping,
+                    setUploadedFiles,
+                    props.handleContentUpdate
+                )
             }
         >
             <input
                 type="file"
                 ref={fileInputRef}
                 accept={SUPPORTED_FILE_FORMATS.join(', ')}
+                multiple
                 id="fileInputElement"
-                onChange={() =>
+                onChange={(e) => {
+                    e.preventDefault();
                     handleOnChangeFileEvent(
                         fileInputRef.current,
                         setIsUploading,
                         setIsDropping,
-                        setUploadedFile,
+                        setUploadedFiles,
                         props.handleContentUpdate
-                    )
-                }
+                    );
+                }}
             />
             <DragAndDrop
                 isUploading={isUploading}
                 isDropping={isDropping}
-                fileName={
-                    (fileInputRef.current?.files &&
-                        fileInputRef.current?.files[0] &&
-                        fileInputRef.current?.files[0].name) ||
-                    ''
-                }
                 showFileDialog={(e) => showFileDialog(e, fileInputRef.current)}
-                uploadedFile={uploadedFile}
+                uploadedFiles={uploadedFiles}
             />
         </div>
     );

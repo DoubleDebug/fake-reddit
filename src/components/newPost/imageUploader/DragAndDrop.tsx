@@ -2,7 +2,11 @@ import css from './ImageUploader.module.css';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useCallback, useState } from 'react';
-import { isFileImage } from '../../../utils/misc/getFileExtension';
+import {
+    getFileExtension,
+    isFileImage,
+} from '../../../utils/misc/getFileExtension';
+import { shortenString } from '../../../utils/misc/shortenString';
 
 export type FileInfo = {
     oldFileName: string;
@@ -14,8 +18,7 @@ export type FileInfo = {
 interface IDragAndDropProps {
     isUploading: boolean;
     isDropping: boolean;
-    fileName: string;
-    uploadedFile: FileInfo | null;
+    uploadedFiles: FileInfo[];
     showFileDialog: (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => void;
@@ -31,77 +34,91 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = (props) => {
     }, []);
 
     if (props.isUploading) {
-        return <StateFileIsUploaded fileName={props.fileName} />;
+        return <StateFileIsBeingUploaded />;
     }
     if (props.isDropping) {
         return <StateFileIsBeingDropped />;
     }
-    if (props.uploadedFile) {
+    if (props.uploadedFiles.length > 0) {
         return (
-            <StateFileIsBeingUploaded
+            <StateFileIsUploaded
                 handleLoadedImage={handleLoadedImage}
                 handleLoadedVideo={handleLoadedVideo}
                 previewIsLoaded={previewIsLoaded}
-                uploadedFile={props.uploadedFile}
-                isImage={isFileImage(props.uploadedFile.oldFileName)}
+                uploadedFiles={props.uploadedFiles}
             />
         );
     }
     return <StateDefault showFileDialog={props.showFileDialog} />;
 };
 
-const StateFileIsUploaded: React.FC<{ fileName: string }> = (props) => {
-    return (
-        <div className={css.previewContainer}>
-            <div className={css.imagePreview}>
-                <FontAwesomeIcon icon={faCircleNotch} spin={true} size="2x" />
-            </div>
-            <p>{props.fileName}</p>
+const StateFileIsBeingUploaded: React.FC = () => (
+    <div className={css.previewContainer}>
+        <div className={css.imagePreview}>
+            <FontAwesomeIcon icon={faCircleNotch} spin={true} size="2x" />
         </div>
-    );
-};
+        <p>Uploading file(s)...</p>
+    </div>
+);
 
 const StateFileIsBeingDropped: React.FC = () => {
     return <h2 className={css.textDrop}>Drop here to upload</h2>;
 };
 
-const StateFileIsBeingUploaded: React.FC<{
+const StateFileIsUploaded: React.FC<{
     handleLoadedImage: (img: HTMLImageElement) => void;
     handleLoadedVideo: () => void;
     previewIsLoaded: boolean;
-    uploadedFile: FileInfo;
-    isImage: boolean;
+    uploadedFiles: FileInfo[];
 }> = (props) => {
     return (
-        <div className={css.previewContainer}>
-            {props.isImage ? (
-                <img
-                    ref={props.handleLoadedImage}
-                    className={`${css.imagePreview} ${
-                        props.previewIsLoaded ? css.show : css.hide
-                    }`}
-                    src={props.uploadedFile.url}
-                    alt="Preview uploaded file"
-                ></img>
-            ) : (
-                <video
-                    ref={props.handleLoadedVideo}
-                    className={`${css.imagePreview} ${
-                        props.previewIsLoaded ? css.show : css.hide
-                    }`}
-                    src={props.uploadedFile.url}
-                ></video>
-            )}
-            {!props.previewIsLoaded && (
-                <div className={css.imagePreview}>
-                    <FontAwesomeIcon
-                        icon={faCircleNotch}
-                        spin={true}
-                        size="2x"
-                    ></FontAwesomeIcon>
-                </div>
-            )}
-            <p>{props.uploadedFile.oldFileName}</p>
+        <div className={css.mainContainer}>
+            {props.uploadedFiles.map((file, index) => {
+                const isImage = isFileImage(file.oldFileName);
+                const name = file.oldFileName.substring(
+                    0,
+                    file.oldFileName.length - 4
+                );
+                const extension = getFileExtension(file.oldFileName);
+                return (
+                    <div
+                        key={`image-preview-${index}`}
+                        className={css.previewContainer}
+                    >
+                        {isImage ? (
+                            <img
+                                ref={props.handleLoadedImage}
+                                className={`${css.imagePreview} ${
+                                    props.previewIsLoaded ? css.show : css.hide
+                                }`}
+                                src={file.url}
+                                alt="Preview uploaded file"
+                            ></img>
+                        ) : (
+                            <video
+                                ref={props.handleLoadedVideo}
+                                className={`${css.imagePreview} ${
+                                    props.previewIsLoaded ? css.show : css.hide
+                                }`}
+                                src={file.url}
+                            ></video>
+                        )}
+                        {!props.previewIsLoaded && (
+                            <div className={css.imagePreview}>
+                                <FontAwesomeIcon
+                                    icon={faCircleNotch}
+                                    spin={true}
+                                    size="2x"
+                                ></FontAwesomeIcon>
+                            </div>
+                        )}
+                        <div className="flex">
+                            {`${shortenString(name, 30)}`}
+                            <p className={css.extension}>{`.${extension}`}</p>
+                        </div>
+                    </div>
+                );
+            })}
         </div>
     );
 };

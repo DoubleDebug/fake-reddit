@@ -24,6 +24,18 @@ export function validatePostData(
         };
     }
 
+    // at least one image/video
+    if (data.type === 'image') {
+        if (
+            !data.contentFiles ||
+            !data.contentFiles.length ||
+            data.contentFiles.length === 0
+        )
+            return {
+                success: false,
+                message: `Please select at least one image/video.`,
+            };
+    }
     // poll options
     if (data.pollData?.options.includes(''))
         return {
@@ -47,6 +59,7 @@ export function validatePostData(
         delete data.pollData;
     }
     if (data.type === 'image') {
+        delete data.content;
         delete data.pollData;
     }
     if (data.type === 'poll') {

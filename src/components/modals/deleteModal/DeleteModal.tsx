@@ -27,6 +27,7 @@ export const DeleteModal: React.FC<IDeleteModalProps> = (props) => {
                 </p>
                 <div className="flex">
                     <button
+                        disabled={isLoading}
                         className={css.btnCancel}
                         onClick={() => props.showStateHandler(false)}
                     >

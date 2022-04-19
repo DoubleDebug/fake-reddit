@@ -1,5 +1,5 @@
 import { User } from 'firebase/auth';
-import { deleteComment as delComment } from '../../../utils/firebase/deleteComment';
+import { deleteComment as delComment } from '../../../../utils/firebase/deleteComment';
 
 export function deleteComment(
     user: User | undefined | null,

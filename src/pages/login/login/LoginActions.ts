@@ -30,13 +30,7 @@ export function loginWithGoogle(firstTime?: boolean) {
                     userData.uid,
                     userData.name,
                     userData.photoURL
-                )
-                    .then((res) =>
-                        console.log('Successful user registration.', res)
-                    )
-                    .catch((err) =>
-                        console.log('User registration failed.', err)
-                    );
+                ).catch((err) => console.log('User registration failed.', err));
             }
 
             displayNotif(`Welcome to Reddit, ${userData.name}!`, 'success');
@@ -65,13 +59,7 @@ export function loginWithGithub(firstTime?: boolean) {
                     userData.uid,
                     userData.name,
                     userData.photoURL
-                )
-                    .then((res) =>
-                        console.log('Successful user registration.', res)
-                    )
-                    .catch((err) =>
-                        console.log('User registration failed.', err)
-                    );
+                ).catch((err) => console.log('User registration failed.', err));
             }
 
             displayNotif(`Welcome to Reddit, ${userData.name}!`, 'success');

@@ -21,6 +21,7 @@ export const selectStyles = {
     }),
     control: (provided: any, state: any) => ({
         ...provided,
+        height: '44px',
         cursor: 'pointer',
         border: state.menuisOpen ? '2px solid black' : '1px solid silver',
         boxShadow: 'none',

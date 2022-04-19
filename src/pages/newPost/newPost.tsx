@@ -22,7 +22,6 @@ import { FileInfo } from '../../components/newPost/imageUploader/DragAndDrop';
 import { Poll } from '../../components/newPost/poll/Poll';
 import { PollModel } from '../../models/poll';
 import {
-    getFileMarkup,
     getFlairsFromSubreddit,
     getSelectedSubredditName,
     handleCustomFlairClick,
@@ -146,7 +145,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                         </TabList>
                         <TabPanel value="text">
                             <RichTextbox
-                                value={postData.content}
+                                value={postData.content || ''}
                                 onChange={(newValue: string) => {
                                     setPostData(
                                         new PostModel({
@@ -166,16 +165,19 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                                         imageUploaderState: state,
                                     });
                                 }}
-                                handleContentUpdate={(fileInfo: FileInfo) => {
+                                handleContentUpdate={(
+                                    uploadedFiles: FileInfo[]
+                                ) => {
                                     setPostData(
                                         new PostModel({
                                             ...postData,
-                                            content: getFileMarkup(fileInfo),
-                                            contentFiles: [
-                                                ...(postData.contentFiles ||
-                                                    []),
-                                                fileInfo.storagePath,
-                                            ],
+                                            contentFiles: (
+                                                postData.contentFiles || []
+                                            ).concat(
+                                                uploadedFiles.map(
+                                                    (f) => f.storagePath
+                                                )
+                                            ),
                                         })
                                     );
                                 }}

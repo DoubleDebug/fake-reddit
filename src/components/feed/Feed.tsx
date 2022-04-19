@@ -11,7 +11,7 @@ import {
 } from '../../utils/misc/constants';
 import { getPosts } from '../../utils/firebase/getPosts';
 import { reachedLastDocument } from '../../utils/firebase/reachedLastDocument';
-import { generatePostSkeletons } from '../post/commentSection/skeletons/GenerateSkeletons';
+import { generatePostSkeletons } from '../post/comments/commentSection/skeletons/GenerateSkeletons';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { handleBackToTopEvent } from './FeedActions';
 import useScrollPosition from '@react-hook/window-scroll';

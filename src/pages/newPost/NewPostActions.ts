@@ -1,8 +1,6 @@
 import { User } from 'firebase/auth';
-import { FileInfo } from '../../components/newPost/imageUploader/DragAndDrop';
 import { PostModel } from '../../models/post';
 import { deleteFile } from '../../utils/firebase/deleteFile';
-import { isFileImage, isFileVideo } from '../../utils/misc/getFileExtension';
 import { displayNotif } from '../../utils/misc/toast';
 import { ISubreddit } from '../../models/subreddit';
 
@@ -85,15 +83,6 @@ export function handleTabChange(
             type: tab,
         })
     );
-}
-
-export function getFileMarkup(fileInfo: FileInfo) {
-    if (isFileImage(fileInfo.oldFileName)) return `<img src=${fileInfo.url}/>`;
-
-    if (isFileVideo(fileInfo.oldFileName))
-        return `<video src=${fileInfo.url} controls loop></video>`;
-
-    return '';
 }
 
 export function handleFlairClick(

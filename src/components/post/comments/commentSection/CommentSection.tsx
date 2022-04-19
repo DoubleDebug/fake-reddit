@@ -1,8 +1,8 @@
 import css from './CommentSection.module.css';
 import { Comment } from '../comment/Comment';
-import { CommentModel } from '../../../models/comment';
+import { CommentModel } from '../../../../models/comment';
 import { WriteComment } from '../writeComment/WriteComment';
-import { PostModel } from '../../../models/post';
+import { PostModel } from '../../../../models/post';
 import { CommentSkeletons } from './skeletons/CommentSkeletons';
 import { useState } from 'react';
 import { toggleCommentReplies } from './CommentSectionActions';

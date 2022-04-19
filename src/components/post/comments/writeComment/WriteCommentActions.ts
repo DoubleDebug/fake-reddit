@@ -5,10 +5,10 @@ import {
     collection,
     getFirestore,
 } from 'firebase/firestore';
-import { validateComment } from '../../../utils/dataValidation/validateComment';
-import { DB_COLLECTIONS } from '../../../utils/misc/constants';
-import { displayNotif, displayNotifJSX } from '../../../utils/misc/toast';
-import { signInPopup } from '../../../utils/signInPopup/SignInPopup';
+import { validateComment } from '../../../../utils/dataValidation/validateComment';
+import { DB_COLLECTIONS } from '../../../../utils/misc/constants';
+import { displayNotif, displayNotifJSX } from '../../../../utils/misc/toast';
+import { signInPopup } from '../../../../utils/signInPopup/SignInPopup';
 
 export function submitComment(
     e: React.MouseEvent,

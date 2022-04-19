@@ -2,7 +2,7 @@ import css from './WriteComment.module.css';
 import React, { useContext, useState } from 'react';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { UserContext } from '../../../context/UserContext';
+import { UserContext } from '../../../../context/UserContext';
 import { submitComment } from './WriteCommentActions';
 import { TextField } from '@mui/material';
 
