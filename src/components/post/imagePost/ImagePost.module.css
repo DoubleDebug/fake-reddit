@@ -7,19 +7,13 @@
     height: 0px;
 }
 
-.image,
-.video {
+.image {
     margin: auto;
     max-height: 800px;
     max-width: 83%;
 }
 
-.video {
-    width: 100%;
-}
-
-.image.preview,
-.video.preview {
+.image.preview {
     cursor: pointer;
 }
 

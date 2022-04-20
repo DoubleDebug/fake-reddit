@@ -54,3 +54,6 @@ type ValidationResult =
     | {
           isValid: true;
       };
+
+// untyped Javascript libraries
+declare module 'video-react';

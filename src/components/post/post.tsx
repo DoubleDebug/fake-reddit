@@ -227,7 +227,9 @@ export const Post: React.FC<IPostProps> = (props) => {
                                 }
                             />
                         </Dropdown>
-                    ) : null
+                    ) : (
+                        <div></div>
+                    )
                 ) : (
                     <div></div>
                 )}
