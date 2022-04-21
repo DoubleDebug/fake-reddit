@@ -113,6 +113,7 @@ const StateFileIsUploaded: React.FC<{
                             </div>
                         )}
                         <div className="flex">
+                            {`${index + 1}. `}
                             {`${shortenString(name, 30)}`}
                             <p className={css.extension}>{`.${extension}`}</p>
                         </div>

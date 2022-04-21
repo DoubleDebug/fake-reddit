@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import { Feed } from '../../components/feed/Feed';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { ISubreddit } from '../../models/subreddit';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '../../context/UserContext';
+import { followSubreddit } from './SubredditActions';
 
 interface ISubredditFeedProps {
     data: Data<ISubreddit, '', ''> | undefined;
@@ -14,6 +17,16 @@ interface ISubredditFeedProps {
 }
 
 export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
+    const user = useContext(UserContext);
+    const [isFollowing, setIsFollowing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (!props.data || !user) return;
+
+        setIsFollowing(props.data.followers.includes(user.uid));
+    }, [props.data, user]);
+
     return (
         <div className="grid">
             <div className={`contentBox ${css.container}`}>
@@ -25,13 +38,9 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                             }`}
                             src={props.data.photoURL}
                             alt="Subreddit"
-                        ></img>
+                        />
                     ) : (
-                        <Skeleton
-                            circle={true}
-                            width="100px"
-                            height="100px"
-                        ></Skeleton>
+                        <Skeleton circle={true} width="100px" height="100px" />
                     )}
                     <div className="grid" style={{ marginLeft: '1rem' }}>
                         <div className="flex">
@@ -39,7 +48,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                                 {props.data ? (
                                     props.data.id
                                 ) : (
-                                    <Skeleton width="200px"></Skeleton>
+                                    <Skeleton width="200px" />
                                 )}
                             </h1>
                         </div>
@@ -47,31 +56,56 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                             {props.data ? (
                                 `r/${props.data?.id}`
                             ) : (
-                                <Skeleton width="100px"></Skeleton>
+                                <Skeleton width="100px" />
                             )}
                         </p>
                     </div>
-                    <Link
-                        to={`${props.url}/newPost`}
-                        className={css.btnAddPost}
-                        title="Add a new post"
-                    >
-                        <button type="submit">
-                            <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
-                        </button>
-                    </Link>
+                    {user ? (
+                        <div className="flex" style={{ marginLeft: 'auto' }}>
+                            <button
+                                disabled={isLoading}
+                                type={isFollowing ? 'button' : 'submit'}
+                                title={`${
+                                    isFollowing ? 'Unfollow' : 'Follow'
+                                } r/${props.data?.id}`}
+                                className={css.btnFollow}
+                                onClick={() => {
+                                    if (!user) return;
+                                    setIsLoading(true);
+                                    followSubreddit(
+                                        props.data,
+                                        user.uid,
+                                        isFollowing ? true : undefined
+                                    ).then(() => setIsLoading(false));
+                                }}
+                            >
+                                {isFollowing ? 'Unfollow' : 'Follow'}
+                            </button>
+                            <Link
+                                to={`${props.url}/newPost`}
+                                className={css.btnAddPost}
+                                title="Add a new post"
+                            >
+                                <button>
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </button>
+                            </Link>
+                        </div>
+                    ) : (
+                        <div className={css.skeletonContainer}>
+                            <Skeleton width={97} height={40} />
+                            <Skeleton width={40} height={40} />
+                        </div>
+                    )}
                 </div>
 
                 {props.data ? (
                     <p className={css.description}>{props.data.description}</p>
                 ) : (
-                    <Skeleton
-                        count={2}
-                        style={{ marginTop: '0.5rem' }}
-                    ></Skeleton>
+                    <Skeleton count={2} style={{ marginTop: '0.5rem' }} />
                 )}
             </div>
-            <Feed subreddit={props.subredditId}></Feed>
+            <Feed subreddit={props.subredditId} />
         </div>
     );
 };

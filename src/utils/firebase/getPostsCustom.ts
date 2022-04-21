@@ -1,31 +1,41 @@
 import axios from 'axios';
+import { User } from 'firebase/auth';
 import { PostModel } from '../../models/post';
 import { POSTS_PER_PAGE, SERVER_ENDPOINTS } from '../misc/constants';
 import { displayNotif } from '../misc/toast';
 import { convertToPost } from './firebaseToDataModel';
 
 /**
- * Retrieves posts from the server
+ * Retrieves custom feed of posts from the server
+ * REQUIRED PARAMETERS:
+ * - user
  * OPTIONAL PARAMETERS:
  * - offset
  * - limit
- * - subreddit id
  */
-export async function getPosts(
+export async function getPostsCustom(
+    user: User | null | undefined,
     offset: number = 0,
-    limit: number = POSTS_PER_PAGE,
-    subreddit?: string
-): Promise<PostModel[]> {
+    limit: number = POSTS_PER_PAGE
+): Promise<{
+    posts: PostModel[];
+    followedSubreddits: string[];
+}> {
+    if (!user) return { posts: [], followedSubreddits: [] };
+
     // parameters
     let params: any = {
         offset: offset,
         limit: limit,
     };
-    if (subreddit) params.subreddit = subreddit;
 
     // request data from server
+    const idToken = await user.getIdToken();
     const response = await axios
-        .get(SERVER_ENDPOINTS.GET_POSTS, {
+        .get(SERVER_ENDPOINTS.GET_POSTS_CUSTOM, {
+            headers: {
+                Authorization: idToken,
+            },
             params: params,
         })
         .catch((error) => {
@@ -33,11 +43,15 @@ export async function getPosts(
             displayNotif('Failed to load posts.', 'error');
             console.log(error);
         });
+    if (!response) return { posts: [], followedSubreddits: [] };
 
     // convert to data model
     const posts: PostModel[] = [];
-    (response as any).data?.data.forEach((doc: any) =>
+    response.data.data.posts.forEach((doc: any) =>
         posts.push(convertToPost(doc))
     );
-    return posts;
+    return {
+        posts: posts,
+        followedSubreddits: response.data.data.followedSubreddits,
+    };
 }

@@ -12,6 +12,7 @@ export const DB_COLLECTIONS = {
 export const SERVER_ENDPOINTS = {
     GET_USER_PHOTO_URL: `${SERVER_URL}/getUserPhotoURL`,
     GET_POSTS: `${SERVER_URL}/getFeed`,
+    GET_POSTS_CUSTOM: `${SERVER_URL}/getCustomFeed`,
     GET_USER_EMAIL_BY_USERNAME: `${SERVER_URL}/getUserEmailByUsername`,
     POST_SUBMIT_POST: `${SERVER_URL}/submitPost`,
     POST_REGISTER_USER_PROVIDER: `${SERVER_URL}/registerUserWithProvider`,

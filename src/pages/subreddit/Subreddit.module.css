@@ -41,13 +41,28 @@
 
 .btnAddPost {
     display: grid;
-    margin: auto;
-    margin-right: 1rem;
-    height: min-content;
+    margin: auto 0.5rem;
     align-items: center;
 }
 
 .btnAddPost > button {
-    display: flex;
+    display: grid;
+    place-items: center;
     padding: 0.5rem;
+    width: 40px;
+    height: 40px;
+}
+
+.btnFollow {
+    height: 40px;
+    margin: auto;
+    margin-right: 0px;
+}
+
+.skeletonContainer {
+    display: grid;
+    column-gap: 0.5rem;
+    grid-template-columns: auto 40px;
+    margin: auto;
+    margin-right: 0.5rem;
 }
