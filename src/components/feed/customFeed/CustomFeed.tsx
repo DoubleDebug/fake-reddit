@@ -9,42 +9,75 @@ import {
 import { getPostsCustom } from '../../../utils/firebase/getPostsCustom';
 import { reachedLastDocument } from '../../../utils/firebase/reachedLastDocument';
 import { generatePostSkeletons } from '../../post/comments/commentSection/skeletons/GenerateSkeletons';
-import { getTotalNumOfPosts, handleBackToTopEvent } from '../FeedActions';
+import {
+    filterPosts,
+    getTotalNumOfPosts,
+    handleBackToTopEvent,
+} from '../FeedActions';
 import { UserContext } from '../../../context/UserContext';
 import useScrollPosition from '@react-hook/window-scroll';
+import { IFeedState } from '../../../pages/home/Home';
 
 interface ICustomFeedProps {
     switchTabCallback?: () => void;
+    firstLoad?: boolean;
+    initState: IFeedState | undefined;
+    saveStateCallback: (s: IFeedState) => void;
 }
 
 export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
     const user = useContext(UserContext);
     const [posts, setPosts] = useState<PostModel[]>([]);
     const [loadingPosts, setLoadingPosts] = useState(true);
-    const [followedSubreddits, setFollowedSubreddits] = useState<string[]>([]);
-    const [totalNumOfPosts, setTotalNumOfPosts] =
-        useState<number>(POSTS_PER_PAGE);
+    const [totalNumOfPosts, setTotalNumOfPosts] = useState(POSTS_PER_PAGE);
     const [offset, setOffset] = useState(0);
+    const [stateWasLoaded, setStateWasLoaded] = useState(false);
     const windowScrollY = useScrollPosition(60);
 
     useEffect(() => {
-        // fetch total num of posts
-        getTotalNumOfPosts(followedSubreddits).then((num) =>
-            setTotalNumOfPosts(num)
-        );
-    }, [followedSubreddits]);
+        // avoid saving state when posts have skeletons
+        if (posts.filter((p) => !p.id).length > 0) return;
+
+        // save state
+        props.saveStateCallback({
+            offset: offset,
+            totalNumOfPosts: totalNumOfPosts,
+            posts: filterPosts(posts),
+        });
+        // eslint-disable-next-line
+    }, [posts, totalNumOfPosts]);
 
     useEffect(() => {
-        // add loading skeletons
-        setPosts([...posts, ...generatePostSkeletons()]);
+        // load previous state
+        if (!props.firstLoad && !stateWasLoaded && props.initState) {
+            setPosts(filterPosts(props.initState.posts || []));
+            setOffset(props.initState?.offset || 0);
+            setTotalNumOfPosts(
+                props.initState.totalNumOfPosts || POSTS_PER_PAGE
+            );
+            setStateWasLoaded(true);
+            setLoadingPosts(false);
+            return;
+        }
 
         // fetch posts from server
-        getPostsCustom(user, offset, POSTS_PER_PAGE).then((postsData) => {
-            // remove skeletons and add new data
-            setPosts([...posts, ...postsData.posts].filter((p) => p.id));
-            setLoadingPosts(false);
-            setFollowedSubreddits(postsData.followedSubreddits);
-        });
+        if (
+            posts.length !== totalNumOfPosts &&
+            posts.length < offset + POSTS_PER_PAGE
+        ) {
+            // add loading skeletons
+            setPosts([...posts, ...generatePostSkeletons()]);
+            getPostsCustom(user, offset, POSTS_PER_PAGE).then((postsData) => {
+                // remove skeletons and add new data
+                setPosts(filterPosts([...posts, ...postsData.posts]));
+                setLoadingPosts(false);
+
+                totalNumOfPosts === POSTS_PER_PAGE &&
+                    getTotalNumOfPosts(postsData.followedSubreddits).then(
+                        (num) => setTotalNumOfPosts(num)
+                    );
+            });
+        }
         // eslint-disable-next-line
     }, [user, offset]);
 
@@ -52,11 +85,14 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
         return (
             <div className={css.noPosts} style={{ marginTop: '10rem' }}>
                 <h2>You haven't joined any subreddits yet.</h2>
-                <div className="flex">
+                <div className={css.noPostsParagraph}>
                     {props.switchTabCallback ? (
-                        <button onClick={() => props.switchTabCallback!()}>
-                            <p>Browse r/all</p>
-                        </button>
+                        <p
+                            className={css.link}
+                            onClick={() => props.switchTabCallback!()}
+                        >
+                            Browse r/all
+                        </p>
                     ) : (
                         <p style={{ marginRight: '3px' }}>Browser r/all</p>
                     )}
@@ -77,16 +113,13 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
                 </button>
             )}
             <div className={css.postsContainer}>
-                {posts.map((p, index: number) => {
-                    return (
-                        <div key={index}>
-                            <Post data={p} isPreview={true}></Post>
-                        </div>
-                    );
-                })}
+                {posts.map((p, index: number) => (
+                    <div key={index}>
+                        <Post data={p} isPreview={true}></Post>
+                    </div>
+                ))}
             </div>
-            {totalNumOfPosts &&
-                posts.length !== 0 &&
+            {posts.length !== 0 &&
                 !reachedLastDocument(offset, totalNumOfPosts) && (
                     <button
                         style={{ margin: '0 auto 2rem auto' }}

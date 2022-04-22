@@ -62,25 +62,27 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                     </div>
                     {user ? (
                         <div className="flex" style={{ marginLeft: 'auto' }}>
-                            <button
-                                disabled={isLoading}
-                                type={isFollowing ? 'button' : 'submit'}
-                                title={`${
-                                    isFollowing ? 'Unfollow' : 'Follow'
-                                } r/${props.data?.id}`}
-                                className={css.btnFollow}
-                                onClick={() => {
-                                    if (!user) return;
-                                    setIsLoading(true);
-                                    followSubreddit(
-                                        props.data,
-                                        user.uid,
-                                        isFollowing ? true : undefined
-                                    ).then(() => setIsLoading(false));
-                                }}
-                            >
-                                {isFollowing ? 'Unfollow' : 'Follow'}
-                            </button>
+                            {props.data?.id !== 'all' && (
+                                <button
+                                    disabled={isLoading}
+                                    type={isFollowing ? 'button' : 'submit'}
+                                    title={`${
+                                        isFollowing ? 'Unfollow' : 'Follow'
+                                    } r/${props.data?.id}`}
+                                    className={css.btnFollow}
+                                    onClick={() => {
+                                        if (!user) return;
+                                        setIsLoading(true);
+                                        followSubreddit(
+                                            props.data,
+                                            user.uid,
+                                            isFollowing ? true : undefined
+                                        ).then(() => setIsLoading(false));
+                                    }}
+                                >
+                                    {isFollowing ? 'Unfollow' : 'Follow'}
+                                </button>
+                            )}
                             <Link
                                 to={`${props.url}/newPost`}
                                 className={css.btnAddPost}
@@ -105,7 +107,11 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                     <Skeleton count={2} style={{ marginTop: '0.5rem' }} />
                 )}
             </div>
-            <Feed subreddit={props.subredditId} />
+            <Feed
+                subreddit={props.subredditId}
+                initState={undefined}
+                saveStateCallback={() => {}}
+            />
         </div>
     );
 };

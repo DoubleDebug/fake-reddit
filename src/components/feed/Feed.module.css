@@ -31,3 +31,18 @@
     outline: inherit;
     cursor: pointer;
 }
+
+.noPostsParagraph {
+    display: flex;
+    align-items: center;
+}
+
+.link {
+    cursor: pointer;
+    margin-right: 0.3rem;
+    color: darkorange;
+}
+
+.link:hover {
+    text-decoration: underline;
+}

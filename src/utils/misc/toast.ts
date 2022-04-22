@@ -1,14 +1,15 @@
-import toast from 'react-hot-toast';
+import toast, { ToastPosition } from 'react-hot-toast';
 import { Renderable } from 'react-hot-toast/dist/core/types';
 
 export function displayNotif(
     message: string,
     type: 'success' | 'error' | 'loading',
-    preventDuplicates?: boolean
+    preventDuplicates?: boolean,
+    position?: ToastPosition
 ) {
     if (preventDuplicates) {
         toast[type](message, {
-            position: 'bottom-center',
+            position: position || 'bottom-center',
             style: {
                 textAlign: 'center',
             },
@@ -18,7 +19,7 @@ export function displayNotif(
     }
 
     toast[type](message, {
-        position: 'bottom-center',
+        position: position || 'bottom-center',
         style: {
             textAlign: 'center',
         },

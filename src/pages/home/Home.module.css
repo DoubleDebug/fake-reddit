@@ -1,0 +1,9 @@
+.container {
+    display: grid;
+    place-items: center;
+}
+
+.tabButton {
+    text-transform: none !important;
+    font-size: 1.3rem !important;
+}

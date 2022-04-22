@@ -33,7 +33,12 @@ export function loginWithGoogle(firstTime?: boolean) {
                 ).catch((err) => console.log('User registration failed.', err));
             }
 
-            displayNotif(`Welcome to Reddit, ${userData.name}!`, 'success');
+            displayNotif(
+                `Welcome to Reddit, ${userData.name}!`,
+                'success',
+                undefined,
+                'bottom-left'
+            );
         })
         .catch((error) => {
             const message = getErrorMessage(error);
@@ -62,7 +67,12 @@ export function loginWithGithub(firstTime?: boolean) {
                 ).catch((err) => console.log('User registration failed.', err));
             }
 
-            displayNotif(`Welcome to Reddit, ${userData.name}!`, 'success');
+            displayNotif(
+                `Welcome to Reddit, ${userData.name}!`,
+                'success',
+                undefined,
+                'bottom-left'
+            );
         })
         .catch((error) => {
             const message = getErrorMessage(error);
@@ -118,7 +128,9 @@ export async function loginWithUsername(
     if (userCred) {
         displayNotif(
             `Welcome to Reddit, ${userCred.user.displayName}!`,
-            'success'
+            'success',
+            undefined,
+            'bottom-left'
         );
         setIsLoading(false);
     }
