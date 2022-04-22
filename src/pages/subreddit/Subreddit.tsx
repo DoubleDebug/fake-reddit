@@ -23,11 +23,7 @@ export const Subreddit: React.FC = () => {
     return (
         <Switch>
             <Route exact path={path}>
-                <SubredditFeed
-                    data={data}
-                    url={url}
-                    subredditId={subredditId}
-                />
+                <SubredditFeed data={data} url={url} />
             </Route>
             <Route path={`${path}/newPost`}>
                 <NewPost subreddit={subredditId} />
