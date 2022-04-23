@@ -1,7 +1,7 @@
 import css from './LoginForm.module.css';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Tab, ThemeProvider } from '@mui/material';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Login } from './login/Login';
 import { SignUp } from './signUp/SignUp';
@@ -15,6 +15,10 @@ interface ILoginFormProps {
 export const LoginForm: React.FC<ILoginFormProps> = (props) => {
     const user = useContext(UserContext);
     const [tabIndex, setTabIndex] = useState(props.tab);
+
+    useEffect(() => {
+        document.title = `Sign ${props.tab.split(' ')[1]} | Fake Reddit`;
+    }, [props.tab]);
 
     if (user) return <Redirect to="/" />;
 

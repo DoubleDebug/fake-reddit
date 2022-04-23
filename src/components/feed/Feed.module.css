@@ -11,6 +11,7 @@
 .noPosts {
     display: grid;
     justify-items: center;
+    margin-top: 10rem;
 }
 
 .noPosts > * {

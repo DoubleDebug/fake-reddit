@@ -1,7 +1,7 @@
 import 'react-quill/dist/quill.snow.css';
 import css from './NewPost.module.css';
 import Select from 'react-select';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import TabPanel from '@mui/lab/TabPanel';
 import { Tab, TextField, ThemeProvider } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
@@ -72,6 +72,10 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
         imageUploaderState?: ImageUploaderState;
         pollState?: PollModel;
     }>();
+
+    useEffect(() => {
+        document.title = `Create a new post | Fake Reddit`;
+    }, []);
 
     if (!user || postStage === 'submitted') {
         return <Redirect to="/" />;

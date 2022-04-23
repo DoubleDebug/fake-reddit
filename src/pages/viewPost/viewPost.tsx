@@ -1,5 +1,5 @@
 import css from './ViewPost.module.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     collection,
     doc,
@@ -41,6 +41,10 @@ export const ViewPost: React.FC = () => {
             idField: 'id',
         }
     );
+
+    useEffect(() => {
+        document.title = `${postData?.title} | Fake Reddit`;
+    }, [postData]);
 
     if (!postData && !loadingPost) {
         return <Redirect to="/" />;

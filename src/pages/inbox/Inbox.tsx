@@ -39,6 +39,10 @@ export const Inbox: React.FC = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
+        document.title = 'Inbox | Fake Reddit';
+    }, []);
+
+    useEffect(() => {
         const prevRoom = rooms?.filter((r) => r.id === prevSelectedRoom)[0];
         if (!prevRoom) return;
 

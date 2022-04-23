@@ -83,7 +83,7 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
 
     if (posts.length === 0 && !loadingPosts) {
         return (
-            <div className={css.noPosts} style={{ marginTop: '10rem' }}>
+            <div className={css.noPosts}>
                 <h2>You haven't joined any subreddits yet.</h2>
                 <div className={css.noPostsParagraph}>
                     {props.switchTabCallback ? (

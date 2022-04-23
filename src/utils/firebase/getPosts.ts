@@ -36,8 +36,9 @@ export async function getPosts(
 
     // convert to data model
     const posts: PostModel[] = [];
-    (response as any).data?.data?.forEach((doc: any) =>
-        posts.push(convertToPost(doc))
-    );
+    response &&
+        response.data?.data?.forEach((doc: any) =>
+            posts.push(convertToPost(doc))
+        );
     return posts;
 }

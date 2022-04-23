@@ -1,6 +1,6 @@
 import css from './ResetPassword.module.css';
 import { TextField } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '../../../utils/hooks/useQuery';
 import { Link, Redirect } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +13,10 @@ export const ResetPassword: React.FC = () => {
     const [emailError, setEmailError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+
+    useEffect(() => {
+        document.title = `Reset your password | Fake Reddit`;
+    }, []);
 
     if (isSubmitted) {
         return <Redirect to="/login" />;

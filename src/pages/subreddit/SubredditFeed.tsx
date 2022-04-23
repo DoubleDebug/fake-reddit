@@ -11,6 +11,7 @@ import { UserContext } from '../../context/UserContext';
 import { followSubreddit } from './SubredditActions';
 
 interface ISubredditFeedProps {
+    subredditId: string | undefined;
     data: Data<ISubreddit, '', ''> | undefined;
     url: string;
 }
@@ -107,7 +108,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                 )}
             </div>
             <Feed
-                subreddit={props.data?.id}
+                subreddit={props.subredditId}
                 initState={undefined}
                 saveStateCallback={() => {}}
             />

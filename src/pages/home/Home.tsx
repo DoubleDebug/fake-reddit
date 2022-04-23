@@ -1,7 +1,7 @@
 import css from './Home.module.css';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { ThemeProvider, Tab } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CustomFeed } from '../../components/feed/customFeed/CustomFeed';
 import { Feed } from '../../components/feed/Feed';
 import { tabsTheme } from '../newPost/selectFlairs/SelectFlairsStyles';
@@ -23,6 +23,11 @@ export const Home: React.FC = () => {
         all: true,
         custom: true,
     });
+
+    useEffect(() => {
+        document.title = `The front page of the Internet | Fake Reddit`;
+    }, []);
+
     return (
         <div className={css.container}>
             <ThemeProvider theme={tabsTheme}>

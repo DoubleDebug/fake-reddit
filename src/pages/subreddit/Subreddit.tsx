@@ -5,6 +5,7 @@ import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { NewPost } from '../newPost/NewPost';
 import { ISubreddit } from '../../models/subreddit';
 import { SubredditFeed } from './SubredditFeed';
+import { useEffect } from 'react';
 
 export const Subreddit: React.FC = () => {
     const { id: subredditId } = useParams<{ id: string }>();
@@ -20,10 +21,18 @@ export const Subreddit: React.FC = () => {
     );
     const { path, url } = useRouteMatch();
 
+    useEffect(() => {
+        document.title = `r/${subredditId} | Fake Reddit`;
+    }, [subredditId]);
+
     return (
         <Switch>
             <Route exact path={path}>
-                <SubredditFeed data={data} url={url} />
+                <SubredditFeed
+                    subredditId={subredditId}
+                    data={data}
+                    url={url}
+                />
             </Route>
             <Route path={`${path}/newPost`}>
                 <NewPost subreddit={subredditId} />
