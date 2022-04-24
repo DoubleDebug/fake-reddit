@@ -1,0 +1,28 @@
+{
+    "firestore": {
+        "rules": "./src/utils/firebase/firestore.rules",
+        "indexes": "./src/utils/firebase/firestore.indexes.json"
+    },
+    "hosting": {
+        "public": "public",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    },
+    "storage": {
+        "rules": "./src/utils/firebase/storage.rules"
+    },
+    "emulators": {
+        "firestore": {
+            "port": 8080
+        },
+        "ui": {
+            "enabled": true,
+            "port": 8081
+        }
+    }
+}

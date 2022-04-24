@@ -54,7 +54,7 @@ Reddit website clone with React, Typescript and Firebase.
       | --------- | ----------- |
       | fake-reddit/.env | Environment variables such as the client URL <br> & server URL. See an example [here](). |
       | fake-reddit/src/utils/firebase/firebaseConfig.ts | Firebase configuration file containing the api key, <br> auth domain, etc. Read more [here](). |
-      | fake-reddit/src/utils/misc/constants.ts | Various constant values for the web app. <br> "SERVER_URL" is set to `http://localhost:5000` <br> by default. |
+      | fake-reddit/src/utils/misc/constants.ts | Various application constants. <br> "SERVER_URL" is set to `http://localhost:5000` <br> by default. Read more [here](). |
 4. Start the server.
     - Navigate to the back-end folder and run `npm start`.
     - The console should say something like `Server started at http://localhost:5000`.

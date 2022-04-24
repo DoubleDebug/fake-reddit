@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	match /chatRooms/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+  	match /metadata/{document=**} {
+    	allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+  	match /posts/{document=**} {
+    	allow read: if true;
+      allow write: if request.auth != null && validatePostData();
+    }
+    
+  	match /comments/{document=**} {
+    	allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+  	match /users/{document=**} {
+    	allow read, write: if true;
+    }
+    
+  	match /subreddits/{document=**} {
+    	allow read: if true;
+    	allow write: if request.auth != null;
+    }
+    
+  	match /reports/{document=**} {
+    	allow write: if request.auth != null;
+    }
+    
+    // Functions
+    
+    function validatePostData() {
+			return ("title" in request.resource.data)
+          && (request.resource.data.title != '');
+		}
+  }
+}
