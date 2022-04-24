@@ -2,7 +2,10 @@ import { User } from 'firebase/auth';
 import { PostModel } from '../../models/post';
 import { createChatRoom } from '../../pages/inbox/chat/ChatActions';
 import { signInPopup } from '../../utils/signInPopup/SignInPopup';
-import { displayNotifJSX } from '../../utils/misc/toast';
+import { displayNotif, displayNotifJSX } from '../../utils/misc/toast';
+import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { DB_COLLECTIONS } from '../../utils/misc/constants';
+import { removeDuplicates } from '../../utils/misc/removeDuplicates';
 
 export function upvote(
     user: User | null | undefined,
@@ -98,4 +101,38 @@ export async function openChatRoom(
     );
 
     setRedirectChatId(room.id);
+}
+
+async function savePost(
+    userData: IUserDataWithId,
+    pid: string,
+    unsave: boolean
+) {
+    const savedPostsUpdated = unsave
+        ? userData.savedPosts.filter((p: string) => p !== pid)
+        : removeDuplicates([...userData.savedPosts, pid]);
+
+    const db = getFirestore();
+    const ref = doc(db, DB_COLLECTIONS.USERS, userData.id);
+    await updateDoc(ref, {
+        savedPosts: savedPostsUpdated,
+    });
+}
+
+export function handleSavePost(
+    userData: IUserDataWithId | undefined,
+    id: string | undefined,
+    isSaved: boolean,
+    setIsSaved: (s: boolean) => void
+) {
+    if (!userData || !id) return;
+    savePost(userData, id, isSaved)
+        .then(() => {
+            setIsSaved(!isSaved);
+            displayNotif(
+                isSaved ? 'Removed from saved posts.' : 'Saved post.',
+                'success'
+            );
+        })
+        .catch(() => displayNotif('Failed to save post.', 'error'));
 }

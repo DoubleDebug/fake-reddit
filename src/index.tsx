@@ -7,7 +7,7 @@ import {
     Timestamp,
     doc,
     setDoc,
-    getDoc,
+    DocumentReference,
 } from '@firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -29,32 +29,49 @@ import { ResetPassword } from './pages/login/resetPassword/ResetPassword';
 // OTHER
 import './index.css';
 import { UserContext } from './context/UserContext';
-import { DB_COLLECTIONS } from './utils/misc/constants';
+import {
+    DB_COLLECTIONS,
+    DB_HOSTNAME,
+    DB_PORT,
+    PRODUCTION_MODE,
+} from './utils/misc/constants';
 import { maintainLocalStorage } from './utils/misc/maintainLocalStorage';
+import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
+import { UserDataContext } from './context/UserDataContext';
+import { connectFirestoreEmulator } from 'firebase/firestore';
+import { log } from './utils/misc/log';
 
 maintainLocalStorage();
 
 initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
+if (!PRODUCTION_MODE) {
+    connectFirestoreEmulator(db, DB_HOSTNAME, DB_PORT);
+    log('Running in development mode.');
+}
 
 const App: React.FC = () => {
     const [user] = useAuthState(auth);
+    const [userData] = useDocumentDataOnce(
+        user &&
+            (doc(db, DB_COLLECTIONS.USERS, user.uid) as DocumentReference<
+                IUserDataWithId | undefined
+            >),
+        {
+            idField: 'id',
+        }
+    );
 
     useEffect(() => {
-        if (!user) return;
+        if (!user || !userData) return;
         // update 'last online' field
-        getDoc(doc(db, DB_COLLECTIONS.USERS, user.uid))
-            .then((res) => res.data())
-            .then((userData) => {
-                const userRef = doc(db, DB_COLLECTIONS.USERS, user.uid);
-                setDoc(userRef, {
-                    ...userData,
-                    lastOnline: Timestamp.now(),
-                });
-            });
-        // eslint-disable-next-line
-    }, [user]);
+        const userRef = doc(db, DB_COLLECTIONS.USERS, user.uid);
+        setDoc(userRef, {
+            ...userData,
+            lastOnline: Timestamp.now(),
+        });
+    }, [user, userData]);
 
     return (
         <BrowserRouter>
@@ -62,10 +79,14 @@ const App: React.FC = () => {
                 <Header />
                 <Switch>
                     <Route exact path="/">
-                        <Home />
+                        <UserDataContext.Provider value={userData}>
+                            <Home />
+                        </UserDataContext.Provider>
                     </Route>
                     <Route path="/r/:id">
-                        <Subreddit />
+                        <UserDataContext.Provider value={userData}>
+                            <Subreddit />
+                        </UserDataContext.Provider>
                     </Route>
                     <Route path="/newPost">
                         <NewPost />
@@ -77,7 +98,9 @@ const App: React.FC = () => {
                         <Inbox />
                     </Route>
                     <Route path="/post/:id">
-                        <ViewPost />
+                        <UserDataContext.Provider value={userData}>
+                            <ViewPost />
+                        </UserDataContext.Provider>
                     </Route>
                     <Route exact path="/login">
                         <LoginForm tab="log in" />

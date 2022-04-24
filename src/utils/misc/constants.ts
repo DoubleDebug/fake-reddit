@@ -1,5 +1,10 @@
+// PRODUCTION MODE
+export const PRODUCTION_MODE = false;
+
 // DATABASE
 export const SERVER_URL = 'http://localhost:5000';
+export const DB_HOSTNAME = 'localhost';
+export const DB_PORT = 8080;
 export const DB_COLLECTIONS = {
     CHAT_ROOMS: 'chatRooms',
     COMMENTS: 'comments',

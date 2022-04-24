@@ -30,11 +30,10 @@ export function sendMessage(
     // add message to db
     const db = getFirestore();
     updateDoc(doc(db, DB_COLLECTIONS.CHAT_ROOMS, room.id), {
-        ...room,
         messages: room.messages.concat({
             from: {
                 id: user.uid,
-                name: room.userNames[0],
+                name: user.displayName || '',
             },
             content: message,
             timestamp: Timestamp.now(),

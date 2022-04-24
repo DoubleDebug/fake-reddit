@@ -20,9 +20,12 @@ interface IMessage {
 
 interface IUserData {
     lastOnline: Timestamp;
+    savedPosts: string[];
     username?: string;
     isAdmin?: boolean;
 }
+
+type IUserDataWithId = IUserData & { id: string };
 
 interface IVote {
     uid: string;

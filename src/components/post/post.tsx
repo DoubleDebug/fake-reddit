@@ -6,6 +6,7 @@ import { timeAgo } from '../../utils/misc/timeAgo';
 import { PostModel } from '../../models/post';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    faBookmark,
     faChevronCircleDown,
     faChevronCircleUp,
     faEllipsisH,
@@ -13,12 +14,19 @@ import {
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, Redirect } from 'react-router-dom';
-import { deletePost, downvote, openChatRoom, upvote } from './PostActions';
+import {
+    deletePost,
+    downvote,
+    handleSavePost,
+    openChatRoom,
+    upvote,
+} from './PostActions';
 import { PostContent } from './PostContent';
 import { UserContext } from '../../context/UserContext';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
 import { ReportModal } from '../modals/reportModal/ReportModal';
 import { DeleteModal } from '../modals/deleteModal/DeleteModal';
+import { UserDataContext } from '../../context/UserDataContext';
 
 interface IPostProps {
     data: PostModel;
@@ -27,6 +35,7 @@ interface IPostProps {
 
 export const Post: React.FC<IPostProps> = (props) => {
     const user = useContext(UserContext);
+    const userData = useContext(UserDataContext);
     const [score, setScore] = useState(props.data.getScore());
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
     const [redirectChatId, setRedirectChatId] = useState<string | null>(null);
@@ -34,9 +43,15 @@ export const Post: React.FC<IPostProps> = (props) => {
     const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isSaved, setIsSaved] = useState(
+        userData?.savedPosts.includes(props.data.id || '') || false
+    );
 
     useEffect(() => {
-        // loading component state from db data
+        setIsSaved(userData?.savedPosts.includes(props.data.id || '') || false);
+    }, [userData, props.data.id]);
+
+    useEffect(() => {
         if (user) setUpvoted(props.data.getUsersVote(user.uid));
         setScore(props.data.getScore());
     }, [user, props.data]);
@@ -208,6 +223,17 @@ export const Post: React.FC<IPostProps> = (props) => {
                     ) : !props.isPreview && props.data.authorId !== user.uid ? (
                         <Dropdown
                             items={[
+                                {
+                                    text: isSaved ? 'Unsave' : 'Save post',
+                                    action: () =>
+                                        handleSavePost(
+                                            userData,
+                                            props.data.id,
+                                            isSaved,
+                                            setIsSaved
+                                        ),
+                                    icon: faBookmark,
+                                },
                                 {
                                     text: 'Report post',
                                     action: () => {
