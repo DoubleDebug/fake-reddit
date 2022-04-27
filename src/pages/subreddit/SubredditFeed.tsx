@@ -18,8 +18,10 @@ interface ISubredditFeedProps {
 
 export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
     const user = useContext(UserContext);
+    const [sortingMethod, setSortingMethod] = useState<'new' | 'top'>('new');
     const [isFollowing, setIsFollowing] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingFollow, setIsLoadingFollow] = useState(false);
+    const [isLoadingPosts, setIsLoadingPosts] = useState(false);
 
     useEffect(() => {
         if (!props.data || !user) return;
@@ -64,7 +66,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                         <div className="flex" style={{ marginLeft: 'auto' }}>
                             {props.data?.id !== 'all' && (
                                 <button
-                                    disabled={isLoading}
+                                    disabled={isLoadingFollow}
                                     type={isFollowing ? 'button' : 'submit'}
                                     title={`${
                                         isFollowing ? 'Unfollow' : 'Follow'
@@ -72,12 +74,12 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                                     className={css.btnFollow}
                                     onClick={() => {
                                         if (!user) return;
-                                        setIsLoading(true);
+                                        setIsLoadingFollow(true);
                                         followSubreddit(
                                             props.data,
                                             user.uid,
                                             isFollowing ? true : undefined
-                                        ).then(() => setIsLoading(false));
+                                        ).then(() => setIsLoadingFollow(false));
                                     }}
                                 >
                                     {isFollowing ? 'Unfollow' : 'Follow'}
@@ -100,17 +102,54 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                         </div>
                     )}
                 </div>
-
                 {props.data ? (
                     <p className={css.description}>{props.data.description}</p>
                 ) : (
                     <Skeleton count={2} style={{ marginTop: '0.5rem' }} />
+                )}
+                {props.data ? (
+                    <div className={css.sortingContainer}>
+                        <button
+                            disabled={isLoadingPosts}
+                            className={css.btnSort}
+                            type={sortingMethod === 'new' ? 'submit' : 'button'}
+                            onClick={() => {
+                                setSortingMethod(
+                                    sortingMethod === 'new' ? 'top' : 'new'
+                                );
+                                setIsLoadingPosts(true);
+                            }}
+                        >
+                            New
+                        </button>
+                        <button
+                            disabled={isLoadingPosts}
+                            className={css.btnSort}
+                            type={sortingMethod === 'top' ? 'submit' : 'button'}
+                            onClick={() => {
+                                setSortingMethod(
+                                    sortingMethod === 'new' ? 'top' : 'new'
+                                );
+                                setIsLoadingPosts(true);
+                            }}
+                        >
+                            Top
+                        </button>
+                    </div>
+                ) : (
+                    <Skeleton
+                        style={{ marginTop: '1rem' }}
+                        width={130}
+                        height={40}
+                    />
                 )}
             </div>
             <Feed
                 subreddit={props.subredditId}
                 initState={undefined}
                 saveStateCallback={() => {}}
+                sortingMethod={sortingMethod}
+                setLoadingPosts={(l) => setIsLoadingPosts(l)}
             />
         </div>
     );

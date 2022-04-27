@@ -23,6 +23,7 @@ export class PostModel {
     authorId: string | undefined | null;
     createdAt: Timestamp = Timestamp.now();
     votes: IVote[] = [];
+    score: number = 0;
     subreddit: string = 'all';
     contentFiles?: string[] = [];
     pollData?: PollModel;
@@ -76,6 +77,7 @@ export class PostModel {
         const db = getFirestore();
         updateDoc(doc(db, DB_COLLECTIONS.POSTS, this.id), {
             votes: this.votes,
+            score: this.getScore(),
         });
     }
 
@@ -101,6 +103,7 @@ export class PostModel {
         const db = getFirestore();
         updateDoc(doc(db, DB_COLLECTIONS.POSTS, this.id), {
             votes: this.votes,
+            score: this.getScore(),
         });
     }
 

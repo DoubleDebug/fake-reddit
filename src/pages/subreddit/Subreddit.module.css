@@ -66,3 +66,13 @@
     margin: auto;
     margin-right: 0.5rem;
 }
+
+.sortingContainer {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.btnSort {
+    border-radius: 20px;
+    margin-right: 0.5rem;
+}

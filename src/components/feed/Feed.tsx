@@ -22,6 +22,8 @@ interface IFeedProps {
     firstLoad?: boolean;
     initState: IFeedState | undefined;
     saveStateCallback: (s: IFeedState) => void;
+    sortingMethod?: 'new' | 'top';
+    setLoadingPosts?: (l: boolean) => void;
 }
 
 export const Feed: React.FC<IFeedProps> = (props) => {
@@ -69,6 +71,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
             );
             setStateWasLoaded(true);
             setLoadingPosts(false);
+            props.setLoadingPosts && props.setLoadingPosts(false);
             return;
         }
 
@@ -79,16 +82,50 @@ export const Feed: React.FC<IFeedProps> = (props) => {
         ) {
             // add loading skeletons
             setPosts([...posts, ...generatePostSkeletons()]);
-            getPosts(offset, POSTS_PER_PAGE, props.subreddit).then(
-                (postsData) => {
-                    // remove skeletons and add new data
-                    setPosts(filterPosts([...posts, ...postsData]));
-                    setLoadingPosts(false);
-                }
-            );
+            getPosts(
+                offset,
+                POSTS_PER_PAGE,
+                props.subreddit,
+                props.sortingMethod
+            ).then((postsData) => {
+                // remove skeletons and add new data
+                setPosts(filterPosts([...posts, ...postsData]));
+                setLoadingPosts(false);
+                props.setLoadingPosts && props.setLoadingPosts(false);
+            });
         }
         // eslint-disable-next-line
     }, [offset]);
+
+    useEffect(() => {
+        if (loadingPosts) return;
+
+        setLoadingPosts(true);
+        if (posts.length === totalNumOfPosts) {
+            if (props.sortingMethod === 'top') {
+                posts.sort((a, b) => (a.getScore() > b.getScore() ? -1 : 1));
+            } else {
+                posts.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+            }
+            setLoadingPosts(false);
+            props.setLoadingPosts && props.setLoadingPosts(false);
+            return;
+        }
+
+        setPosts(generatePostSkeletons());
+        getPosts(
+            offset,
+            POSTS_PER_PAGE,
+            props.subreddit,
+            props.sortingMethod
+        ).then((postsData) => {
+            // remove skeletons and add new data
+            setPosts(filterPosts(postsData));
+            setLoadingPosts(false);
+            props.setLoadingPosts && props.setLoadingPosts(false);
+        });
+        // eslint-disable-next-line
+    }, [props.sortingMethod]);
 
     if (posts.length === 0 && !loadingPosts) {
         return (
