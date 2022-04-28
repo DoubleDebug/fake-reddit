@@ -10,7 +10,7 @@ import { ALG_INDICES } from '../../../utils/misc/constants';
 import { CustomHits } from './customHits/CustomHits';
 
 interface IChatSearchBarProps {
-    user: User;
+    user: User | null | undefined;
     rooms: Data<IChatRoom, '', ''>[] | undefined;
     selectedRoom: string;
     setSelectedRoom: (rid: string) => void;
@@ -38,29 +38,31 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
                 }}
             />
             <div className={css.container}>
-                {hasQuery || hasRooms ? (
-                    <Conversations
-                        user={props.user}
-                        rooms={props.rooms}
-                        selectedRoom={props.selectedRoom}
-                        handleRoomChange={(rid) => props.setSelectedRoom(rid)}
-                    >
-                        {props.displayHits && (
-                            <CustomHits
-                                user={props.user}
-                                rooms={props.rooms}
-                                setSelectedRoom={props.setSelectedRoom}
-                            />
-                        )}
-                    </Conversations>
-                ) : (
-                    !hasRooms && (
-                        <div className={css.noConversations}>
-                            <p>No conversations yet.</p>
-                            <p>Search for someone to chat with.</p>
-                        </div>
-                    )
-                )}
+                {hasQuery || hasRooms
+                    ? props.user && (
+                          <Conversations
+                              user={props.user}
+                              rooms={props.rooms}
+                              selectedRoom={props.selectedRoom}
+                              handleRoomChange={(rid) =>
+                                  props.setSelectedRoom(rid)
+                              }
+                          >
+                              {props.displayHits && (
+                                  <CustomHits
+                                      user={props.user}
+                                      rooms={props.rooms}
+                                      setSelectedRoom={props.setSelectedRoom}
+                                  />
+                              )}
+                          </Conversations>
+                      )
+                    : !hasRooms && (
+                          <div className={css.noConversations}>
+                              <p>No conversations yet.</p>
+                              <p>Search for someone to chat with.</p>
+                          </div>
+                      )}
             </div>
         </InstantSearch>
     );

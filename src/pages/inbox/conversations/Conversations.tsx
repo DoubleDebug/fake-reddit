@@ -9,6 +9,7 @@ import {
 } from './ConversationsActions';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { ConversationSkeletons } from './ConversationSkeletons';
+import { Link } from 'react-router-dom';
 
 interface IConversationsProps {
     user: User;
@@ -48,36 +49,41 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
                 };
                 const unreadCount = r.unreadMessagesCount[firstIndex];
                 return (
-                    <div
+                    <Link
                         key={r.id}
-                        className={`${css.conversation} ${
-                            isSelected ? css.selected : ''
-                        }`}
+                        to={`/inbox/${r.id}`}
+                        className="linkNoUnderline"
                         onClick={() => props.handleRoomChange(r.id)}
                     >
-                        <img
-                            src={secondUser.url}
-                            alt={secondUser.name}
-                            className={css.photo}
-                        />
-                        <div className={css.nameAndLastMessage}>
-                            <p
-                                className={`${css.name} ${
-                                    unreadCount > 0 ? css.unread : ''
-                                }`}
-                            >
-                                {secondUser.name}
-                            </p>
-                            <small className={css.lastMessage}>
-                                {formatMessage(props.user, r)}
-                            </small>
+                        <div
+                            className={`${css.conversation} ${
+                                isSelected ? css.selected : ''
+                            }`}
+                        >
+                            <img
+                                src={secondUser.url}
+                                alt={secondUser.name}
+                                className={css.photo}
+                            />
+                            <div className={css.nameAndLastMessage}>
+                                <p
+                                    className={`${css.name} ${
+                                        unreadCount > 0 ? css.unread : ''
+                                    }`}
+                                >
+                                    {secondUser.name}
+                                </p>
+                                <small className={css.lastMessage}>
+                                    {formatMessage(props.user, r)}
+                                </small>
+                            </div>
+                            {unreadCount > 0 && (
+                                <small className={css.unreadCount}>
+                                    {unreadCount}
+                                </small>
+                            )}
                         </div>
-                        {unreadCount > 0 && (
-                            <small className={css.unreadCount}>
-                                {unreadCount}
-                            </small>
-                        )}
-                    </div>
+                    </Link>
                 );
             })}
             {props.children}

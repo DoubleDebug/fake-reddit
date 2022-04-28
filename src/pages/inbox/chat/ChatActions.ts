@@ -108,7 +108,6 @@ export async function deleteConversation(
     room: Data<IChatRoom, '', ''> | undefined
 ) {
     if (!room) return;
-
     const db = getFirestore();
     return await deleteDoc(doc(db, DB_COLLECTIONS.CHAT_ROOMS, room.id));
 }

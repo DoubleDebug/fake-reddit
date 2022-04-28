@@ -132,7 +132,7 @@ p {
     padding: 1rem;
     border-radius: 10px;
     box-shadow: var(--boxShadow);
-    transition: 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .contentBox:hover {

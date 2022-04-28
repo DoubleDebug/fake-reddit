@@ -17,13 +17,16 @@ import { usePrevious } from '../../utils/misc/usePrevious';
 import { getSelectedRoom, removeUnreadMessages } from './InboxActions';
 import { DeleteModal } from '../../components/modals/deleteModal/DeleteModal';
 import { ReportModal } from '../../components/modals/reportModal/ReportModal';
-import { getSecondUser } from '../../utils/misc/whichUserUtils';
+import {
+    getSecondUser,
+    getUsernameById,
+} from '../../utils/misc/whichUserUtils';
 import { deleteConversation } from './chat/ChatActions';
 
 export const Inbox: React.FC = () => {
     const user = useContext(UserContext);
-    const { id: roomId } = useParams<{ id: string }>();
-    const [rooms] = useCollectionData<IChatRoom>(
+    const { roomId } = useParams<{ roomId: string }>();
+    const [rooms, loadingRooms] = useCollectionData<IChatRoom>(
         query(
             collection(getFirestore(), DB_COLLECTIONS.CHAT_ROOMS),
             where('userIds', 'array-contains', user?.uid || '')
@@ -39,8 +42,18 @@ export const Inbox: React.FC = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
-        document.title = 'Inbox | Fake Reddit';
-    }, []);
+        if (!rooms || !user) {
+            document.title = `Inbox | Fake Reddit`;
+            return;
+        }
+        const selRoom = getSelectedRoom(rooms, selectedRoom);
+        const secondUser = getUsernameById(
+            selRoom,
+            getSecondUser(user.uid, selRoom.userIds) || ''
+        );
+        document.title = `Chat with ${secondUser} | Fake Reddit`;
+        // eslint-disable-next-line
+    }, [selectedRoom]);
 
     useEffect(() => {
         const prevRoom = rooms?.filter((r) => r.id === prevSelectedRoom)[0];
@@ -50,7 +63,9 @@ export const Inbox: React.FC = () => {
         // eslint-disable-next-line
     }, [selectedRoom]);
 
-    if (!user) return <Redirect to="/" />;
+    if (!loadingRooms && !user) {
+        return <Redirect to="/" />;
+    }
 
     return (
         <>

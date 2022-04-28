@@ -2,7 +2,7 @@ import css from './Subreddit.module.css';
 import Skeleton from 'react-loading-skeleton';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { Feed } from '../../components/feed/Feed';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { ISubreddit } from '../../models/subreddit';
@@ -13,11 +13,11 @@ import { followSubreddit } from './SubredditActions';
 interface ISubredditFeedProps {
     subredditId: string | undefined;
     data: Data<ISubreddit, '', ''> | undefined;
-    url: string;
 }
 
 export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
     const user = useContext(UserContext);
+    const { url } = useRouteMatch();
     const [sortingMethod, setSortingMethod] = useState<'new' | 'top'>('new');
     const [isFollowing, setIsFollowing] = useState(false);
     const [isLoadingFollow, setIsLoadingFollow] = useState(false);
@@ -86,7 +86,7 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                                 </button>
                             )}
                             <Link
-                                to={`${props.url}/newPost`}
+                                to={`${url}/newPost`}
                                 className={css.btnAddPost}
                                 title="Add a new post"
                             >

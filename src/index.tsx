@@ -40,6 +40,7 @@ import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
 import { UserDataContext } from './context/UserDataContext';
 import { connectFirestoreEmulator } from 'firebase/firestore';
 import { log } from './utils/misc/log';
+import { UserProfile } from './pages/profile/UserProfile';
 
 maintainLocalStorage();
 
@@ -76,7 +77,9 @@ const App: React.FC = () => {
     return (
         <BrowserRouter>
             <UserContext.Provider value={user}>
-                <Header />
+                <UserDataContext.Provider value={userData}>
+                    <Header />
+                </UserDataContext.Provider>
                 <Switch>
                     <Route exact path="/">
                         <UserDataContext.Provider value={userData}>
@@ -94,7 +97,7 @@ const App: React.FC = () => {
                     <Route exact path="/inbox">
                         <Inbox />
                     </Route>
-                    <Route path="/inbox/:id">
+                    <Route path="/inbox/:roomId">
                         <Inbox />
                     </Route>
                     <Route path="/post/:id">
@@ -110,6 +113,11 @@ const App: React.FC = () => {
                     </Route>
                     <Route path="/login/resetPassword">
                         <ResetPassword />
+                    </Route>
+                    <Route path="/user/:username">
+                        <UserDataContext.Provider value={userData}>
+                            <UserProfile />
+                        </UserDataContext.Provider>
                     </Route>
                 </Switch>
             </UserContext.Provider>

@@ -19,7 +19,7 @@ export const Subreddit: React.FC = () => {
             idField: 'id',
         }
     );
-    const { path, url } = useRouteMatch();
+    const { path } = useRouteMatch();
 
     useEffect(() => {
         document.title = `r/${subredditId} | Fake Reddit`;
@@ -28,11 +28,7 @@ export const Subreddit: React.FC = () => {
     return (
         <Switch>
             <Route exact path={path}>
-                <SubredditFeed
-                    subredditId={subredditId}
-                    data={data}
-                    url={url}
-                />
+                <SubredditFeed subredditId={subredditId} data={data} />
             </Route>
             <Route path={`${path}/newPost`}>
                 <NewPost subreddit={subredditId} />

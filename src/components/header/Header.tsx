@@ -13,9 +13,11 @@ import { Toaster } from 'react-hot-toast';
 import { signOutUser } from './HeaderActions';
 import { UserContext } from '../../context/UserContext';
 import { SearchBar } from './searchBar/bar/SearchBar';
+import { UserDataContext } from '../../context/UserDataContext';
 
 export const Header: React.FC = () => {
     const user = useContext(UserContext);
+    const userData = useContext(UserDataContext);
     const [photoURL, setPhotoURL] = useState(DEFAULT_PROFILE_URL);
 
     useEffect(() => {
@@ -66,6 +68,10 @@ export const Header: React.FC = () => {
                         </div>
                         <Dropdown
                             items={[
+                                {
+                                    text: 'Profile',
+                                    redirectPath: `/user/${userData?.username}`,
+                                },
                                 {
                                     text: 'Inbox',
                                     redirectPath: '/inbox',
