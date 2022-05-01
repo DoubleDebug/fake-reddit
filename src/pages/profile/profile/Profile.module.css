@@ -6,7 +6,12 @@
 
 .feedContainer {
     display: grid;
-    width: 800px;
+    width: 850px;
+    margin-bottom: 0px;
+}
+
+.feedContainer:hover {
+    transform: none;
 }
 
 .profileContainer {

@@ -77,7 +77,7 @@ export const ProfileCard: React.FC<IProfileCardProps> = (props) => {
             ) : (
                 <Skeleton count={2} className={css.skeletonButton} />
             )}
-            {props.data && !props.isProfileMine && (
+            {props.data && !props.isProfileMine && user && (
                 <div className={css.buttons}>
                     <button
                         disabled={loadingRoom}

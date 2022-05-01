@@ -12,6 +12,7 @@ import { UserDataContext } from '../../../context/UserDataContext';
 import { tabsTheme } from '../../newPost/selectFlairs/SelectFlairsStyles';
 import { getUserData } from './ProfileActions';
 import { ProfileCard } from '../profileCard/ProfileCard';
+import { IFeedState } from '../../home/Home';
 
 export const Profile: React.FC = () => {
     const { username } = useParams<{ username: string }>();
@@ -23,6 +24,13 @@ export const Profile: React.FC = () => {
     const [isProfileMine, setIsProfileMine] = useState(false);
     const [tab, setTab] = useState<'posts' | 'commments' | 'saved'>('posts');
     const [showReportModal, setShowReportModal] = useState(false);
+    const [userPostsState, setUserPostsState] = useState<IFeedState>();
+    const [userCommentsState, setUserCommentsState] = useState<IFeedState>();
+    const [savedPostsState, setSavedPostsState] = useState<IFeedState>();
+    const [firstLoad, setFirstLoad] = useState({
+        posts: true,
+        comments: true,
+    });
 
     useEffect(() => {
         // update profile card position
@@ -36,10 +44,14 @@ export const Profile: React.FC = () => {
     }, [windowScrollY]);
 
     useEffect(() => {
-        if (!myUserData || username === '') return;
-        if (myUserData.username === username) {
+        if (username === '') {
+            setUserExists(false);
+            return;
+        }
+        if (myUserData?.username === username) {
             setUserData(myUserData);
             setIsProfileMine(true);
+            return;
         }
 
         getUserData(username)
@@ -72,7 +84,19 @@ export const Profile: React.FC = () => {
                 <ThemeProvider theme={tabsTheme}>
                     <TabContext value={tab}>
                         <TabList
-                            onChange={(_, val) => setTab(val)}
+                            onChange={(_, val) => {
+                                setTab(val);
+                                if (val === 'posts')
+                                    setFirstLoad({
+                                        ...firstLoad,
+                                        comments: false,
+                                    });
+                                else
+                                    setFirstLoad({
+                                        ...firstLoad,
+                                        posts: false,
+                                    });
+                            }}
                             className={css.tabs}
                         >
                             <Tab
@@ -94,14 +118,27 @@ export const Profile: React.FC = () => {
                             )}
                         </TabList>
                         <TabPanel value="posts">
-                            <UserPostFeed uid={userData?.id} />
+                            <UserPostFeed
+                                firstLoad={firstLoad.posts}
+                                username={username}
+                                initState={userPostsState}
+                                saveStateCallback={setUserPostsState}
+                            />
                         </TabPanel>
                         <TabPanel value="comments">
-                            <UserCommentsFeed uid={userData?.id} />
+                            <UserCommentsFeed
+                                firstLoad={firstLoad.comments}
+                                username={username}
+                                initState={userCommentsState}
+                                saveStateCallback={setUserCommentsState}
+                            />
                         </TabPanel>
                         {isProfileMine && (
                             <TabPanel value="saved">
-                                <SavedPostFeed postIds={userData?.savedPosts} />
+                                <SavedPostFeed
+                                    initState={savedPostsState}
+                                    saveStateCallback={setSavedPostsState}
+                                />
                             </TabPanel>
                         )}
                     </TabContext>

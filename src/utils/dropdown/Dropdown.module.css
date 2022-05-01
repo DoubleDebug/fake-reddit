@@ -26,6 +26,7 @@
     border-radius: 5px;
     text-align: right;
     white-space: nowrap;
+    column-gap: 0.5rem;
 }
 
 .link {
@@ -47,5 +48,5 @@
 
 .icon {
     margin-top: 5px;
-    margin-right: 10px;
+    margin-right: auto;
 }

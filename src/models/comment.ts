@@ -9,4 +9,8 @@ export class CommentModel {
     text: string = '';
     isReply: boolean = false;
     parentCommentId: string | undefined;
+
+    constructor(init?: Partial<CommentModel>) {
+        Object.assign(this, init);
+    }
 }

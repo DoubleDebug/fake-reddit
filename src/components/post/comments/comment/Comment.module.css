@@ -6,6 +6,11 @@
     border-radius: 5px;
 }
 
+.commentPreview {
+    padding: 1rem;
+    grid-template-rows: min-content min-content auto;
+}
+
 .comment.isReply {
     margin-left: 3rem;
 }
@@ -31,6 +36,11 @@
 .timeAgo {
     color: silver;
     margin-right: auto;
+}
+
+.lblCommentedOn {
+    color: silver;
+    margin-left: 0.2rem;
 }
 
 .text {

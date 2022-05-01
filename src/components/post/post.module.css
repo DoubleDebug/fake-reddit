@@ -152,6 +152,16 @@
     margin: 1rem 5px 0 auto;
 }
 
+.btnUnsave {
+    display: flex;
+    align-items: center;
+    column-gap: 0.3rem;
+    margin: 0.5rem 0 auto auto;
+    transform: translateX(1.5rem);
+    cursor: pointer;
+    color: var(--colorOrange);
+}
+
 /*Post Markup styles*/
 
 .postContent h1,

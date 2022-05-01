@@ -79,14 +79,7 @@ export async function openChatRoom(
     setRedirectChatId: (id: string | null) => void
 ) {
     if (!me) {
-        displayNotifJSX(() =>
-            signInPopup(
-                `chat with ${secondUser.name.substring(
-                    0,
-                    secondUser.name.indexOf(' ')
-                )}`
-            )
-        );
+        displayNotifJSX(() => signInPopup(`chat with ${secondUser.name}`));
         return;
     }
     const room = await createChatRoom(
@@ -104,7 +97,10 @@ export async function openChatRoom(
 }
 
 async function savePost(
-    userData: IUserDataWithId,
+    userData: {
+        id: string;
+        savedPosts: string[];
+    },
     pid: string,
     unsave: boolean
 ) {
@@ -119,14 +115,14 @@ async function savePost(
     });
 }
 
-export function handleSavePost(
+export async function handleSavePost(
     userData: IUserDataWithId | undefined,
     id: string | undefined,
     isSaved: boolean,
     setIsSaved: (s: boolean) => void
 ) {
     if (!userData || !id) return;
-    savePost(userData, id, isSaved)
+    await savePost(userData, id, isSaved)
         .then(() => {
             setIsSaved(!isSaved);
             displayNotif(

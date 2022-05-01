@@ -1,20 +1,28 @@
 import { Comment } from '../../comment/Comment';
 import { CommentModel } from '../../../../../models/comment';
 import { PostModel } from '../../../../../models/post';
-import { POSTS_PER_PAGE } from '../../../../../utils/misc/constants';
+import {
+    COMMENTS_PER_PAGE,
+    POSTS_PER_PAGE,
+} from '../../../../../utils/misc/constants';
 
 /**
  * @returns an array of Comment components with empty data
  *          to serve as loading Skeletons
  */
-export function generateCommentSkeletons(num: number): JSX.Element[] {
+export function generateCommentSkeletonsJSX(): JSX.Element[] {
     const commentSkeletons = [];
-    for (let i = 0; i < num; i++) {
-        commentSkeletons.push(
-            <Comment key={i} data={new CommentModel()}></Comment>
-        );
+    for (let i = 0; i < COMMENTS_PER_PAGE; i++) {
+        commentSkeletons.push(<Comment key={i} data={new CommentModel()} />);
     }
     return commentSkeletons;
+}
+/**
+ * @returns an array of empty comments
+ *          to serve as loading skeletons
+ */
+export function generateCommentSkeletons(): CommentModel[] {
+    return Array(COMMENTS_PER_PAGE).fill(new CommentModel());
 }
 
 /**

@@ -18,6 +18,9 @@ export const SERVER_ENDPOINTS = {
     GET_USER_PHOTO_URL: `${SERVER_URL}/getUserPhotoURL`,
     GET_POSTS: `${SERVER_URL}/getFeed`,
     GET_POSTS_CUSTOM: `${SERVER_URL}/getCustomFeed`,
+    GET_SAVED_POSTS: `${SERVER_URL}/getSavedPosts`,
+    GET_USER_POSTS: `${SERVER_URL}/getUserPosts`,
+    GET_USER_COMMENTS: `${SERVER_URL}/getUserComments`,
     GET_USER_EMAIL_BY_USERNAME: `${SERVER_URL}/getUserEmailByUsername`,
     POST_SUBMIT_POST: `${SERVER_URL}/submitPost`,
     POST_REGISTER_USER_PROVIDER: `${SERVER_URL}/registerUserWithProvider`,
@@ -51,7 +54,8 @@ export const DEFAULT_PROFILE_URL = 'https://i.imgur.com/gThi9Rl.png';
 
 // LIMITS & DATA VALIDATION
 export const POSTS_PER_PAGE = 3;
-export const SCROLL_TOP_MAX_VAL = 2000;
+export const COMMENTS_PER_PAGE = 10;
+export const SCROLL_TOP_MAX_VAL = 1000;
 export const MAX_FILE_SIZE = 5; // megabytes
 export const MAX_NUMBER_OF_FILES = 5;
 export const IMAGE_FILE_FORMATS = ['jpg', 'jpeg', 'png', 'gif'];

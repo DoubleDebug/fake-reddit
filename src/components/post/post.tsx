@@ -31,6 +31,8 @@ import { UserDataContext } from '../../context/UserDataContext';
 interface IPostProps {
     data: PostModel;
     isPreview?: boolean;
+    hideContent?: true;
+    unsaveCallback?: () => void;
 }
 
 export const Post: React.FC<IPostProps> = (props) => {
@@ -209,6 +211,23 @@ export const Post: React.FC<IPostProps> = (props) => {
                             <Skeleton width="400px" height="30px" />
                         )}
                     </div>
+                    {props.unsaveCallback && (
+                        <FontAwesomeIcon
+                            className={css.btnUnsave}
+                            size="lg"
+                            icon={faBookmark}
+                            title="Unsave post"
+                            onClick={() => {
+                                handleSavePost(
+                                    userData,
+                                    props.data.id,
+                                    isSaved,
+                                    setIsSaved
+                                );
+                                props.unsaveCallback && props.unsaveCallback();
+                            }}
+                        />
+                    )}
                 </div>
 
                 {user ? (
@@ -259,7 +278,12 @@ export const Post: React.FC<IPostProps> = (props) => {
                 ) : (
                     <div></div>
                 )}
-                <PostContent data={props.data} isPreview={props.isPreview} />
+                {!props.hideContent && (
+                    <PostContent
+                        data={props.data}
+                        isPreview={props.isPreview}
+                    />
+                )}
             </div>
         </>
     );
