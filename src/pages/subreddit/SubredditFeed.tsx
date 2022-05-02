@@ -96,10 +96,12 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                             </Link>
                         </div>
                     ) : (
-                        <div className={css.skeletonContainer}>
-                            <Skeleton width={97} height={40} />
-                            <Skeleton width={40} height={40} />
-                        </div>
+                        user === undefined && (
+                            <div className={css.skeletonContainer}>
+                                <Skeleton width={97} height={40} />
+                                <Skeleton width={40} height={40} />
+                            </div>
+                        )
                     )}
                 </div>
                 {props.data ? (

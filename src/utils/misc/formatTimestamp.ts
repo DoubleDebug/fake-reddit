@@ -23,3 +23,14 @@ export function formatTimestampFull(ts: Timestamp): string {
         hour12: false,
     });
 }
+
+/**
+ * @returns a date string in format "Dec 25, 2021"
+ */
+export function formatCakeDay(ts: Timestamp): string {
+    return ts.toDate().toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+    });
+}

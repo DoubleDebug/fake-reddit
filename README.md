@@ -74,5 +74,5 @@ Reddit website clone with React, Typescript and Firebase.
 ## TODO
 
 -   [ ] Add missing links above.
--   [ ] Fetch only last x messages.
--   [ ] Fetch only last x comments.
+-   [ ] Fetch only last x messages, instead of fetching all of them.
+-   [ ] Fetch only last x comments, instead of fetching all of them.

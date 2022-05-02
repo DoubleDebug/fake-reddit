@@ -8,6 +8,7 @@ import { timeAgo } from '../../../utils/misc/timeAgo';
 import { Link, Redirect, useRouteMatch } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import { openChatRoom } from '../profile/ProfileActions';
+import { formatCakeDay } from '../../../utils/misc/formatTimestamp';
 
 interface IProfileCardProps {
     data: IUserDataWithId | undefined;
@@ -57,6 +58,29 @@ export const ProfileCard: React.FC<IProfileCardProps> = (props) => {
             ) : (
                 <Skeleton width={100} />
             )}
+            <div className={css.userStats}>
+                <div className="grid">
+                    {props.data ? (
+                        <>
+                            <strong>Karma</strong>
+                            <small>{props.data.karma}</small>
+                        </>
+                    ) : (
+                        <Skeleton width={60} height={40} />
+                    )}
+                </div>
+                <div className={css.separator}></div>
+                <div className="grid">
+                    {props.data ? (
+                        <>
+                            <strong>Cake day</strong>
+                            <small>{formatCakeDay(props.data.cakeDay)}</small>
+                        </>
+                    ) : (
+                        <Skeleton width={60} height={40} />
+                    )}
+                </div>
+            </div>
             {props.data?.bio ? (
                 <small className={css.bio}>{props.data.bio}</small>
             ) : null}

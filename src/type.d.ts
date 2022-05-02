@@ -22,6 +22,8 @@ interface IUserData {
     lastOnline: Timestamp;
     savedPosts: string[];
     username: string;
+    karma: number;
+    cakeDay: Timestamp;
     isAdmin?: boolean;
     bio?: string;
 }

@@ -58,52 +58,74 @@ export class PostModel {
     upvote(uid: string) {
         if (!this.id) return;
         const usersVote = this.getUsersVote(uid);
+        let newKarmaValue;
 
         if (usersVote === null) {
             this.votes.push({
                 uid: uid,
                 upvoted: true,
             });
+            newKarmaValue = increment(1);
         } else if (usersVote === true) {
             this.votes = this.votes.filter((v) => v.uid !== uid);
+            newKarmaValue = increment(-1);
         } else {
             this.votes = this.votes.filter((v) => v.uid !== uid);
             this.votes.push({
                 uid: uid,
                 upvoted: true,
             });
+            newKarmaValue = increment(2);
         }
 
+        // update post upvotes
         const db = getFirestore();
         updateDoc(doc(db, DB_COLLECTIONS.POSTS, this.id), {
             votes: this.votes,
             score: this.getScore(),
+        });
+
+        // update user karma
+        if (!this.authorId) return;
+        updateDoc(doc(db, DB_COLLECTIONS.USERS, this.authorId), {
+            karma: newKarmaValue,
         });
     }
 
     downvote(uid: string) {
         if (!this.id) return;
         const usersVote = this.getUsersVote(uid);
+        let newKarmaValue;
 
         if (usersVote === null) {
             this.votes.push({
                 uid: uid,
                 upvoted: false,
             });
+            newKarmaValue = increment(-1);
         } else if (usersVote === true) {
             this.votes = this.votes.filter((v) => v.uid !== uid);
             this.votes.push({
                 uid: uid,
                 upvoted: false,
             });
+            newKarmaValue = increment(-2);
         } else {
             this.votes = this.votes.filter((v) => v.uid !== uid);
+            newKarmaValue = increment(1);
         }
 
+        // update post downvotes
         const db = getFirestore();
         updateDoc(doc(db, DB_COLLECTIONS.POSTS, this.id), {
             votes: this.votes,
             score: this.getScore(),
+        });
+
+        // update user karma
+        if (!this.authorId) return;
+        updateDoc(doc(db, DB_COLLECTIONS.USERS, this.authorId), {
+            karma: newKarmaValue,
         });
     }
 

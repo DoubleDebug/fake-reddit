@@ -131,4 +131,8 @@ export const CUSTOM_ERROR_MESSAGES = [
         code: 'auth/popup-closed-by-user',
         message: 'You closed the popup window.',
     },
+    {
+        code: 'auth/user-disabled',
+        message: 'This user account has been blocked.',
+    },
 ];

@@ -57,6 +57,7 @@ button[type='submit']:hover {
 }
 
 a {
+    color: initial;
     text-decoration: none;
 }
 

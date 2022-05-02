@@ -56,3 +56,17 @@
 .skeletonButton:first-child {
     margin-top: 1rem;
 }
+
+.userStats {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: 49.5% 1% 49.5%;
+    width: 100%;
+    padding: 1rem 0 0.5rem;
+}
+
+.separator {
+    background: silver;
+    width: 2px;
+    height: 100%;
+}

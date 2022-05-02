@@ -36,7 +36,7 @@ import {
 import {
     formatTimestampFull,
     formatTimestampTime,
-} from '../../../utils/misc/formatChatTimestamp';
+} from '../../../utils/misc/formatTimestamp';
 import { getUserPhotoURL } from '../../../utils/firebase/getUserPhotoURL';
 import { sendMessage } from './ChatActions';
 import { UserContext } from '../../../context/UserContext';
