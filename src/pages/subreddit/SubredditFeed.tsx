@@ -9,6 +9,8 @@ import { ISubreddit } from '../../models/subreddit';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { followSubreddit } from './SubredditActions';
+import { getSubredditLogoURL } from '../../utils/firebase/getSubredditLogoURL';
+import { DEFAULT_SUBREDDIT_LOGO_URL } from '../../utils/misc/constants';
 
 interface ISubredditFeedProps {
     subredditId: string | undefined;
@@ -22,11 +24,17 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
     const [isFollowing, setIsFollowing] = useState(false);
     const [isLoadingFollow, setIsLoadingFollow] = useState(false);
     const [isLoadingPosts, setIsLoadingPosts] = useState(false);
+    const [logoURL, setLogoURL] = useState(DEFAULT_SUBREDDIT_LOGO_URL);
 
     useEffect(() => {
         if (!props.data || !user) return;
-
         setIsFollowing(props.data.followers.includes(user.uid));
+
+        if (props.data.photoURL) {
+            getSubredditLogoURL(props.data.photoURL).then(
+                (url) => url && setLogoURL(url)
+            );
+        }
     }, [props.data, user]);
 
     return (
@@ -35,10 +43,8 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                 <div className={css.imageAndTitle}>
                     {props.data ? (
                         <img
-                            className={`${css.image} ${
-                                props.data.photoURL ? '' : css.imageDefault
-                            }`}
-                            src={props.data.photoURL}
+                            className={`${css.image}`}
+                            src={logoURL}
                             alt="Subreddit"
                         />
                     ) : (
@@ -137,6 +143,11 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                         >
                             Top
                         </button>
+                        {props.data && (
+                            <p
+                                className={css.numOfMembers}
+                            >{`${props.data?.followers.length} members`}</p>
+                        )}
                     </div>
                 ) : (
                     <Skeleton

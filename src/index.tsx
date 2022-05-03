@@ -41,6 +41,7 @@ import { UserDataContext } from './context/UserDataContext';
 import { connectFirestoreEmulator } from 'firebase/firestore';
 import { log } from './utils/misc/log';
 import { UserProfile } from './pages/profile/UserProfile';
+import { NewSubreddit } from './pages/newSubreddit/NewSubreddit';
 
 maintainLocalStorage();
 
@@ -117,6 +118,11 @@ const App: React.FC = () => {
                     <Route path="/user/:username">
                         <UserDataContext.Provider value={userData}>
                             <UserProfile />
+                        </UserDataContext.Provider>
+                    </Route>
+                    <Route path="/newSubreddit">
+                        <UserDataContext.Provider value={userData}>
+                            <NewSubreddit />
                         </UserDataContext.Provider>
                     </Route>
                 </Switch>

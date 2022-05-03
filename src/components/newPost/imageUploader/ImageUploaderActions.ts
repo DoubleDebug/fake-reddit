@@ -6,20 +6,30 @@ import { FileInfo } from './DragAndDrop';
 import { validateFile } from '../../../utils/dataValidation/validateFile';
 import { v4 as generateUUID } from 'uuid';
 import { getFileExtension } from '../../../utils/misc/getFileExtension';
-import { MAX_NUMBER_OF_FILES } from '../../../utils/misc/constants';
+import {
+    MAX_NUMBER_OF_FILES,
+    STORAGE_FOLDERS,
+} from '../../../utils/misc/constants';
 import React from 'react';
 
 function uploadFile(
     file: File,
     setIsUploading: (s: boolean) => void,
-    setIsDropping: (s: boolean) => void
+    setIsDropping: (s: boolean) => void,
+    differentStoragePath?: string
 ) {
     setIsUploading(true);
     setIsDropping(false);
 
     const storage = getStorage();
     const newFileName = `${generateUUID()}.${getFileExtension(file.name)}`;
-    const storageRef = ref(storage, 'content//' + newFileName);
+    const path =
+        `${
+            differentStoragePath
+                ? differentStoragePath
+                : STORAGE_FOLDERS.CONTENT
+        }//` + newFileName;
+    const storageRef = ref(storage, path);
     return uploadBytes(storageRef, file).then(async (snapshot) => {
         // load image preview
         const url = await getImageURL(snapshot.metadata.fullPath);
@@ -73,7 +83,10 @@ export function handleOnDropEvent(
     setIsUploading: (s: boolean) => void,
     setIsDropping: (s: boolean) => void,
     setUploadedFiles: (f: FileInfo[]) => void,
-    handleContentUpdate: (f: FileInfo[]) => void
+    handleContentUpdate: (f: FileInfo[]) => void,
+    noVideos?: boolean,
+    noMultipleFiles?: boolean,
+    differentStoragePath?: string
 ) {
     e.preventDefault();
     if (!fileInputRef || !containerRef) return;
@@ -85,7 +98,10 @@ export function handleOnDropEvent(
         setIsUploading,
         setIsDropping,
         setUploadedFiles,
-        handleContentUpdate
+        handleContentUpdate,
+        noVideos,
+        noMultipleFiles,
+        differentStoragePath
     );
 }
 
@@ -94,22 +110,30 @@ export function handleOnChangeFileEvent(
     setIsUploading: (s: boolean) => void,
     setIsDropping: (s: boolean) => void,
     setUploadedFiles: (f: FileInfo[]) => void,
-    handleContentUpdate: (f: FileInfo[]) => void
+    handleContentUpdate: (f: FileInfo[]) => void,
+    noVideos?: boolean,
+    noMultipleFiles?: boolean,
+    differentStoragePath?: string
 ) {
     if (!fileInputRef || !fileInputRef.files) return;
 
     // file validation
-    if (fileInputRef.files.length > MAX_NUMBER_OF_FILES) {
+    if (
+        fileInputRef.files.length > MAX_NUMBER_OF_FILES ||
+        (noMultipleFiles && fileInputRef.files.length !== 1)
+    ) {
         fileInputRef.files = null;
         displayNotif(
-            `Too many files selected. Maximum is ${MAX_NUMBER_OF_FILES}.`,
+            `Too many files selected. Maximum is ${
+                noMultipleFiles ? 1 : MAX_NUMBER_OF_FILES
+            }.`,
             'error'
         );
         return;
     }
     let i = 0;
     while (i < fileInputRef.files.length) {
-        const validationResult = validateFile(fileInputRef.files[i]);
+        const validationResult = validateFile(fileInputRef.files[i], noVideos);
         if (!validationResult.success) {
             displayNotif(validationResult.message, 'error');
             break;
@@ -122,7 +146,12 @@ export function handleOnChangeFileEvent(
         const tasks = [];
         for (let j = 0; j < fileInputRef.files.length; j++) {
             tasks.push(
-                uploadFile(fileInputRef.files[j], setIsUploading, setIsDropping)
+                uploadFile(
+                    fileInputRef.files[j],
+                    setIsUploading,
+                    setIsDropping,
+                    differentStoragePath
+                )
             );
         }
         Promise.all(tasks).then((uploadedFiles) => {

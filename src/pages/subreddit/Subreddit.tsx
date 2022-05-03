@@ -1,5 +1,11 @@
 import { doc, DocumentReference, getFirestore } from 'firebase/firestore';
-import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
+import {
+    Redirect,
+    Route,
+    Switch,
+    useParams,
+    useRouteMatch,
+} from 'react-router-dom';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { NewPost } from '../newPost/NewPost';
@@ -9,7 +15,7 @@ import { useEffect } from 'react';
 
 export const Subreddit: React.FC = () => {
     const { id: subredditId } = useParams<{ id: string }>();
-    const [data] = useDocumentData<ISubreddit>(
+    const [data, loadingData] = useDocumentData<ISubreddit>(
         doc(
             getFirestore(),
             DB_COLLECTIONS.SUBREDDITS,
@@ -24,6 +30,10 @@ export const Subreddit: React.FC = () => {
     useEffect(() => {
         document.title = `r/${subredditId} | Fake Reddit`;
     }, [subredditId]);
+
+    if ((!loadingData && !data) || subredditId === '') {
+        return <Redirect to="/" />;
+    }
 
     return (
         <Switch>

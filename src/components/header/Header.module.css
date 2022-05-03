@@ -45,7 +45,6 @@
 }
 
 .headerIcon {
-    content: url('../../static/icon.png');
     width: 35px;
     height: 35px;
     margin-top: 3px;

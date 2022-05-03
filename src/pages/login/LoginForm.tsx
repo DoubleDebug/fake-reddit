@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { Login } from './login/Login';
 import { SignUp } from './signUp/SignUp';
 import { UserContext } from '../../context/UserContext';
-import { tabsTheme } from '../newPost/selectFlairs/SelectFlairsStyles';
+import { myTheme } from '../../utils/muiThemes/myTheme';
 
 interface ILoginFormProps {
     tab: 'sign up' | 'log in';
@@ -24,7 +24,7 @@ export const LoginForm: React.FC<ILoginFormProps> = (props) => {
 
     return (
         <div className={`contentBox ${css.container}`}>
-            <ThemeProvider theme={tabsTheme}>
+            <ThemeProvider theme={myTheme}>
                 <TabContext value={tabIndex}>
                     <TabList onChange={(_, val) => setTabIndex(val)}>
                         <Tab value="log in" label="Log in" color="red" />

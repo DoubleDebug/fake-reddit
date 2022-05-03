@@ -22,6 +22,7 @@ interface IDragAndDropProps {
     showFileDialog: (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => void;
+    noVideos?: boolean;
 }
 
 export const DragAndDrop: React.FC<IDragAndDropProps> = (props) => {
@@ -49,7 +50,12 @@ export const DragAndDrop: React.FC<IDragAndDropProps> = (props) => {
             />
         );
     }
-    return <StateDefault showFileDialog={props.showFileDialog} />;
+    return (
+        <StateDefault
+            showFileDialog={props.showFileDialog}
+            noVideos={props.noVideos}
+        />
+    );
 };
 
 const StateFileIsBeingUploaded: React.FC = () => (
@@ -128,10 +134,15 @@ const StateDefault: React.FC<{
     showFileDialog: (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => void;
+    noVideos?: boolean;
 }> = (props) => {
     return (
         <div className="flex">
-            <h2 className={css.textDrag}>Drag and drop an image/video or </h2>
+            <h2 className={css.textDrag}>
+                {props.noVideos
+                    ? 'Drag and drop an image or '
+                    : 'Drag and drop an image/video or '}
+            </h2>
             <button onClick={(e) => props.showFileDialog(e)} type="submit">
                 Upload
             </button>

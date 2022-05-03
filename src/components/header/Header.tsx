@@ -6,6 +6,7 @@ import { faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
 import {
     DEFAULT_PROFILE_URL,
+    DEFAULT_SUBREDDIT_LOGO_URL,
     HEADER_SVG_PATH,
     HEADER_SVG_VIEWBOX,
 } from '../../utils/misc/constants';
@@ -38,7 +39,11 @@ export const Header: React.FC = () => {
             <div className={css.header}>
                 <div className={css.headerTopRight}>
                     <div className={css.logoTopRight}>
-                        <img className={css.headerIcon} alt="Logo"></img>
+                        <img
+                            className={css.headerIcon}
+                            src={DEFAULT_SUBREDDIT_LOGO_URL}
+                            alt="Logo"
+                        />
                         <Link to="/" className={css.btnHomepage}>
                             FakeReddit
                         </Link>

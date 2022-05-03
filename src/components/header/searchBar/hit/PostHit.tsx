@@ -15,6 +15,7 @@ export const PostHit: React.FC<PostHit> = (data) => {
                     } (${timeAgo(
                         new Date(Date.parse(data.createdAt))
                     )})`}</small>
+                    <small className={css.hitType}>[post]</small>
                 </div>
                 <p className={css.title}>{data.title}</p>
             </article>

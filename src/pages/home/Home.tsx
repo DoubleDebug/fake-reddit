@@ -4,7 +4,7 @@ import { ThemeProvider, Tab } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { CustomFeed } from '../../components/feed/customFeed/CustomFeed';
 import { Feed } from '../../components/feed/Feed';
-import { tabsTheme } from '../newPost/selectFlairs/SelectFlairsStyles';
+import { myTheme } from '../../utils/muiThemes/myTheme';
 import { PostModel } from '../../models/post';
 
 export interface IFeedState {
@@ -30,7 +30,7 @@ export const Home: React.FC = () => {
 
     return (
         <div className={css.container}>
-            <ThemeProvider theme={tabsTheme}>
+            <ThemeProvider theme={myTheme}>
                 <TabContext value={tab}>
                     <TabList
                         onChange={(_, val) => {

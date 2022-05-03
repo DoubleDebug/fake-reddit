@@ -1,6 +1,9 @@
 import css from './ImageUploader.module.css';
 import { useEffect, useRef, useState } from 'react';
-import { SUPPORTED_FILE_FORMATS } from '../../../utils/misc/constants';
+import {
+    SUPPORTED_FILE_FORMATS,
+    SUPPORTED_IMAGE_FORMATS,
+} from '../../../utils/misc/constants';
 import { DragAndDrop, FileInfo } from './DragAndDrop';
 import {
     handleOnChangeFileEvent,
@@ -20,6 +23,9 @@ interface IImageUploaderProps {
     handleContentUpdate: (uploadedFiles: FileInfo[]) => void;
     handleNewState: (state: ImageUploaderState) => void;
     state?: ImageUploaderState;
+    noVideos?: boolean;
+    noMultipleFiles?: boolean;
+    differentStoragePath?: string;
 }
 
 export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
@@ -74,8 +80,12 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
             <input
                 type="file"
                 ref={fileInputRef}
-                accept={SUPPORTED_FILE_FORMATS.join(', ')}
-                multiple
+                accept={
+                    props.noVideos
+                        ? SUPPORTED_IMAGE_FORMATS.join(', ')
+                        : SUPPORTED_FILE_FORMATS.join(', ')
+                }
+                multiple={!props.noMultipleFiles}
                 id="fileInputElement"
                 onChange={(e) => {
                     e.preventDefault();
@@ -84,7 +94,10 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
                         setIsUploading,
                         setIsDropping,
                         setUploadedFiles,
-                        props.handleContentUpdate
+                        props.handleContentUpdate,
+                        props.noVideos,
+                        props.noMultipleFiles,
+                        props.differentStoragePath
                     );
                 }}
             />
@@ -93,6 +106,7 @@ export const ImageUploader: React.FC<IImageUploaderProps> = (props) => {
                 isDropping={isDropping}
                 showFileDialog={(e) => showFileDialog(e, fileInputRef.current)}
                 uploadedFiles={uploadedFiles}
+                noVideos={props.noVideos}
             />
         </div>
     );

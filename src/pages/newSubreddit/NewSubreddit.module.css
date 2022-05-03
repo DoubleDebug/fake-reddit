@@ -1,0 +1,79 @@
+.container {
+    display: grid;
+    width: 600px;
+    margin: 0 auto 5rem;
+    padding: 1rem 2rem;
+}
+
+.description textarea {
+    min-height: 70px;
+}
+
+.group {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 1rem;
+    padding-bottom: 3rem;
+    row-gap: 0.5rem;
+    column-gap: 0.5rem;
+    position: relative;
+    margin: 1rem 0;
+}
+
+.groupLabel {
+    position: absolute;
+    top: -12px;
+    left: 8px;
+    background: white;
+    color: #666666;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+    padding: 0 5px;
+}
+
+.addFlair {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+    column-gap: 0.5rem;
+}
+
+.btnFlair {
+    text-transform: lowercase;
+    background: white;
+    border: 1px solid silver !important;
+    border-radius: 5px;
+}
+
+.btnFlair:active {
+    transform: none;
+}
+
+.btnAdd {
+    display: grid;
+    justify-content: center;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    text-transform: lowercase;
+    background: white;
+    border: 1px solid silver !important;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btnAdd:hover {
+    background: rgb(230, 230, 230);
+}
+
+.btnAddTextbox,
+.btnAddTextbox div {
+    height: 44px;
+    width: 180px;
+}
+
+.btnSubmit {
+    margin: 1.5rem 0 0 auto;
+}

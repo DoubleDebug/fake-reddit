@@ -32,12 +32,9 @@ import {
 import { UserContext } from '../../context/UserContext';
 import { ISubreddit } from '../../models/subreddit';
 import { SelectFlairs } from './selectFlairs/SelectFlairs';
-import {
-    selectStyles,
-    selectTheme,
-    tabsTheme,
-} from './selectFlairs/SelectFlairsStyles';
+import { selectStyles, selectTheme } from './selectFlairs/SelectFlairsStyles';
 import { cleanObjectFunctions } from '../../utils/misc/cleanObject';
+import { myTheme } from '../../utils/muiThemes/myTheme';
 
 interface INewPostProps {
     subreddit?: string;
@@ -131,7 +128,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                         );
                     }}
                 />
-                <ThemeProvider theme={tabsTheme}>
+                <ThemeProvider theme={myTheme}>
                     <TabContext value={tab}>
                         <TabList
                             onChange={(_, val) =>

@@ -35,3 +35,8 @@
 .link:hover {
     text-decoration: none;
 }
+
+.hitType {
+    margin-left: auto;
+    color: darkorange;
+}

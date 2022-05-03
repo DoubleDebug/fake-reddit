@@ -9,7 +9,7 @@ import { UserCommentsFeed } from '../../../components/feed/userCommentsFeed/User
 import { UserPostFeed } from '../../../components/feed/userPostFeed/UserPostFeed';
 import { ReportModal } from '../../../components/modals/reportModal/ReportModal';
 import { UserDataContext } from '../../../context/UserDataContext';
-import { tabsTheme } from '../../newPost/selectFlairs/SelectFlairsStyles';
+import { myTheme } from '../../../utils/muiThemes/myTheme';
 import { getUserData } from './ProfileActions';
 import { ProfileCard } from '../profileCard/ProfileCard';
 import { IFeedState } from '../../home/Home';
@@ -81,7 +81,7 @@ export const Profile: React.FC = () => {
                 />
             )}
             <div className={`contentBox ${css.feedContainer}`}>
-                <ThemeProvider theme={tabsTheme}>
+                <ThemeProvider theme={myTheme}>
                     <TabContext value={tab}>
                         <TabList
                             onChange={(_, val) => {

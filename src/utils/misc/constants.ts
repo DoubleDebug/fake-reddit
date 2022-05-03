@@ -14,6 +14,11 @@ export const DB_COLLECTIONS = {
     SUBREDDITS: 'subreddits',
     USERS: 'users',
 };
+export const STORAGE_FOLDERS = {
+    CONTENT: 'content',
+    SUBREDDIT_LOGOS: 'subredditLogos',
+    USER_AVATARS: 'userAvatars',
+};
 export const SERVER_ENDPOINTS = {
     GET_USER_PHOTO_URL: `${SERVER_URL}/getUserPhotoURL`,
     GET_POSTS: `${SERVER_URL}/getFeed`,
@@ -23,6 +28,7 @@ export const SERVER_ENDPOINTS = {
     GET_USER_COMMENTS: `${SERVER_URL}/getUserComments`,
     GET_USER_EMAIL_BY_USERNAME: `${SERVER_URL}/getUserEmailByUsername`,
     POST_SUBMIT_POST: `${SERVER_URL}/submitPost`,
+    POST_SUBMIT_SUBREDDIT: `${SERVER_URL}/submitSubreddit`,
     POST_REGISTER_USER_PROVIDER: `${SERVER_URL}/registerUserWithProvider`,
     POST_REGISTER_USER_EMAIL: `${SERVER_URL}/registerUserWithEmail`,
     DELETE_POST: `${SERVER_URL}/deletePost`,
@@ -37,11 +43,13 @@ export const ALG_API_KEY = '141efc34b4f66d65cf143e83c91ceae7';
 export const ALG_INDICES = {
     POSTS: 'posts',
     USERS: 'users',
+    SUBREDDITS: 'subreddits',
 };
 
 // LOCAL STORAGE ITEMS
 export const LS = {
     USER_PHOTO_URLS: 'cachedUserPhotoURLs',
+    SUBREDDIT_LOGO_URLS: 'cachedSubredditLogoURLs',
     LAST_UPDATED: 'lastUpdated',
     CONTENT_URLS: 'cachedContentURLs',
 };
@@ -51,6 +59,7 @@ export const HEADER_SVG_PATH =
     'M 0,108 C 192,101.8 576,65.4 960,77 C 1344,88.6 1728,148.2 1920,166L1920 200L0 200z';
 export const HEADER_SVG_VIEWBOX = `0 0 ${window.innerWidth} 200`;
 export const DEFAULT_PROFILE_URL = 'https://i.imgur.com/gThi9Rl.png';
+export const DEFAULT_SUBREDDIT_LOGO_URL = 'https://i.imgur.com/A6JOUiZ.png';
 
 // LIMITS & DATA VALIDATION
 export const POSTS_PER_PAGE = 3;
@@ -58,6 +67,16 @@ export const COMMENTS_PER_PAGE = 10;
 export const SCROLL_TOP_MAX_VAL = 1000;
 export const MAX_FILE_SIZE = 5; // megabytes
 export const MAX_NUMBER_OF_FILES = 5;
+export const MIN_POSITIVE_KARMA = 10;
+export const MIN_ACCOUNT_AGE = 10; // days
+export const SUBREDDIT_LIMITS = {
+    MIN_NAME_LENGTH: 3,
+    MAX_NAME_LENGTH: 20,
+    MAX_DESCRIPTION_LENGTH: 100,
+    MAX_NUM_OF_FLAIRS: 10,
+    MIN_FLAIR_LENGTH: 2,
+    MAX_FLAIR_LENGTH: 15,
+};
 export const IMAGE_FILE_FORMATS = ['jpg', 'jpeg', 'png', 'gif'];
 export const VIDEO_FILE_FORMATS = ['mp4'];
 export const SUPPORTED_FILE_FORMATS = [
@@ -66,10 +85,14 @@ export const SUPPORTED_FILE_FORMATS = [
     'image/gif',
     'video/mp4',
 ];
+export const SUPPORTED_IMAGE_FORMATS = ['image/jpeg', 'image/png'];
+export const SUPPORTED_IMAGE_FORMATS_STRING = SUPPORTED_IMAGE_FORMATS.join(', ')
+    .replaceAll('image/', '')
+    .replaceAll('video/', '');
 export const SUPPORTED_FILE_FORMATS_STRING = SUPPORTED_FILE_FORMATS.join(', ')
     .replaceAll('image/', '')
     .replaceAll('video/', '');
-export const COMMON_FLAIRS = ['OC', 'Spoiler', 'NSFW'];
+export const COMMON_FLAIRS = ['oc', 'spoiler', 'nsfw'];
 export const TYPES_OF_VIOLATION = [
     'Harassment',
     'Threating violence',

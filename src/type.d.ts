@@ -46,6 +46,11 @@ type PostHit = {
     subreddit: string;
 };
 
+type SubredditHit = {
+    name: string;
+    description: string;
+};
+
 type ResponseStatus = { success: false; message: string } | { success: true };
 
 type ResponseStatusWithData =
