@@ -45,6 +45,10 @@ button:disabled {
     cursor: not-allowed;
 }
 
+button:disabled:active {
+    transform: none;
+}
+
 button[type='submit'] {
     color: white;
     background: var(--colorOrange);

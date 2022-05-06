@@ -1,0 +1,107 @@
+.container {
+    display: grid;
+    row-gap: 1rem;
+}
+
+.title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.btnVerify {
+    margin-left: auto;
+}
+
+.provider {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.iconProvider {
+    margin-left: 0.5rem;
+    width: 30px;
+    height: 30px;
+}
+
+.iconGoogle {
+    content: url('../../../../static/google-brands.svg');
+}
+
+.iconGithub {
+    content: url('../../../../static/github-brands.svg');
+}
+
+.pswdInfo {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+}
+
+.pswdSection {
+    height: 0px;
+    opacity: 0%;
+    transition: all 0.5s ease;
+    overflow: hidden;
+    margin: 1rem 0;
+    padding-top: 0.5rem;
+}
+
+.pswdSection.extended {
+    opacity: 100%;
+    height: 232px;
+}
+
+.pswdSection > div {
+    margin-bottom: 1rem;
+}
+
+.pswdButtons {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.btnSubmit {
+    width: 150px;
+    margin-left: auto;
+    margin-top: -0.5rem;
+}
+
+.groupLabel {
+    position: absolute;
+    top: -319px;
+    left: 9px;
+    background: white;
+    color: #666666;
+    font-size: 0.85rem;
+    padding: 0 5px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+}
+
+.userInfo {
+    display: flex;
+    margin-bottom: 5rem;
+}
+
+.nameAndEmail {
+    display: grid;
+    align-items: center;
+}
+
+.nameAndEmail strong {
+    align-self: end;
+}
+
+.nameAndEmail small {
+    align-self: start;
+}
+
+.imageContainer button[type='submit'] {
+    background: rgb(240, 240, 240);
+    color: black;
+}

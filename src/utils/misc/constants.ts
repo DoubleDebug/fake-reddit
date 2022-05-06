@@ -31,6 +31,7 @@ export const SERVER_ENDPOINTS = {
     POST_SUBMIT_SUBREDDIT: `${SERVER_URL}/submitSubreddit`,
     POST_REGISTER_USER_PROVIDER: `${SERVER_URL}/registerUserWithProvider`,
     POST_REGISTER_USER_EMAIL: `${SERVER_URL}/registerUserWithEmail`,
+    PATCH_UPDATE_ACCOUNT: `${SERVER_URL}/updateAccount`,
     DELETE_POST: `${SERVER_URL}/deletePost`,
     DELETE_COMMENT: `${SERVER_URL}/deleteComment`,
     DELETE_FILE: `${SERVER_URL}/deleteFile`,
@@ -48,10 +49,10 @@ export const ALG_INDICES = {
 
 // LOCAL STORAGE ITEMS
 export const LS = {
-    USER_PHOTO_URLS: 'cachedUserPhotoURLs',
-    SUBREDDIT_LOGO_URLS: 'cachedSubredditLogoURLs',
+    USER_PHOTO_URLS: 'userPhotoURLs',
+    SUBREDDIT_LOGO_URLS: 'subredditLogoURLs',
     LAST_UPDATED: 'lastUpdated',
-    CONTENT_URLS: 'cachedContentURLs',
+    CONTENT_URLS: 'contentURLs',
 };
 
 // CSS
@@ -157,5 +158,9 @@ export const CUSTOM_ERROR_MESSAGES = [
     {
         code: 'auth/user-disabled',
         message: 'This user account has been blocked.',
+    },
+    {
+        code: 'auth/requires-recent-login',
+        message: 'Incorrect old password.',
     },
 ];

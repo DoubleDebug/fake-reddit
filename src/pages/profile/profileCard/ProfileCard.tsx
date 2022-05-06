@@ -9,6 +9,8 @@ import { Link, Redirect, useRouteMatch } from 'react-router-dom';
 import { UserContext } from '../../../context/UserContext';
 import { openChatRoom } from '../profile/ProfileActions';
 import { formatCakeDay } from '../../../utils/misc/formatTimestamp';
+import { UserDataContext } from '../../../context/UserDataContext';
+import { validateSubredditCreationEligibility } from '../../../utils/dataValidation/validateSubredditCreationEligibility';
 
 interface IProfileCardProps {
     data: IUserDataWithId | undefined;
@@ -18,10 +20,22 @@ interface IProfileCardProps {
 
 export const ProfileCard: React.FC<IProfileCardProps> = (props) => {
     const user = useContext(UserContext);
+    const userData = useContext(UserDataContext);
     const { url } = useRouteMatch();
     const [photoURL, setPhotoURL] = useState<string | undefined>();
     const [redirect, setRedirect] = useState<string | undefined>();
     const [loadingRoom, setLoadingRoom] = useState(false);
+    const [newSubredditErrorMessage, setNewSubredditErrorMessage] = useState<
+        string | undefined
+    >();
+
+    useEffect(() => {
+        if (!userData) return;
+        const isEligible = validateSubredditCreationEligibility(userData);
+        if (!isEligible.success) {
+            setNewSubredditErrorMessage(isEligible.message);
+        }
+    }, [userData]);
 
     useEffect(() => {
         if (!props.data) return;
@@ -90,9 +104,18 @@ export const ProfileCard: React.FC<IProfileCardProps> = (props) => {
                         <Link to="/newPost">
                             <button type="submit">New post</button>
                         </Link>
-                        <Link to="/newSubreddit">
-                            <button>New subreddit</button>
-                        </Link>
+                        {newSubredditErrorMessage ? (
+                            <button
+                                disabled={true}
+                                title={newSubredditErrorMessage}
+                            >
+                                New subreddit
+                            </button>
+                        ) : (
+                            <Link to="/newSubreddit">
+                                <button>New subreddit</button>
+                            </Link>
+                        )}
                         <Link to={`${url}/edit`}>
                             <button>Edit profile</button>
                         </Link>

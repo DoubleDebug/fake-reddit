@@ -10,6 +10,8 @@ import {
     DocumentReference,
 } from '@firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
+import { connectFirestoreEmulator } from 'firebase/firestore';
 
 // REACT
 import { useEffect } from 'react';
@@ -25,23 +27,21 @@ import { Home } from './pages/home/Home';
 import { Inbox } from './pages/inbox/Inbox';
 import { LoginForm } from './pages/login/LoginForm';
 import { ResetPassword } from './pages/login/resetPassword/ResetPassword';
+import { UserProfile } from './pages/profile/UserProfile';
+import { NewSubreddit } from './pages/newSubreddit/NewSubreddit';
 
 // OTHER
 import './index.css';
-import { UserContext } from './context/UserContext';
 import {
     DB_COLLECTIONS,
     DB_HOSTNAME,
     DB_PORT,
     PRODUCTION_MODE,
 } from './utils/misc/constants';
-import { maintainLocalStorage } from './utils/misc/maintainLocalStorage';
-import { useDocumentDataOnce } from 'react-firebase-hooks/firestore';
+import { UserContext } from './context/UserContext';
 import { UserDataContext } from './context/UserDataContext';
-import { connectFirestoreEmulator } from 'firebase/firestore';
+import { maintainLocalStorage } from './utils/misc/maintainLocalStorage';
 import { log } from './utils/misc/log';
-import { UserProfile } from './pages/profile/UserProfile';
-import { NewSubreddit } from './pages/newSubreddit/NewSubreddit';
 
 maintainLocalStorage();
 
