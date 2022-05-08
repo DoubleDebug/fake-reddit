@@ -13,14 +13,8 @@ import {
     faFlag,
     faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { Link, Redirect } from 'react-router-dom';
-import {
-    deletePost,
-    downvote,
-    handleSavePost,
-    openChatRoom,
-    upvote,
-} from './PostActions';
+import { Link } from 'react-router-dom';
+import { deletePost, downvote, handleSavePost, upvote } from './PostActions';
 import { PostContent } from './PostContent';
 import { UserContext } from '../../context/UserContext';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
@@ -40,7 +34,6 @@ export const Post: React.FC<IPostProps> = (props) => {
     const userData = useContext(UserDataContext);
     const [score, setScore] = useState(props.data.getScore());
     const [upvoted, setUpvoted] = useState<boolean | null>(null);
-    const [redirectChatId, setRedirectChatId] = useState<string | null>(null);
     const [isDeleted, setIsDeleted] = useState(false);
     const [showOptionsDropdown, setShowOptionsDropdown] = useState(false);
     const [showReportModal, setShowReportModal] = useState(false);
@@ -59,7 +52,6 @@ export const Post: React.FC<IPostProps> = (props) => {
     }, [user, props.data]);
 
     if (isDeleted) return null;
-    if (redirectChatId) return <Redirect to={`/inbox/${redirectChatId}`} />;
     return (
         <>
             {showReportModal && (
@@ -138,29 +130,14 @@ export const Post: React.FC<IPostProps> = (props) => {
                                 {props.data.author ? (
                                     <>
                                         <small>Posted by </small>
-                                        <small
-                                            onClick={
-                                                user?.uid ===
-                                                props.data.authorId
-                                                    ? undefined
-                                                    : () =>
-                                                          openChatRoom(
-                                                              user,
-                                                              {
-                                                                  id: props.data
-                                                                      .authorId!,
-                                                                  name: props
-                                                                      .data
-                                                                      .author,
-                                                              },
-                                                              setRedirectChatId
-                                                          )
-                                            }
-                                            className={css.author}
-                                            title={`Chat with ${props.data.author}`}
+                                        <Link
+                                            to={`/user/${props.data.author}`}
+                                            className="linkNoUnderline"
                                         >
-                                            {props.data.author}
-                                        </small>
+                                            <small className={css.author}>
+                                                {props.data.author}
+                                            </small>
+                                        </Link>
                                     </>
                                 ) : (
                                     <Skeleton width="200px" />

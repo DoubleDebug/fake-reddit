@@ -93,7 +93,9 @@ const App: React.FC = () => {
                         </UserDataContext.Provider>
                     </Route>
                     <Route path="/newPost">
-                        <NewPost />
+                        <UserDataContext.Provider value={userData}>
+                            <NewPost />
+                        </UserDataContext.Provider>
                     </Route>
                     <Route exact path="/inbox">
                         <Inbox />
