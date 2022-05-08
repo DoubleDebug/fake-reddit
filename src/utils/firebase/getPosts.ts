@@ -10,12 +10,14 @@ import { convertToPost } from './firebaseToDataModel';
  * - offset
  * - limit
  * - subreddit id
+ * - hideNSFW
  */
 export async function getPosts(
     offset: number = 0,
     limit: number = POSTS_PER_PAGE,
     subreddit?: string,
-    sortBy?: 'new' | 'top'
+    sortBy?: 'new' | 'top',
+    hideNSFW?: boolean
 ): Promise<PostModel[]> {
     // parameters
     let params: any = {
@@ -24,6 +26,7 @@ export async function getPosts(
     };
     if (subreddit) params.subreddit = subreddit;
     if (sortBy) params.sortBy = sortBy;
+    if (hideNSFW) params.hideNSFW = hideNSFW;
 
     // request data from server
     const response = await axios

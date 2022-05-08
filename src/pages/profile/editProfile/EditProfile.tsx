@@ -10,6 +10,9 @@ import { UserDataContext } from '../../../context/UserDataContext';
 import { UserContext } from '../../../context/UserContext';
 import { ImageUploaderState } from '../../../components/newPost/imageUploader/ImageUploader';
 import { useTimeout } from '../../../utils/hooks/useTimeout';
+import { DeleteModal } from '../../../components/modals/deleteModal/DeleteModal';
+import { deleteAccount } from '../../../utils/firebase/deleteAccount';
+import { useQuery } from '../../../utils/hooks/useQuery';
 
 export interface IEditAccountState {
     email?: string;
@@ -23,17 +26,22 @@ export interface IEditAccountState {
 
 export interface IEditProfileState {
     username?: string;
-    filterNSFW?: boolean;
+    bio?: string;
+    hideNSFW?: boolean;
 }
 
 export const EditProfile: React.FC = () => {
     const user = useContext(UserContext);
     const userData = useContext(UserDataContext);
+    const query = useQuery();
     const { username } = useParams<{ username: string }>();
-    const [tab, setTab] = useState<'account' | 'profile'>('account');
+    const [tab, setTab] = useState<'account' | 'profile'>(
+        query.get('redirect') === 'updatedProfile' ? 'profile' : 'account'
+    );
     const [accountState, setAccountState] = useState<IEditAccountState>();
     const [profileState, setProfileState] = useState<IEditProfileState>();
     const isMounted = useTimeout();
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         document.title = `Customize profile | Fake Reddit`;
@@ -45,6 +53,16 @@ export const EditProfile: React.FC = () => {
 
     return (
         <div className={css.mainContainer}>
+            {showDeleteModal && user && (
+                <DeleteModal
+                    itemBeingDeleted="account"
+                    showStateHandler={setShowDeleteModal}
+                    action={async () => {
+                        await deleteAccount(user);
+                        window.location.href = `/?redirect=accountDeleted`;
+                    }}
+                />
+            )}
             <div className={`contentBox ${css.box}`}>
                 <h1 className={css.title}>Customize profile</h1>
                 <ThemeProvider theme={myTheme}>
@@ -67,6 +85,7 @@ export const EditProfile: React.FC = () => {
                                             ...s,
                                         })
                                     }
+                                    setShowDeleteModal={setShowDeleteModal}
                                 />
                             </TabPanel>
                             <TabPanel value="profile" className={css.tab}>

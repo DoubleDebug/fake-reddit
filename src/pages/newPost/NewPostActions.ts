@@ -52,12 +52,13 @@ export function getFlairsFromSubreddit(
 export function submitNewPost(
     e: React.MouseEvent,
     user: User | null | undefined,
+    userData: IUserData | undefined,
     postData: PostModel,
     setPostStage: (s: 'default' | 'being-submitted' | 'submitted') => void,
     subreddit: string
 ) {
     e.preventDefault();
-    if (!user) return;
+    if (!user || !userData) return;
 
     // loading animation
     setPostStage('being-submitted');
@@ -67,7 +68,14 @@ export function submitNewPost(
     const onSuccess = () => setPostStage('submitted');
     const onFail = () => setPostStage('default');
 
-    postData.submit(user, subreddit, onInvalidData, onSuccess, onFail);
+    postData.submit(
+        user,
+        userData,
+        subreddit,
+        onInvalidData,
+        onSuccess,
+        onFail
+    );
 }
 
 export function handleTabChange(

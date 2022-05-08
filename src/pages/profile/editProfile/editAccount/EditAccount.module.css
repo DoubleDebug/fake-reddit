@@ -8,6 +8,11 @@
     margin-bottom: 1rem;
 }
 
+.btnDelete {
+    margin-left: auto;
+    height: min-content;
+}
+
 .btnVerify {
     margin-left: auto;
 }

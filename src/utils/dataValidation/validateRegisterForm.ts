@@ -1,3 +1,5 @@
+import { MAX_BIO_LENGTH } from '../misc/constants';
+
 /**
  * Checks if the string follows the email format:
  * anything@anything.anything
@@ -42,6 +44,21 @@ export function validatePassword(password: string): ValidationResult {
         return {
             isValid: false,
             message: 'The password is invalid.',
+        };
+    return {
+        isValid: true,
+    };
+}
+
+/**
+ * Checks for the following rules:
+ *      length must be from 0 to 300
+ */
+export function validateBio(bio: string): ValidationResult {
+    if (bio.length > MAX_BIO_LENGTH)
+        return {
+            isValid: false,
+            message: `The about me section is too long. Maximum length: ${MAX_BIO_LENGTH}.`,
         };
     return {
         isValid: true,

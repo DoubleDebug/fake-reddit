@@ -27,7 +27,8 @@ export class PostModel {
     subreddit: string = 'all';
     contentFiles?: string[] = [];
     pollData?: PollModel;
-    flairs?: string[] = [];
+    flairs: string[] = [];
+    isNSFW: boolean = false;
 
     constructor(init?: Partial<PostModel>) {
         Object.assign(this, init);
@@ -157,6 +158,7 @@ export class PostModel {
 
     async submit(
         user: User,
+        userData: IUserData,
         subreddit: string,
         callbackOnInvalidData: () => void,
         callbackOnSuccess: () => void,
@@ -175,7 +177,9 @@ export class PostModel {
         // prepare data
         let postObject: any = {
             ...this,
+            author: userData.username,
             subreddit: subreddit,
+            isNSFW: this.flairs.includes('nsfw'),
         };
         postObject = cleanObject(postObject); // remove all empty fields from post data
 

@@ -11,7 +11,7 @@
 }
 
 .feedContainer:hover {
-    transform: none;
+    transform: none !important;
 }
 
 .profileContainer {

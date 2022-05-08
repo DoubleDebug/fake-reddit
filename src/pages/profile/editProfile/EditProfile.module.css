@@ -3,6 +3,10 @@
     justify-content: center;
 }
 
+.box {
+    margin-bottom: 3rem !important;
+}
+
 .box:hover {
     transform: none;
 }

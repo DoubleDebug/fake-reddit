@@ -6,6 +6,8 @@ import { CustomFeed } from '../../components/feed/customFeed/CustomFeed';
 import { Feed } from '../../components/feed/Feed';
 import { myTheme } from '../../utils/muiThemes/myTheme';
 import { PostModel } from '../../models/post';
+import { useQuery } from '../../utils/hooks/useQuery';
+import { displayNotif } from '../../utils/misc/toast';
 
 export interface IFeedState {
     posts?: PostModel[];
@@ -23,9 +25,14 @@ export const Home: React.FC = () => {
         all: true,
         custom: true,
     });
+    const query = useQuery();
 
     useEffect(() => {
         document.title = `The front page of the Internet | Fake Reddit`;
+        if (query.get('redirect') === 'accountDeleted') {
+            displayNotif('Successfully deleted your account.', 'success');
+        }
+        // eslint-disable-next-line
     }, []);
 
     return (

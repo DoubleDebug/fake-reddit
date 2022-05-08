@@ -14,7 +14,7 @@ import Skeleton from 'react-loading-skeleton';
 import { UserDataContext } from '../../../../context/UserDataContext';
 import { getUserProvider } from '../../../../utils/firebase/getUserProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { handleSaveChanges } from '../EditProfileActions';
 import { useLocation } from 'react-router-dom';
 import { displayNotif } from '../../../../utils/misc/toast';
@@ -22,6 +22,7 @@ import { displayNotif } from '../../../../utils/misc/toast';
 interface IEditAccountProps {
     initState: IEditAccountState | undefined;
     saveStateCallback: (s: IEditAccountState) => void | undefined;
+    setShowDeleteModal: (s: boolean) => void;
 }
 
 export const EditAccount: React.FC<IEditAccountProps> = (props) => {
@@ -85,6 +86,14 @@ export const EditAccount: React.FC<IEditAccountProps> = (props) => {
                         <Skeleton width={200} />
                     )}
                 </div>
+                <button
+                    className={css.btnDelete}
+                    title="Delete account"
+                    color="red"
+                    onClick={() => props.setShowDeleteModal(true)}
+                >
+                    <FontAwesomeIcon icon={faTrash} color="tomato" />
+                </button>
             </div>
             <EditPassword
                 isLoading={isLoading}

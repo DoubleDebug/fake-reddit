@@ -12,11 +12,13 @@ import { convertToPost } from './firebaseToDataModel';
  * OPTIONAL PARAMETERS:
  * - offset
  * - limit
+ * - hideNSFW
  */
 export async function getPostsCustom(
     user: User | null | undefined,
     offset: number = 0,
-    limit: number = POSTS_PER_PAGE
+    limit: number = POSTS_PER_PAGE,
+    hideNSFW?: boolean
 ): Promise<{
     posts: PostModel[];
     followedSubreddits: string[];
@@ -28,6 +30,9 @@ export async function getPostsCustom(
         offset: offset,
         limit: limit,
     };
+    if (hideNSFW) {
+        params.hideNSFW = hideNSFW;
+    }
 
     // request data from server
     const idToken = await user.getIdToken();

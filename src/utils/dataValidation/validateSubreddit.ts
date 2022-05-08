@@ -80,7 +80,9 @@ export function validateFlair(
     }
 
     // no duplicates
-    if (otherFlairs.includes(flair) || COMMON_FLAIRS.includes(flair)) {
+    // test for case insensitive existing flairs
+    const regex = new RegExp([...otherFlairs, ...COMMON_FLAIRS].join('|'), 'i');
+    if (regex.test(flair)) {
         return {
             success: false,
             message: `This flair ${

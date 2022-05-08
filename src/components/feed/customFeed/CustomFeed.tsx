@@ -17,6 +17,7 @@ import {
 import { UserContext } from '../../../context/UserContext';
 import useScrollPosition from '@react-hook/window-scroll';
 import { IFeedState } from '../../../pages/home/Home';
+import { UserDataContext } from '../../../context/UserDataContext';
 
 interface ICustomFeedProps {
     switchTabCallback?: () => void;
@@ -27,6 +28,7 @@ interface ICustomFeedProps {
 
 export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
     const user = useContext(UserContext);
+    const userData = useContext(UserDataContext);
     const [posts, setPosts] = useState<PostModel[]>([]);
     const [loadingPosts, setLoadingPosts] = useState(true);
     const [totalNumOfPosts, setTotalNumOfPosts] = useState(POSTS_PER_PAGE);
@@ -48,6 +50,8 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
     }, [posts, totalNumOfPosts]);
 
     useEffect(() => {
+        if (!userData) return;
+
         // load previous state
         if (!props.firstLoad && !stateWasLoaded && props.initState) {
             setPosts(filterPosts(props.initState.posts || []));
@@ -67,7 +71,12 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
         ) {
             // add loading skeletons
             setPosts([...posts, ...generatePostSkeletons()]);
-            getPostsCustom(user, offset, POSTS_PER_PAGE).then((postsData) => {
+            getPostsCustom(
+                user,
+                offset,
+                POSTS_PER_PAGE,
+                userData.hideNSFW
+            ).then((postsData) => {
                 // remove skeletons and add new data
                 setPosts(filterPosts([...posts, ...postsData.posts]));
                 setLoadingPosts(false);
@@ -79,7 +88,7 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
             });
         }
         // eslint-disable-next-line
-    }, [user, offset]);
+    }, [user, offset, userData]);
 
     if (posts.length === 0 && !loadingPosts) {
         return (

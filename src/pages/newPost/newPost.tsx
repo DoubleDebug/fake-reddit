@@ -35,6 +35,7 @@ import { SelectFlairs } from './selectFlairs/SelectFlairs';
 import { selectStyles, selectTheme } from './selectFlairs/SelectFlairsStyles';
 import { cleanObjectFunctions } from '../../utils/misc/cleanObject';
 import { myTheme } from '../../utils/muiThemes/myTheme';
+import { UserDataContext } from '../../context/UserDataContext';
 
 interface INewPostProps {
     subreddit?: string;
@@ -42,9 +43,9 @@ interface INewPostProps {
 
 export const NewPost: React.FC<INewPostProps> = (props) => {
     const user = useContext(UserContext);
+    const userData = useContext(UserDataContext);
     const [postData, setPostData] = useState(
         new PostModel({
-            author: (user && user.displayName) || '',
             authorId: user && user.uid,
         })
     );
@@ -247,6 +248,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                             submitNewPost(
                                 e,
                                 user,
+                                userData,
                                 postData,
                                 setPostStage,
                                 getSelectedSubredditName(subredditInput) ||

@@ -35,7 +35,7 @@ export const SERVER_ENDPOINTS = {
     DELETE_POST: `${SERVER_URL}/deletePost`,
     DELETE_COMMENT: `${SERVER_URL}/deleteComment`,
     DELETE_FILE: `${SERVER_URL}/deleteFile`,
-    DELETE_USER: `${SERVER_URL}/deleteUser`,
+    DELETE_ACCOUNT: `${SERVER_URL}/deleteAccount`,
 };
 
 // ALGOLIA
@@ -78,6 +78,7 @@ export const SUBREDDIT_LIMITS = {
     MIN_FLAIR_LENGTH: 2,
     MAX_FLAIR_LENGTH: 15,
 };
+export const MAX_BIO_LENGTH = 300;
 export const IMAGE_FILE_FORMATS = ['jpg', 'jpeg', 'png', 'gif'];
 export const VIDEO_FILE_FORMATS = ['mp4'];
 export const SUPPORTED_FILE_FORMATS = [

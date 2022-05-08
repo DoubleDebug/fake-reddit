@@ -1,6 +1,6 @@
 import css from './Feed.module.css';
 import { doc, getFirestore } from '@firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Post } from '../post/Post';
 import { PostModel } from '../../models/post';
 import {
@@ -16,6 +16,7 @@ import { handleBackToTopEvent, filterPosts } from './FeedActions';
 import useScrollPosition from '@react-hook/window-scroll';
 import { getDoc } from 'firebase/firestore';
 import { IFeedState } from '../../pages/home/Home';
+import { UserDataContext } from '../../context/UserDataContext';
 
 interface IFeedProps {
     subreddit?: string;
@@ -27,6 +28,7 @@ interface IFeedProps {
 }
 
 export const Feed: React.FC<IFeedProps> = (props) => {
+    const userData = useContext(UserDataContext);
     const { url } = useRouteMatch();
     const [posts, setPosts] = useState<PostModel[]>([]);
     const [loadingPosts, setLoadingPosts] = useState(true);
@@ -62,6 +64,8 @@ export const Feed: React.FC<IFeedProps> = (props) => {
     }, [posts, totalNumOfPosts]);
 
     useEffect(() => {
+        if (!userData) return;
+
         // load previous state
         if (!props.firstLoad && !stateWasLoaded && props.initState) {
             setPosts(filterPosts(props.initState.posts || []));
@@ -86,7 +90,8 @@ export const Feed: React.FC<IFeedProps> = (props) => {
                 offset,
                 POSTS_PER_PAGE,
                 props.subreddit,
-                props.sortingMethod
+                props.sortingMethod,
+                userData.hideNSFW
             ).then((postsData) => {
                 // remove skeletons and add new data
                 setPosts(filterPosts([...posts, ...postsData]));
@@ -95,10 +100,10 @@ export const Feed: React.FC<IFeedProps> = (props) => {
             });
         }
         // eslint-disable-next-line
-    }, [offset]);
+    }, [offset, userData]);
 
     useEffect(() => {
-        if (loadingPosts) return;
+        if (!userData || loadingPosts) return;
 
         setLoadingPosts(true);
         if (posts.length === totalNumOfPosts) {
@@ -117,7 +122,8 @@ export const Feed: React.FC<IFeedProps> = (props) => {
             offset,
             POSTS_PER_PAGE,
             props.subreddit,
-            props.sortingMethod
+            props.sortingMethod,
+            userData.hideNSFW
         ).then((postsData) => {
             // remove skeletons and add new data
             setPosts(filterPosts(postsData));
@@ -125,7 +131,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
             props.setLoadingPosts && props.setLoadingPosts(false);
         });
         // eslint-disable-next-line
-    }, [props.sortingMethod]);
+    }, [props.sortingMethod, userData]);
 
     if (posts.length === 0 && !loadingPosts) {
         return (

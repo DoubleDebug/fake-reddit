@@ -26,6 +26,7 @@ interface IUserData {
     cakeDay: Timestamp;
     isAdmin?: boolean;
     bio?: string;
+    hideNSFW?: boolean;
 }
 
 type IUserDataWithId = IUserData & { id: string };
