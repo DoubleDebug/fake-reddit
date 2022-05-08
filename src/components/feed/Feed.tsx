@@ -64,8 +64,6 @@ export const Feed: React.FC<IFeedProps> = (props) => {
     }, [posts, totalNumOfPosts]);
 
     useEffect(() => {
-        if (!userData) return;
-
         // load previous state
         if (!props.firstLoad && !stateWasLoaded && props.initState) {
             setPosts(filterPosts(props.initState.posts || []));
@@ -91,7 +89,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
                 POSTS_PER_PAGE,
                 props.subreddit,
                 props.sortingMethod,
-                userData.hideNSFW
+                userData?.hideNSFW
             ).then((postsData) => {
                 // remove skeletons and add new data
                 setPosts(filterPosts([...posts, ...postsData]));
@@ -103,7 +101,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
     }, [offset, userData]);
 
     useEffect(() => {
-        if (!userData || loadingPosts) return;
+        if (loadingPosts) return;
 
         setLoadingPosts(true);
         if (posts.length === totalNumOfPosts) {
@@ -123,7 +121,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
             POSTS_PER_PAGE,
             props.subreddit,
             props.sortingMethod,
-            userData.hideNSFW
+            userData?.hideNSFW
         ).then((postsData) => {
             // remove skeletons and add new data
             setPosts(filterPosts(postsData));

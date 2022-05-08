@@ -50,8 +50,6 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
     }, [posts, totalNumOfPosts]);
 
     useEffect(() => {
-        if (!userData) return;
-
         // load previous state
         if (!props.firstLoad && !stateWasLoaded && props.initState) {
             setPosts(filterPosts(props.initState.posts || []));
@@ -75,7 +73,7 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
                 user,
                 offset,
                 POSTS_PER_PAGE,
-                userData.hideNSFW
+                userData?.hideNSFW
             ).then((postsData) => {
                 // remove skeletons and add new data
                 setPosts(filterPosts([...posts, ...postsData.posts]));
