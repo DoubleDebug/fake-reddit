@@ -6,7 +6,7 @@ async function fetchUserPhotoURL(uid: string): Promise<string | null> {
     const res = await axios.get(
         `${SERVER_ENDPOINTS.GET_USER_PHOTO_URL}/${uid}`
     );
-    if (res.data.success) return res.data.photoURL;
+    if (res.data.success) return res.data.data;
 
     return null;
 }
