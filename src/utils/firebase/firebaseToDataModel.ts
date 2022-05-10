@@ -13,7 +13,7 @@ export function convertToComment(data: Data): CommentModel {
 }
 
 function convertJsonToTimestamp(data: any): Timestamp {
-    const seconds = data._seconds || Timestamp.now().seconds;
-    const nanoseconds = data._nanoseconds || Timestamp.now().nanoseconds;
+    const seconds = data?._seconds || Timestamp.now().seconds;
+    const nanoseconds = data?._nanoseconds || Timestamp.now().nanoseconds;
     return new Timestamp(seconds, nanoseconds);
 }
