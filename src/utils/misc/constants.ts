@@ -1,8 +1,8 @@
 // PRODUCTION MODE
-export const PRODUCTION_MODE = false;
+export const PRODUCTION_MODE = true;
 
 // DATABASE
-export const SERVER_URL = 'http://localhost:5000';
+export const SERVER_URL = 'https://fake-reddit-api.herokuapp.com';
 export const DB_HOSTNAME = 'localhost';
 export const DB_PORT = 8080;
 export const DB_COLLECTIONS = {
@@ -83,7 +83,7 @@ export const DEFAULT_PROFILE_URL = 'https://i.imgur.com/gThi9Rl.png';
 export const DEFAULT_SUBREDDIT_LOGO_URL = 'https://i.imgur.com/A6JOUiZ.png';
 
 // LIMITS & DATA VALIDATION
-export const POSTS_PER_PAGE = 3;
+export const POSTS_PER_PAGE = 5;
 export const COMMENTS_PER_PAGE = 10;
 export const SCROLL_TOP_MAX_VAL = 1000;
 export const MAX_FILE_SIZE = 5; // megabytes
