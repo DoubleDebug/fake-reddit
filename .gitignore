@@ -5,6 +5,7 @@ node_modules
 .env
 
 # Cache files
+.firebase
 .cache
 
 # Build files/directories
