@@ -1,3 +1,4 @@
+import { logEvent, getAnalytics } from 'firebase/analytics';
 import { User } from 'firebase/auth';
 import {
     collection,
@@ -13,7 +14,10 @@ import {
     validateUsername,
 } from '../../../../utils/dataValidation/validateRegisterForm';
 import { cleanObject } from '../../../../utils/misc/cleanObject';
-import { DB_COLLECTIONS } from '../../../../utils/misc/constants';
+import {
+    ANALYTICS_EVENTS,
+    DB_COLLECTIONS,
+} from '../../../../utils/misc/constants';
 import { displayNotif } from '../../../../utils/misc/toast';
 
 export async function handleSaveChanges(
@@ -64,6 +68,8 @@ export async function handleSaveChanges(
         setIsSaving(false);
         return;
     }
+
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.PROFILE);
 
     // update profile
     const updatedData: any = cleanObject({

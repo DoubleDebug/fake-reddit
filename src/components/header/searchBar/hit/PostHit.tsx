@@ -1,11 +1,18 @@
 import css from './PostHit.module.css';
 import { Link } from 'react-router-dom';
 import { timeAgo } from '../../../../utils/misc/timeAgo';
+import { logEvent, getAnalytics } from 'firebase/analytics';
+import { ANALYTICS_EVENTS } from '../../../../utils/misc/constants';
 
 export const PostHit: React.FC<PostHit> = (data) => {
     return (
         <Link to={`/post/${data.id}`} className={css.link}>
-            <article className={css.box}>
+            <article
+                className={css.box}
+                onClick={() => {
+                    logEvent(getAnalytics(), ANALYTICS_EVENTS.SEARCH);
+                }}
+            >
                 <div className={css.header}>
                     <small
                         className={css.subreddit}

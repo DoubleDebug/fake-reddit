@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Post } from '../post/Post';
 import { PostModel } from '../../models/post';
 import {
+    ANALYTICS_EVENTS,
     DB_COLLECTIONS,
     POSTS_PER_PAGE,
     SCROLL_TOP_MAX_VAL,
@@ -17,6 +18,7 @@ import useScrollPosition from '@react-hook/window-scroll';
 import { getDoc } from 'firebase/firestore';
 import { IFeedState } from '../../pages/home/Home';
 import { UserDataContext } from '../../context/UserDataContext';
+import { logEvent, getAnalytics } from 'firebase/analytics';
 
 interface IFeedProps {
     subreddit?: string;
@@ -171,7 +173,13 @@ export const Feed: React.FC<IFeedProps> = (props) => {
                 !reachedLastDocument(offset, totalNumOfPosts) && (
                     <button
                         style={{ margin: '0 auto 2rem auto' }}
-                        onClick={() => setOffset(offset + POSTS_PER_PAGE)}
+                        onClick={() => {
+                            setOffset(offset + POSTS_PER_PAGE);
+                            logEvent(
+                                getAnalytics(),
+                                ANALYTICS_EVENTS.LOAD_MORE
+                            );
+                        }}
                     >
                         Load more posts
                     </button>

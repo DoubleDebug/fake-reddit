@@ -3,6 +3,8 @@ import { PostModel } from '../../models/post';
 import { deleteFile } from '../../utils/firebase/deleteFile';
 import { displayNotif } from '../../utils/misc/toast';
 import { ISubreddit } from '../../models/subreddit';
+import { getAnalytics, logEvent } from 'firebase/analytics';
+import { ANALYTICS_EVENTS } from '../../utils/misc/constants';
 
 // TODO
 export function handleCancelledSubmission(
@@ -76,6 +78,8 @@ export function submitNewPost(
         onSuccess,
         onFail
     );
+
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.POST);
 }
 
 export function handleTabChange(

@@ -7,6 +7,8 @@ import {
 import { registerUserWithEmail } from '../../../utils/firebase/registerUser';
 import { getErrorMessage } from '../../../utils/misc/getErrorMessage';
 import { displayNotif } from '../../../utils/misc/toast';
+import { getAnalytics, logEvent } from 'firebase/analytics';
+import { ANALYTICS_EVENTS } from '../../../utils/misc/constants';
 
 export async function signUpWithEmail(
     email: string,
@@ -49,6 +51,9 @@ export async function signUpWithEmail(
         });
 
         if (userCred) {
+            logEvent(getAnalytics(), ANALYTICS_EVENTS.SIGN_UP, {
+                method: 'email',
+            });
             displayNotif(
                 `Welcome to Reddit, ${userCred.user.displayName}!`,
                 'success'

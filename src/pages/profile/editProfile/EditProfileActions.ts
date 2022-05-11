@@ -1,3 +1,4 @@
+import { logEvent, getAnalytics } from 'firebase/analytics';
 import {
     EmailAuthProvider,
     reauthenticateWithCredential,
@@ -10,7 +11,7 @@ import {
     validatePassword,
 } from '../../../utils/dataValidation/validateRegisterForm';
 import { updateAccount } from '../../../utils/firebase/updateAccount';
-import { LS } from '../../../utils/misc/constants';
+import { ANALYTICS_EVENTS, LS } from '../../../utils/misc/constants';
 import { getErrorMessage } from '../../../utils/misc/getErrorMessage';
 import { updateCachedData } from '../../../utils/misc/manageLocalStorageData';
 import { displayNotif } from '../../../utils/misc/toast';
@@ -152,6 +153,7 @@ export async function changeAccount(
     }
 
     // update account data
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.PROFILE);
     const serverResponse = await updateAccount(user, {
         email: email,
         displayName: displayName,

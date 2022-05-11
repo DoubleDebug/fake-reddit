@@ -1,3 +1,4 @@
+import { getAnalytics, logEvent } from 'firebase/analytics';
 import {
     getAuth,
     GithubAuthProvider,
@@ -11,6 +12,7 @@ import {
 } from '../../../utils/dataValidation/validateRegisterForm';
 import { getUserEmailByUsername } from '../../../utils/firebase/getUserEmailByUsername';
 import { registerUserWithProvider } from '../../../utils/firebase/registerUser';
+import { ANALYTICS_EVENTS } from '../../../utils/misc/constants';
 import { getErrorMessage } from '../../../utils/misc/getErrorMessage';
 import { displayNotif } from '../../../utils/misc/toast';
 
@@ -26,11 +28,18 @@ export function loginWithGoogle(firstTime?: boolean) {
                 photoURL: userCred.user.photoURL,
             };
             if (firstTime) {
+                logEvent(getAnalytics(), ANALYTICS_EVENTS.SIGN_UP, {
+                    method: 'Google',
+                });
                 registerUserWithProvider(
                     userData.uid,
                     userData.name,
                     userData.photoURL
                 ).catch((err) => console.log('User registration failed.', err));
+            } else {
+                logEvent(getAnalytics(), ANALYTICS_EVENTS.LOGIN, {
+                    method: 'Google',
+                });
             }
 
             displayNotif(
@@ -60,11 +69,18 @@ export function loginWithGithub(firstTime?: boolean) {
             };
 
             if (firstTime) {
+                logEvent(getAnalytics(), ANALYTICS_EVENTS.SIGN_UP, {
+                    method: 'Github',
+                });
                 registerUserWithProvider(
                     userData.uid,
                     userData.name,
                     userData.photoURL
                 ).catch((err) => console.log('User registration failed.', err));
+            } else {
+                logEvent(getAnalytics(), ANALYTICS_EVENTS.LOGIN, {
+                    method: 'Github',
+                });
             }
 
             displayNotif(
@@ -126,6 +142,9 @@ export async function loginWithUsername(
     });
 
     if (userCred) {
+        logEvent(getAnalytics(), ANALYTICS_EVENTS.LOGIN, {
+            method: 'username',
+        });
         displayNotif(
             `Welcome to Reddit, ${userCred.user.displayName}!`,
             'success',

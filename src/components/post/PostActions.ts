@@ -4,8 +4,9 @@ import { createChatRoom } from '../../pages/inbox/chat/ChatActions';
 import { signInPopup } from '../../utils/signInPopup/SignInPopup';
 import { displayNotif, displayNotifJSX } from '../../utils/misc/toast';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
-import { DB_COLLECTIONS } from '../../utils/misc/constants';
+import { ANALYTICS_EVENTS, DB_COLLECTIONS } from '../../utils/misc/constants';
 import { removeDuplicates } from '../../utils/misc/removeDuplicates';
+import { logEvent, getAnalytics } from 'firebase/analytics';
 
 export function upvote(
     user: User | null | undefined,
@@ -32,6 +33,8 @@ export function upvote(
         setUpvoted(true);
         setScore(score + 1);
     }
+
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.UPVOTE);
 }
 
 export function downvote(
@@ -59,6 +62,8 @@ export function downvote(
         setUpvoted(false);
         setScore(score - 1);
     }
+
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.DOWNVOTE);
 }
 
 export function deletePost(
@@ -67,7 +72,10 @@ export function deletePost(
     setIsDeleted: (d: boolean) => void
 ) {
     if (!user || !data.id) return;
-    return data.delete(user, data.subreddit, () => setIsDeleted(true));
+    return data.delete(user, data.subreddit, () => {
+        setIsDeleted(true);
+        logEvent(getAnalytics(), ANALYTICS_EVENTS.DELETE_POST);
+    });
 }
 
 export async function openChatRoom(
@@ -113,6 +121,8 @@ async function savePost(
     await updateDoc(ref, {
         savedPosts: savedPostsUpdated,
     });
+
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.SAVE_POST);
 }
 
 export async function handleSavePost(

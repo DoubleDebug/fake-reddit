@@ -39,6 +39,25 @@ export const SERVER_ENDPOINTS = {
     DELETE_BAN_USER: `${SERVER_URL}/user/ban`,
 };
 
+// ANALYTICS
+export const ANALYTICS_EVENTS = {
+    SIGN_UP: 'sign_up',
+    LOGIN: 'login',
+    UPVOTE: 'upvote',
+    DOWNVOTE: 'downvote',
+    COMMENT: 'create_comment',
+    MESSAGE: 'send_message',
+    POST: 'create_new_post',
+    DELETE_POST: 'delete_post',
+    CREATE_SUBREDDIT: 'create_new_subreddit',
+    FOLLOW_SUBREDDIT: 'follow_subreddit',
+    SEARCH: 'click_search_hit',
+    PROFILE: 'update_profile',
+    SAVE_POST: 'save_post',
+    LOAD_MORE: 'click_load_more',
+    DELETE_ACCOUNT: 'delete_account',
+};
+
 // ALGOLIA
 export const ALG_APP_ID = '1JHTFIMCJH';
 export const ALG_API_KEY = '141efc34b4f66d65cf143e83c91ceae7';

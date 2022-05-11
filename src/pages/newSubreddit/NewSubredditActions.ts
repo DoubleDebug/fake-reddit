@@ -6,6 +6,8 @@ import {
 import { displayNotif } from '../../utils/misc/toast';
 import { submitSubreddit as firestoreSubmitSubreddit } from '../../utils/firebase/submitSubreddit';
 import { User } from 'firebase/auth';
+import { getAnalytics, logEvent } from 'firebase/analytics';
+import { ANALYTICS_EVENTS } from '../../utils/misc/constants';
 
 export function addFlair(
     value: string,
@@ -51,6 +53,7 @@ export async function submitSubreddit(
         if (serverResponse.success) {
             callback();
             setIsSubmitting(false);
+            logEvent(getAnalytics(), ANALYTICS_EVENTS.CREATE_SUBREDDIT);
         } else {
             displayNotif(serverResponse.message, 'error');
             setIsSubmitting(false);

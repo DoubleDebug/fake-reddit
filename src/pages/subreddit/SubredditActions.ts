@@ -1,7 +1,8 @@
+import { getAnalytics, logEvent } from 'firebase/analytics';
 import { doc, getFirestore, updateDoc } from 'firebase/firestore';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { ISubreddit } from '../../models/subreddit';
-import { DB_COLLECTIONS } from '../../utils/misc/constants';
+import { ANALYTICS_EVENTS, DB_COLLECTIONS } from '../../utils/misc/constants';
 import { displayNotif } from '../../utils/misc/toast';
 
 export async function followSubreddit(
@@ -23,4 +24,6 @@ export async function followSubreddit(
         displayNotif('Failed to follow the subreddit.', 'error');
         console.log(err);
     });
+
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.FOLLOW_SUBREDDIT);
 }

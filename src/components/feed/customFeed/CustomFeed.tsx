@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Post } from '../../post/Post';
 import { PostModel } from '../../../models/post';
 import {
+    ANALYTICS_EVENTS,
     POSTS_PER_PAGE,
     SCROLL_TOP_MAX_VAL,
 } from '../../../utils/misc/constants';
@@ -18,6 +19,7 @@ import { UserContext } from '../../../context/UserContext';
 import useScrollPosition from '@react-hook/window-scroll';
 import { IFeedState } from '../../../pages/home/Home';
 import { UserDataContext } from '../../../context/UserDataContext';
+import { logEvent, getAnalytics } from 'firebase/analytics';
 
 interface ICustomFeedProps {
     switchTabCallback?: () => void;
@@ -130,7 +132,13 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
                 !reachedLastDocument(offset, totalNumOfPosts) && (
                     <button
                         style={{ margin: '0 auto 2rem auto' }}
-                        onClick={() => setOffset(offset + POSTS_PER_PAGE)}
+                        onClick={() => {
+                            setOffset(offset + POSTS_PER_PAGE);
+                            logEvent(
+                                getAnalytics(),
+                                ANALYTICS_EVENTS.LOAD_MORE
+                            );
+                        }}
                     >
                         Load more posts
                     </button>

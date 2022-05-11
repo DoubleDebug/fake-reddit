@@ -13,6 +13,8 @@ import { useTimeout } from '../../../utils/hooks/useTimeout';
 import { DeleteModal } from '../../../components/modals/deleteModal/DeleteModal';
 import { deleteAccount } from '../../../utils/firebase/deleteAccount';
 import { useQuery } from '../../../utils/hooks/useQuery';
+import { logEvent, getAnalytics } from 'firebase/analytics';
+import { ANALYTICS_EVENTS } from '../../../utils/misc/constants';
 
 export interface IEditAccountState {
     email?: string;
@@ -58,6 +60,10 @@ export const EditProfile: React.FC = () => {
                     itemBeingDeleted="account"
                     showStateHandler={setShowDeleteModal}
                     action={async () => {
+                        logEvent(
+                            getAnalytics(),
+                            ANALYTICS_EVENTS.DELETE_ACCOUNT
+                        );
                         await deleteAccount(user);
                         window.location.href = `/?redirect=accountDeleted`;
                     }}

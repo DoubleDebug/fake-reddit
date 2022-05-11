@@ -1,6 +1,9 @@
 import { User } from 'firebase/auth';
 import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
-import { DB_COLLECTIONS } from '../../../utils/misc/constants';
+import {
+    ANALYTICS_EVENTS,
+    DB_COLLECTIONS,
+} from '../../../utils/misc/constants';
 import {
     updateDoc,
     doc,
@@ -13,6 +16,7 @@ import {
     getFirestore,
     deleteDoc,
 } from '@firebase/firestore';
+import { logEvent, getAnalytics } from 'firebase/analytics';
 
 export function sendMessage(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -55,6 +59,8 @@ export function sendMessage(
     updateDoc(doc(getFirestore(), DB_COLLECTIONS.CHAT_ROOMS, room.id), {
         unreadMessagesCount: unreadCount,
     });
+
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.MESSAGE);
 }
 
 /**

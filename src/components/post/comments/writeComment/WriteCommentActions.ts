@@ -1,3 +1,4 @@
+import { logEvent, getAnalytics } from 'firebase/analytics';
 import { User } from 'firebase/auth';
 import {
     Timestamp,
@@ -6,7 +7,10 @@ import {
     getFirestore,
 } from 'firebase/firestore';
 import { validateComment } from '../../../../utils/dataValidation/validateComment';
-import { DB_COLLECTIONS } from '../../../../utils/misc/constants';
+import {
+    ANALYTICS_EVENTS,
+    DB_COLLECTIONS,
+} from '../../../../utils/misc/constants';
 import { displayNotif, displayNotifJSX } from '../../../../utils/misc/toast';
 import { signInPopup } from '../../../../utils/signInPopup/SignInPopup';
 
@@ -54,4 +58,6 @@ export function submitComment(
         setComment('');
         setIsSubmitting(false);
     });
+
+    logEvent(getAnalytics(), ANALYTICS_EVENTS.COMMENT);
 }
