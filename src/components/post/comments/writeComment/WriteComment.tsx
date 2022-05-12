@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserContext } from '../../../../context/UserContext';
 import { submitComment } from './WriteCommentActions';
 import { TextField } from '@mui/material';
+import { UserDataContext } from '../../../../context/UserDataContext';
 
 interface IWriteCommentProps {
     postId: string;
@@ -12,8 +13,9 @@ interface IWriteCommentProps {
     parentCommentId?: string;
 }
 
-export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
+export const WriteComment: React.FC<IWriteCommentProps> = props => {
     const user = useContext(UserContext);
+    const userData = useContext(UserDataContext);
     const [comment, setComment] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,7 +24,7 @@ export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
             <TextField
                 autoFocus={props.parentCommentId ? true : false}
                 value={comment}
-                onChange={(e) => setComment(e.currentTarget.value)}
+                onChange={e => setComment(e.currentTarget.value)}
                 multiline
                 color="warning"
                 className={css.replyTextarea}
@@ -49,6 +51,7 @@ export const WriteComment: React.FC<IWriteCommentProps> = (props) => {
                         submitComment(
                             e,
                             user,
+                            userData,
                             comment,
                             setComment,
                             props.parentCommentId,

@@ -22,8 +22,6 @@
 .profileFixed {
     width: 300px;
     position: fixed;
-    transition: top 0.05s ease;
-    transition: transform 0.5s ease;
 }
 
 .tabs {

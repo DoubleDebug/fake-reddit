@@ -11,13 +11,14 @@ import { isCommentMine } from '../../../../utils/misc/whichUserUtils';
 import { deleteComment } from './CommentActions';
 import { UserContext } from '../../../../context/UserContext';
 import { getUserPhotoURL } from '../../../../utils/firebase/getUserPhotoURL';
+import { Link } from 'react-router-dom';
 
 interface ICommentProps {
     data: CommentModel;
     hideComment?: (id: string | undefined) => void;
 }
 
-export const Comment: React.FC<ICommentProps> = (props) => {
+export const Comment: React.FC<ICommentProps> = props => {
     const user = useContext(UserContext);
     const [authorPhotoURL, setAuthorPhotoURL] = useState(DEFAULT_PROFILE_URL);
     const [showReply, setShowReply] = useState(false);
@@ -27,7 +28,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
 
         // get comment author's photo url
         getUserPhotoURL(props.data.authorId).then(
-            (url) => url && setAuthorPhotoURL(url)
+            url => url && setAuthorPhotoURL(url)
         );
         // eslint-disable-next-line
     }, []);
@@ -43,7 +44,12 @@ export const Comment: React.FC<ICommentProps> = (props) => {
             )}
             {props.data.author ? (
                 <div className={css.header}>
-                    <small className={css.author}>{props.data.author}</small>
+                    <Link to={`/user/${props.data.author}`}>
+                        {' '}
+                        <small className={css.author}>
+                            {props.data.author}
+                        </small>
+                    </Link>
                     <small className={css.timeAgo}>
                         {`• ${timeAgo(props.data.createdAt.toDate())}`}
                     </small>
@@ -57,7 +63,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                                 icon={faTrash}
                                 style={{
                                     marginLeft: '0.2rem',
-                                    marginRight: '0.5rem',
+                                    marginRight: '0.5rem'
                                 }}
                             />
                         </p>
@@ -73,7 +79,7 @@ export const Comment: React.FC<ICommentProps> = (props) => {
                                 size="sm"
                                 style={{
                                     marginLeft: '0.2rem',
-                                    marginRight: '0.5rem',
+                                    marginRight: '0.5rem'
                                 }}
                             />
                         </p>

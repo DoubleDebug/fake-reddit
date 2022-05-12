@@ -69,3 +69,4 @@ type ValidationResult =
 
 // untyped Javascript libraries
 declare module 'video-react';
+declare module 'react-quill';

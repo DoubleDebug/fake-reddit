@@ -4,12 +4,12 @@ import {
     Timestamp,
     addDoc,
     collection,
-    getFirestore,
+    getFirestore
 } from 'firebase/firestore';
 import { validateComment } from '../../../../utils/dataValidation/validateComment';
 import {
     ANALYTICS_EVENTS,
-    DB_COLLECTIONS,
+    DB_COLLECTIONS
 } from '../../../../utils/misc/constants';
 import { displayNotif, displayNotifJSX } from '../../../../utils/misc/toast';
 import { signInPopup } from '../../../../utils/signInPopup/SignInPopup';
@@ -17,6 +17,7 @@ import { signInPopup } from '../../../../utils/signInPopup/SignInPopup';
 export function submitComment(
     e: React.MouseEvent,
     user: User | null | undefined,
+    userData: IUserData | undefined,
     comment: string,
     setComment: (c: string) => void,
     parentCommentId: string | undefined,
@@ -25,7 +26,7 @@ export function submitComment(
 ) {
     e.preventDefault();
 
-    if (!user) {
+    if (!user || !userData) {
         displayNotifJSX(() => signInPopup('write a comment'));
         return;
     }
@@ -40,12 +41,12 @@ export function submitComment(
     // gathering data
     setIsSubmitting(true);
     let data: any = {
-        author: user.displayName,
+        author: userData.username,
         authorId: user.uid,
         createdAt: Timestamp.now(),
         isReply: parentCommentId ? true : false,
         postId: postId,
-        text: comment,
+        text: comment
     };
 
     if (parentCommentId) {

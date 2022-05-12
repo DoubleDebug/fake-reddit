@@ -14,7 +14,7 @@ export const RichTextbox: React.FC<IRichTextboxProps> = (props) => {
             theme="snow"
             value={props.value}
             placeholder="Whats on your mind?"
-            onChange={(newValue) => props.onChange(newValue)}
+            onChange={(newValue: string) => props.onChange(newValue)}
             modules={RichTextboxConfig.modules}
             formats={RichTextboxConfig.formats}
         ></ReactQuill>
