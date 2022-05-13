@@ -72,6 +72,7 @@ Live preview: [https://fake-reddit.com](https://fake-reddit.com)
 ## TODO
 
 -   [x] Add missing links above.
+-   [ ] Make it responsive and mobile friendly.
 -   [ ] Change post requirements to be same as the real reddit website.
 -   [ ] Fetch only last x comments, instead of fetching all of them.
 -   [ ] Fetch only last x messages, instead of fetching all of them.
