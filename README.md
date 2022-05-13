@@ -1,16 +1,14 @@
 # FakeReddit
 
-Reddit website clone with React, Typescript and Firebase.
+Fake Reddit is a reddit website clone made with React, Typescript and Firebase.<br>
+Live preview: [https://fake-reddit.com](https://fake-reddit.com)
 
-## Live preview
-
-(link not available yet)
-
-![FakeReddit screenshot](https://i.imgur.com/0t4tMg9.png)
+![FakeReddit screenshot](https://i.imgur.com/O3OPruB.png)
 
 ## Features
 
--   Home feed and subreddits
+-   Home feed and custom user feed
+-   Subreddits
 -   Sign in with email/password, Google or GitHub
 -   3 types of posts:
     -   Text
@@ -20,6 +18,7 @@ Reddit website clone with React, Typescript and Firebase.
 -   Post comments
 -   Inbox & chatting with other redditors
 -   Searching for posts
+-   Account and profile settings
 
 ## Technology stack
 
@@ -47,32 +46,32 @@ Reddit website clone with React, Typescript and Firebase.
     - Back-end:
       | File name | Description |
       | --------- | ----------- |
-      | fake-reddit-backend/.env | Environment variables such as the client URL, <br> port number, hostname, algolia api key, etc. <br> See an example [here](). |
-      | fake-reddit-backend/serviceAccountKey.json | Firebase Admin SDK configuration file. <br> Read more [here](https://firebase.google.com/docs/admin/setup). |
+      | fake-reddit-backend/.env | Environment variables such as the client URL, <br> port number, hostname, algolia api key, etc. <br> See an example [here](https://github.com/DoubleDebug/fake-reddit-backend/blob/master/docs/environment-config-templates/.env). |
+      | fake-reddit-backend/serviceAccountKey.json | Firebase Admin SDK configuration file. <br> Read more [here](https://firebase.google.com/docs/admin/setup). See an example [here](https://github.com/DoubleDebug/fake-reddit-backend/blob/master/docs/environment-config-templates/serviceAccountKey.json) |
     - Front-end:
       | File name | Description |
       | --------- | ----------- |
-      | fake-reddit/.env | Environment variables such as the client URL <br> & server URL. See an example [here](). |
-      | fake-reddit/src/utils/firebase/firebaseConfig.ts | Firebase configuration file containing the api key, <br> auth domain, etc. Read more [here](). |
-      | fake-reddit/src/utils/misc/constants.ts | Various application constants. <br> "SERVER_URL" is set to `http://localhost:5000` <br> by default. Read more [here](). |
+      | fake-reddit/src/utils/firebase/firebaseConfig.ts | Firebase configuration file containing the api key, <br> auth domain, etc. Read more [here](https://firebase.google.com/docs/web/setup). See an example [here](https://github.com/DoubleDebug/fake-reddit/blob/master/src/utils/firebase/firebaseConfig.ts). |
+      | fake-reddit/src/utils/misc/constants.ts | Various application constants. <br> "SERVER_URL" is set to `http://localhost:5000` <br> by default. See an example [here](https://github.com/DoubleDebug/fake-reddit/blob/master/src/utils/misc/constants.ts). |
 4. Start the server.
     - Navigate to the back-end folder and run `npm start`.
-    - The console should say something like `Server started at http://localhost:5000`.
+    - The console should say `Server started at http://localhost:5000`.
 5. Start the client.
     - Navigate to the front-end folder and run `npm start`.
-    - The console should say something like `Compiled successfully! You can now view fake-reddit in the browser.`
+    - The console should say `Compiled successfully! You can now view fake-reddit in the browser.`
 
 ## Things I would change if I were to start over
 
 1. Have more consistent CSS styles.
     - Use Material UI components for everything.
     - Make it easy to add more themes later on (dark/light/system).
-    - Make it responsive from the beginning.
+    - Make it responsive for mobile devices from the beginning.
 2. Pay attention to accessibility.
 3. Use a CDN instead of storing raw files in the Firebase Storage bucket.
 
 ## TODO
 
--   [ ] Add missing links above.
--   [ ] Fetch only last x messages, instead of fetching all of them.
+-   [x] Add missing links above.
+-   [ ] Change post requirements to be same as the real reddit website.
 -   [ ] Fetch only last x comments, instead of fetching all of them.
+-   [ ] Fetch only last x messages, instead of fetching all of them.

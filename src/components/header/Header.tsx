@@ -32,7 +32,7 @@ export const Header: React.FC = () => {
                 className={css.pageBackground}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox={HEADER_SVG_VIEWBOX}
-                preserveAspectRatio="xMidYMax meet"
+                preserveAspectRatio="none"
             >
                 <path fill="white" fillOpacity="1" d={HEADER_SVG_PATH}></path>
             </svg>
