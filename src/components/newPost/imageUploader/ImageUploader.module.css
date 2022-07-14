@@ -1,78 +1,87 @@
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    border: 1px solid silver;
-    min-height: 300px;
-    margin-bottom: -10px;
-    transition: all 1s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid silver;
+  min-height: 300px;
+  margin-bottom: -10px;
+  transition: all 1s ease;
 }
 
 .container > * {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 .container > div > button {
-    pointer-events: all;
-    height: min-content;
+  pointer-events: all;
+  height: min-content;
 }
 
 .container input[type='file'] {
-    display: none;
+  display: none;
 }
 
 .textDrag {
-    color: gray;
-    margin-top: 0;
-    margin-right: 1rem;
+  color: gray;
+  margin-top: 0;
+  margin-right: 1rem;
 }
 
 .textDrop {
-    color: white;
-    margin-top: 0;
-    margin-right: 1rem;
+  color: white;
+  margin-top: 0;
+  margin-right: 1rem;
 }
 
 .onDragOver {
-    background: var(--colorOrange);
-    transition: all 1s ease;
+  background: var(--colorOrange);
+  transition: all 1s ease;
 }
 
 .imagePreview {
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    width: 200px;
-    height: 200px;
-    object-fit: contain;
-    border-radius: 5px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 5px;
 }
 
 .imagePreview.show {
-    display: grid;
+  display: grid;
 }
 
 .imagePreview.hide {
-    display: none;
+  display: none;
 }
 
 .previewContainer {
-    display: grid;
-    justify-items: center;
+  display: grid;
+  justify-items: center;
 }
 
 .mainContainer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    row-gap: 4rem;
-    column-gap: 4rem;
-    padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  row-gap: 4rem;
+  column-gap: 4rem;
+  padding: 2rem;
 }
 
 .extension {
-    color: rgb(255, 94, 0);
-    font-size: 1rem;
+  color: rgb(255, 94, 0);
+  font-size: 1rem;
+}
+
+@media only screen and (max-width: 850px) {
+  .textDrag,
+  .textDrop {
+    font-size: 0.9rem;
+    white-space: nowrap;
+    align-self: center;
+  }
 }

@@ -1,118 +1,159 @@
 @import url('https://fonts.googleapis.com/css2?family=Suez+One&display=swap');
 
 .pageBackground {
-    background: var(--colorOrange);
-    position: absolute;
-    top: 0px;
-    height: 200px;
-    z-index: -1;
-    width: 100%;
+  background: var(--colorOrange);
+  position: absolute;
+  top: 0px;
+  height: 200px;
+  z-index: -1;
+  width: 100%;
 }
 
 .header {
-    display: grid;
-    grid-template-columns: min-content auto min-content;
-    column-gap: 1rem;
-    margin-top: 1rem;
-    margin-bottom: 7rem;
-    height: 60px;
+  display: grid;
+  grid-template-columns: min-content auto min-content;
+  column-gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 7rem;
+  height: 60px;
 }
 
 .headerSkeletonContainer {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .headerSkeleton {
-    width: 500px;
-    height: 2rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1.6rem;
+  width: 500px;
+  height: 2rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.6rem;
 }
 
 .headerTopRight {
-    display: flex;
-    margin-top: 3px;
-    margin-right: 5px;
+  display: flex;
+  margin-top: 3px;
+  margin-right: 5px;
 }
 
 .logoTopRight {
-    display: flex;
+  display: flex;
 }
 
 .logoTopRight:active {
-    transform: scale(0.9);
+  transform: scale(0.9);
 }
 
 .headerIcon {
-    width: 35px;
-    height: 35px;
-    margin-top: 3px;
-    margin-left: 1rem;
-    cursor: pointer;
+  width: 35px;
+  height: 35px;
+  margin-top: 3px;
+  margin-left: 1rem;
+  cursor: pointer;
 }
 
 .btnHomepage {
-    font-family: 'Suez One', serif;
-    font-size: 1.7rem;
-    color: white;
-    cursor: pointer;
-    margin: 0.2rem 0 0 0.5rem;
+  font-family: 'Suez One', serif;
+  font-size: 1.7rem;
+  color: white;
+  cursor: pointer;
+  margin: 0.2rem 0 0 0.5rem;
 }
 
 .btnHomepage:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .btnHomepage:active {
-    color: white;
+  color: white;
 }
 
 .btnHomepage:focus-visible {
-    outline: none;
+  outline: none;
 }
 
 .btnNewPost {
-    min-width: 150px;
-    margin: 0;
-    padding: 0.8rem 1rem;
+  min-width: 150px;
+  margin: 0;
+  padding: 0.8rem 1rem;
 }
 
 .btnNewPost:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .lblDisplayName {
-    color: white;
-    margin: 8px 1.5rem 0 1.5rem;
-    font-size: 1.2rem;
-    white-space: nowrap;
+  color: white;
+  margin: 8px 1.5rem 0 1.5rem;
+  font-size: 1.2rem;
+  white-space: nowrap;
 }
 
 .imgAvatar {
-    width: 40px;
-    height: 40px;
-    border: 2px solid white;
-    border-radius: 50%;
-    margin: 0.2rem 0.5rem 0 0;
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 50%;
+  margin: 0.2rem 0.5rem 0 0;
+  cursor: pointer;
 }
 
 .imgAvatar:hover {
-    filter: brightness(0.95);
+  filter: brightness(0.95);
 }
 
 .imgAvatar:active {
-    transform: scale(0.9);
+  transform: scale(0.9);
 }
 
 .btnLogin {
-    margin-right: 1rem;
-    min-width: 120px;
-    padding-top: 0.9rem;
-    padding-bottom: 0.8rem;
+  margin-right: 1rem;
+  min-width: 120px;
+  padding-top: 0.9rem;
+  padding-bottom: 0.8rem;
 }
 
 .link:hover {
-    text-decoration: none;
+  text-decoration: none;
+}
+
+.headerRightSide {
+  display: flex;
+}
+
+@media only screen and (max-width: 850px) {
+  .headerRightSide {
+    justify-content: flex-end;
+    column-gap: 1rem;
+    align-items: center;
+  }
+
+  .btnNewPost {
+    min-width: 100px;
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .btnLogin {
+    min-width: 70px;
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    margin-right: 0.5rem;
+  }
+
+  .link {
+    align-self: center;
+  }
+
+  .headerTopRight {
+    margin-top: 10px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .btnNewPost {
+    display: none;
+  }
 }

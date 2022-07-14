@@ -1,13 +1,24 @@
 .container {
-    position: relative;
+  position: relative;
 }
 
 .container ul {
-    list-style-type: none;
-    margin: 0;
+  list-style-type: none;
+  margin: 0;
 }
 
 .container.ais-Hits {
-    position: absolute;
-    width: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    align-self: center;
+    margin-top: 9px;
+  }
+
+  .container.focused {
+    grid-column: 1 / 4;
+  }
 }

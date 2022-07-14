@@ -1,80 +1,90 @@
 .container {
-    width: 770px;
-    justify-self: center;
+  width: 770px;
+  justify-self: center;
 }
 
 .imageAndTitle {
-    display: flex;
-    justify-self: start;
-    width: 100%;
+  display: flex;
+  justify-self: start;
+  width: 100%;
 }
 
 .image {
-    background: var(--colorOrange);
-    margin: 0;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+  background: var(--colorOrange);
+  margin: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 .title {
-    margin: 0;
-    align-self: flex-end;
+  margin: 0;
+  align-self: flex-end;
 }
 
 .path,
 .numOfMembers {
-    color: silver;
-    margin-bottom: 0;
-    align-self: flex-start;
+  color: silver;
+  margin-bottom: 0;
+  align-self: flex-start;
 }
 
 .numOfMembers {
-    margin-left: auto;
-    margin-right: 1rem;
+  margin-left: auto;
+  margin-right: 1rem;
 }
 
 .description {
-    display: flex;
-    margin-top: 1rem;
-    margin-bottom: 0;
-    word-break: break-all;
+  display: flex;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  word-break: break-all;
 }
 
 .btnAddPost {
-    display: grid;
-    margin: auto 0.5rem;
-    align-items: center;
+  display: grid;
+  margin: auto 0.5rem;
+  align-items: center;
 }
 
 .btnAddPost > button {
-    display: grid;
-    place-items: center;
-    padding: 0.5rem;
-    width: 40px;
-    height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
 }
 
 .btnFollow {
-    height: 40px;
-    margin: auto;
-    margin-right: 0px;
+  height: 40px;
+  margin: auto;
+  margin-right: 0px;
 }
 
 .skeletonContainer {
-    display: grid;
-    column-gap: 0.5rem;
-    grid-template-columns: auto 40px;
-    margin: auto;
-    margin-right: 0.5rem;
+  display: grid;
+  column-gap: 0.5rem;
+  grid-template-columns: auto 40px;
+  margin: auto;
+  margin-right: 0.5rem;
 }
 
 .sortingContainer {
-    display: flex;
-    margin-top: 1rem;
+  display: flex;
+  margin-top: 1rem;
 }
 
 .btnSort {
-    border-radius: 20px;
-    margin-right: 0.5rem;
+  border-radius: 20px;
+  margin-right: 0.5rem;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    width: 90%;
+  }
+
+  .numOfMembers {
+    align-self: center;
+  }
 }

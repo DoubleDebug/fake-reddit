@@ -1,49 +1,76 @@
 .feed {
-    display: grid;
+  display: grid;
 }
 
 .postsContainer {
-    display: grid;
-    width: 800px;
-    margin: 0 auto 3rem auto;
+  display: grid;
+  width: 800px;
+  margin: 0 auto 3rem auto;
 }
 
 .noPosts {
-    display: grid;
-    justify-items: center;
-    margin-top: 10rem;
+  display: grid;
+  justify-items: center;
+  margin-top: 10rem;
 }
 
 .noPosts > * {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .btnNoPostsSubmit:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .btnBackToTop {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    margin: 0;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    outline: inherit;
-    cursor: pointer;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  outline: inherit;
+  cursor: pointer;
+  z-index: 10;
 }
 
 .noPostsParagraph {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .link {
-    cursor: pointer;
-    margin-right: 0.3rem;
-    color: darkorange;
+  cursor: pointer;
+  margin-right: 0.3rem;
+  color: darkorange;
 }
 
 .link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+
+.btnLoadMore {
+  margin: 0 auto 2rem auto;
+}
+
+@media only screen and (max-width: 850px) {
+  .postsContainer {
+    width: 90%;
+  }
+
+  .btnLoadMore {
+    margin: 0 auto 0 1.5rem;
+  }
+
+  .btnBackToTop {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    height: 42px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .postsContainer {
+    width: 100%;
+  }
 }

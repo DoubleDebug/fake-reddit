@@ -1,84 +1,91 @@
 .comment {
-    display: grid;
-    grid-template-columns: 20px auto;
-    grid-template-rows: min-content auto;
-    padding: 0.5rem;
-    border-radius: 5px;
+  display: grid;
+  grid-template-columns: 20px auto;
+  grid-template-rows: min-content auto;
+  padding: 0.5rem;
+  border-radius: 5px;
 }
 
 .commentPreview {
-    padding: 1rem;
-    grid-template-rows: min-content min-content auto;
+  padding: 1rem;
+  grid-template-rows: min-content min-content auto;
 }
 
 .comment.isReply {
-    margin-left: 3rem;
+  margin-left: 3rem;
 }
 
 .header {
-    display: flex;
-    align-items: center;
-    width: auto;
+  display: flex;
+  align-items: center;
+  width: auto;
 }
 
 .imgAvatar {
-    align-self: center;
-    margin-left: 0;
-    margin-right: 0;
-    height: 20px;
-    border-radius: 50%;
+  align-self: center;
+  margin-left: 0;
+  margin-right: 0;
+  height: 20px;
+  border-radius: 50%;
 }
 
 .author {
-    margin: 0 0.5rem;
+  margin: 0 0.5rem;
 }
 
 .timeAgo {
-    color: silver;
-    margin-right: auto;
+  color: silver;
+  margin-right: auto;
 }
 
 .lblCommentedOn {
-    color: silver;
-    margin-left: 0.2rem;
+  color: silver;
+  margin-left: 0.2rem;
 }
 
 .text {
-    padding: 0.5rem;
-    margin-top: 0;
-    margin-bottom: 0;
-    border-radius: 5px;
-    font-size: 1.1rem;
+  padding: 0.5rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  border-radius: 5px;
+  font-size: 1.1rem;
 }
 
 .btnCommentAction {
-    color: silver;
-    cursor: pointer;
-    font-size: 0.95rem;
-    margin-bottom: 0;
+  color: silver;
+  cursor: pointer;
+  font-size: 0.95rem;
+  margin-bottom: 0;
 }
 
 .btnCommentAction:hover {
-    text-decoration: underline;
-    filter: brightness(0.8);
+  text-decoration: underline;
+  filter: brightness(0.8);
 }
 
 .btnExpand {
-    justify-self: center;
-    background: rgb(240, 240, 240);
-    border: none;
-    cursor: pointer;
-    outline: inherit;
-    height: 100%;
-    margin: 0;
-    padding: 3px;
+  justify-self: center;
+  background: rgb(240, 240, 240);
+  border: none;
+  cursor: pointer;
+  outline: inherit;
+  height: 100%;
+  margin: 0;
+  padding: 3px;
 }
 
 .btnExpand:hover {
-    background: silver;
+  background: silver;
 }
 
 .skeletonContainer {
-    grid-column-start: 1;
-    grid-column-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+@media only screen and (max-width: 850px) {
+  .header {
+    white-space: nowrap;
+    flex-wrap: wrap;
+  }
 }

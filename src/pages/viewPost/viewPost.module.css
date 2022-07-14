@@ -1,5 +1,11 @@
 .postContainer {
-    display: grid;
-    width: 800px;
-    margin: 0 auto 3rem auto;
+  display: grid;
+  width: 800px;
+  margin: 0 auto 3rem auto;
+}
+
+@media only screen and (max-width: 850px) {
+  .postContainer {
+    width: 100%;
+  }
 }

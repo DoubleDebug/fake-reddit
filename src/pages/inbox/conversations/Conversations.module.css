@@ -1,89 +1,122 @@
 .container {
-    display: grid;
-    width: 280px;
-    height: 100%;
-    border-right: 1px solid silver;
+  display: grid;
+  width: 280px;
+  height: 100%;
+  border-right: 1px solid silver;
 }
 
 .selected {
-    background: var(--colorOrange);
-    color: white;
+  background: var(--colorOrange);
+  color: white;
 }
 
 .selected small {
-    color: white;
+  color: white;
 }
 
 .conversations {
-    display: grid;
-    height: min-content;
+  display: grid;
+  height: min-content;
 }
 
 .conversation {
-    display: flex;
-    cursor: pointer;
-    padding: 0.5rem 0;
-    padding-right: 1rem;
-    border-bottom: 1px solid silver;
-    height: 60px;
+  display: flex;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  padding-right: 1rem;
+  border-bottom: 1px solid silver;
+  height: 60px;
 }
 
 .conversation:hover:not(.selected) {
-    background: rgb(245, 245, 245);
+  background: rgb(245, 245, 245);
 }
 
 .photo {
-    width: 40px;
-    height: 40px;
-    border: 2px solid white;
-    border-radius: 50%;
-    margin: 0.2rem 1rem 0 1rem;
+  width: 40px;
+  height: 40px;
+  border: 2px solid white;
+  border-radius: 50%;
+  margin: 0.2rem 1rem 0 1rem;
 }
 
 .nameAndLastMessage {
-    display: grid;
-    grid-template-rows: 25px 25px;
+  display: grid;
+  grid-template-rows: 25px 25px;
 }
 
 .name {
-    height: min-content;
-    margin-bottom: -5px;
+  height: min-content;
+  margin-bottom: -5px;
 }
 
 .lastMessage {
-    font-size: 0.9rem;
-    height: min-content;
-    color: silver;
-    margin: 0;
+  font-size: 0.9rem;
+  height: min-content;
+  color: silver;
+  margin: 0;
 }
 
 .nameSkeleton {
-    display: grid;
-    margin-left: 1rem;
+  display: grid;
+  margin-left: 1rem;
 }
 
 .unreadCount {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    background: var(--colorOrange);
-    color: white;
-    margin-top: 5px;
-    margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  background: var(--colorOrange);
+  color: white;
+  margin-top: 5px;
+  margin-left: auto;
 }
 
 .unread {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .noConversations {
-    text-align: center;
+  text-align: center;
 }
 
 .noConversations p {
-    color: silver;
-    margin-bottom: 0.5rem;
+  color: silver;
+  margin-bottom: 0.5rem;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    width: 80px;
+  }
+
+  .conversation {
+    padding: 0;
+  }
+
+  .noConversations {
+    max-width: 80px;
+    word-break: keep-all;
+  }
+
+  .photo {
+    margin: auto;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 50px;
+  }
+
+  .conversation {
+    width: 50px;
+  }
+
+  .noConversations {
+    max-width: 50px;
+  }
 }

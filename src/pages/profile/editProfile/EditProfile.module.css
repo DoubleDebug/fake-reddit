@@ -1,33 +1,39 @@
 .mainContainer {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .box {
-    margin-bottom: 3rem !important;
+  margin-bottom: 3rem !important;
 }
 
 .box:hover {
-    transform: none;
+  transform: none;
 }
 
 .title {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 .container {
-    display: flex;
-    column-gap: 3rem;
-    width: 700px;
-    min-height: 500px;
+  display: flex;
+  column-gap: 3rem;
+  width: 700px;
+  min-height: 500px;
 }
 
 .tabs {
-    width: 150px;
+  width: 150px;
 }
 
 .tab {
-    padding: 0 !important;
-    margin-right: 1rem;
-    width: 100%;
+  padding: 0 !important;
+  margin-right: 1rem;
+  width: 100%;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    width: 90%;
+  }
 }

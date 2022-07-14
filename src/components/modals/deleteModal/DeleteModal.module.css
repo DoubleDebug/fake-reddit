@@ -1,7 +1,17 @@
 .btnCancel {
-    margin: 1.5rem 0.5rem 0 20rem;
+  margin: 1.5rem 0.5rem 0 20rem;
 }
 
 .btnDelete {
+  margin-top: 1.5rem;
+}
+
+@media only screen and (max-width: 550px) {
+  .btnCancel {
+    margin: 1.5rem 0.5rem 0 10rem;
+  }
+
+  .btnDelete {
     margin-top: 1.5rem;
+  }
 }

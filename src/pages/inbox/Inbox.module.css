@@ -1,14 +1,20 @@
 .container {
-    width: min-content;
-    margin: 1rem auto !important;
+  width: min-content;
+  margin: 1rem auto !important;
 }
 
 .lblInbox {
-    margin: 1rem;
-    margin-bottom: 2rem;
+  margin: 1rem;
+  margin-bottom: 2rem;
 }
 
 .leftPanel {
-    display: grid;
-    grid-template-rows: min-content auto;
+  display: grid;
+  grid-template-rows: min-content auto;
+}
+
+@media only screen and (max-width: 850px) {
+  .leftPanel {
+    grid-template-rows: auto;
+  }
 }

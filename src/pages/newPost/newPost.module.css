@@ -1,67 +1,87 @@
 .formContainer {
-    margin-left: auto !important;
-    margin-right: auto !important;
-    width: min-content;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  width: min-content;
 }
 
 .formContainer:hover {
-    transform: none !important;
+  transform: none !important;
 }
 
 .form {
-    display: grid;
-    justify-content: center;
-    grid-template-columns: clamp(500px, 700px, 900px);
-    padding: 1rem;
-    margin-bottom: 0;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: clamp(500px, 700px, 900px);
+  padding: 1rem;
+  margin-bottom: 0;
 }
 
 .form > input[type='text'],
 .form > button {
-    margin-right: 0;
+  margin-right: 0;
 }
 
 .label {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .content {
-    min-height: 300px;
-    border: 1px solid silver;
+  min-height: 300px;
+  border: 1px solid silver;
 }
 
 .btnSubmit {
-    width: 130px;
-    margin: 0 0 0 auto;
+  width: 130px;
+  margin: 0 0 0 auto;
 }
 
 .selectSubreddit {
-    align-items: center;
-    width: 300px;
-    margin-bottom: 1rem;
+  align-items: center;
+  width: 300px;
+  margin-bottom: 1rem;
 }
 
 .title {
-    margin-bottom: 1rem !important;
+  margin-bottom: 1rem !important;
 }
 
 .title div input {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .flairsContainer {
-    display: flex;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 0.5rem;
 }
 
 .btnFlair {
-    text-transform: lowercase;
-    background: white;
-    border: 1px solid silver !important;
-    border-radius: 5px;
-    margin-right: 0.5rem;
+  text-transform: lowercase;
+  background: white;
+  border: 1px solid silver !important;
+  border-radius: 5px;
+  margin-right: 0.5rem;
 }
 
 .selectFlair {
-    text-transform: lowercase;
+  text-transform: lowercase;
+}
+
+@media only screen and (max-width: 850px) {
+  .formContainer {
+    width: 90%;
+  }
+
+  .form {
+    grid-template-columns: 100%;
+  }
+
+  .btnFlair {
+    padding: 0.3rem 0.5rem !important;
+  }
+
+  .btnSubmit {
+    height: min-content;
+  }
 }

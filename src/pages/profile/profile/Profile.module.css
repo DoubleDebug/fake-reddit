@@ -1,33 +1,44 @@
 .container {
-    display: flex;
-    justify-content: center;
-    column-gap: 1.5rem;
+  display: flex;
+  justify-content: center;
+  column-gap: 1.5rem;
 }
 
 .feedContainer {
-    display: grid;
-    width: 850px;
-    margin-bottom: 0px;
+  display: grid;
+  width: 850px;
+  margin-bottom: 0px;
 }
 
 .feedContainer:hover {
-    transform: none !important;
+  transform: none !important;
 }
 
 .profileContainer {
-    width: 300px;
-    height: min-content;
+  width: 300px;
+  height: min-content;
+}
+
+.profileContainerMobile {
+  display: grid;
 }
 
 .profileFixed {
-    width: 300px;
-    position: fixed;
+  width: 300px;
+  position: fixed;
 }
 
 .tabs {
-    height: min-content;
+  height: min-content;
 }
 
 .tab {
-    text-transform: none !important;
+  text-transform: none !important;
+}
+
+@media only screen and (max-width: 850px) {
+  .feedContainer {
+    width: 90%;
+    max-width: 90%;
+  }
 }
