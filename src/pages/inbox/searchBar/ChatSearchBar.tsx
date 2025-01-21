@@ -1,18 +1,17 @@
 import css from '../conversations/Conversations.module.css';
 import { useState } from 'react';
-import { InstantSearch } from 'react-instantsearch-dom';
+import { InstantSearch } from 'react-instantsearch';
 import { Conversations } from '../conversations/Conversations';
 import { ChatSearchBox } from './box/ChatSearchBox';
 import { getSearchClient } from '../../../utils/misc/algoliaClient';
 import { User } from 'firebase/auth';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { ALG_INDICES } from '../../../utils/misc/constants';
 import { CustomHits } from './customHits/CustomHits';
 import { useIsMobile } from '../../../utils/hooks/useIsMobile';
 
 interface IChatSearchBarProps {
   user: User | null | undefined;
-  rooms: Data<IChatRoom, '', ''>[] | undefined;
+  rooms: IChatRoom[] | undefined;
   selectedRoom: string;
   setSelectedRoom: (rid: string) => void;
   displayHits: boolean;
@@ -21,7 +20,7 @@ interface IChatSearchBarProps {
 
 export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
   const [searchClient] = useState(getSearchClient());
-  const [currentQuery, setCurrentQuery] = useState('');
+  const [currentQuery] = useState('');
   const isMobile = useIsMobile();
 
   const hasQuery = currentQuery.length >= 2;
@@ -38,13 +37,7 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
                 selectedRoom={props.selectedRoom}
                 handleRoomChange={(rid) => props.setSelectedRoom(rid)}
               >
-                {props.displayHits && (
-                  <CustomHits
-                    user={props.user}
-                    rooms={props.rooms}
-                    setSelectedRoom={props.setSelectedRoom}
-                  />
-                )}
+                {props.displayHits && <CustomHits />}
               </Conversations>
             )
           : !hasRooms && (
@@ -59,13 +52,7 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
 
   return (
     <InstantSearch indexName={ALG_INDICES.USERS} searchClient={searchClient}>
-      <ChatSearchBox
-        onChangeCallback={(q: string) => {
-          setCurrentQuery(q);
-          if (q.length >= 2) props.setDisplayHits(true);
-          else props.setDisplayHits(false);
-        }}
-      />
+      <ChatSearchBox />
       <div className={css.container}>
         {hasQuery || hasRooms
           ? props.user && (
@@ -75,13 +62,7 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
                 selectedRoom={props.selectedRoom}
                 handleRoomChange={(rid) => props.setSelectedRoom(rid)}
               >
-                {props.displayHits && (
-                  <CustomHits
-                    user={props.user}
-                    rooms={props.rooms}
-                    setSelectedRoom={props.setSelectedRoom}
-                  />
-                )}
+                {props.displayHits && <CustomHits />}
               </Conversations>
             )
           : !hasRooms && (

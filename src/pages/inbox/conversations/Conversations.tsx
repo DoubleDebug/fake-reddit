@@ -1,20 +1,20 @@
 import css from './Conversations.module.css';
 import { User } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { getSecondUser } from '../../../utils/misc/whichUserUtils';
 import {
   fetchPhotoURLs,
   findPhotoURL,
   formatMessage,
 } from './ConversationsActions';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { ConversationSkeletons } from './ConversationSkeletons';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '../../../utils/hooks/useIsMobile';
 
 interface IConversationsProps {
+  children: ReactNode;
   user: User;
-  rooms: Data<IChatRoom, '', ''>[] | undefined;
+  rooms: IChatRoom[] | undefined;
   selectedRoom: string;
   handleRoomChange: (rid: string) => void;
 }

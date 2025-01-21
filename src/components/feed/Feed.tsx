@@ -1,7 +1,7 @@
 import css from './Feed.module.css';
 import { doc, getFirestore } from '@firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
-import { Post } from '../post/Post';
+import { Post } from '../post/post';
 import { PostModel } from '../../models/post';
 import {
   ANALYTICS_EVENTS,
