@@ -8,8 +8,8 @@ import {
   formatMessage,
 } from './ConversationsActions';
 import { ConversationSkeletons } from './ConversationSkeletons';
-import { Link } from 'react-router-dom';
 import { useIsMobile } from '../../../utils/hooks/useIsMobile';
+import { Link } from '@tanstack/react-router';
 
 interface IConversationsProps {
   children: ReactNode;
@@ -21,7 +21,7 @@ interface IConversationsProps {
 
 export const Conversations: React.FC<IConversationsProps> = (props) => {
   const [photoURLs, setPhotoURLs] = useState<{ uid?: string; url?: string }[]>(
-    []
+    [],
   );
   const isMobile = useIsMobile();
 
@@ -51,7 +51,8 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
         return (
           <Link
             key={r.id}
-            to={`/inbox/${r.id}`}
+            to={`/inbox/$roomId`}
+            params={{ roomId: r.id }}
             className="linkNoUnderline"
             onClick={() => props.handleRoomChange(r.id)}
           >

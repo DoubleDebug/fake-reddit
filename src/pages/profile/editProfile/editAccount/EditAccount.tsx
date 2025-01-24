@@ -7,8 +7,8 @@ import { EditPassword } from './editPassword/EditPassword';
 import { EditDisplayName } from './editDisplayName/EditDisplayName';
 import { ImageUploader } from '../../../../components/newPost/imageUploader/ImageUploader';
 import {
-    DEFAULT_PROFILE_URL,
-    STORAGE_FOLDERS,
+  DEFAULT_PROFILE_URL,
+  STORAGE_FOLDERS,
 } from '../../../../utils/misc/constants';
 import Skeleton from 'react-loading-skeleton';
 import { UserDataContext } from '../../../../context/UserDataContext';
@@ -16,162 +16,155 @@ import { getUserProvider } from '../../../../utils/firebase/getUserProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { handleSaveChanges } from '../EditProfileActions';
-import { useLocation } from 'react-router-dom';
 import { displayNotif } from '../../../../utils/misc/toast';
+import { Route } from '../../../../routes/profile.$username.edit';
 
 interface IEditAccountProps {
-    initState: IEditAccountState | undefined;
-    saveStateCallback: (s: IEditAccountState) => void | undefined;
-    setShowDeleteModal: (s: boolean) => void;
+  initState: IEditAccountState | undefined;
+  saveStateCallback: (s: IEditAccountState) => void | undefined;
+  setShowDeleteModal: (s: boolean) => void;
 }
 
 export const EditAccount: React.FC<IEditAccountProps> = (props) => {
-    const user = useContext(UserContext);
-    const userData = useContext(UserDataContext);
-    const location = useLocation();
-    const [displayNameError, setDisplayNameError] = useState<
-        string | undefined
-    >();
-    const [emailError, setEmailError] = useState<string | undefined>();
-    const [userProvider, setUserProvider] = useState<
-        'google' | 'github' | 'password'
-    >('password');
-    const [submittingStage, setSubmittingStage] = useState<
-        'init' | 'in progress' | 'done'
-    >();
-    const [isLoading, setIsLoading] = useState(true);
+  const user = useContext(UserContext);
+  const userData = useContext(UserDataContext);
+  const { redirect } = Route.useSearch();
+  const [displayNameError, setDisplayNameError] = useState<
+    string | undefined
+  >();
+  const [emailError, setEmailError] = useState<string | undefined>();
+  const [userProvider, setUserProvider] = useState<
+    'google' | 'github' | 'password'
+  >('password');
+  const [submittingStage, setSubmittingStage] = useState<
+    'init' | 'in progress' | 'done'
+  >();
+  const [isLoading, setIsLoading] = useState(true);
 
-    useEffect(() => {
-        if (!user) return;
-        setIsLoading(false);
-        setUserProvider(getUserProvider(user));
-        // eslint-disable-next-line
-    }, [user]);
+  useEffect(() => {
+    if (!user) return;
+    setIsLoading(false);
+    setUserProvider(getUserProvider(user));
+    // eslint-disable-next-line
+  }, [user]);
 
-    useEffect(() => {
-        const query = new URLSearchParams(location.search);
-        if (query.get('redirect') === 'updatedAccount') {
-            displayNotif('Updated account information.', 'success');
-        }
-        // eslint-disable-next-line
-    }, []);
-
-    if (submittingStage === 'done') {
-        // force refresh when account data is updated
-        window.location.href = `${location.pathname}?redirect=updatedAccount`;
+  useEffect(() => {
+    if (redirect === 'updatedAccount') {
+      displayNotif('Updated account information.', 'success');
     }
+    // eslint-disable-next-line
+  }, []);
 
-    return (
-        <div className={css.container}>
-            <h2 className={css.title}>Account settings</h2>
-            <div className={css.userInfo}>
-                {user ? (
-                    <img
-                        className={css.avatar}
-                        alt={user.displayName || userData?.username}
-                        src={user.photoURL || DEFAULT_PROFILE_URL}
-                    />
-                ) : (
-                    <Skeleton circle className={css.avatar} />
-                )}
-                <div className={css.nameAndEmail}>
-                    {user ? (
-                        <strong>{user.displayName}</strong>
-                    ) : (
-                        <Skeleton width={100} />
-                    )}
-                    {user ? (
-                        <small>{user.email}</small>
-                    ) : (
-                        <Skeleton width={200} />
-                    )}
-                </div>
-                <button
-                    className={css.btnDelete}
-                    title="Delete account"
-                    color="red"
-                    onClick={() => props.setShowDeleteModal(true)}
-                >
-                    <FontAwesomeIcon icon={faTrash} color="tomato" />
-                </button>
-            </div>
-            <EditPassword
-                isLoading={isLoading}
-                userProvider={userProvider}
-                state={{
-                    oldPassword: props.initState?.oldPassword || '',
-                    newPassword: props.initState?.newPassword || '',
-                }}
-                handleNewState={(s) => props.saveStateCallback(s)}
-                setSubmittingStage={setSubmittingStage}
-            />
-            <EditEmail
-                emailError={emailError}
-                isLoading={isLoading}
-                state={{
-                    email: props.initState?.email ?? user?.email ?? '',
-                    verificationStage:
-                        props.initState?.verificationStage || 'init',
-                }}
-                handleNewState={(s) => props.saveStateCallback(s)}
-            />
-            <EditDisplayName
-                displayNameError={displayNameError}
-                isLoading={isLoading}
-                state={{
-                    displayName:
-                        props.initState?.displayName ?? user?.displayName ?? '',
-                }}
-                handleNewState={(s) => props.saveStateCallback(s)}
-            />
-            <div className={css.imageContainer}>
-                <ImageUploader
-                    state={props.initState?.imageUploader}
-                    handleNewState={(s) =>
-                        props.saveStateCallback({
-                            imageUploader: s,
-                            photoURL:
-                                s.uploadedFiles.length === 1
-                                    ? s.uploadedFiles[0].url
-                                    : undefined,
-                        })
-                    }
-                    handleContentUpdate={() => {}}
-                    noVideos
-                    noMultipleFiles
-                    differentStoragePath={STORAGE_FOLDERS.USER_AVATARS}
-                />
-            </div>
-            <div style={{ position: 'relative' }}>
-                <p className={css.groupLabel}>Avatar</p>
-            </div>
-            <button
-                disabled={submittingStage === 'in progress'}
-                className={css.btnSubmit}
-                type="submit"
-                onClick={(e) =>
-                    handleSaveChanges(
-                        e,
-                        user,
-                        setSubmittingStage,
-                        props.initState?.email ?? user?.email ?? '',
-                        props.initState?.displayName ?? user?.displayName ?? '',
-                        props.initState?.photoURL ?? user?.photoURL ?? '',
-                        setEmailError,
-                        setDisplayNameError
-                    )
-                }
-            >
-                {submittingStage === 'in progress' ? (
-                    <FontAwesomeIcon
-                        icon={faCircleNotch}
-                        spin
-                        style={{ margin: '0 1.5rem' }}
-                    />
-                ) : (
-                    'Save changes'
-                )}
-            </button>
+  if (submittingStage === 'done') {
+    // force refresh when account data is updated
+    window.location.href = `${location.pathname}?redirect=updatedAccount`;
+  }
+
+  return (
+    <div className={css.container}>
+      <h2 className={css.title}>Account settings</h2>
+      <div className={css.userInfo}>
+        {user ? (
+          <img
+            className={css.avatar}
+            alt={user.displayName || userData?.username}
+            src={user.photoURL || DEFAULT_PROFILE_URL}
+          />
+        ) : (
+          <Skeleton circle className={css.avatar} />
+        )}
+        <div className={css.nameAndEmail}>
+          {user ? (
+            <strong>{user.displayName}</strong>
+          ) : (
+            <Skeleton width={100} />
+          )}
+          {user ? <small>{user.email}</small> : <Skeleton width={200} />}
         </div>
-    );
+        <button
+          className={css.btnDelete}
+          title="Delete account"
+          color="red"
+          onClick={() => props.setShowDeleteModal(true)}
+        >
+          <FontAwesomeIcon icon={faTrash} color="tomato" />
+        </button>
+      </div>
+      <EditPassword
+        isLoading={isLoading}
+        userProvider={userProvider}
+        state={{
+          oldPassword: props.initState?.oldPassword || '',
+          newPassword: props.initState?.newPassword || '',
+        }}
+        handleNewState={(s) => props.saveStateCallback(s)}
+        setSubmittingStage={setSubmittingStage}
+      />
+      <EditEmail
+        emailError={emailError}
+        isLoading={isLoading}
+        state={{
+          email: props.initState?.email ?? user?.email ?? '',
+          verificationStage: props.initState?.verificationStage || 'init',
+        }}
+        handleNewState={(s) => props.saveStateCallback(s)}
+      />
+      <EditDisplayName
+        displayNameError={displayNameError}
+        isLoading={isLoading}
+        state={{
+          displayName: props.initState?.displayName ?? user?.displayName ?? '',
+        }}
+        handleNewState={(s) => props.saveStateCallback(s)}
+      />
+      <div className={css.imageContainer}>
+        <ImageUploader
+          state={props.initState?.imageUploader}
+          handleNewState={(s) =>
+            props.saveStateCallback({
+              imageUploader: s,
+              photoURL:
+                s.uploadedFiles.length === 1
+                  ? s.uploadedFiles[0].url
+                  : undefined,
+            })
+          }
+          handleContentUpdate={() => {}}
+          noVideos
+          noMultipleFiles
+          differentStoragePath={STORAGE_FOLDERS.USER_AVATARS}
+        />
+      </div>
+      <div style={{ position: 'relative' }}>
+        <p className={css.groupLabel}>Avatar</p>
+      </div>
+      <button
+        disabled={submittingStage === 'in progress'}
+        className={css.btnSubmit}
+        type="submit"
+        onClick={(e) =>
+          handleSaveChanges(
+            e,
+            user,
+            setSubmittingStage,
+            props.initState?.email ?? user?.email ?? '',
+            props.initState?.displayName ?? user?.displayName ?? '',
+            props.initState?.photoURL ?? user?.photoURL ?? '',
+            setEmailError,
+            setDisplayNameError,
+          )
+        }
+      >
+        {submittingStage === 'in progress' ? (
+          <FontAwesomeIcon
+            icon={faCircleNotch}
+            spin
+            style={{ margin: '0 1.5rem' }}
+          />
+        ) : (
+          'Save changes'
+        )}
+      </button>
+    </div>
+  );
 };

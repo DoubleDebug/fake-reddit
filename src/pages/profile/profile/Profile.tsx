@@ -3,7 +3,6 @@ import useScrollPosition from '@react-hook/window-scroll';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { ThemeProvider, Tab } from '@mui/material';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { Redirect, useParams } from 'react-router-dom';
 import { SavedPostFeed } from '../../../components/feed/savedPostFeed/SavedPostFeed';
 import { UserCommentsFeed } from '../../../components/feed/userCommentsFeed/UserCommentsFeed';
 import { UserPostFeed } from '../../../components/feed/userPostFeed/UserPostFeed';
@@ -14,9 +13,11 @@ import { getUserData } from './ProfileActions';
 import { ProfileCard } from '../profileCard/ProfileCard';
 import { IFeedState } from '../../home/Home';
 import { useIsMobile } from '../../../utils/hooks/useIsMobile';
+import { Route } from '../../../routes/profile.$username';
+import { redirect } from '@tanstack/react-router';
 
 export const Profile: React.FC = () => {
-  const { username } = useParams<{ username: string }>();
+  const { username } = Route.useParams();
   const myUserData = useContext(UserDataContext);
   const windowScrollY = useScrollPosition(200);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -70,7 +71,7 @@ export const Profile: React.FC = () => {
   }, [myUserData, username]);
 
   if (!userExists) {
-    return <Redirect to="/" />;
+    throw redirect({ to: '/' });
   }
 
   return (

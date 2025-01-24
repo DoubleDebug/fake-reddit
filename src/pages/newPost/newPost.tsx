@@ -4,7 +4,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import TabPanel from '@mui/lab/TabPanel';
 import { Tab, TextField, ThemeProvider } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
-import { Link } from 'react-router';
 import { CollectionReference, getFirestore } from '@firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -35,6 +34,7 @@ import { selectStyles, selectTheme } from './selectFlairs/SelectFlairsStyles';
 import { cleanObjectFunctions } from '../../utils/misc/cleanObject';
 import { myTheme } from '../../utils/muiThemes/myTheme';
 import { UserDataContext } from '../../context/UserDataContext';
+import { redirect } from '@tanstack/react-router';
 
 interface INewPostProps {
   subreddit?: string;
@@ -46,7 +46,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
   const [postData, setPostData] = useState(
     new PostModel({
       authorId: user && user.uid,
-    })
+    }),
   );
   const [postStage, setPostStage] = useState<
     'default' | 'being-submitted' | 'submitted'
@@ -54,8 +54,8 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
   const [subreddits] = useCollectionData(
     collection(
       getFirestore(),
-      DB_COLLECTIONS.SUBREDDITS
-    ) as CollectionReference<ISubreddit>
+      DB_COLLECTIONS.SUBREDDITS,
+    ) as CollectionReference<ISubreddit>,
   );
   const subredditInput = useRef<any>(null);
   const [selectedSubreddit, setSelectedSubreddit] = useState<
@@ -72,7 +72,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
   }, []);
 
   if (!user || postStage === 'submitted') {
-    return <Link to="/" />;
+    throw redirect({ to: '/' });
   }
 
   return (
@@ -102,7 +102,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
             theme={selectTheme}
             onChange={(val) => {
               setSelectedSubreddit(
-                subreddits?.filter((s) => s.id === val?.value)[0]
+                subreddits?.filter((s) => s.id === val?.value)[0],
               );
             }}
           />
@@ -119,7 +119,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
               new PostModel({
                 ...postData,
                 title: e.currentTarget.value,
-              })
+              }),
             );
           }}
         />
@@ -142,7 +142,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     new PostModel({
                       ...postData,
                       content: newValue,
-                    })
+                    }),
                   );
                 }}
               ></RichTextbox>
@@ -161,9 +161,9 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     new PostModel({
                       ...postData,
                       contentFiles: (postData.contentFiles || []).concat(
-                        uploadedFiles.map((f) => f.storagePath)
+                        uploadedFiles.map((f) => f.storagePath),
                       ),
-                    })
+                    }),
                   );
                 }}
               ></ImageUploader>
@@ -182,7 +182,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     new PostModel({
                       ...postData,
                       pollData: cleanObjectFunctions(data),
-                    })
+                    }),
                   );
                 }}
               ></Poll>
@@ -210,10 +210,10 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     handleCustomFlairClick(
                       newFlair,
                       getFlairsFromSubreddit(subreddits, subredditInput)?.map(
-                        (f) => f.value
+                        (f) => f.value,
                       ) || Array(0),
                       setPostData,
-                      postData
+                      postData,
                     )
                   }
                 />
@@ -230,7 +230,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                 userData,
                 postData,
                 setPostStage,
-                getSelectedSubredditName(subredditInput) || 'all'
+                getSelectedSubredditName(subredditInput) || 'all',
               )
             }
           >
