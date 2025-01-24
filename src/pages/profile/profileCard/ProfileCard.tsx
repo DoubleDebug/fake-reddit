@@ -11,7 +11,7 @@ import { formatCakeDay } from '../../../utils/misc/formatTimestamp';
 import { UserDataContext } from '../../../context/UserDataContext';
 import { validateSubredditCreationEligibility } from '../../../utils/dataValidation/validateSubredditCreationEligibility';
 import { Link, redirect as routerRedirect } from '@tanstack/react-router';
-import { Route } from '../../../routes/profile.$username';
+import { Route } from '../../../routes/user.$username';
 
 interface IProfileCardProps {
   data: IUserDataWithId | undefined;

@@ -15,7 +15,7 @@ import { connectFirestoreEmulator } from 'firebase/firestore';
 
 // REACT
 import { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 // OTHER
 import './index.css';
@@ -78,4 +78,6 @@ const App: React.FC = () => {
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(<App />);

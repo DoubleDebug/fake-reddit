@@ -22,7 +22,7 @@ import {
 } from '../../utils/misc/whichUserUtils';
 import { deleteConversation } from './chat/ChatActions';
 import { Route } from '../../routes/inbox.$roomId';
-import { redirect } from '@tanstack/react-router';
+import { Navigate } from '@tanstack/react-router';
 
 export const Inbox: React.FC = () => {
   const user = useContext(UserContext);
@@ -62,7 +62,7 @@ export const Inbox: React.FC = () => {
   }, [selectedRoom]);
 
   if (!loadingRooms && !user) {
-    throw redirect({ to: '/' });
+    return <Navigate to="/" />;
   }
 
   return (

@@ -8,7 +8,7 @@ import { FormControlLabel, Checkbox } from '@mui/material';
 import { UserContext } from '../../../../context/UserContext';
 import { displayNotif } from '../../../../utils/misc/toast';
 import { ButtonSaveChanges } from './buttonSaveChanges/ButtonSaveChanges';
-import { Route } from '../../../../routes/profile.$username.edit';
+import { Route } from '../../../../routes/user.$username.edit';
 
 interface IEditProfileInfoProps {
   initState: IEditProfileState | undefined;

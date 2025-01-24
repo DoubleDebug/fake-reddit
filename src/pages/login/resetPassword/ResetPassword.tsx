@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import { resetPassword } from './ResetPasswordActions';
-import { Link, redirect } from '@tanstack/react-router';
+import { Link, Navigate } from '@tanstack/react-router';
 import { Route } from '../../../routes/login.reset-password';
 
 export const ResetPassword: React.FC = () => {
@@ -19,7 +19,7 @@ export const ResetPassword: React.FC = () => {
   }, []);
 
   if (isSubmitted) {
-    throw redirect({ to: '/login' });
+    return <Navigate to="/login" />;
   }
 
   return (

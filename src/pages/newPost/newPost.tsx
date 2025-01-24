@@ -34,7 +34,7 @@ import { selectStyles, selectTheme } from './selectFlairs/SelectFlairsStyles';
 import { cleanObjectFunctions } from '../../utils/misc/cleanObject';
 import { myTheme } from '../../utils/muiThemes/myTheme';
 import { UserDataContext } from '../../context/UserDataContext';
-import { redirect } from '@tanstack/react-router';
+import { Navigate } from '@tanstack/react-router';
 
 interface INewPostProps {
   subreddit?: string;
@@ -72,7 +72,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
   }, []);
 
   if (!user || postStage === 'submitted') {
-    throw redirect({ to: '/' });
+    return <Navigate to="/" />;
   }
 
   return (

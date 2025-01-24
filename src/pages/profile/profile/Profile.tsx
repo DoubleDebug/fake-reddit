@@ -13,8 +13,8 @@ import { getUserData } from './ProfileActions';
 import { ProfileCard } from '../profileCard/ProfileCard';
 import { IFeedState } from '../../home/Home';
 import { useIsMobile } from '../../../utils/hooks/useIsMobile';
-import { Route } from '../../../routes/profile.$username';
-import { redirect } from '@tanstack/react-router';
+import { Route } from '../../../routes/user.$username';
+import { Navigate } from '@tanstack/react-router';
 
 export const Profile: React.FC = () => {
   const { username } = Route.useParams();
@@ -71,7 +71,7 @@ export const Profile: React.FC = () => {
   }, [myUserData, username]);
 
   if (!userExists) {
-    throw redirect({ to: '/' });
+    return <Navigate to="/" />;
   }
 
   return (

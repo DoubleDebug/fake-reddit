@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { handleSaveChanges } from '../EditProfileActions';
 import { displayNotif } from '../../../../utils/misc/toast';
-import { Route } from '../../../../routes/profile.$username.edit';
+import { Route } from '../../../../routes/user.$username.edit';
 
 interface IEditAccountProps {
   initState: IEditAccountState | undefined;

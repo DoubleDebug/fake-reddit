@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/lab": "^6.0.0-beta.23",
@@ -28,7 +29,7 @@
     "react-instantsearch": "^7.15.0",
     "react-loading-skeleton": "^3.5.0",
     "react-material-ui-carousel": "^3.4.2",
-    "react-quill": "^0.0.2",
+    "react-quill": "^2.0.0",
     "react-select": "^5.9.0",
     "tslib": "^2.8.1",
     "typescript": "^5.7.3",

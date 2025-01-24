@@ -13,8 +13,8 @@ import { DeleteModal } from '../../../components/modals/deleteModal/DeleteModal'
 import { deleteAccount } from '../../../utils/firebase/deleteAccount';
 import { logEvent, getAnalytics } from 'firebase/analytics';
 import { ANALYTICS_EVENTS } from '../../../utils/misc/constants';
-import { redirect } from '@tanstack/react-router';
-import { Route } from '../../../routes/profile.$username.edit';
+import { Navigate } from '@tanstack/react-router';
+import { Route } from '../../../routes/user.$username.edit';
 
 export interface IEditAccountState {
   email?: string;
@@ -50,7 +50,7 @@ export const EditProfile: React.FC = () => {
   }, []);
 
   if (isMounted && (user === null || userData?.username !== username)) {
-    throw redirect({ to: '/' });
+    return <Navigate to="/" />;
   }
 
   return (

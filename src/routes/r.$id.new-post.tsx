@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute, Navigate } from '@tanstack/react-router';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { ISubreddit } from '../models/subreddit';
 import { doc, DocumentReference, getFirestore } from 'firebase/firestore';
@@ -22,7 +22,7 @@ export const Route = createFileRoute('/r/$id/new-post')({
     }, [subredditId]);
 
     if ((!loadingData && !data) || subredditId === '') {
-      throw redirect({ to: '/' });
+      return <Navigate to="/" />;
     }
 
     return <NewPost subreddit={subredditId} />;

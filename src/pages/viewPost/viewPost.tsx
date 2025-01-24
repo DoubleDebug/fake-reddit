@@ -20,7 +20,7 @@ import { PostModel } from '../../models/post';
 import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { CommentModel } from '../../models/comment';
 import { CommentSection } from '../../components/post/comments/commentSection/CommentSection';
-import { redirect } from '@tanstack/react-router';
+import { Navigate } from '@tanstack/react-router';
 import { Route } from '../../routes/post.$id';
 
 export const ViewPost: React.FC = () => {
@@ -42,7 +42,7 @@ export const ViewPost: React.FC = () => {
   }, [postData]);
 
   if (!postData && !loadingPost) {
-    throw redirect({ to: '/' });
+    return <Navigate to="/" />;
   }
 
   return (

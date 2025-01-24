@@ -6,7 +6,6 @@ import { ChatSearchBox } from './box/ChatSearchBox';
 import { getSearchClient } from '../../../utils/misc/algoliaClient';
 import { User } from 'firebase/auth';
 import { ALG_INDICES } from '../../../utils/misc/constants';
-import { CustomHits } from './customHits/CustomHits';
 import { useIsMobile } from '../../../utils/hooks/useIsMobile';
 
 interface IChatSearchBarProps {
@@ -37,7 +36,8 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
                 selectedRoom={props.selectedRoom}
                 handleRoomChange={(rid) => props.setSelectedRoom(rid)}
               >
-                {props.displayHits && <CustomHits />}
+                <p>hits</p>
+                {/* {props.displayHits && <CustomHits />} */}
               </Conversations>
             )
           : !hasRooms && (
@@ -62,7 +62,8 @@ export const ChatSearchBar: React.FC<IChatSearchBarProps> = (props) => {
                 selectedRoom={props.selectedRoom}
                 handleRoomChange={(rid) => props.setSelectedRoom(rid)}
               >
-                {props.displayHits && <CustomHits />}
+                <p>hits</p>
+                {/* {props.displayHits && <CustomHits />} */}
               </Conversations>
             )
           : !hasRooms && (

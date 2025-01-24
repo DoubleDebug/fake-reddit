@@ -19,12 +19,11 @@ import { Route as InboxImport } from './routes/inbox'
 import { Route as IndexImport } from './routes/index'
 import { Route as UserUsernameImport } from './routes/user.$username'
 import { Route as RIdImport } from './routes/r.$id'
-import { Route as ProfileUsernameImport } from './routes/profile.$username'
 import { Route as PostIdImport } from './routes/post.$id'
 import { Route as LoginResetPasswordImport } from './routes/login.reset-password'
 import { Route as InboxRoomIdImport } from './routes/inbox.$roomId'
+import { Route as UserUsernameEditImport } from './routes/user.$username.edit'
 import { Route as RIdNewPostImport } from './routes/r.$id.new-post'
-import { Route as ProfileUsernameEditImport } from './routes/profile.$username.edit'
 
 // Create/Update Routes
 
@@ -76,12 +75,6 @@ const RIdRoute = RIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ProfileUsernameRoute = ProfileUsernameImport.update({
-  id: '/profile/$username',
-  path: '/profile/$username',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const PostIdRoute = PostIdImport.update({
   id: '/post/$id',
   path: '/post/$id',
@@ -100,16 +93,16 @@ const InboxRoomIdRoute = InboxRoomIdImport.update({
   getParentRoute: () => InboxRoute,
 } as any)
 
+const UserUsernameEditRoute = UserUsernameEditImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => UserUsernameRoute,
+} as any)
+
 const RIdNewPostRoute = RIdNewPostImport.update({
   id: '/new-post',
   path: '/new-post',
   getParentRoute: () => RIdRoute,
-} as any)
-
-const ProfileUsernameEditRoute = ProfileUsernameEditImport.update({
-  id: '/edit',
-  path: '/edit',
-  getParentRoute: () => ProfileUsernameRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -179,13 +172,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PostIdImport
       parentRoute: typeof rootRoute
     }
-    '/profile/$username': {
-      id: '/profile/$username'
-      path: '/profile/$username'
-      fullPath: '/profile/$username'
-      preLoaderRoute: typeof ProfileUsernameImport
-      parentRoute: typeof rootRoute
-    }
     '/r/$id': {
       id: '/r/$id'
       path: '/r/$id'
@@ -200,19 +186,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserUsernameImport
       parentRoute: typeof rootRoute
     }
-    '/profile/$username/edit': {
-      id: '/profile/$username/edit'
-      path: '/edit'
-      fullPath: '/profile/$username/edit'
-      preLoaderRoute: typeof ProfileUsernameEditImport
-      parentRoute: typeof ProfileUsernameImport
-    }
     '/r/$id/new-post': {
       id: '/r/$id/new-post'
       path: '/new-post'
       fullPath: '/r/$id/new-post'
       preLoaderRoute: typeof RIdNewPostImport
       parentRoute: typeof RIdImport
+    }
+    '/user/$username/edit': {
+      id: '/user/$username/edit'
+      path: '/edit'
+      fullPath: '/user/$username/edit'
+      preLoaderRoute: typeof UserUsernameEditImport
+      parentRoute: typeof UserUsernameImport
     }
   }
 }
@@ -239,18 +225,6 @@ const LoginRouteChildren: LoginRouteChildren = {
 
 const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren)
 
-interface ProfileUsernameRouteChildren {
-  ProfileUsernameEditRoute: typeof ProfileUsernameEditRoute
-}
-
-const ProfileUsernameRouteChildren: ProfileUsernameRouteChildren = {
-  ProfileUsernameEditRoute: ProfileUsernameEditRoute,
-}
-
-const ProfileUsernameRouteWithChildren = ProfileUsernameRoute._addFileChildren(
-  ProfileUsernameRouteChildren,
-)
-
 interface RIdRouteChildren {
   RIdNewPostRoute: typeof RIdNewPostRoute
 }
@@ -260,6 +234,18 @@ const RIdRouteChildren: RIdRouteChildren = {
 }
 
 const RIdRouteWithChildren = RIdRoute._addFileChildren(RIdRouteChildren)
+
+interface UserUsernameRouteChildren {
+  UserUsernameEditRoute: typeof UserUsernameEditRoute
+}
+
+const UserUsernameRouteChildren: UserUsernameRouteChildren = {
+  UserUsernameEditRoute: UserUsernameEditRoute,
+}
+
+const UserUsernameRouteWithChildren = UserUsernameRoute._addFileChildren(
+  UserUsernameRouteChildren,
+)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -271,11 +257,10 @@ export interface FileRoutesByFullPath {
   '/inbox/$roomId': typeof InboxRoomIdRoute
   '/login/reset-password': typeof LoginResetPasswordRoute
   '/post/$id': typeof PostIdRoute
-  '/profile/$username': typeof ProfileUsernameRouteWithChildren
   '/r/$id': typeof RIdRouteWithChildren
-  '/user/$username': typeof UserUsernameRoute
-  '/profile/$username/edit': typeof ProfileUsernameEditRoute
+  '/user/$username': typeof UserUsernameRouteWithChildren
   '/r/$id/new-post': typeof RIdNewPostRoute
+  '/user/$username/edit': typeof UserUsernameEditRoute
 }
 
 export interface FileRoutesByTo {
@@ -288,11 +273,10 @@ export interface FileRoutesByTo {
   '/inbox/$roomId': typeof InboxRoomIdRoute
   '/login/reset-password': typeof LoginResetPasswordRoute
   '/post/$id': typeof PostIdRoute
-  '/profile/$username': typeof ProfileUsernameRouteWithChildren
   '/r/$id': typeof RIdRouteWithChildren
-  '/user/$username': typeof UserUsernameRoute
-  '/profile/$username/edit': typeof ProfileUsernameEditRoute
+  '/user/$username': typeof UserUsernameRouteWithChildren
   '/r/$id/new-post': typeof RIdNewPostRoute
+  '/user/$username/edit': typeof UserUsernameEditRoute
 }
 
 export interface FileRoutesById {
@@ -306,11 +290,10 @@ export interface FileRoutesById {
   '/inbox/$roomId': typeof InboxRoomIdRoute
   '/login/reset-password': typeof LoginResetPasswordRoute
   '/post/$id': typeof PostIdRoute
-  '/profile/$username': typeof ProfileUsernameRouteWithChildren
   '/r/$id': typeof RIdRouteWithChildren
-  '/user/$username': typeof UserUsernameRoute
-  '/profile/$username/edit': typeof ProfileUsernameEditRoute
+  '/user/$username': typeof UserUsernameRouteWithChildren
   '/r/$id/new-post': typeof RIdNewPostRoute
+  '/user/$username/edit': typeof UserUsernameEditRoute
 }
 
 export interface FileRouteTypes {
@@ -325,11 +308,10 @@ export interface FileRouteTypes {
     | '/inbox/$roomId'
     | '/login/reset-password'
     | '/post/$id'
-    | '/profile/$username'
     | '/r/$id'
     | '/user/$username'
-    | '/profile/$username/edit'
     | '/r/$id/new-post'
+    | '/user/$username/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -341,11 +323,10 @@ export interface FileRouteTypes {
     | '/inbox/$roomId'
     | '/login/reset-password'
     | '/post/$id'
-    | '/profile/$username'
     | '/r/$id'
     | '/user/$username'
-    | '/profile/$username/edit'
     | '/r/$id/new-post'
+    | '/user/$username/edit'
   id:
     | '__root__'
     | '/'
@@ -357,11 +338,10 @@ export interface FileRouteTypes {
     | '/inbox/$roomId'
     | '/login/reset-password'
     | '/post/$id'
-    | '/profile/$username'
     | '/r/$id'
     | '/user/$username'
-    | '/profile/$username/edit'
     | '/r/$id/new-post'
+    | '/user/$username/edit'
   fileRoutesById: FileRoutesById
 }
 
@@ -373,9 +353,8 @@ export interface RootRouteChildren {
   NewSubredditRoute: typeof NewSubredditRoute
   SignUpRoute: typeof SignUpRoute
   PostIdRoute: typeof PostIdRoute
-  ProfileUsernameRoute: typeof ProfileUsernameRouteWithChildren
   RIdRoute: typeof RIdRouteWithChildren
-  UserUsernameRoute: typeof UserUsernameRoute
+  UserUsernameRoute: typeof UserUsernameRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -386,9 +365,8 @@ const rootRouteChildren: RootRouteChildren = {
   NewSubredditRoute: NewSubredditRoute,
   SignUpRoute: SignUpRoute,
   PostIdRoute: PostIdRoute,
-  ProfileUsernameRoute: ProfileUsernameRouteWithChildren,
   RIdRoute: RIdRouteWithChildren,
-  UserUsernameRoute: UserUsernameRoute,
+  UserUsernameRoute: UserUsernameRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -408,7 +386,6 @@ export const routeTree = rootRoute
         "/new-subreddit",
         "/sign-up",
         "/post/$id",
-        "/profile/$username",
         "/r/$id",
         "/user/$username"
       ]
@@ -448,12 +425,6 @@ export const routeTree = rootRoute
     "/post/$id": {
       "filePath": "post.$id.tsx"
     },
-    "/profile/$username": {
-      "filePath": "profile.$username.tsx",
-      "children": [
-        "/profile/$username/edit"
-      ]
-    },
     "/r/$id": {
       "filePath": "r.$id.tsx",
       "children": [
@@ -461,15 +432,18 @@ export const routeTree = rootRoute
       ]
     },
     "/user/$username": {
-      "filePath": "user.$username.tsx"
-    },
-    "/profile/$username/edit": {
-      "filePath": "profile.$username.edit.tsx",
-      "parent": "/profile/$username"
+      "filePath": "user.$username.tsx",
+      "children": [
+        "/user/$username/edit"
+      ]
     },
     "/r/$id/new-post": {
       "filePath": "r.$id.new-post.tsx",
       "parent": "/r/$id"
+    },
+    "/user/$username/edit": {
+      "filePath": "user.$username.edit.tsx",
+      "parent": "/user/$username"
     }
   }
 }
