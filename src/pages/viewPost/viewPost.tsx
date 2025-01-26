@@ -16,7 +16,7 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore';
 import { Post } from '../../components/post/post';
-import { PostModel } from '../../models/post';
+import { PostConverter, PostModel } from '../../models/post';
 import { DB_COLLECTIONS } from '../../utils/misc/constants';
 import { CommentModel } from '../../models/comment';
 import { CommentSection } from '../../components/post/comments/commentSection/CommentSection';
@@ -27,7 +27,9 @@ export const ViewPost: React.FC = () => {
   const [db] = useState<Firestore>(getFirestore());
   const { id: postId } = Route.useParams();
   const [postData, loadingPost] = useDocumentData<PostModel>(
-    doc(db, DB_COLLECTIONS.POSTS, postId) as DocumentReference<PostModel>,
+    (
+      doc(db, DB_COLLECTIONS.POSTS, postId) as DocumentReference<PostModel>
+    ).withConverter(PostConverter),
   );
   const [comments] = useCollectionData<CommentModel>(
     query(

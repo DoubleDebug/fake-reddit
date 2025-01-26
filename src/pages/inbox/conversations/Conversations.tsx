@@ -15,7 +15,7 @@ interface IConversationsProps {
   children: ReactNode;
   user: User;
   rooms: IChatRoom[] | undefined;
-  selectedRoom: string;
+  selectedRoom: string | undefined;
   handleRoomChange: (rid: string) => void;
 }
 

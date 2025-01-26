@@ -11,7 +11,7 @@ import { useIsMobile } from '../../../utils/hooks/useIsMobile';
 interface IChatSearchBarProps {
   user: User | null | undefined;
   rooms: IChatRoom[] | undefined;
-  selectedRoom: string;
+  selectedRoom: string | undefined;
   setSelectedRoom: (rid: string) => void;
   displayHits: boolean;
   setDisplayHits: (d: boolean) => void;

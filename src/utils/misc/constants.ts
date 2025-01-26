@@ -2,7 +2,7 @@
 export const PRODUCTION_MODE = true;
 
 // DATABASE
-export const SERVER_URL = 'http://localhost:3000';
+export const SERVER_URL = 'http://localhost:5000';
 // export const SERVER_URL = 'https://fake-reddit-api.herokuapp.com';
 export const DB_HOSTNAME = 'localhost';
 export const DB_PORT = 8080;

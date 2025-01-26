@@ -1,5 +1,5 @@
 import css from './Inbox.module.css';
-import { useContext, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
 import { Chat } from './chat/Chat';
 import {
@@ -21,12 +21,14 @@ import {
   getUsernameById,
 } from '../../utils/misc/whichUserUtils';
 import { deleteConversation } from './chat/ChatActions';
-import { Route } from '../../routes/inbox.$roomId';
 import { Navigate } from '@tanstack/react-router';
 
-export const Inbox: React.FC = () => {
+type Props = {
+  roomId?: string;
+};
+
+export const Inbox: FC<Props> = ({ roomId }) => {
   const user = useContext(UserContext);
-  const { roomId } = Route.useParams();
   const [rooms, loadingRooms] = useCollectionData<IChatRoom>(
     query(
       collection(getFirestore(), DB_COLLECTIONS.CHAT_ROOMS),
@@ -40,7 +42,7 @@ export const Inbox: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
-    if (!rooms || !user) {
+    if (!rooms || !user || !selectedRoom) {
       document.title = `Inbox | Fake Reddit`;
       return;
     }
@@ -67,7 +69,7 @@ export const Inbox: React.FC = () => {
 
   return (
     <>
-      {showReportModal && rooms && (
+      {showReportModal && rooms && selectedRoom && (
         <ReportModal
           type="user"
           contentId={
@@ -79,7 +81,7 @@ export const Inbox: React.FC = () => {
           showStateHandler={setShowReportModal}
         />
       )}
-      {showDeleteModal && rooms && (
+      {showDeleteModal && rooms && selectedRoom && (
         <DeleteModal
           itemBeingDeleted="conversation"
           showStateHandler={setShowDeleteModal}
@@ -101,11 +103,13 @@ export const Inbox: React.FC = () => {
               setSelectedRoom={setSelectedRoom}
             />
           </div>
-          <Chat
-            roomId={selectedRoom}
-            setShowDeleteModal={setShowDeleteModal}
-            setShowReportModal={setShowReportModal}
-          />
+          {selectedRoom && (
+            <Chat
+              roomId={selectedRoom}
+              setShowDeleteModal={setShowDeleteModal}
+              setShowReportModal={setShowReportModal}
+            />
+          )}
         </div>
       </div>
     </>

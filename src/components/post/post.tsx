@@ -182,7 +182,7 @@ export const Post: React.FC<IPostProps> = (props) => {
               title="Unsave post"
               onClick={() => {
                 handleSavePost(userData, props.data.id, isSaved, setIsSaved);
-                props.unsaveCallback && props.unsaveCallback();
+                if (props.unsaveCallback) props.unsaveCallback();
               }}
             />
           )}
