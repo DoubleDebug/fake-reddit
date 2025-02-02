@@ -18,12 +18,18 @@ export const SearchBar: React.FC = () => {
     >
       <InstantSearch indexName={ALG_INDICES.POSTS} searchClient={searchClient}>
         <CustomSearchBox />
-        <Index indexName={ALG_INDICES.SUBREDDITS}>
-          <Hits hitComponent={(data: any) => <SubredditHit {...data.hit} />} />
-        </Index>
-        <Index indexName={ALG_INDICES.POSTS}>
-          <Hits hitComponent={(data: any) => <PostHit {...data.hit} />} />
-        </Index>
+        {isSearchBarFocused && (
+          <div className={css.results}>
+            <Index indexName={ALG_INDICES.SUBREDDITS}>
+              <Hits
+                hitComponent={(data: any) => <SubredditHit {...data.hit} />}
+              />
+            </Index>
+            <Index indexName={ALG_INDICES.POSTS}>
+              <Hits hitComponent={(data: any) => <PostHit {...data.hit} />} />
+            </Index>
+          </div>
+        )}
       </InstantSearch>
     </div>
   );

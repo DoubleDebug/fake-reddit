@@ -7,7 +7,8 @@ import { HeaderContext } from '../../../../context/HeaderContext';
 import { SearchBox as InstantSearchBox } from 'react-instantsearch';
 
 export const CustomSearchBox: FC = () => {
-  const { isSearchBarFocused } = useContext(HeaderContext);
+  const { isSearchBarFocused, setIsSearchBarFocused } =
+    useContext(HeaderContext);
 
   return (
     <Paper
@@ -16,7 +17,10 @@ export const CustomSearchBox: FC = () => {
       onSubmit={(e: FormEvent<HTMLFormElement>) => e.preventDefault()}
     >
       <FontAwesomeIcon icon={faSearch} color="silver" className={css.icon} />
-      <InstantSearchBox />
+      <InstantSearchBox
+        onFocus={() => setIsSearchBarFocused(true)}
+        onBlur={() => setTimeout(() => setIsSearchBarFocused(false), 100)}
+      />
     </Paper>
   );
 };

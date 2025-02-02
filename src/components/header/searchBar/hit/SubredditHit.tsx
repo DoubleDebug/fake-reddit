@@ -5,7 +5,7 @@ import { ANALYTICS_EVENTS } from '../../../../utils/misc/constants';
 
 export const SubredditHit: React.FC<SubredditHit> = (data) => {
   return (
-    <Link to={`/r/$id`} params={{ id: data.name }} className={css.link}>
+    <Link to={`/r/$id`} params={{ id: data.id }} className={css.link}>
       <article
         className={css.box}
         onClick={() => {
@@ -13,7 +13,7 @@ export const SubredditHit: React.FC<SubredditHit> = (data) => {
         }}
       >
         <div className={css.header}>
-          <small className={css.subreddit}>{`r/${data.name}`}</small>
+          <small className={css.subreddit}>{`r/${data.id}`}</small>
           <small className={css.hitType}>[subreddit]</small>
         </div>
         <p className={css.title}>{data.description}</p>

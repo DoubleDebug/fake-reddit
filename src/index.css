@@ -175,6 +175,10 @@ img {
   padding: 0;
 }
 
+.ais-Hits-item {
+  list-style-type: none;
+}
+
 @media only screen and (max-width: 850px) {
   .contentBox:hover {
     transform: none;
