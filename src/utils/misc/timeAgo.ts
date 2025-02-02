@@ -4,7 +4,7 @@ dayjs.extend(relativeTime);
 
 export function timeAgo(date: Date) {
   if (!date) return '';
-  return dayjs(date).toNow();
+  return dayjs(date).fromNow();
 }
 
 export function daysAgo(date1: Date, date2: Date): number {

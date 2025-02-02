@@ -1,6 +1,6 @@
 import css from './NewPost.module.css';
 import Select from 'react-select';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import TabPanel from '@mui/lab/TabPanel';
 import { Tab, TextField, ThemeProvider } from '@mui/material';
 import { TabContext, TabList } from '@mui/lab';
@@ -34,15 +34,13 @@ import { selectStyles, selectTheme } from './selectFlairs/SelectFlairsStyles';
 import { cleanObjectFunctions } from '../../utils/misc/cleanObject';
 import { myTheme } from '../../utils/muiThemes/myTheme';
 import { UserDataContext } from '../../context/UserDataContext';
-import { Navigate } from '@tanstack/react-router';
+import { Navigate, redirect } from '@tanstack/react-router';
+import { Route } from '../../routes/new-post';
 
-interface INewPostProps {
-  subreddit?: string;
-}
-
-export const NewPost: React.FC<INewPostProps> = (props) => {
+export const NewPost: FC = () => {
   const user = useContext(UserContext);
   const userData = useContext(UserDataContext);
+  const { r: subreddit } = Route.useSearch();
   const [postData, setPostData] = useState(
     new PostModel({
       authorId: user && user.uid,
@@ -60,7 +58,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
   const subredditInput = useRef<any>(null);
   const [selectedSubreddit, setSelectedSubreddit] = useState<
     ISubreddit | undefined
-  >(subreddits?.filter((s) => s.id === props.subreddit)[0]);
+  >(subreddits?.find((s) => s.id === subreddit));
   const [tab, setTab] = useState<PostType>('text');
   const [tabState, setTabState] = useState<{
     imageUploaderState?: ImageUploaderState;
@@ -69,9 +67,16 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
 
   useEffect(() => {
     document.title = `Create a new post | Fake Reddit`;
+
+    const tid = setTimeout(() => {
+      if (!user) redirect({ to: '/' });
+    }, 500);
+
+    return () => clearTimeout(tid);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!user || postStage === 'submitted') {
+  if (postStage === 'submitted') {
     return <Navigate to="/" />;
   }
 
@@ -87,10 +92,10 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
               label: `r/${s.id}`,
             }))}
             defaultValue={
-              props.subreddit
+              subreddit
                 ? {
-                    value: props.subreddit,
-                    label: `r/${props.subreddit}`,
+                    value: subreddit,
+                    label: `r/${subreddit}`,
                   }
                 : { value: 'all', label: 'r/all' }
             }
@@ -145,7 +150,7 @@ export const NewPost: React.FC<INewPostProps> = (props) => {
                     }),
                   );
                 }}
-              ></RichTextbox>
+              />
             </TabPanel>
             <TabPanel value="image">
               <ImageUploader

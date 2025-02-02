@@ -74,7 +74,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
       setTotalNumOfPosts(props.initState.totalNumOfPosts || POSTS_PER_PAGE);
       setStateWasLoaded(true);
       setLoadingPosts(false);
-      props.setLoadingPosts && props.setLoadingPosts(false);
+      if (props.setLoadingPosts) props.setLoadingPosts(false);
       return;
     }
 
@@ -95,7 +95,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
         // remove skeletons and add new data
         setPosts(filterPosts([...posts, ...postsData]));
         setLoadingPosts(false);
-        props.setLoadingPosts && props.setLoadingPosts(false);
+        if (props.setLoadingPosts) props.setLoadingPosts(false);
       });
     }
     // eslint-disable-next-line
@@ -112,7 +112,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
         posts.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
       }
       setLoadingPosts(false);
-      props.setLoadingPosts && props.setLoadingPosts(false);
+      if (props.setLoadingPosts) props.setLoadingPosts(false);
       return;
     }
 
@@ -127,7 +127,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
       // remove skeletons and add new data
       setPosts(filterPosts(postsData));
       setLoadingPosts(false);
-      props.setLoadingPosts && props.setLoadingPosts(false);
+      if (props.setLoadingPosts) props.setLoadingPosts(false);
     });
     // eslint-disable-next-line
   }, [props.sortingMethod, userData]);

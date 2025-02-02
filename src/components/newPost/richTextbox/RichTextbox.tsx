@@ -1,4 +1,5 @@
 import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import './RichTextbox.css';
 import { RichTextboxConfig } from './RichTextboxConfig';
 
@@ -16,6 +17,6 @@ export const RichTextbox: React.FC<IRichTextboxProps> = (props) => {
       onChange={(newValue: string) => props.onChange(newValue)}
       modules={RichTextboxConfig.modules}
       formats={RichTextboxConfig.formats}
-    ></ReactQuill>
+    />
   );
 };

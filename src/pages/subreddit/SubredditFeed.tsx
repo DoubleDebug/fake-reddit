@@ -10,7 +10,6 @@ import { followSubreddit } from './SubredditActions';
 import { getSubredditLogoURL } from '../../utils/firebase/getSubredditLogoURL';
 import { DEFAULT_SUBREDDIT_LOGO_URL } from '../../utils/misc/constants';
 import { Link } from '@tanstack/react-router';
-import { Route } from '../../routes/r.$id';
 
 interface ISubredditFeedProps {
   subredditId: string | undefined;
@@ -79,8 +78,8 @@ export const SubredditFeed: React.FC<ISubredditFeedProps> = (props) => {
                 </button>
               )}
               <Link
-                from={Route.fullPath}
-                to="./new-post"
+                to="/new-post"
+                search={{ r: props.subredditId }}
                 className={css.btnAddPost}
                 title="Add a new post"
               >

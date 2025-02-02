@@ -35,13 +35,10 @@ export const Comment: React.FC<ICommentProps> = (props) => {
 
   return (
     <div className={`${css.comment} ${props.data.isReply ? css.isReply : ''}`}>
-      {props.data.id && (
-        <img alt="U" src={authorPhotoURL} className={css.imgAvatar} />
-      )}
       {props.data.author ? (
         <div className={css.header}>
+          <img alt="U" src={authorPhotoURL} className={css.imgAvatar} />
           <Link to={`/user/$username`} params={{ username: props.data.author }}>
-            {' '}
             <small className={css.author}>{props.data.author}</small>
           </Link>
           <small className={css.timeAgo}>
