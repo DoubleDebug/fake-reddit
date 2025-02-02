@@ -22,7 +22,6 @@ import { Route as RIdImport } from './routes/r.$id';
 import { Route as PostIdImport } from './routes/post.$id';
 import { Route as LoginResetPasswordImport } from './routes/login.reset-password';
 import { Route as InboxRoomIdImport } from './routes/inbox.$roomId';
-import { Route as UserUsernameEditImport } from './routes/user.$username.edit';
 
 // Create/Update Routes
 
@@ -90,12 +89,6 @@ const InboxRoomIdRoute = InboxRoomIdImport.update({
   id: '/$roomId',
   path: '/$roomId',
   getParentRoute: () => InboxRoute,
-} as any);
-
-const UserUsernameEditRoute = UserUsernameEditImport.update({
-  id: '/edit',
-  path: '/edit',
-  getParentRoute: () => UserUsernameRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -179,13 +172,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserUsernameImport;
       parentRoute: typeof rootRoute;
     };
-    '/user/$username/edit': {
-      id: '/user/$username/edit';
-      path: '/edit';
-      fullPath: '/user/$username/edit';
-      preLoaderRoute: typeof UserUsernameEditImport;
-      parentRoute: typeof UserUsernameImport;
-    };
   }
 }
 
@@ -211,18 +197,6 @@ const LoginRouteChildren: LoginRouteChildren = {
 
 const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren);
 
-interface UserUsernameRouteChildren {
-  UserUsernameEditRoute: typeof UserUsernameEditRoute;
-}
-
-const UserUsernameRouteChildren: UserUsernameRouteChildren = {
-  UserUsernameEditRoute: UserUsernameEditRoute,
-};
-
-const UserUsernameRouteWithChildren = UserUsernameRoute._addFileChildren(
-  UserUsernameRouteChildren,
-);
-
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
   '/inbox': typeof InboxRouteWithChildren;
@@ -234,8 +208,7 @@ export interface FileRoutesByFullPath {
   '/login/reset-password': typeof LoginResetPasswordRoute;
   '/post/$id': typeof PostIdRoute;
   '/r/$id': typeof RIdRoute;
-  '/user/$username': typeof UserUsernameRouteWithChildren;
-  '/user/$username/edit': typeof UserUsernameEditRoute;
+  '/user/$username': typeof UserUsernameRoute;
 }
 
 export interface FileRoutesByTo {
@@ -249,8 +222,7 @@ export interface FileRoutesByTo {
   '/login/reset-password': typeof LoginResetPasswordRoute;
   '/post/$id': typeof PostIdRoute;
   '/r/$id': typeof RIdRoute;
-  '/user/$username': typeof UserUsernameRouteWithChildren;
-  '/user/$username/edit': typeof UserUsernameEditRoute;
+  '/user/$username': typeof UserUsernameRoute;
 }
 
 export interface FileRoutesById {
@@ -265,8 +237,7 @@ export interface FileRoutesById {
   '/login/reset-password': typeof LoginResetPasswordRoute;
   '/post/$id': typeof PostIdRoute;
   '/r/$id': typeof RIdRoute;
-  '/user/$username': typeof UserUsernameRouteWithChildren;
-  '/user/$username/edit': typeof UserUsernameEditRoute;
+  '/user/$username': typeof UserUsernameRoute;
 }
 
 export interface FileRouteTypes {
@@ -282,8 +253,7 @@ export interface FileRouteTypes {
     | '/login/reset-password'
     | '/post/$id'
     | '/r/$id'
-    | '/user/$username'
-    | '/user/$username/edit';
+    | '/user/$username';
   fileRoutesByTo: FileRoutesByTo;
   to:
     | '/'
@@ -296,8 +266,7 @@ export interface FileRouteTypes {
     | '/login/reset-password'
     | '/post/$id'
     | '/r/$id'
-    | '/user/$username'
-    | '/user/$username/edit';
+    | '/user/$username';
   id:
     | '__root__'
     | '/'
@@ -310,8 +279,7 @@ export interface FileRouteTypes {
     | '/login/reset-password'
     | '/post/$id'
     | '/r/$id'
-    | '/user/$username'
-    | '/user/$username/edit';
+    | '/user/$username';
   fileRoutesById: FileRoutesById;
 }
 
@@ -324,7 +292,7 @@ export interface RootRouteChildren {
   SignUpRoute: typeof SignUpRoute;
   PostIdRoute: typeof PostIdRoute;
   RIdRoute: typeof RIdRoute;
-  UserUsernameRoute: typeof UserUsernameRouteWithChildren;
+  UserUsernameRoute: typeof UserUsernameRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -336,7 +304,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignUpRoute: SignUpRoute,
   PostIdRoute: PostIdRoute,
   RIdRoute: RIdRoute,
-  UserUsernameRoute: UserUsernameRouteWithChildren,
+  UserUsernameRoute: UserUsernameRoute,
 };
 
 export const routeTree = rootRoute
@@ -399,14 +367,7 @@ export const routeTree = rootRoute
       "filePath": "r.$id.tsx"
     },
     "/user/$username": {
-      "filePath": "user.$username.tsx",
-      "children": [
-        "/user/$username/edit"
-      ]
-    },
-    "/user/$username/edit": {
-      "filePath": "user.$username.edit.tsx",
-      "parent": "/user/$username"
+      "filePath": "user.$username.tsx"
     }
   }
 }

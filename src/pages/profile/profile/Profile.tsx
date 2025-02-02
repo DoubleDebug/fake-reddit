@@ -15,9 +15,11 @@ import { IFeedState } from '../../home/Home';
 import { useIsMobile } from '../../../utils/hooks/useIsMobile';
 import { Route } from '../../../routes/user.$username';
 import { Navigate } from '@tanstack/react-router';
+import { EditProfile } from '../editProfile/EditProfile';
 
 export const Profile: React.FC = () => {
   const { username } = Route.useParams();
+  const { edit: editMode } = Route.useSearch();
   const myUserData = useContext(UserDataContext);
   const windowScrollY = useScrollPosition(200);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -72,6 +74,10 @@ export const Profile: React.FC = () => {
 
   if (!userExists) {
     return <Navigate to="/" />;
+  }
+
+  if (editMode) {
+    return <EditProfile />;
   }
 
   return (

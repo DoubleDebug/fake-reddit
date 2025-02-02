@@ -14,7 +14,7 @@ import { deleteAccount } from '../../../utils/firebase/deleteAccount';
 import { logEvent, getAnalytics } from 'firebase/analytics';
 import { ANALYTICS_EVENTS } from '../../../utils/misc/constants';
 import { Navigate } from '@tanstack/react-router';
-import { Route } from '../../../routes/user.$username.edit';
+import { Route } from '../../../routes/user.$username';
 
 export interface IEditAccountState {
   email?: string;

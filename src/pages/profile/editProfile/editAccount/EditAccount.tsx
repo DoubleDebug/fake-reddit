@@ -17,7 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleNotch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { handleSaveChanges } from '../EditProfileActions';
 import { displayNotif } from '../../../../utils/misc/toast';
-import { Route } from '../../../../routes/user.$username.edit';
+import { Route } from '../../../../routes/user.$username';
 
 interface IEditAccountProps {
   initState: IEditAccountState | undefined;
@@ -45,7 +45,6 @@ export const EditAccount: React.FC<IEditAccountProps> = (props) => {
     if (!user) return;
     setIsLoading(false);
     setUserProvider(getUserProvider(user));
-    // eslint-disable-next-line
   }, [user]);
 
   useEffect(() => {

@@ -11,7 +11,6 @@ import { formatCakeDay } from '../../../utils/misc/formatTimestamp';
 import { UserDataContext } from '../../../context/UserDataContext';
 import { validateSubredditCreationEligibility } from '../../../utils/dataValidation/validateSubredditCreationEligibility';
 import { Link, redirect as routerRedirect } from '@tanstack/react-router';
-import { Route } from '../../../routes/user.$username';
 
 interface IProfileCardProps {
   data: IUserDataWithId | undefined;
@@ -113,7 +112,11 @@ export const ProfileCard: React.FC<IProfileCardProps> = (props) => {
                 <button>New subreddit</button>
               </Link>
             )}
-            <Link from={Route.fullPath} to="./edit">
+            <Link
+              to="/user/$username"
+              params={{ username: props.data.username }}
+              search={{ edit: true }}
+            >
               <button>Edit profile</button>
             </Link>
           </div>
