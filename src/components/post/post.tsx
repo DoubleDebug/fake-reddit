@@ -13,7 +13,6 @@ import {
   faFlag,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import { deletePost, downvote, handleSavePost, upvote } from './PostActions';
 import { PostContent } from './PostContent';
 import { UserContext } from '../../context/UserContext';
@@ -22,6 +21,7 @@ import { ReportModal } from '../modals/reportModal/ReportModal';
 import { DeleteModal } from '../modals/deleteModal/DeleteModal';
 import { UserDataContext } from '../../context/UserDataContext';
 import { useIsMobile } from '../../utils/hooks/useIsMobile';
+import { Link } from '@tanstack/react-router';
 
 interface IPostProps {
   data: PostModel;
@@ -40,7 +40,7 @@ export const Post: React.FC<IPostProps> = (props) => {
   const [showReportModal, setShowReportModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isSaved, setIsSaved] = useState(
-    userData?.savedPosts.includes(props.data.id || '') || false
+    userData?.savedPosts.includes(props.data.id || '') || false,
   );
   const isMobile = useIsMobile();
 
@@ -98,7 +98,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                     upvoted,
                     score,
                     setUpvoted,
-                    setScore
+                    setScore,
                   )
                 }
                 title="Downvote"
@@ -109,7 +109,8 @@ export const Post: React.FC<IPostProps> = (props) => {
             <div className={css.authorAndDate}>
               {props.data.id && (
                 <Link
-                  to={`/r/${props.data.subreddit}`}
+                  to={`/r/$id`}
+                  params={{ id: props.data.subreddit }}
                   title={`Subreddit r/${props.data.subreddit}`}
                 >
                   <strong
@@ -122,7 +123,8 @@ export const Post: React.FC<IPostProps> = (props) => {
                   <>
                     <small>Posted by </small>
                     <Link
-                      to={`/user/${props.data.author}`}
+                      to={`/user/$username`}
+                      params={{ username: props.data.author }}
                       className="linkNoUnderline"
                     >
                       <small className={css.author}>{props.data.author}</small>
@@ -134,7 +136,8 @@ export const Post: React.FC<IPostProps> = (props) => {
               </div>
               {!isMobile && (
                 <Link
-                  to={`/post/${props.data.id}`}
+                  to={`/post/$id`}
+                  params={{ id: props.data.id! }}
                   title={props.data.createdAt.toDate().toLocaleString()}
                   className={css.secondaryText + ' ' + css.timeAgo}
                 >
@@ -146,7 +149,11 @@ export const Post: React.FC<IPostProps> = (props) => {
             </div>
             {props.data.title ? (
               props.isPreview ? (
-                <Link className={css.title} to={`/post/${props.data.id}`}>
+                <Link
+                  className={css.title}
+                  to={`/post/$id`}
+                  params={{ id: props.data.id! }}
+                >
                   {props.data.title}
                 </Link>
               ) : (
@@ -175,7 +182,7 @@ export const Post: React.FC<IPostProps> = (props) => {
               title="Unsave post"
               onClick={() => {
                 handleSavePost(userData, props.data.id, isSaved, setIsSaved);
-                props.unsaveCallback && props.unsaveCallback();
+                if (props.unsaveCallback) props.unsaveCallback();
               }}
             />
           )}
@@ -200,7 +207,7 @@ export const Post: React.FC<IPostProps> = (props) => {
                       userData,
                       props.data.id,
                       isSaved,
-                      setIsSaved
+                      setIsSaved,
                     ),
                   icon: faBookmark,
                 },

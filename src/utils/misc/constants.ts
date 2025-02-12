@@ -3,7 +3,7 @@ export const PRODUCTION_MODE = true;
 
 // DATABASE
 // export const SERVER_URL = 'http://localhost:5000';
-export const SERVER_URL = 'https://fake-reddit-api.herokuapp.com';
+export const SERVER_URL = 'https://moj-reddit-backend.onrender.com';
 export const DB_HOSTNAME = 'localhost';
 export const DB_PORT = 8080;
 export const DB_COLLECTIONS = {
@@ -60,8 +60,8 @@ export const ANALYTICS_EVENTS = {
 };
 
 // ALGOLIA
-export const ALG_APP_ID = '1JHTFIMCJH';
-export const ALG_API_KEY = '141efc34b4f66d65cf143e83c91ceae7';
+export const ALG_APP_ID = 'H0Q5WG15XL';
+export const ALG_API_KEY = 'b0ad5c6843bb48d26eff77d5f0c66521';
 export const ALG_INDICES = {
   POSTS: 'posts',
   USERS: 'users',

@@ -1,5 +1,6 @@
 .container {
   position: relative;
+  display: grid;
 }
 
 .container ul {
@@ -10,6 +11,11 @@
 .container.ais-Hits {
   position: absolute;
   width: 100%;
+}
+
+.results {
+  overflow-y: auto;
+  max-height: 300px;
 }
 
 @media only screen and (max-width: 850px) {

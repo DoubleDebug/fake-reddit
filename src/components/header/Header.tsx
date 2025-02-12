@@ -1,6 +1,5 @@
 import css from './Header.module.css';
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { Dropdown } from '../../utils/dropdown/Dropdown';
@@ -18,6 +17,7 @@ import { SearchBar } from './searchBar/bar/SearchBar';
 import { UserDataContext } from '../../context/UserDataContext';
 import { useIsMobile } from '../../utils/hooks/useIsMobile';
 import { HeaderContext } from '../../context/HeaderContext';
+import { Link } from '@tanstack/react-router';
 
 export const Header: React.FC = () => {
   const isMobile = useIsMobile();
@@ -79,7 +79,7 @@ export const Header: React.FC = () => {
           ? (!isMobile || (isMobile && !isSearchBarFocused)) && (
               <div className={css.headerRightSide}>
                 <Link
-                  to="/newPost"
+                  to="/new-post"
                   className={'linkNoUnderline ' + css.linkNewPost}
                 >
                   <button className={css.btnNewPost}>
@@ -121,7 +121,7 @@ export const Header: React.FC = () => {
                 <Link to="/login" className={css.link}>
                   <button className={css.btnLogin}>Log in</button>
                 </Link>
-                <Link to="/signup" className={css.link}>
+                <Link to="/sign-up" className={css.link}>
                   <button className={css.btnLogin}>Sign up</button>
                 </Link>
               </div>

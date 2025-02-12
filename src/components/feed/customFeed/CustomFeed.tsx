@@ -1,6 +1,6 @@
 import css from '../Feed.module.css';
 import { useContext, useEffect, useState } from 'react';
-import { Post } from '../../post/Post';
+import { Post } from '../../post/post';
 import { PostModel } from '../../../models/post';
 import {
   ANALYTICS_EVENTS,
@@ -81,9 +81,9 @@ export const CustomFeed: React.FC<ICustomFeedProps> = (props) => {
 
           totalNumOfPosts === POSTS_PER_PAGE &&
             getTotalNumOfPosts(postsData.followedSubreddits).then((num) =>
-              setTotalNumOfPosts(num)
+              setTotalNumOfPosts(num),
             );
-        }
+        },
       );
     }
     // eslint-disable-next-line

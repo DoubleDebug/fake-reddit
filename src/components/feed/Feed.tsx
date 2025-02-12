@@ -1,7 +1,7 @@
 import css from './Feed.module.css';
 import { doc, getFirestore } from '@firebase/firestore';
 import { useContext, useEffect, useState } from 'react';
-import { Post } from '../post/Post';
+import { Post } from '../post/post';
 import { PostModel } from '../../models/post';
 import {
   ANALYTICS_EVENTS,
@@ -12,7 +12,6 @@ import {
 import { getPosts } from '../../utils/firebase/getPosts';
 import { reachedLastDocument } from '../../utils/firebase/reachedLastDocument';
 import { generatePostSkeletons } from '../post/comments/commentSection/skeletons/GenerateSkeletons';
-import { Link, useRouteMatch } from 'react-router-dom';
 import { handleBackToTopEvent, filterPosts } from './FeedActions';
 import useScrollPosition from '@react-hook/window-scroll';
 import { getDoc } from 'firebase/firestore';
@@ -22,6 +21,7 @@ import { logEvent, getAnalytics } from 'firebase/analytics';
 import { useIsMobile } from '../../utils/hooks/useIsMobile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { Link } from '@tanstack/react-router';
 
 interface IFeedProps {
   subreddit?: string;
@@ -34,7 +34,6 @@ interface IFeedProps {
 
 export const Feed: React.FC<IFeedProps> = (props) => {
   const userData = useContext(UserDataContext);
-  const { url } = useRouteMatch();
   const [posts, setPosts] = useState<PostModel[]>([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
   const [totalNumOfPosts, setTotalNumOfPosts] = useState(POSTS_PER_PAGE);
@@ -75,7 +74,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
       setTotalNumOfPosts(props.initState.totalNumOfPosts || POSTS_PER_PAGE);
       setStateWasLoaded(true);
       setLoadingPosts(false);
-      props.setLoadingPosts && props.setLoadingPosts(false);
+      if (props.setLoadingPosts) props.setLoadingPosts(false);
       return;
     }
 
@@ -91,12 +90,12 @@ export const Feed: React.FC<IFeedProps> = (props) => {
         POSTS_PER_PAGE,
         props.subreddit,
         props.sortingMethod,
-        userData?.hideNSFW
+        userData?.hideNSFW,
       ).then((postsData) => {
         // remove skeletons and add new data
         setPosts(filterPosts([...posts, ...postsData]));
         setLoadingPosts(false);
-        props.setLoadingPosts && props.setLoadingPosts(false);
+        if (props.setLoadingPosts) props.setLoadingPosts(false);
       });
     }
     // eslint-disable-next-line
@@ -113,7 +112,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
         posts.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
       }
       setLoadingPosts(false);
-      props.setLoadingPosts && props.setLoadingPosts(false);
+      if (props.setLoadingPosts) props.setLoadingPosts(false);
       return;
     }
 
@@ -123,12 +122,12 @@ export const Feed: React.FC<IFeedProps> = (props) => {
       POSTS_PER_PAGE,
       props.subreddit,
       props.sortingMethod,
-      userData?.hideNSFW
+      userData?.hideNSFW,
     ).then((postsData) => {
       // remove skeletons and add new data
       setPosts(filterPosts(postsData));
       setLoadingPosts(false);
-      props.setLoadingPosts && props.setLoadingPosts(false);
+      if (props.setLoadingPosts) props.setLoadingPosts(false);
     });
     // eslint-disable-next-line
   }, [props.sortingMethod, userData]);
@@ -138,10 +137,7 @@ export const Feed: React.FC<IFeedProps> = (props) => {
       <div className={css.noPosts}>
         <h2>Nothing to see here.</h2>
         <p>Be the first to post in this subreddit.</p>
-        <Link
-          className={css.btnNoPostsSubmit}
-          to={url.includes('/r/') ? `${url}/newPost` : '/r/all/newPost'}
-        >
+        <Link className={css.btnNoPostsSubmit} to="/new-post">
           <button>Add a post</button>
         </Link>
       </div>

@@ -1,27 +1,27 @@
 import css from './Conversations.module.css';
 import { User } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { getSecondUser } from '../../../utils/misc/whichUserUtils';
 import {
   fetchPhotoURLs,
   findPhotoURL,
   formatMessage,
 } from './ConversationsActions';
-import { Data } from 'react-firebase-hooks/firestore/dist/firestore/types';
 import { ConversationSkeletons } from './ConversationSkeletons';
-import { Link } from 'react-router-dom';
 import { useIsMobile } from '../../../utils/hooks/useIsMobile';
+import { Link } from '@tanstack/react-router';
 
 interface IConversationsProps {
+  children: ReactNode;
   user: User;
-  rooms: Data<IChatRoom, '', ''>[] | undefined;
-  selectedRoom: string;
+  rooms: IChatRoom[] | undefined;
+  selectedRoom: string | undefined;
   handleRoomChange: (rid: string) => void;
 }
 
 export const Conversations: React.FC<IConversationsProps> = (props) => {
   const [photoURLs, setPhotoURLs] = useState<{ uid?: string; url?: string }[]>(
-    []
+    [],
   );
   const isMobile = useIsMobile();
 
@@ -51,7 +51,8 @@ export const Conversations: React.FC<IConversationsProps> = (props) => {
         return (
           <Link
             key={r.id}
-            to={`/inbox/${r.id}`}
+            to={`/inbox/$roomId`}
+            params={{ roomId: r.id }}
             className="linkNoUnderline"
             onClick={() => props.handleRoomChange(r.id)}
           >
