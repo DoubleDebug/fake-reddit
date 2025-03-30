@@ -15,7 +15,7 @@ export const ResetPassword: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
-    document.title = `Reset your password | Fake Reddit`;
+    document.title = `Reset your password | Moj Reddit`;
   }, []);
 
   if (isSubmitted) {

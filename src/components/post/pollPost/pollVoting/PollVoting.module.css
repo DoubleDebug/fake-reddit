@@ -1,29 +1,29 @@
 .pollContainer {
-    width: 80%;
-    margin-left: 5rem;
+  width: 80%;
+  margin-left: 5rem;
 }
 
 .option {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .option,
 .option * {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .option input[type='radio'] {
-    margin: 0;
+  margin: 0;
 }
 
 .option label {
-    margin: 0;
-    margin-bottom: 3px;
-    margin-left: 0.5rem;
+  margin: 0;
+  margin-bottom: 3px;
+  margin-left: 0.5rem;
 }
 
 .btnVote {
-    height: min-content;
-    margin: auto 0 1rem 0;
+  height: min-content;
+  margin: auto 0 1rem 0;
 }

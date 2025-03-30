@@ -67,7 +67,7 @@ export const Profile: React.FC = () => {
         }
         setUserData(data);
 
-        document.title = `${data.username} | Fake Reddit`;
+        document.title = `${data.username} | Moj Reddit`;
       })
       .catch(() => setUserExists(false));
   }, [myUserData, username]);

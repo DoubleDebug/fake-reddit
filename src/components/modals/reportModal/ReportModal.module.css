@@ -1,45 +1,45 @@
 .container {
-    display: flex;
-    max-width: 700px;
+  display: flex;
+  max-width: 700px;
 }
 
 .violationContainer {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .violation {
-    padding: 0.5rem 1rem;
-    border-radius: 10px;
-    border: 1px solid silver;
-    margin: 0.5rem;
-    margin-top: 0.5rem;
-    cursor: pointer;
-    white-space: nowrap;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid silver;
+  margin: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .violation:hover {
-    background: rgb(240, 240, 240);
+  background: rgb(240, 240, 240);
 }
 
 .violation.selected {
-    background: var(--colorOrange);
-    color: white;
+  background: var(--colorOrange);
+  color: white;
 }
 
 .description {
-    margin-bottom: 0.7rem;
+  margin-bottom: 0.7rem;
 }
 
 .note {
-    margin-top: 1rem !important;
+  margin-top: 1rem !important;
 }
 
 .note div textarea {
-    min-height: 70px;
+  min-height: 70px;
 }
 
 .btnSubmit {
-    margin: 1rem 0 0 auto;
+  margin: 1rem 0 0 auto;
 }

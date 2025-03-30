@@ -46,7 +46,7 @@ export const EditProfile: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
-    document.title = `Customize profile | Fake Reddit`;
+    document.title = `Customize profile | Moj Reddit`;
   }, []);
 
   if (isMounted && (user === null || userData?.username !== username)) {

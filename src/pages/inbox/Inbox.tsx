@@ -43,7 +43,7 @@ export const Inbox: FC<Props> = ({ roomId }) => {
 
   useEffect(() => {
     if (!rooms || !user || !selectedRoom) {
-      document.title = `Inbox | Fake Reddit`;
+      document.title = `Inbox | Moj Reddit`;
       return;
     }
     const selRoom = getSelectedRoom(rooms, selectedRoom);
@@ -51,7 +51,7 @@ export const Inbox: FC<Props> = ({ roomId }) => {
       selRoom,
       getSecondUser(user.uid, selRoom.userIds) || '',
     );
-    document.title = `Chat with ${secondUser} | Fake Reddit`;
+    document.title = `Chat with ${secondUser} | Moj Reddit`;
     // eslint-disable-next-line
   }, [selectedRoom]);
 

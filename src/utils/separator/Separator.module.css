@@ -1,17 +1,17 @@
 .separator {
-    display: flex;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .separator::before,
 .separator::after {
-    content: '';
-    height: 1px;
-    background-color: var(--colorOrange);
-    flex-grow: 1;
+  content: '';
+  height: 1px;
+  background-color: var(--colorOrange);
+  flex-grow: 1;
 }
 
 .separator p {
-    margin: 0 1rem;
+  margin: 0 1rem;
 }

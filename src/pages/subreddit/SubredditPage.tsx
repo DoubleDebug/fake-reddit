@@ -18,7 +18,7 @@ export const SubredditPage: FC = () => {
   );
 
   useEffect(() => {
-    document.title = `r/${subredditId} | Fake Reddit`;
+    document.title = `r/${subredditId} | Moj Reddit`;
   }, [subredditId]);
 
   if (subredditId.endsWith('/new-post')) {

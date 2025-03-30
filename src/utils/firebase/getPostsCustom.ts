@@ -15,48 +15,48 @@ import { convertToPost } from './firebaseToDataModel';
  * - hideNSFW
  */
 export async function getPostsCustom(
-    user: User | null | undefined,
-    offset: number = 0,
-    limit: number = POSTS_PER_PAGE,
-    hideNSFW?: boolean
+  user: User | null | undefined,
+  offset: number = 0,
+  limit: number = POSTS_PER_PAGE,
+  hideNSFW?: boolean,
 ): Promise<{
-    posts: PostModel[];
-    followedSubreddits: string[];
+  posts: PostModel[];
+  followedSubreddits: string[];
 }> {
-    if (!user) return { posts: [], followedSubreddits: [] };
+  if (!user) return { posts: [], followedSubreddits: [] };
 
-    // parameters
-    let params: any = {
-        offset: offset,
-        limit: limit,
-    };
-    if (hideNSFW) {
-        params.hideNSFW = hideNSFW;
-    }
+  // parameters
+  let params: any = {
+    offset: offset,
+    limit: limit,
+  };
+  if (hideNSFW) {
+    params.hideNSFW = hideNSFW;
+  }
 
-    // request data from server
-    const idToken = await user.getIdToken();
-    const response = await axios
-        .get(SERVER_ENDPOINTS.GET_POSTS_CUSTOM, {
-            headers: {
-                Authorization: idToken,
-            },
-            params: params,
-        })
-        .catch((error) => {
-            // handle server failure
-            displayNotif('Failed to load posts.', 'error');
-            console.log(error);
-        });
-    if (!response) return { posts: [], followedSubreddits: [] };
+  // request data from server
+  const idToken = await user.getIdToken();
+  const response = await axios
+    .get(SERVER_ENDPOINTS.GET_POSTS_CUSTOM, {
+      headers: {
+        Authorization: idToken,
+      },
+      params: params,
+    })
+    .catch((error) => {
+      // handle server failure
+      displayNotif('Failed to load posts.', 'error');
+      console.log(error);
+    });
+  if (!response) return { posts: [], followedSubreddits: [] };
 
-    // convert to data model
-    const posts: PostModel[] = [];
-    response.data.data.posts.forEach((doc: any) =>
-        posts.push(convertToPost(doc))
-    );
-    return {
-        posts: posts,
-        followedSubreddits: response.data.data.followedSubreddits,
-    };
+  // convert to data model
+  const posts: PostModel[] = [];
+  response.data.data.posts.forEach((doc: any) =>
+    posts.push(convertToPost(doc)),
+  );
+  return {
+    posts: posts,
+    followedSubreddits: response.data.data.followedSubreddits,
+  };
 }

@@ -1,52 +1,52 @@
 .dropdown {
-    position: relative;
-    display: flex;
-    height: min-content;
-    z-index: 1;
+  position: relative;
+  display: flex;
+  height: min-content;
+  z-index: 1;
 }
 
 .dropdownMenu {
-    position: absolute;
-    background: white;
-    top: calc(100% + 5px);
-    right: 0;
-    min-width: 140px;
-    text-align: right;
-    border: 1px solid silver;
-    cursor: pointer;
-    border-radius: 5px;
+  position: absolute;
+  background: white;
+  top: calc(100% + 5px);
+  right: 0;
+  min-width: 140px;
+  text-align: right;
+  border: 1px solid silver;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .dropdownItem {
-    display: flex;
-    justify-content: flex-end;
-    background: white;
-    cursor: pointer;
-    padding: 0.7rem;
-    border-radius: 5px;
-    text-align: right;
-    white-space: nowrap;
-    column-gap: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  background: white;
+  cursor: pointer;
+  padding: 0.7rem;
+  border-radius: 5px;
+  text-align: right;
+  white-space: nowrap;
+  column-gap: 0.5rem;
 }
 
 .link {
-    display: flex;
-    text-decoration: none !important;
+  display: flex;
+  text-decoration: none !important;
 }
 
 .link p {
-    width: 100%;
+  width: 100%;
 }
 
 .dropdownItem:hover {
-    background: var(--colorSilver);
+  background: var(--colorSilver);
 }
 
 .withIcon {
-    display: flex;
+  display: flex;
 }
 
 .icon {
-    margin-top: 5px;
-    margin-right: auto;
+  margin-top: 5px;
+  margin-right: auto;
 }

@@ -1,9 +1,9 @@
-# FakeReddit
+# MojReddit
 
-Fake Reddit is a reddit website clone made with React, Typescript and Firebase.<br>
-Live preview: [https://fake-reddit.com](https://fake-reddit.com)
+Moj Reddit is a reddit website clone made with React, Typescript and Firebase.<br>
+Live preview: [https://mojreddit.com](https://mojreddit.com)
 
-![FakeReddit screenshot](https://i.imgur.com/O3OPruB.png)
+![MojReddit screenshot](https://i.imgur.com/O3OPruB.png)
 
 ## Features
 

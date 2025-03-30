@@ -1,18 +1,18 @@
 .container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .text {
-    white-space: nowrap;
-    margin-bottom: 0px;
+  white-space: nowrap;
+  margin-bottom: 0px;
 }
 
 .btnAction {
-    margin: 0;
-    margin-left: 1rem;
+  margin: 0;
+  margin-left: 1rem;
 }
 
 .link:hover {
-    text-decoration: none;
+  text-decoration: none;
 }

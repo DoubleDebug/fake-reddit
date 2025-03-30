@@ -1,23 +1,23 @@
 .carousel {
-    max-height: 800px;
+  max-height: 800px;
 }
 
 .hidden {
-    opacity: 0%;
-    height: 0px;
+  opacity: 0%;
+  height: 0px;
 }
 
 .image {
-    margin: auto;
-    max-height: 800px;
-    max-width: 83%;
+  margin: auto;
+  max-height: 800px;
+  max-width: 83%;
 }
 
 .image.preview {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .preview {
-    max-width: 83%;
-    max-height: 600px;
+  max-width: 83%;
+  max-height: 600px;
 }

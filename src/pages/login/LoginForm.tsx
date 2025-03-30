@@ -17,7 +17,7 @@ export const LoginForm: React.FC<ILoginFormProps> = (props) => {
   const [tabIndex, setTabIndex] = useState(props.tab);
 
   useEffect(() => {
-    document.title = `Sign ${props.tab.split(' ')[1]} | Fake Reddit`;
+    document.title = `Sign ${props.tab.split(' ')[1]} | Moj Reddit`;
   }, [props.tab]);
 
   if (user) return <Navigate to="/" />;

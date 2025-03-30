@@ -5,14 +5,14 @@ import { MAX_BIO_LENGTH } from '../misc/constants';
  * anything@anything.anything
  */
 export function validateEmail(email: string): ValidationResult {
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-        return {
-            isValid: false,
-            message: 'The email address is invalid.',
-        };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     return {
-        isValid: true,
+      isValid: false,
+      message: 'The email address is invalid.',
     };
+  return {
+    isValid: true,
+  };
 }
 
 /**
@@ -24,14 +24,14 @@ export function validateEmail(email: string): ValidationResult {
  *      cannot end in a dot            -   (?<![.])
  */
 export function validateUsername(username: string): ValidationResult {
-    if (!/^(?=.{3,20}$)(?!\.)(?!.*?\.\.)[a-zA-Z0-9._]+(?<![.])$/.test(username))
-        return {
-            isValid: false,
-            message: 'The username is invalid.',
-        };
+  if (!/^(?=.{3,20}$)(?!\.)(?!.*?\.\.)[a-zA-Z0-9._]+(?<![.])$/.test(username))
     return {
-        isValid: true,
+      isValid: false,
+      message: 'The username is invalid.',
     };
+  return {
+    isValid: true,
+  };
 }
 
 /**
@@ -40,14 +40,14 @@ export function validateUsername(username: string): ValidationResult {
  *      can have following characters  -   [a-zA-Z0-9._ ]
  */
 export function validatePassword(password: string): ValidationResult {
-    if (!/^(?=.{5,20}$)[a-zA-Z0-9._ ]+$/.test(password))
-        return {
-            isValid: false,
-            message: 'The password is invalid.',
-        };
+  if (!/^(?=.{5,20}$)[a-zA-Z0-9._ ]+$/.test(password))
     return {
-        isValid: true,
+      isValid: false,
+      message: 'The password is invalid.',
     };
+  return {
+    isValid: true,
+  };
 }
 
 /**
@@ -55,12 +55,12 @@ export function validatePassword(password: string): ValidationResult {
  *      length must be from 0 to 300
  */
 export function validateBio(bio: string): ValidationResult {
-    if (bio.length > MAX_BIO_LENGTH)
-        return {
-            isValid: false,
-            message: `The about me section is too long. Maximum length: ${MAX_BIO_LENGTH}.`,
-        };
+  if (bio.length > MAX_BIO_LENGTH)
     return {
-        isValid: true,
+      isValid: false,
+      message: `The about me section is too long. Maximum length: ${MAX_BIO_LENGTH}.`,
     };
+  return {
+    isValid: true,
+  };
 }

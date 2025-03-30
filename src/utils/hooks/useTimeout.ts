@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
  * @param duration = timeout duration in milliseconds (default: 1000)
  */
 export function useTimeout(duration: number = 1000) {
-    const [isOver, setIsOver] = useState(false);
+  const [isOver, setIsOver] = useState(false);
 
-    useEffect(() => {
-        setTimeout(() => {
-            setIsOver(true);
-        }, duration);
-        // eslint-disable-next-line
-    }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsOver(true);
+    }, duration);
+    // eslint-disable-next-line
+  }, []);
 
-    return isOver;
+  return isOver;
 }

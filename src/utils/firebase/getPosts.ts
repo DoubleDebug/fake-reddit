@@ -13,37 +13,35 @@ import { convertToPost } from './firebaseToDataModel';
  * - hideNSFW
  */
 export async function getPosts(
-    offset: number = 0,
-    limit: number = POSTS_PER_PAGE,
-    subreddit?: string,
-    sortBy?: 'new' | 'top',
-    hideNSFW?: boolean
+  offset: number = 0,
+  limit: number = POSTS_PER_PAGE,
+  subreddit?: string,
+  sortBy?: 'new' | 'top',
+  hideNSFW?: boolean,
 ): Promise<PostModel[]> {
-    // parameters
-    let params: any = {
-        offset: offset,
-        limit: limit,
-    };
-    if (subreddit) params.subreddit = subreddit;
-    if (sortBy) params.sortBy = sortBy;
-    if (hideNSFW) params.hideNSFW = hideNSFW;
+  // parameters
+  let params: any = {
+    offset: offset,
+    limit: limit,
+  };
+  if (subreddit) params.subreddit = subreddit;
+  if (sortBy) params.sortBy = sortBy;
+  if (hideNSFW) params.hideNSFW = hideNSFW;
 
-    // request data from server
-    const response = await axios
-        .get(SERVER_ENDPOINTS.GET_POSTS, {
-            params: params,
-        })
-        .catch((error) => {
-            // handle server failure
-            displayNotif('Failed to load posts.', 'error');
-            console.log(error);
-        });
+  // request data from server
+  const response = await axios
+    .get(SERVER_ENDPOINTS.GET_POSTS, {
+      params: params,
+    })
+    .catch((error) => {
+      // handle server failure
+      displayNotif('Failed to load posts.', 'error');
+      console.log(error);
+    });
 
-    // convert to data model
-    const posts: PostModel[] = [];
-    response &&
-        response.data?.data?.forEach((doc: any) =>
-            posts.push(convertToPost(doc))
-        );
-    return posts;
+  // convert to data model
+  const posts: PostModel[] = [];
+  response &&
+    response.data?.data?.forEach((doc: any) => posts.push(convertToPost(doc)));
+  return posts;
 }

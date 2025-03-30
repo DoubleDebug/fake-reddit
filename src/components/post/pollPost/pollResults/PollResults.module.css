@@ -1,45 +1,45 @@
 .container {
-    margin-left: 5rem;
+  margin-left: 5rem;
 }
 
 .option {
-    display: flex;
-    align-items: center;
-    position: relative;
-    border: 1px solid rgb(167, 167, 167);
-    border-radius: 5px;
-    padding: 5px 10px;
-    height: 30px;
-    margin-bottom: 10px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid rgb(167, 167, 167);
+  border-radius: 5px;
+  padding: 5px 10px;
+  height: 30px;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .option:hover .fill {
-    background: #ffe0ba;
+  background: #ffe0ba;
 }
 
 .fill {
-    width: 0%;
-    transition: width 1s ease;
+  width: 0%;
+  transition: width 1s ease;
 }
 
 .option .fill {
-    display: flex;
-    position: absolute;
-    z-index: -1;
-    height: 100%;
-    left: 0;
-    background: #ffe8cb;
+  display: flex;
+  position: absolute;
+  z-index: -1;
+  height: 100%;
+  left: 0;
+  background: #ffe8cb;
 }
 
 .option.winner .fill {
-    background: #ffbd6c;
+  background: #ffbd6c;
 }
 
 .option p {
-    margin: 0;
+  margin: 0;
 }
 
 .option small {
-    margin-left: auto;
+  margin-left: auto;
 }

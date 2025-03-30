@@ -1,23 +1,23 @@
 .container {
-    display: grid;
-    row-gap: 1rem;
+  display: grid;
+  row-gap: 1rem;
 }
 
 .title {
-    margin-top: 0;
-    margin-bottom: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
 }
 
 .aboutMe textarea {
-    min-height: 150px;
+  min-height: 150px;
 }
 
 .btnSaveChanges {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .split {
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-columns: 50% 50%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-columns: 50% 50%;
 }

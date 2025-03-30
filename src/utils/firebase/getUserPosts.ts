@@ -13,36 +13,36 @@ import { convertToPost } from './firebaseToDataModel';
  * - limit
  */
 export async function getUserPosts(
-    username: string,
-    offset: number = 0,
-    limit: number = POSTS_PER_PAGE
+  username: string,
+  offset: number = 0,
+  limit: number = POSTS_PER_PAGE,
 ): Promise<PostModel[]> {
-    // parameters
-    const params: any = {
-        username: username,
-        offset: offset,
-        limit: limit,
-    };
+  // parameters
+  const params: any = {
+    username: username,
+    offset: offset,
+    limit: limit,
+  };
 
-    // request data from server
-    const response = await axios
-        .get(SERVER_ENDPOINTS.GET_USER_POSTS, {
-            params: params,
-        })
-        .catch((error) => {
-            // handle server failure
-            displayNotif('Failed to load posts.', 'error');
-            console.log(error);
-        });
+  // request data from server
+  const response = await axios
+    .get(SERVER_ENDPOINTS.GET_USER_POSTS, {
+      params: params,
+    })
+    .catch((error) => {
+      // handle server failure
+      displayNotif('Failed to load posts.', 'error');
+      console.log(error);
+    });
 
-    if (!response) return [];
-    if (!response.data?.success) {
-        displayNotif(response.data.message, 'error');
-        return [];
-    }
+  if (!response) return [];
+  if (!response.data?.success) {
+    displayNotif(response.data.message, 'error');
+    return [];
+  }
 
-    // convert to data model
-    const posts: PostModel[] = [];
-    response.data?.data?.forEach((doc: any) => posts.push(convertToPost(doc)));
-    return posts;
+  // convert to data model
+  const posts: PostModel[] = [];
+  response.data?.data?.forEach((doc: any) => posts.push(convertToPost(doc)));
+  return posts;
 }

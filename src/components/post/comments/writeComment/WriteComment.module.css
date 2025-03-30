@@ -1,33 +1,33 @@
 .container {
-    display: grid;
+  display: grid;
 }
 
 .replyTextarea {
-    border: 1px solid silver;
-    margin: 0.5rem 0 !important;
+  border: 1px solid silver;
+  margin: 0.5rem 0 !important;
 }
 
 .replyTextarea div textarea {
-    min-height: 4rem;
+  min-height: 4rem;
 }
 
 .replyForm {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .btnCancel {
-    font-size: 0.95rem;
-    cursor: pointer;
-    margin-left: auto;
-    margin-right: 20px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 20px;
 }
 
 .btnCancel:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .btnSubmit {
-    justify-self: flex-end;
+  justify-self: flex-end;
 }

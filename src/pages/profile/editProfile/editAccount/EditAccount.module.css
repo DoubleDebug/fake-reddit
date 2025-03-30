@@ -1,112 +1,112 @@
 .container {
-    display: grid;
-    row-gap: 1rem;
+  display: grid;
+  row-gap: 1rem;
 }
 
 .title {
-    margin-top: 0;
-    margin-bottom: 1rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
 }
 
 .btnDelete {
-    margin-left: auto;
-    height: min-content;
+  margin-left: auto;
+  height: min-content;
 }
 
 .btnVerify {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .provider {
-    display: flex;
-    margin-bottom: 1rem;
+  display: flex;
+  margin-bottom: 1rem;
 }
 
 .iconProvider {
-    margin-left: 0.5rem;
-    width: 30px;
-    height: 30px;
+  margin-left: 0.5rem;
+  width: 30px;
+  height: 30px;
 }
 
 .iconGoogle {
-    content: url('../../../../static/google-brands.svg');
+  content: url('../../../../static/google-brands.svg');
 }
 
 .iconGithub {
-    content: url('../../../../static/github-brands.svg');
+  content: url('../../../../static/github-brands.svg');
 }
 
 .pswdInfo {
-    display: flex;
-    align-items: center;
-    column-gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
 }
 
 .pswdSection {
-    height: 0px;
-    opacity: 0%;
-    transition: all 0.5s ease;
-    overflow: hidden;
-    margin: 1rem 0;
-    padding-top: 0.5rem;
+  height: 0px;
+  opacity: 0%;
+  transition: all 0.5s ease;
+  overflow: hidden;
+  margin: 1rem 0;
+  padding-top: 0.5rem;
 }
 
 .pswdSection.extended {
-    opacity: 100%;
-    height: 232px;
+  opacity: 100%;
+  height: 232px;
 }
 
 .pswdSection > div {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .pswdButtons {
-    display: flex;
-    flex-direction: row-reverse;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .btnSubmit {
-    width: 150px;
-    margin-left: auto;
-    margin-top: -0.5rem;
+  width: 150px;
+  margin-left: auto;
+  margin-top: -0.5rem;
 }
 
 .groupLabel {
-    position: absolute;
-    top: -319px;
-    left: 9px;
-    background: white;
-    color: #666666;
-    font-size: 0.85rem;
-    padding: 0 5px;
+  position: absolute;
+  top: -319px;
+  left: 9px;
+  background: white;
+  color: #666666;
+  font-size: 0.85rem;
+  padding: 0 5px;
 }
 
 .avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-right: 0.75rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 0.75rem;
 }
 
 .userInfo {
-    display: flex;
-    margin-bottom: 5rem;
+  display: flex;
+  margin-bottom: 5rem;
 }
 
 .nameAndEmail {
-    display: grid;
-    align-items: center;
+  display: grid;
+  align-items: center;
 }
 
 .nameAndEmail strong {
-    align-self: end;
+  align-self: end;
 }
 
 .nameAndEmail small {
-    align-self: start;
+  align-self: start;
 }
 
 .imageContainer button[type='submit'] {
-    background: rgb(240, 240, 240);
-    color: black;
+  background: rgb(240, 240, 240);
+  color: black;
 }

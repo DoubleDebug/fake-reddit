@@ -66,7 +66,7 @@ export const NewPost: FC = () => {
   }>();
 
   useEffect(() => {
-    document.title = `Create a new post | Fake Reddit`;
+    document.title = `Create a new post | Moj Reddit`;
 
     const tid = setTimeout(() => {
       if (!user) redirect({ to: '/' });

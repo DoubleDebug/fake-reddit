@@ -28,7 +28,7 @@ export const Home: React.FC = () => {
   const { redirect } = Route.useSearch();
 
   useEffect(() => {
-    document.title = `The front page of the Internet | Fake Reddit`;
+    document.title = `The front page of the Internet | Moj Reddit`;
     if (redirect === 'accountDeleted') {
       displayNotif('Successfully deleted your account.', 'success');
     }

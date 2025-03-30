@@ -1,33 +1,33 @@
 .container {
-    display: grid;
-    grid-template-rows: min-content min-content;
-    min-height: 270px;
-    margin-top: 20px;
+  display: grid;
+  grid-template-rows: min-content min-content;
+  min-height: 270px;
+  margin-top: 20px;
 }
 
 .options {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .textbox {
-    width: 300px;
-    margin-bottom: 0.7rem !important;
+  width: 300px;
+  margin-bottom: 0.7rem !important;
 }
 
 .textbox div input {
-    padding-top: 0.7rem;
-    padding-bottom: 0.7rem;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
 }
 
 .btnRemoveOption {
-    margin-left: 0.7rem;
-    height: min-content;
+  margin-left: 0.7rem;
+  height: min-content;
 }
 
 .btnAddOption {
-    justify-self: center;
-    width: 300px;
+  justify-self: center;
+  width: 300px;
 }
