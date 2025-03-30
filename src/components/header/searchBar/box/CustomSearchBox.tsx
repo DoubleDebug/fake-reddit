@@ -1,6 +1,6 @@
 import { Paper } from '@mui/material';
-import css from './CustomSearchBox.module.css';
 import { FC, useContext } from 'react';
+import css from './CustomSearchBox.module.css';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { HeaderContext } from '../../../../context/HeaderContext';
@@ -12,7 +12,19 @@ export const CustomSearchBox: FC = () => {
 
   return (
     <Paper className={`${css.paper} ${isSearchBarFocused ? css.focused : ''}`}>
-      <FontAwesomeIcon icon={faSearch} color="silver" className={css.icon} />
+      <FontAwesomeIcon
+        icon={faSearch}
+        color="silver"
+        className={css.icon}
+        onClick={(e) => {
+          setIsSearchBarFocused(true);
+          let parentEl = (e.target as HTMLElement).parentElement;
+          if (parentEl?.tagName === 'svg') {
+            parentEl = parentEl.parentElement;
+          }
+          setTimeout(() => parentEl?.querySelector('input')?.focus(), 10);
+        }}
+      />
       <InstantSearchBox
         onFocus={() => setIsSearchBarFocused(true)}
         onBlur={() => setTimeout(() => setIsSearchBarFocused(false), 100)}

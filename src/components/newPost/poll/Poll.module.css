@@ -17,13 +17,18 @@
   margin-bottom: 0.7rem !important;
 }
 
+.textbox-container {
+  position: relative;
+}
+
 .textbox div input {
   padding-top: 0.7rem;
   padding-bottom: 0.7rem;
 }
 
 .btnRemoveOption {
-  margin-left: 0.7rem;
+  position: absolute;
+  right: -55px;
   height: min-content;
 }
 

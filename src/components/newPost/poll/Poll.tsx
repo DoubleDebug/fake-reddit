@@ -33,14 +33,14 @@ export const Poll: React.FC<IPollProps> = (props) => {
     <div className={css.container}>
       <div className={css.options}>
         {pollData.options.map((option, index) => (
-          <div className="flex" key={`option${index}`}>
+          <div
+            className={`flex ${css['textbox-container']}`}
+            key={`option${index}`}
+          >
             <TextField
               placeholder="Option"
               type="text"
               className={css.textbox}
-              style={{
-                marginLeft: index > 1 ? '58px' : '0',
-              }}
               value={option}
               onChange={(e) =>
                 updateOption(

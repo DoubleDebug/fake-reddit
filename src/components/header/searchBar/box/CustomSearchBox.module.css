@@ -42,14 +42,12 @@
 }
 
 @media only screen and (max-width: 850px) {
-  .box input[type='search'] {
+  input[type='search'] {
     font-size: 0.9rem;
   }
 
   .icon {
-    color: black;
     left: 10px;
-    top: 10px;
   }
 
   .paper {
@@ -59,9 +57,30 @@
   }
 
   .paper.focused {
-    margin-left: auto;
-    margin-right: auto;
-    width: 95%;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-bottom: 10px;
+    width: auto;
     transition: width 1s ease;
+  }
+
+  .paper:not(.focused) > :global(.ais-SearchBox) {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .paper {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .paper:not(.focused) .icon {
+    color: white;
+    left: 20px;
+  }
+
+  .paper:not(.focused) > :global(.ais-SearchBox) {
+    display: none;
   }
 }

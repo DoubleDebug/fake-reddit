@@ -1,6 +1,6 @@
 import css from './EditProfile.module.css';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Tab, ThemeProvider } from '@mui/material';
+import { Tab, ThemeProvider, useMediaQuery } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { myTheme } from '../../../utils/muiThemes/myTheme';
 import { EditAccount } from './editAccount/EditAccount';
@@ -35,6 +35,7 @@ export interface IEditProfileState {
 export const EditProfile: React.FC = () => {
   const user = useContext(UserContext);
   const userData = useContext(UserDataContext);
+  const isMobile = useMediaQuery('(max-width: 850px)');
   const { username } = Route.useParams();
   const { redirect: searchParamRedirect } = Route.useSearch();
   const [tab, setTab] = useState<'account' | 'profile'>(
@@ -74,7 +75,7 @@ export const EditProfile: React.FC = () => {
               <TabList
                 onChange={(_, val) => setTab(val)}
                 className={css.tabs}
-                orientation="vertical"
+                orientation={isMobile ? 'horizontal' : 'vertical'}
               >
                 <Tab value="account" label="account" />
                 <Tab value="profile" label="profile" />

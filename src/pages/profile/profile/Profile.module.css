@@ -41,4 +41,14 @@
     width: 90%;
     max-width: 90%;
   }
+
+  :global(.contentBox) {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .tabs {
+    margin-top: 20px;
+  }
 }
