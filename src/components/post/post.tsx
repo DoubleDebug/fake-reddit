@@ -199,6 +199,7 @@ export const Post: React.FC<IPostProps> = (props) => {
             />
           ) : !props.isPreview && props.data.authorId !== user.uid ? (
             <Dropdown
+              style={{ zIndex: 1000 }}
               items={[
                 {
                   text: isSaved ? 'Unsave' : 'Save post',

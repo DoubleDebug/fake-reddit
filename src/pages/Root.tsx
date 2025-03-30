@@ -23,6 +23,7 @@ import {
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../utils/firebase/firebaseConfig';
 import { log } from '../utils/misc/log';
+import { UserConverter } from '../models/user';
 
 // DATABASE
 initializeApp(firebaseConfig);
@@ -37,9 +38,11 @@ export const RootPage: FC = () => {
   const [user] = useAuthState(auth);
   const [userData] = useDocumentDataOnce(
     user &&
-      (doc(db, DB_COLLECTIONS.USERS, user.uid) as DocumentReference<
-        IUserDataWithId | undefined
-      >),
+      (
+        doc(db, DB_COLLECTIONS.USERS, user.uid) as DocumentReference<
+          IUserDataWithId | undefined
+        >
+      ).withConverter(UserConverter),
   );
 
   useEffect(() => {
@@ -54,7 +57,7 @@ export const RootPage: FC = () => {
 
   return (
     <UserContext.Provider value={user}>
-      <UserDataContext.Provider value={userData}>
+      <UserDataContext.Provider value={userData as IUserDataWithId}>
         <Header />
         <Outlet />
       </UserDataContext.Provider>

@@ -18,7 +18,7 @@ import {
 import { Post } from '../../components/post/post';
 import { PostConverter, PostModel } from '../../models/post';
 import { DB_COLLECTIONS } from '../../utils/misc/constants';
-import { CommentModel } from '../../models/comment';
+import { CommentConverter, CommentModel } from '../../models/comment';
 import { CommentSection } from '../../components/post/comments/commentSection/CommentSection';
 import { Navigate } from '@tanstack/react-router';
 import { Route } from '../../routes/post.$id';
@@ -32,15 +32,17 @@ export const ViewPost: React.FC = () => {
     ).withConverter(PostConverter),
   );
   const [comments] = useCollectionData<CommentModel>(
-    query(
-      collection(db, DB_COLLECTIONS.COMMENTS),
-      where('postId', '==', postId),
-      orderBy('createdAt', 'desc'),
-    ) as Query<CommentModel>,
+    (
+      query(
+        collection(db, DB_COLLECTIONS.COMMENTS),
+        where('postId', '==', postId),
+        orderBy('createdAt', 'desc'),
+      ) as Query<CommentModel>
+    ).withConverter(CommentConverter),
   );
 
   useEffect(() => {
-    document.title = `${postData?.title} | Fake Reddit`;
+    document.title = `${postData?.title} | Moj Reddit`;
   }, [postData]);
 
   if (!postData && !loadingPost) {

@@ -36,7 +36,7 @@ export const NewSubreddit: React.FC = () => {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    document.title = `Create a community | Fake Reddit`;
+    document.title = `Create a community | Moj Reddit`;
   }, []);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export const NewSubreddit: React.FC = () => {
   }, [userData]);
 
   if (redirect || errorMessage) {
-    errorMessage && displayNotif(errorMessage, 'error');
+    if (errorMessage) displayNotif(errorMessage, 'error');
     throw routerRedirect({ to: '/' });
   }
 

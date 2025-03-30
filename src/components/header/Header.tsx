@@ -67,7 +67,7 @@ export const Header: React.FC = () => {
                 alt="Logo"
               />
               <Link to="/" className={css.btnHomepage}>
-                FakeReddit
+                MojReddit
               </Link>
             </div>
           </div>
@@ -101,10 +101,10 @@ export const Header: React.FC = () => {
                       text: 'Profile',
                       redirectPath: `/user/${userData?.username}`,
                     },
-                    {
-                      text: 'Inbox',
-                      redirectPath: '/inbox',
-                    },
+                    // {
+                    //   text: 'Inbox',
+                    //   redirectPath: '/inbox',
+                    // },
                     {
                       text: 'Sign out',
                       action: () => signOutUser(),

@@ -188,15 +188,15 @@ export class PostModel {
     postObject = cleanObject(postObject); // remove all empty fields from post data
 
     // send data to firestore
-    const sererResponse = await submitPost(user, postObject);
+    const serverResponse = await submitPost(user, postObject);
 
-    if (sererResponse.success) {
+    if (serverResponse.success) {
       callbackOnSuccess();
       displayNotif('Added a new post.', 'success');
     } else {
       callbackOnFail();
       displayNotif('Failed to add a new post.', 'error');
-      console.log(sererResponse.message);
+      console.log(serverResponse.message);
     }
   }
 }
