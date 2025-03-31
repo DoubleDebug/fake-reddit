@@ -163,7 +163,7 @@ export async function changeAccount(
   });
 
   if (!serverResponse || !serverResponse.success) {
-    serverResponse && displayNotif(serverResponse.message, 'error');
+    if (serverResponse) displayNotif(serverResponse.message, 'error');
     return;
   }
   return serverResponse.data;

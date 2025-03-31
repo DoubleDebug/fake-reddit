@@ -16,10 +16,11 @@ import { useIsMobile } from '../../../utils/hooks/useIsMobile';
 import { Route } from '../../../routes/user.$username';
 import { Navigate } from '@tanstack/react-router';
 import { EditProfile } from '../editProfile/EditProfile';
+import { displayNotif } from '../../../utils/misc/toast';
 
 export const Profile: React.FC = () => {
   const { username } = Route.useParams();
-  const { edit: editMode } = Route.useSearch();
+  const { edit: editMode, redirect } = Route.useSearch();
   const myUserData = useContext(UserDataContext);
   const windowScrollY = useScrollPosition(200);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -71,6 +72,13 @@ export const Profile: React.FC = () => {
       })
       .catch(() => setUserExists(false));
   }, [myUserData, username]);
+
+  useEffect(() => {
+    if (redirect === 'updatedProfile') {
+      displayNotif('Updated profile information.', 'success');
+    }
+    // eslint-disable-next-line
+  }, []);
 
   if (!userExists) {
     return <Navigate to="/" />;
