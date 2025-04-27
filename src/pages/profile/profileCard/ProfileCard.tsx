@@ -119,6 +119,13 @@ export const ProfileCard: React.FC<IProfileCardProps> = (props) => {
             >
               <button>Edit profile</button>
             </Link>
+            <Link
+              to="/user/$username"
+              params={{ username: props.data.username }}
+              search={{ settings: true }}
+            >
+              <button>Settings</button>
+            </Link>
           </div>
         )
       ) : (

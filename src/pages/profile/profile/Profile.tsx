@@ -17,10 +17,11 @@ import { Route } from '../../../routes/user.$username';
 import { Navigate } from '@tanstack/react-router';
 import { EditProfile } from '../editProfile/EditProfile';
 import { displayNotif } from '../../../utils/misc/toast';
+import { ProfileSettings } from '../profileSettings/ProfileSettings';
 
 export const Profile: React.FC = () => {
   const { username } = Route.useParams();
-  const { edit: editMode, redirect } = Route.useSearch();
+  const { edit: editMode, settings: settingsOpen, redirect } = Route.useSearch();
   const myUserData = useContext(UserDataContext);
   const windowScrollY = useScrollPosition(200);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -86,6 +87,10 @@ export const Profile: React.FC = () => {
 
   if (editMode) {
     return <EditProfile />;
+  }
+
+  if (settingsOpen) {
+    return <ProfileSettings />;
   }
 
   return (

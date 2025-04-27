@@ -8,5 +8,6 @@ export const Route = createFileRoute('/user/$username')({
       ? { redirect: search.redirect }
       : {}),
     ...(search.edit ? { edit: true } : {}),
+    ...(search.settings ? { settings: true } : {}),
   }),
 });

@@ -6,6 +6,7 @@ import './index.css';
 import { App } from './App';
 import { maintainLocalStorage } from './utils/misc/maintainLocalStorage';
 
+
 maintainLocalStorage();
 
 const container = document.getElementById('root');

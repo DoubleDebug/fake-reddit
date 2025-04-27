@@ -10,18 +10,18 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root';
-import { Route as SignUpImport } from './routes/sign-up';
-import { Route as NewSubredditImport } from './routes/new-subreddit';
-import { Route as NewPostImport } from './routes/new-post';
-import { Route as LoginImport } from './routes/login';
-import { Route as InboxImport } from './routes/inbox';
-import { Route as IndexImport } from './routes/index';
-import { Route as UserUsernameImport } from './routes/user.$username';
-import { Route as RIdImport } from './routes/r.$id';
-import { Route as PostIdImport } from './routes/post.$id';
-import { Route as LoginResetPasswordImport } from './routes/login.reset-password';
-import { Route as InboxRoomIdImport } from './routes/inbox.$roomId';
+import { Route as rootRoute } from './routes/__root'
+import { Route as SignUpImport } from './routes/sign-up'
+import { Route as NewSubredditImport } from './routes/new-subreddit'
+import { Route as NewPostImport } from './routes/new-post'
+import { Route as LoginImport } from './routes/login'
+import { Route as InboxImport } from './routes/inbox'
+import { Route as IndexImport } from './routes/index'
+import { Route as UserUsernameImport } from './routes/user.$username'
+import { Route as RIdImport } from './routes/r.$id'
+import { Route as PostIdImport } from './routes/post.$id'
+import { Route as LoginResetPasswordImport } from './routes/login.reset-password'
+import { Route as InboxRoomIdImport } from './routes/inbox.$roomId'
 
 // Create/Update Routes
 
@@ -29,219 +29,219 @@ const SignUpRoute = SignUpImport.update({
   id: '/sign-up',
   path: '/sign-up',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const NewSubredditRoute = NewSubredditImport.update({
   id: '/new-subreddit',
   path: '/new-subreddit',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const NewPostRoute = NewPostImport.update({
   id: '/new-post',
   path: '/new-post',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const LoginRoute = LoginImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const InboxRoute = InboxImport.update({
   id: '/inbox',
   path: '/inbox',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const UserUsernameRoute = UserUsernameImport.update({
   id: '/user/$username',
   path: '/user/$username',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const RIdRoute = RIdImport.update({
   id: '/r/$id',
   path: '/r/$id',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const PostIdRoute = PostIdImport.update({
   id: '/post/$id',
   path: '/post/$id',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const LoginResetPasswordRoute = LoginResetPasswordImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => LoginRoute,
-} as any);
+} as any)
 
 const InboxRoomIdRoute = InboxRoomIdImport.update({
   id: '/$roomId',
   path: '/$roomId',
   getParentRoute: () => InboxRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      id: '/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/inbox': {
-      id: '/inbox';
-      path: '/inbox';
-      fullPath: '/inbox';
-      preLoaderRoute: typeof InboxImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof InboxImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
-      id: '/login';
-      path: '/login';
-      fullPath: '/login';
-      preLoaderRoute: typeof LoginImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/new-post': {
-      id: '/new-post';
-      path: '/new-post';
-      fullPath: '/new-post';
-      preLoaderRoute: typeof NewPostImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/new-post'
+      path: '/new-post'
+      fullPath: '/new-post'
+      preLoaderRoute: typeof NewPostImport
+      parentRoute: typeof rootRoute
+    }
     '/new-subreddit': {
-      id: '/new-subreddit';
-      path: '/new-subreddit';
-      fullPath: '/new-subreddit';
-      preLoaderRoute: typeof NewSubredditImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/new-subreddit'
+      path: '/new-subreddit'
+      fullPath: '/new-subreddit'
+      preLoaderRoute: typeof NewSubredditImport
+      parentRoute: typeof rootRoute
+    }
     '/sign-up': {
-      id: '/sign-up';
-      path: '/sign-up';
-      fullPath: '/sign-up';
-      preLoaderRoute: typeof SignUpImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpImport
+      parentRoute: typeof rootRoute
+    }
     '/inbox/$roomId': {
-      id: '/inbox/$roomId';
-      path: '/$roomId';
-      fullPath: '/inbox/$roomId';
-      preLoaderRoute: typeof InboxRoomIdImport;
-      parentRoute: typeof InboxImport;
-    };
+      id: '/inbox/$roomId'
+      path: '/$roomId'
+      fullPath: '/inbox/$roomId'
+      preLoaderRoute: typeof InboxRoomIdImport
+      parentRoute: typeof InboxImport
+    }
     '/login/reset-password': {
-      id: '/login/reset-password';
-      path: '/reset-password';
-      fullPath: '/login/reset-password';
-      preLoaderRoute: typeof LoginResetPasswordImport;
-      parentRoute: typeof LoginImport;
-    };
+      id: '/login/reset-password'
+      path: '/reset-password'
+      fullPath: '/login/reset-password'
+      preLoaderRoute: typeof LoginResetPasswordImport
+      parentRoute: typeof LoginImport
+    }
     '/post/$id': {
-      id: '/post/$id';
-      path: '/post/$id';
-      fullPath: '/post/$id';
-      preLoaderRoute: typeof PostIdImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/post/$id'
+      path: '/post/$id'
+      fullPath: '/post/$id'
+      preLoaderRoute: typeof PostIdImport
+      parentRoute: typeof rootRoute
+    }
     '/r/$id': {
-      id: '/r/$id';
-      path: '/r/$id';
-      fullPath: '/r/$id';
-      preLoaderRoute: typeof RIdImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/r/$id'
+      path: '/r/$id'
+      fullPath: '/r/$id'
+      preLoaderRoute: typeof RIdImport
+      parentRoute: typeof rootRoute
+    }
     '/user/$username': {
-      id: '/user/$username';
-      path: '/user/$username';
-      fullPath: '/user/$username';
-      preLoaderRoute: typeof UserUsernameImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/user/$username'
+      path: '/user/$username'
+      fullPath: '/user/$username'
+      preLoaderRoute: typeof UserUsernameImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 interface InboxRouteChildren {
-  InboxRoomIdRoute: typeof InboxRoomIdRoute;
+  InboxRoomIdRoute: typeof InboxRoomIdRoute
 }
 
 const InboxRouteChildren: InboxRouteChildren = {
   InboxRoomIdRoute: InboxRoomIdRoute,
-};
+}
 
-const InboxRouteWithChildren = InboxRoute._addFileChildren(InboxRouteChildren);
+const InboxRouteWithChildren = InboxRoute._addFileChildren(InboxRouteChildren)
 
 interface LoginRouteChildren {
-  LoginResetPasswordRoute: typeof LoginResetPasswordRoute;
+  LoginResetPasswordRoute: typeof LoginResetPasswordRoute
 }
 
 const LoginRouteChildren: LoginRouteChildren = {
   LoginResetPasswordRoute: LoginResetPasswordRoute,
-};
+}
 
-const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren);
+const LoginRouteWithChildren = LoginRoute._addFileChildren(LoginRouteChildren)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute;
-  '/inbox': typeof InboxRouteWithChildren;
-  '/login': typeof LoginRouteWithChildren;
-  '/new-post': typeof NewPostRoute;
-  '/new-subreddit': typeof NewSubredditRoute;
-  '/sign-up': typeof SignUpRoute;
-  '/inbox/$roomId': typeof InboxRoomIdRoute;
-  '/login/reset-password': typeof LoginResetPasswordRoute;
-  '/post/$id': typeof PostIdRoute;
-  '/r/$id': typeof RIdRoute;
-  '/user/$username': typeof UserUsernameRoute;
+  '/': typeof IndexRoute
+  '/inbox': typeof InboxRouteWithChildren
+  '/login': typeof LoginRouteWithChildren
+  '/new-post': typeof NewPostRoute
+  '/new-subreddit': typeof NewSubredditRoute
+  '/sign-up': typeof SignUpRoute
+  '/inbox/$roomId': typeof InboxRoomIdRoute
+  '/login/reset-password': typeof LoginResetPasswordRoute
+  '/post/$id': typeof PostIdRoute
+  '/r/$id': typeof RIdRoute
+  '/user/$username': typeof UserUsernameRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute;
-  '/inbox': typeof InboxRouteWithChildren;
-  '/login': typeof LoginRouteWithChildren;
-  '/new-post': typeof NewPostRoute;
-  '/new-subreddit': typeof NewSubredditRoute;
-  '/sign-up': typeof SignUpRoute;
-  '/inbox/$roomId': typeof InboxRoomIdRoute;
-  '/login/reset-password': typeof LoginResetPasswordRoute;
-  '/post/$id': typeof PostIdRoute;
-  '/r/$id': typeof RIdRoute;
-  '/user/$username': typeof UserUsernameRoute;
+  '/': typeof IndexRoute
+  '/inbox': typeof InboxRouteWithChildren
+  '/login': typeof LoginRouteWithChildren
+  '/new-post': typeof NewPostRoute
+  '/new-subreddit': typeof NewSubredditRoute
+  '/sign-up': typeof SignUpRoute
+  '/inbox/$roomId': typeof InboxRoomIdRoute
+  '/login/reset-password': typeof LoginResetPasswordRoute
+  '/post/$id': typeof PostIdRoute
+  '/r/$id': typeof RIdRoute
+  '/user/$username': typeof UserUsernameRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  '/': typeof IndexRoute;
-  '/inbox': typeof InboxRouteWithChildren;
-  '/login': typeof LoginRouteWithChildren;
-  '/new-post': typeof NewPostRoute;
-  '/new-subreddit': typeof NewSubredditRoute;
-  '/sign-up': typeof SignUpRoute;
-  '/inbox/$roomId': typeof InboxRoomIdRoute;
-  '/login/reset-password': typeof LoginResetPasswordRoute;
-  '/post/$id': typeof PostIdRoute;
-  '/r/$id': typeof RIdRoute;
-  '/user/$username': typeof UserUsernameRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/inbox': typeof InboxRouteWithChildren
+  '/login': typeof LoginRouteWithChildren
+  '/new-post': typeof NewPostRoute
+  '/new-subreddit': typeof NewSubredditRoute
+  '/sign-up': typeof SignUpRoute
+  '/inbox/$roomId': typeof InboxRoomIdRoute
+  '/login/reset-password': typeof LoginResetPasswordRoute
+  '/post/$id': typeof PostIdRoute
+  '/r/$id': typeof RIdRoute
+  '/user/$username': typeof UserUsernameRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/inbox'
@@ -253,8 +253,8 @@ export interface FileRouteTypes {
     | '/login/reset-password'
     | '/post/$id'
     | '/r/$id'
-    | '/user/$username';
-  fileRoutesByTo: FileRoutesByTo;
+    | '/user/$username'
+  fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/inbox'
@@ -266,7 +266,7 @@ export interface FileRouteTypes {
     | '/login/reset-password'
     | '/post/$id'
     | '/r/$id'
-    | '/user/$username';
+    | '/user/$username'
   id:
     | '__root__'
     | '/'
@@ -279,20 +279,20 @@ export interface FileRouteTypes {
     | '/login/reset-password'
     | '/post/$id'
     | '/r/$id'
-    | '/user/$username';
-  fileRoutesById: FileRoutesById;
+    | '/user/$username'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  InboxRoute: typeof InboxRouteWithChildren;
-  LoginRoute: typeof LoginRouteWithChildren;
-  NewPostRoute: typeof NewPostRoute;
-  NewSubredditRoute: typeof NewSubredditRoute;
-  SignUpRoute: typeof SignUpRoute;
-  PostIdRoute: typeof PostIdRoute;
-  RIdRoute: typeof RIdRoute;
-  UserUsernameRoute: typeof UserUsernameRoute;
+  IndexRoute: typeof IndexRoute
+  InboxRoute: typeof InboxRouteWithChildren
+  LoginRoute: typeof LoginRouteWithChildren
+  NewPostRoute: typeof NewPostRoute
+  NewSubredditRoute: typeof NewSubredditRoute
+  SignUpRoute: typeof SignUpRoute
+  PostIdRoute: typeof PostIdRoute
+  RIdRoute: typeof RIdRoute
+  UserUsernameRoute: typeof UserUsernameRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -305,11 +305,11 @@ const rootRouteChildren: RootRouteChildren = {
   PostIdRoute: PostIdRoute,
   RIdRoute: RIdRoute,
   UserUsernameRoute: UserUsernameRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {

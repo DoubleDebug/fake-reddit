@@ -15,6 +15,7 @@ export class UserModel {
   isAdmin?: boolean;
   bio?: string;
   hideNSFW?: boolean;
+  theme_color?: string = "#ED6C02";
 
   constructor(init?: Partial<UserModel>) {
     Object.assign(this, init);

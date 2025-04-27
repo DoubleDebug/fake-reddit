@@ -1,0 +1,47 @@
+.mainContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.box {
+  margin-bottom: 3rem !important;
+}
+
+.box:hover {
+  transform: none;
+}
+
+.title {
+  margin-left: 1rem;
+}
+
+.container {
+  display: flex;
+  column-gap: 3rem;
+  width: 700px;
+  min-height: 500px;
+}
+
+.tabs {
+  width: 150px;
+}
+
+.tab {
+  padding: 0 !important;
+  margin-right: 1rem;
+  width: 100%;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    column-gap: 1rem;
+  }
+
+  .tabs {
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+}
